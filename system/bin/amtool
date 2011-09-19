@@ -1,0 +1,95 @@
+#!/system/bin/sh
+WHO=`whoami`
+if [ "$WHO" != "root" ]; then
+  echo "Must be root"
+  exit 1
+fi
+
+if [ "$1" = "" ]; then
+  echo "Usage: $0 <cmd> ..."
+  exit 2
+fi
+
+CMD=$1
+
+###
+# Internal commands
+#
+# fastchargeon
+if [ "$CMD" = "fastchargeon" ]; then
+  echo "1" > /sys/class/power_supply/battery/force_high_power_charging
+  echo "High power charging enabled"
+  exit 0
+
+###
+# fastchargeoff
+elif [ "$CMD" = "fastchargeoff" ]; then
+  echo "0" > /sys/class/power_supply/battery/force_high_power_charging
+  echo "High power charging disabled"
+
+###
+# remountsysrw
+elif [ "$CMD" = "remountsysrw" ]; then
+  mount -o remount,rw /system
+  mount | grep system
+  echo "/system remounted read/write"
+
+###
+# remountsysro
+elif [ "$CMD" = "remountsysro" ]; then
+  mount -o remount,ro /system
+  mount | grep system
+  echo "/system remounted read-only"
+
+###
+# chargedisable
+elif [ "$CMD" = "chargedisable" ]; then
+  echo "0" > /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled
+  echo "Charge on plug disabled - unplug/plug to make it work"
+
+###
+# chargeenable
+elif [ "$CMD" = "chargeenable" ]; then
+  echo "1" > /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled
+  echo "Charge on plug enabled - unplug/plug to make it work"
+
+###
+# oldmarket
+elif [ "$CMD" = "oldmarket" ]; then
+  mount -o remount,rw /system
+  cp /data/market/Vending.apk.20110613 /system/app/Vending.apk
+  mount -o remount,ro /system
+  echo "Market reverted to old version"
+
+###
+# newmarket
+elif [ "$CMD" = "newmarket" ]; then
+  mount -o remount,rw /system
+  cp /data/market/Vending.apk.20110828 /system/app/Vending.apk
+  mount -o remount,ro /system
+  echo "Market reverted to new version"
+
+###
+# gpsconf
+elif [ "$CMD" = "gpsconf" ]; then
+  ZIP=/sdcard/gpsconf/$2
+  if [ ! -f "$ZIP" ]; then
+    echo "Nonexistent $ZIP!!!"
+  else
+    mount -o remount,rw /system
+    cd /
+    unzip -o $ZIP system/etc/gps.conf
+    RET=$?
+    if [ "$RET" != "0" ]; then
+      echo "Error extracting /system/etc/gps.conf from $ZIP"
+    else
+      echo "GPS configuration for $2 applied - open GPS Status and redownload AGPS data"
+    fi
+    mount -o remount,ro /system
+  fi
+### Any other command - we are a wrapper
+else
+
+  exec $@
+
+fi
