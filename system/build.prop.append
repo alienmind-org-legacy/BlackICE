@@ -1,0 +1,7 @@
+ro.modversion=-=AlienMod-4SCIMIUI-v1.00-20110911
+ro.sf.lcd_density=200             # More space
+debug.sf.hw=1                     # Force hw acceleration
+wifi.supplicant_scan_interval=100 # Increased interval
+dalvik.vm.heapsize=48m            # Increased from 32
+windowsmgr.max_events_per_sec=150 # Increased
+ro.config.play.bootsound=1        # Allow bootsound
