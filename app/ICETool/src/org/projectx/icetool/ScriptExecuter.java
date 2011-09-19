@@ -9,7 +9,7 @@ import android.widget.TextView;
 public class ScriptExecuter extends Thread {
 	static final String CMD_SU     = "/system/xbin/su";
 	static final String CMD_C      = "-c";
-	static final String CMD_AMTOOL = "amtool";
+	static final String CMD_ICETOOL = "icetool";
 	String script      = null;
 		
 	public void setScript(String script) {
@@ -20,7 +20,7 @@ public class ScriptExecuter extends Thread {
 		String      inputLine = null; 
 		// FIXME - the app will always ask for root as su checks for 
 		// the full command plus its arguments
-		String[]    cmd       = { CMD_SU , CMD_C, CMD_AMTOOL + " " + script};
+		String[]    cmd       = { CMD_SU , CMD_C, CMD_ICETOOL + " " + script};
 		TextView consoleView  = ICETool.getInstance().getConsoleView();		
 		
 		if (script == null || consoleView == null)
