@@ -1,5 +1,5 @@
-ro.modversion=-=AlienMod-4SCIMIUI-v1.00-20110911
-ro.sf.lcd_density=200             # More space
+ro.modversion=ICEDroidV0.1
+ro.sf.lcd_density=200
 debug.sf.hw=1                     # Force hw acceleration
 wifi.supplicant_scan_interval=100 # Increased interval
 dalvik.vm.heapsize=48m            # Increased from 32
