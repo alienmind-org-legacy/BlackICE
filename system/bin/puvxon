@@ -1,0 +1,10 @@
+#!/system/bin/sh
+#
+# Activate Stable PUV Undervolting
+mount -o remount,rw /system
+rm -f /system/etc/init.d/99voltages
+cp /system/media/uvscripts/puvx/99voltages /system/etc/init.d/99voltages
+chmod 777 /system/etc/init.d/99voltages
+/system/etc/init.d/99voltages
+mount -o remount,ro /system
+echo Activated Stable Pinky Undervolting!

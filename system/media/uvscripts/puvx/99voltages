@@ -1,0 +1,37 @@
+#!/system/bin/sh
+#CPU_VDD_LEVEL_CONFIG
+#BY_KILLERSLOTH
+if [ -e /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels ];
+then
+echo '24576 800' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '61440 800' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '122880 800' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '184320 800' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '201600 800' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '122000 750' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '230400 750' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '307200 750' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '384000 875' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '460800 875' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '537600 825' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '614400 825' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '691200 850' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '768000 875' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '844800 900' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '921600 950' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '998400 975' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1075200 1050' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1152000 1100' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1228800 1150' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1305600 1175' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1382400 1200' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1459200 1200' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1536000 1250' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1612800 1300' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1689600 1375' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1766400 1400' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1843200 1450' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1920000 1450' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1996800 1475' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels 
+echo '122000' > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 
+fi;

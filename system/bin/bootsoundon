@@ -1,0 +1,10 @@
+#!/system/bin/sh
+mount -o remount,rw /system
+if [ -e /data/local/boot/android_audio.mp3 ];
+	then
+		cp /data/local/boot/android_audio.mp3 /system/media/android_audio.mp3
+		rm /data/local/boot/android_audio.mp3
+fi
+sleep 1
+mount -o remount,ro /system
+echo "boot sound enabled.."

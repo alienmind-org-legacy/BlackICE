@@ -1,0 +1,9 @@
+#!/system/bin/sh
+mount -o remount,rw /system
+if [ -e /sdcard/bootanimation.zip ];
+	then
+		cp /sdcard/bootanimation.zip /system/media/bootanimation.zip
+fi
+sleep 1
+mount -o remount,ro /system
+echo "new boot anim set."

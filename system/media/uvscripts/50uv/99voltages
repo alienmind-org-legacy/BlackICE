@@ -1,0 +1,29 @@
+#!/system/bin/sh
+if [ -e /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels ];
+then
+echo '122000 875' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '230400 900' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '307200 900' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '384000 900' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '460800 925' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '537600 950' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '614400 950' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '691200 950' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '768000 1000' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '844800 1000' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '921600 1000' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '998400 1000' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1075200 1025' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1152000 1050' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1228800 1050' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1305600 1125' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1382400 1150' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1459200 1175' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1536000 1250' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1612800 1300' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1689600 1350' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1766400 1400' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1843200 1425' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1920000 1450' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
+echo '1996800 1500' > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels 
+fi;

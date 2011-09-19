@@ -1,0 +1,43 @@
+#!/system/bin/sh
+FILE=nexussswype.tgz
+MD5SUM=cf933c0e76022bfc16d9e00df9a0c3d0
+URL="http://www23.multiupload.com:81/files/22AD835CB51AF618394B0E514475445660338CFFB70A900DEC5CE42CD88ECF37537BC96BF67B0E8499EED01B17DEE761E13E162A0CA26315BF070BCFA0D43A2825EF3D9A3ABDD1BDF6BDFD39D9159496A4/nexussswype.tgz"
+if [ ! -d /sdcard/tmp ]; then
+  MK=1
+  mkdir -p /sdcard/tmp
+fi
+cd /sdcard/tmp
+if [ -f "$FILE" ]; then
+  MD5=`md5sum $FILE | awk '{ print $1 }'`
+  if [ "$MD5" = "$MD5SUM" ]; then
+     GOOD=1
+  fi
+fi
+if [ "$GOOD" != "1" ]; then
+  rm -f "$FILE"
+  wget "$URL"
+  MD5=`md5sum $FILE | awk '{ print $1 }'`
+  if [ "$MD5" = "$MD5SUM" ]; then
+     GOOD=1
+  fi
+fi
+if [ "$GOOD" = "1" ]; then
+  mount -o remount,rw /system
+  cd /
+  tar -xzvf "/sdcard/tmp/$FILE"
+  chmod 644 /system/lib/libSwype*.so
+  chmod 644 /system/app/Swype.apk
+  mount -o remount,ro /system
+  cd - >/dev/null 2>&1
+  echo "Done! Please reboot and choose Input Method -> Swype"
+else
+  echo "Failed to download / uncompress Swype package"
+  exit 1
+fi
+# rm -f /sdcard/tmp/$FILE
+
+if [ "$MK" = "1" ]; then
+  rmdir /sdcard/tmp 
+fi
+
+
