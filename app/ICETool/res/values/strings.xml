@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_full_name">ICETool v0.1 by ProjectX Team</string>
+    <string name="app_name">ICETool</string>
+    <string name="app_version">v0.1</string>
+    <string name="app_author">ProjectX Team</string>    
+    <string-array name="actions_array">
+        <item>bootsound</item>
+        <item>bootsoundon</item>
+        <item>bootsoundoff</item>
+        <item>newbootsound</item>
+        <item>newbootanim</item>
+        <item>newlocksounds</item>
+    </string-array>
+    <string-array name="descriptions_array">
+        <item>Play current bootsound</item>
+        <item>Turn on bootsound</item>
+        <item>Turn off bootsound</item>
+        <item>/sdcard/android_audio.mp3 is copied as new bootsound</item>
+        <item>/sdcard/bootanimation.zip is copied as new boot animation</item>
+        <item>/sdcard/[un]lock.ogg are copied as new lock / unlock sound</item>
+    </string-array>    
+    <string-array name="uv_actions_array">
+        <item>25uvon</item>
+        <item>50uvon</item>
+        <item>uuvon</item>
+		<item>puvxon</item>
+        <item>puvon</item>
+        <item>uvoff</item>
+    </string-array>
+    <string-array name="uv_descriptions_array">
+        <item>-25mV Undervolting</item>
+        <item>-50mV Undervolting!</item>
+        <item>Ultra Undervolting</item>        
+        <item>Stable Pinky Undervolting</item>        
+        <item>Pinky Undervolting</item>
+        <item>Deactivate Undervolting</item>        
+    </string-array>
+    <string-array name="extra_actions_array">
+        <item>remountsysro</item>
+		<item>remountsysrw</item>
+        <item>fastchargeon</item>
+        <item>fastchargeoff</item>
+		<item>chargedisable</item>
+		<item>chargeenable</item>
+		<item>oldmarket</item>
+		<item>newmarket</item>		
+        <item>swypeme</item>
+        <item>clearconsole</item>        
+    </string-array>
+    <string-array name="extra_descriptions_array">
+        <item>Remount /system as read-only</item>
+        <item>Remount /system as read/write</item>        
+    	<item>Force high power charging</item>
+    	<item>Disable high power charging</item>
+		<item>Disable USB charging - for battery benchmarks while plugged</item>
+		<item>Enable USB charging</item>
+		<item>Install old (20110613) Market</item>
+		<item>Install new (20110828) Market</item>		
+        <item>Install Nexus S Swype</item>
+        <item>Clear console window</item>
+    </string-array>
+    
+    <string-array name="gps_actions_array">
+    <item>gpsconf ARGENTINA.zip</item>
+    <item>gpsconf AUSTRALIA.zip</item>
+    <item>gpsconf AUSTRIA.zip</item>
+    <item>gpsconf BELARUS.zip</item>
+    <item>gpsconf BELGIUM.zip</item>
+    <item>gpsconf BOSNIA AND HERZEGOVINA.zip</item>
+    <item>gpsconf Brazil.zip</item>
+    <item>gpsconf BULGARIA.zip</item>
+    <item>gpsconf CAMBODIA.zip</item>
+    <item>gpsconf CANADA.zip</item>
+    <item>gpsconf CHINA.zip</item>
+    <item>gpsconf CROATIA.zip</item>
+    <item>gpsconf CZECH REPUBLIC.zip</item>
+    <item>gpsconf DENMARK.zip</item>
+    <item>gpsconf ESTONIA.zip</item>
+    <item>gpsconf FINLAND.zip</item>
+    <item>gpsconf FRANCE.zip</item>
+    <item>gpsconf GERMANY.zip</item>
+    <item>gpsconf GREECE.zip</item>
+    <item>gpsconf HONG KONG.zip</item>
+    <item>gpsconf HUNGARY.zip</item>
+    <item>gpsconf INDIA.zip</item>
+    <item>gpsconf INDONESIA.zip</item>
+    <item>gpsconf IRAN.zip</item>
+    <item>gpsconf IRELAND.zip</item>
+    <item>gpsconf ITALY.zip</item>
+    <item>gpsconf JAPAN.zip</item>
+    <item>gpsconf KOREA.zip</item>
+    <item>gpsconf KYRGYZSTAN.zip</item>
+    <item>gpsconf LATVIA.zip</item>
+    <item>gpsconf LITHUANIA.zip</item>
+    <item>gpsconf LUXEMBOURG.zip</item>
+    <item>gpsconf MACEDONIA.zip</item>
+    <item>gpsconf MALAYSIA.zip</item>
+    <item>gpsconf MEXICO.zip</item>
+    <item>gpsconf MOLDOVA.zip</item>
+    <item>gpsconf NETHERLANDS.zip</item>
+    <item>gpsconf NEW CALEDONIA.zip</item>
+    <item>gpsconf NEW ZEALAND.zip</item>
+    <item>gpsconf NORWAY.zip</item>
+    <item>gpsconf PANAMA.zip</item>
+    <item>gpsconf PHILIPPINES.zip</item>
+    <item>gpsconf POLAND.zip</item>
+    <item>gpsconf PORTUGAL.zip</item>
+    <item>gpsconf QATAR.zip</item>
+    <item>gpsconf REPUBLIC OF SERBIA.zip</item>
+    <item>gpsconf ROMANIA.zip</item>
+    <item>gpsconf RUSSIA.zip</item>
+    <item>gpsconf SINGAPORE.zip</item>
+    <item>gpsconf SLOVAKIA.zip</item>
+    <item>gpsconf SLOVENIA.zip</item>
+    <item>gpsconf SPAIN.zip</item>
+    <item>gpsconf SRI LANKA.zip</item>
+    <item>gpsconf SWEDEN.zip</item>
+    <item>gpsconf SWITZERLAND.zip</item>
+    <item>gpsconf TAIWAN.zip</item>
+    <item>gpsconf THAILAND.zip</item>
+    <item>gpsconf TURKEY.zip</item>
+    <item>gpsconf UKRAINE.zip</item>
+    <item>gpsconf UNITED KINGDOM.zip</item>
+    <item>gpsconf US.HAWAII.zip</item>
+    <item>gpsconf US.NESE.zip</item>
+    <item>gpsconf US.NorthEast.zip</item>
+    <item>gpsconf US.NorthMidState.zip</item>
+    <item>gpsconf US.NorthWest.zip</item>
+    <item>gpsconf US.SouthEast.zip</item>
+    <item>gpsconf US.SouthMidState.zip</item>
+    <item>gpsconf US.SouthWest.zip</item>
+    <item>gpsconf UZBEKISTAN.zip</item>
+    <item>gpsconf VIETNAM.zip</item>
+    <item>gpsconf YUGOSLAVIA.zip</item>    
+    </string-array>
+    
+    <string-array name="gps_descriptions_array">
+    <item>ARGENTINA</item>
+    <item>AUSTRALIA</item>
+    <item>AUSTRIA</item>
+    <item>BELARUS</item>
+    <item>BELGIUM</item>
+    <item>BOSNIA AND HERZEGOVINA</item>
+    <item>BRAZIL</item>
+    <item>BULGARIA</item>
+    <item>CAMBODIA</item>
+    <item>CANADA</item>
+    <item>CHINA</item>
+    <item>CROATIA</item>
+    <item>CZECH REPUBLIC</item>
+    <item>DENMARK</item>
+    <item>ESTONIA</item>
+    <item>FINLAND</item>
+    <item>FRANCE</item>
+    <item>GERMANY</item>
+    <item>GREECE</item>
+    <item>HONG KONG</item>
+    <item>HUNGARY</item>
+    <item>INDIA</item>
+    <item>INDONESIA</item>
+    <item>IRAN</item>
+    <item>IRELAND</item>
+    <item>ITALY</item>
+    <item>JAPAN</item>
+    <item>KOREA</item>
+    <item>KYRGYZSTAN</item>
+    <item>LATVIA</item>
+    <item>LITHUANIA</item>
+    <item>LUXEMBOURG</item>
+    <item>MACEDONIA</item>
+    <item>MALAYSIA</item>
+    <item>MEXICO</item>
+    <item>MOLDOVA</item>
+    <item>NETHERLANDS</item>
+    <item>NEW CALEDONIA</item>
+    <item>NEW ZEALAND</item>
+    <item>NORWAY</item>
+    <item>PANAMA</item>
+    <item>PHILIPPINES</item>
+    <item>POLAND</item>
+    <item>PORTUGAL</item>
+    <item>QATAR</item>
+    <item>REPUBLIC OF SERBIA</item>
+    <item>ROMANIA</item>
+    <item>RUSSIA</item>
+    <item>SINGAPORE</item>
+    <item>SLOVAKIA</item>
+    <item>SLOVENIA</item>
+    <item>SPAIN</item>
+    <item>SRI LANKA</item>
+    <item>SWEDEN</item>
+    <item>SWITZERLAND</item>
+    <item>TAIWAN</item>
+    <item>THAILAND</item>
+    <item>TURKEY</item>
+    <item>UKRAINE</item>
+    <item>UNITED KINGDOM</item>
+    <item>US.HAWAII</item>
+    <item>US.NESE</item>
+    <item>US.NORTHEAST</item>
+    <item>US.NORTHMIDSTATE</item>
+    <item>US.NORTHWEST</item>
+    <item>US.SOUTHEAST</item>
+    <item>US.SOUTHMIDSTATE</item>
+    <item>US.SOUTHWEST</item>
+    <item>UZBEKISTAN</item>
+    <item>VIETNAM</item>
+    <item>YUGOSLAVIA</item>    
+    </string-array>        
+</resources>
