@@ -1,0 +1,11 @@
+export ROOT_DIR=$PWD
+
+# Fix relative path
+function FixPath() {
+  local ARG=$1
+  P=${ARG:0:1}
+  if [ "$P" != "/" ]; then
+    ARG=$ROOT_DIR/$ARG
+  fi
+  echo $ARG
+}
