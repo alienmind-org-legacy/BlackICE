@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # ICEDroid - setup.sh
 # Custom kitchen to build the ROM given a CM nightly build / KANG build
 KANG_DIR=$1
@@ -113,14 +113,14 @@ for i in $EXTRA_DIRS ; do
     echo "Error: $i does not exists - skipping"
   fi
   echo "[CP] $i/ => "`basename $OUT_DIR`"/$i"
-  cp -av $i/* $OUT_DIR/ >> $LOG 2>&1
+  cp -av $i/* $OUT_DIR/$i/ >> $LOG 2>&1
 done
 
 # Special .prop.append files must be appended to original ones
 # removing the older params
 echo "Looking for *.prop.append files..."
-for i in `find $OUT_DIR/ -name '*.append'`; do
-   BASE=`basename $i .append`
+for i in `find $OUT_DIR/ -name '*.prop.append'`; do
+   BASE=`dirname $i`/`basename $i .append`
    echo "[PROP] $i"
    $TOOLS_DIR/propreplace.awk $i $BASE > $BASE.new
    mv $BASE.new $BASE ; rm -f $i
@@ -128,7 +128,7 @@ done
 # Special .append files are simply appended to original ones
 echo "Looking for *.append files..."
 for i in `find $OUT_DIR/ -name '*.append'`; do
-   BASE=`basename $i .append`
+   BASE=`dirname $i`/`basename $i .append`
    echo "[APPEND] $i"
    cat $i >> $BASE
    rm -f $i

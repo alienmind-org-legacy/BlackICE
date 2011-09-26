@@ -1,4 +1,8 @@
 #!/usr/bin/gawk -f
+# Store the keys and values of the append files
+BEGIN {
+  PROPCOMMENT = " # ICEDroid customization";
+}
 (FILENAME ~ ".append") {
   key="";
   n=split($0,a,"=");
@@ -9,15 +13,25 @@
   }
   next;
 }
+# Original file, if we find the key we replace the rightmost value
 {
   key="";
   n=split($0,a,"=");
   if (n >= 2) {
     key=a[1];
     if (key in KEYS) {
-      print key "=" KEYS[key];
+      print key "=" KEYS[key] " " PROPCOMMENT;
+      KEYS[key] = "DONE";
       next;
     }
   }
   print;
+}
+# The rest of the keys should be flushed (new entries)
+END {
+  for (key in KEYS) {
+     if (KEYS[key] != "DONE") {
+       print key "=" KEYS[key] " " PROPCOMMENT;
+     }
+  }
 }
