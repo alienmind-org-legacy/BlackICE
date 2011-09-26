@@ -1,6 +1,8 @@
 #!/bin/bash
 # ICEDroid - setup.sh
 # Custom kitchen to build the ROM given a CM nightly build / KANG build
+. tools/util_sh
+
 KANG_DIR=$1
 KERNEL_DIR=$2
 EXTRA_DIRS="system data sdcard"
@@ -8,7 +10,6 @@ DATE=`date +%Y%m%d`
 TIMESTAMP=`date +%Y%m%d`
 HELP="Usage: $0 [-v] <kang.zip> <kernel.zip>"
 
-ROOT_DIR=`pwd`
 TOOLS_DIR=$ROOT_DIR/tools/
 WORK_DIR=$ROOT_DIR/work/
 DOWN_DIR=$ROOT_DIR/download/
@@ -76,14 +77,8 @@ else
 fi
 
 # Fix relative path
-P=${ROMFILE:0:1}
-if [ "$P" != "/" ]; then
-  ROMFILE=$ROOT_DIR/$ROMFILE
-fi
-P=${KERNELFILE:0:1}
-if [ "$P" != "/" ]; then
-  KERNELFILE=$ROOT_DIR/$KERNELFILE
-fi
+ROMFILE=`FixPath $ROMFILE`
+KERNELFILE=`FixPath $KERNELFILE`
 
 # From there we are in work dir
 cd $WORK_DIR
@@ -125,6 +120,7 @@ for i in `find $OUT_DIR/ -name '*.prop.append'`; do
    $TOOLS_DIR/propreplace.awk $i $BASE > $BASE.new
    mv $BASE.new $BASE ; rm -f $i
 done
+
 # Special .append files are simply appended to original ones
 echo "Looking for *.append files..."
 for i in `find $OUT_DIR/ -name '*.append'`; do
@@ -132,6 +128,16 @@ for i in `find $OUT_DIR/ -name '*.append'`; do
    echo "[APPEND] $i"
    cat $i >> $BASE
    rm -f $i
+done
+
+# Mod files
+for i in app/*/ ; do
+   BASE=`basename $i`
+   ORIG=`find $OUT_DIR/ -name "$BASE.apk"`
+   if [ -f $ORIG ]; then
+     echo "[MOD] $i.apk (ORIG=$ORIG DIR=$i)"
+     tools/apkmod.sh $ORIG $i
+   fi
 done
 
 # Call the clean script
