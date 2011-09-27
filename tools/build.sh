@@ -96,6 +96,12 @@ rm -rf $KERNEL_DIR
 mkdir $KERNEL_DIR ; cd $KERNEL_DIR
 unzip -x $KERNELFILE >> $LOG
 
+# Extract relevant identification strings from kernel
+# and remove updater-script so we don't mess up things
+KERNEL_ID=`cat $KERNEL_DIR/META-INF/com/google/android/updater-script | \
+           grep -e Lord -e High`
+rm -f $KERNEL_DIR/META-INF/com/google/android/updater-script
+
 # Mixup everything
 cd $ROOT_DIR
 echo "Copying KANG files..."
@@ -111,6 +117,16 @@ for i in $EXTRA_DIRS ; do
   cp -av $i/* $OUT_DIR/$i/ >> $LOG 2>&1
 done
 
+# Special .prepend files are prepended to original ones
+echo "Looking for *.prepend files..."
+for i in `find $OUT_DIR/ -name '*.prepend'`; do
+   BASE=`dirname $i`/`basename $i .prepend`
+   echo "[PREPEND] $i"
+   cat $i $BASE >> $BASE.new
+   rm -f $i ; mv $BASE.new $BASE
+done
+
+
 # Special .prop.append files must be appended to original ones
 # removing the older params
 echo "Looking for *.prop.append files..."
@@ -121,7 +137,7 @@ for i in `find $OUT_DIR/ -name '*.prop.append'`; do
    mv $BASE.new $BASE ; rm -f $i
 done
 
-# Special .append files are simply appended to original ones
+# Remaining .append files are simply appended to original ones
 echo "Looking for *.append files..."
 for i in `find $OUT_DIR/ -name '*.append'`; do
    BASE=`dirname $i`/`basename $i .append`
