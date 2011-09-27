@@ -8,7 +8,7 @@ KERNEL_DIR=$2
 EXTRA_DIRS="system data sdcard"
 DATE=`date +%Y%m%d`
 TIMESTAMP=`date +%Y%m%d`
-HELP="Usage: $0 [-v] <kang.zip> <kernel.zip>"
+HELP="Usage: $0 [-v] <kang.zip> [kernel.zip]"
 
 TOOLS_DIR=$ROOT_DIR/tools/
 WORK_DIR=$ROOT_DIR/work/
@@ -41,19 +41,18 @@ if [ "$1" = "clean" ]; then
 fi
 
 # No args
-if [ "$#" -lt "2" ]; then
+if [ "$#" -lt "1" ]; then
   ShowMessage "$HELP"
   exit 1
 fi
 
 ###
 cat <<EOF
-ProjectX introducing...
+     ProjectX introducing...
            _  __ ___ __         __  
           | |/ _| __|  \ _  _ ()  \ 
           | ( (_| _|| o )_|/o\|| o )
           |_|\__|___|__/L| \_/L|__/ 
-
 
 EOF
 
@@ -81,35 +80,37 @@ else
   cd - &>/dev/null
 fi
 
-if [ -f "$2" ]; then
-  KERNELFILE=$2
-else
-  cd $DOWN_DIR
-  ShowMessage "* Downloading $KERNELBASE/$1"
-  wget "$KERNELBASE/$2" >> $LOG
-  KERNELFILE=$DOWN_DIR/$2
-  cd - &>/dev/null
-fi
-
 # Fix relative path
 ROMFILE=`FixPath $ROMFILE`
-KERNELFILE=`FixPath $KERNELFILE`
+
+if [ -f "$2" ]; then
+  KERNELFILE=$2
+  KERNELFILE=`FixPath $KERNELFILE`
+  ShowMessage "* Unpacking KERNEL ..."
+  KERNEL_DIR=$WORK_DIR/`basename "$KERNELFILE" .zip`
+  rm -rf $KERNEL_DIR
+  mkdir $KERNEL_DIR ; cd $KERNEL_DIR
+  unzip -x $KERNELFILE >> $LOG
+  cd - &>/dev/null
+else
+  KERNELFILE=""
+  KERNEL_DIR=$ROOT_DIR/kernel/ # Local copy
+  #cd $DOWN_DIR
+  #ShowMessage "* Downloading $KERNELBASE/$2"
+  #wget "$KERNELBASE/$2" >> $LOG
+  #KERNELFILE=$DOWN_DIR/$2
+  #cd - &>/dev/null
+fi
 
 # From there we are in work dir
 cd $WORK_DIR
 
-# Unpack
+# Unpack ROM
 ShowMessage "* Unpacking ROM ..."
 KANG_DIR=$WORK_DIR/`basename "$ROMFILE" .zip`
 rm -rf $KANG_DIR
 mkdir $KANG_DIR ; cd $KANG_DIR
 unzip -x $ROMFILE >> $LOG
-
-ShowMessage "* Unpacking KERNEL ..."
-KERNEL_DIR=$WORK_DIR/`basename "$KERNELFILE" .zip`
-rm -rf $KERNEL_DIR
-mkdir $KERNEL_DIR ; cd $KERNEL_DIR
-unzip -x $KERNELFILE >> $LOG
 
 # Extract relevant identification strings from kernel
 # and remove updater-script so we don't mess up things
@@ -177,9 +178,11 @@ cat $ROOT_DIR/meta/updater-script.logo updater-script > updater-script.new
 mv updater-script.new updater-script
 cd - &>/dev/null
 
+# TODO mkbootimg-remote.sh when kernel is not the included one
+
 # TODO source build ICETool
 
-# TODO zip and sign
+# zip and sign
 ShowMessage "[ZIP] $OUT_ZIP"
 cd $OUT_DIR
 zip -r9 $OUT_ZIP . >> $LOG
