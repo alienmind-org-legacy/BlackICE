@@ -26,7 +26,6 @@
 +package_extract_dir("gpsconf", "/sdcard/gpsconf");
 +show_progress(0.100000, 0);
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/etc/init.d");
-+set_perm(0, 0, 0755, "/system/bin/alienmind-scripts.sh");
 +set_perm(0, 0, 0755, "/system/bin/bootsound");
 +set_perm(0, 0, 0755, "/system/bin/bootsoundoff");
 +set_perm(0, 0, 0755, "/system/bin/bootsoundon");
@@ -40,13 +39,12 @@
 +set_perm(0, 0, 0755, "/system/bin/puvxon");
 +set_perm(0, 0, 0755, "/system/bin/uuvon");
 +set_perm(0, 0, 0755, "/system/bin/uvoff");
-+set_perm(0, 0, 0755, "/system/bin/amtool");
++set_perm(0, 0, 0755, "/system/bin/icetool");
 +set_perm(0, 0, 0755, "/system/bin/swypeme");
-+set_perm(0, 0, 0644, "/system/app/AlienModTool.apk");
++set_perm(0, 0, 0644, "/system/app/ICETool.apk");
 +set_perm(0, 0, 0644, "/data/market/Vending.apk.20110828");
 +set_perm(0, 0, 0644, "/data/market/Vending.apk.20110613");
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/media/uvscripts");
 +unmount("/data");
 +## End ICEDroiD postinstallation
  unmount("/system");
-+

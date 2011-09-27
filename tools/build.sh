@@ -14,6 +14,8 @@ TOOLS_DIR=$ROOT_DIR/tools/
 WORK_DIR=$ROOT_DIR/work/
 DOWN_DIR=$ROOT_DIR/download/
 OUT_DIR="$ROOT_DIR/out/icedroid-$DATE"
+OUT_ZIP="${OUT_DIR}.zip"
+OUT_SIGNED="${OUT_DIR}-signed.zip"
 
 # Read config
 . conf/sources.ini
@@ -27,21 +29,34 @@ else
   LOG=$ROOT_DIR/build-$TIMESTAMP.log
 fi
 
+
 # Reset log
 echo "" > $LOG
 
 # User requested clean
 if [ "$1" = "clean" ]; then
-  echo "Cleaning..."
+  ShowMessage "* Cleaning..."
   rm -rf $OUT_DIR $WORK_DIR
   exit
 fi
 
 # No args
 if [ "$#" -lt "2" ]; then
-  echo "$HELP"
+  ShowMessage "$HELP"
   exit 1
 fi
+
+###
+cat <<EOF
+ProjectX introducing...
+           _  __ ___ __         __  
+          | |/ _| __|  \ _  _ ()  \ 
+          | ( (_| _|| o )_|/o\|| o )
+          |_|\__|___|__/L| \_/L|__/ 
+
+
+EOF
+
 
 # Make tmp directories
 if [ ! -d "$OUT_DIR" ]; then
@@ -60,7 +75,7 @@ if [ -f "$1" ]; then
   ROMFILE=$1
 else
   cd $DOWN_DIR
-  echo "Downloading $ROMBASE/$1"
+  ShowMessage "* Downloading $ROMBASE/$1"
   wget "$ROMBASE/$1" >> $LOG
   ROMFILE=$DOWN_DIR/$1
   cd - &>/dev/null
@@ -70,7 +85,7 @@ if [ -f "$2" ]; then
   KERNELFILE=$2
 else
   cd $DOWN_DIR
-  echo "Downloading $KERNELBASE/$1"
+  ShowMessage "* Downloading $KERNELBASE/$1"
   wget "$KERNELBASE/$2" >> $LOG
   KERNELFILE=$DOWN_DIR/$2
   cd - &>/dev/null
@@ -84,14 +99,14 @@ KERNELFILE=`FixPath $KERNELFILE`
 cd $WORK_DIR
 
 # Unpack
-echo "Unpacking ROM ..."
-KANG_DIR=$WORK_DIR/`basename $ROMFILE .zip`
+ShowMessage "* Unpacking ROM ..."
+KANG_DIR=$WORK_DIR/`basename "$ROMFILE" .zip`
 rm -rf $KANG_DIR
 mkdir $KANG_DIR ; cd $KANG_DIR
 unzip -x $ROMFILE >> $LOG
 
-echo "Unpacking KERNEL ..."
-KERNEL_DIR=$WORK_DIR/`basename $KERNELFILE .zip`
+ShowMessage "* Unpacking KERNEL ..."
+KERNEL_DIR=$WORK_DIR/`basename "$KERNELFILE" .zip`
 rm -rf $KERNEL_DIR
 mkdir $KERNEL_DIR ; cd $KERNEL_DIR
 unzip -x $KERNELFILE >> $LOG
@@ -104,60 +119,76 @@ rm -f $KERNEL_DIR/META-INF/com/google/android/updater-script
 
 # Mixup everything
 cd $ROOT_DIR
-echo "Copying KANG files..."
+ShowMessage "* Copying KANG files..."
 cp -av $KANG_DIR/*   $OUT_DIR/  >> $LOG 2>&1
-echo "Copying KERNEL files..."
+ShowMessage "* Copying KERNEL files..."
 cp -av $KERNEL_DIR/* $OUT_DIR/  >> $LOG 2>&1
-echo "Copying custom extra directories..."
+ShowMessage "* Copying custom extra directories..."
 for i in $EXTRA_DIRS ; do 
   if [ ! -d $i ]; then
-    echo "Error: $i does not exists - skipping"
+    ShowMessage "Error: $i does not exists - skipping"
   fi
-  echo "[CP] $i/ => "`basename $OUT_DIR`"/$i"
+  ShowMessage "[CP] $i/ => "`basename "$OUT_DIR"`"/$i"
   cp -av $i/* $OUT_DIR/$i/ >> $LOG 2>&1
 done
 
 # Special .prepend files are prepended to original ones
-echo "Looking for *.prepend files..."
+ShowMessage "* Looking for *.prepend files..."
 for i in `find $OUT_DIR/ -name '*.prepend'`; do
-   BASE=`dirname $i`/`basename $i .prepend`
-   echo "[PREPEND] $i"
+   BASE=`dirname $i`/`basename "$i" .prepend`
+   ShowMessage "[PREPEND] $i"
    cat $i $BASE >> $BASE.new
    rm -f $i ; mv $BASE.new $BASE
 done
 
-
 # Special .prop.append files must be appended to original ones
 # removing the older params
-echo "Looking for *.prop.append files..."
+ShowMessage "* Looking for *.prop.append files..."
 for i in `find $OUT_DIR/ -name '*.prop.append'`; do
-   BASE=`dirname $i`/`basename $i .append`
-   echo "[PROP] $i"
+   BASE=`dirname $i`/`basename "$i" .append`
+   ShowMessage "[PROP] " `basename "$i"`
    $TOOLS_DIR/propreplace.awk $i $BASE > $BASE.new
    mv $BASE.new $BASE ; rm -f $i
 done
 
 # Remaining .append files are simply appended to original ones
-echo "Looking for *.append files..."
+ShowMessage "* Looking for *.append files..."
 for i in `find $OUT_DIR/ -name '*.append'`; do
-   BASE=`dirname $i`/`basename $i .append`
-   echo "[APPEND] $i"
+   BASE=`dirname $i`/`basename "$i" .append`
+   ShowMessage "[APPEND] " `basename "$i"`
    cat $i >> $BASE
    rm -f $i
 done
 
 # Mod files
-for i in app/*/ ; do
-   BASE=`basename $i`
+for i in app/* ; do
+   BASE=`basename "$i"`
    ORIG=`find $OUT_DIR/ -name "$BASE.apk"`
    if [ -f $ORIG ]; then
-     echo "[MOD] $i.apk (ORIG=$ORIG DIR=$i)"
+     ShowMessage "[MOD] $i.apk "
      tools/apkmod.sh $ORIG $i
    fi
 done
 
+# updater-script
+cd $OUT_DIR/META-INF/com/google/android/
+patch -p0 < $ROOT_DIR/meta/updater-script.patch
+cat $ROOT_DIR/meta/updater-script.logo updater-script > updater-script.new
+mv updater-script.new updater-script
+cd - &>/dev/null
+
+# TODO source build ICETool
+
+# TODO zip and sign
+ShowMessage "[ZIP] $OUT_ZIP"
+cd $OUT_DIR
+zip -r9 $OUT_ZIP . >> $LOG
+ShowMessage "[SIGN] $OUT_SIGNED"
+sign.sh $OUT_ZIP $OUT_SIGNED
+cd - &>/dev/null
+
 # Call the clean script
-echo "Cleaning up..."
+ShowMessage "* Cleaning up..."
 $TOOLS_DIR/clean.sh $OUT_DIR $LOG
 
 ## Timestamp
@@ -175,4 +206,4 @@ $TOOLS_DIR/clean.sh $OUT_DIR $LOG
 #cd $OUT_DIR/ ; zip -r9 ../out-$DATE.zip . ; cd ../ ; ./sign.sh out-$DATE.zip out-$DATE-signed.zip 
 #EOF
 
-echo "Done!!!"
+ShowMessage "* Done!!!"

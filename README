@@ -1,7 +1,27 @@
-ProjectX introducing ICEDroid
-=============================
+================================================================================
 
-ICEDroid is a Android distribution based on CyanogenModv7.1 
+ProjectX introducing...
+           _  __ ___ __         __  
+          | |/ _| __|  \ _  _ ()  \ 
+          | ( (_| _|| o )_|/o\|| o )
+          |_|\__|___|__/L| \_/L|__/ 
+
+ICEDroiD is a Android distribution based on CyanogenModv7.1 
 intended to run on Desire HD / Inspire 4G devices
 
-This is WIP
+This is under development
+
+================================================================================
+
+BUILD INSTRUCTIONS (tested on GNU/Linux ... needed bash/gawk/j2sdk)
+
+1) Clone the repo
+  git clone git://github.com/alienmind/ICEDroid.git
+
+2) Download CM nightbuild / KANG / Kernel Image (lordModUE) under download/
+
+3) Run
+   cd ICEDroid
+   tools/build.sh clean
+   tools/build.sh download/cm_ace_full-208.zip download/lordmodUEv7.2-CFS-2WCR.zip
+
