@@ -1,10 +1,9 @@
 --- updater-script	2008-02-29 02:33:46.000000000 +0100
-+++ meta/updater-script.patched	2011-09-27 07:02:00.072601926 +0200
-@@ -5,6 +5,16 @@
++++ updater-script.new	2011-09-27 12:14:10.607144964 +0200
+@@ -5,6 +5,14 @@
  show_progress(0.500000, 0);
  format("ext4", "EMMC", "/dev/block/mmcblk0p25");
  mount("ext4", "EMMC", "/dev/block/mmcblk0p25", "/system");
-+## ICeDroiD cleanup and data / sdcard management
 +mount("ext4", "EMMC", "/dev/block/mmcblk0p26", "/data");
 +package_extract_dir("setup", "/system/setup");
 +set_perm(0, 0, 0755, "/system/setup/clean.sh");
@@ -13,15 +12,13 @@
 +package_extract_dir("data", "/data");
 +package_extract_dir("resetuv", "/sdcard/resetuv");
 +package_extract_dir("gpsconf", "/sdcard/gpsconf");
-+## End ICEDroiD setup
  package_extract_dir("recovery", "/system");
  package_extract_dir("system", "/system");
  symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
-@@ -139,4 +149,32 @@
+@@ -139,4 +147,28 @@
  show_progress(0.200000, 10);
  package_extract_file("boot.img", "/dev/block/mmcblk0p22");
  show_progress(0.100000, 0);
-+## ICEDroiD post installation
 +package_extract_dir("resetuv", "/sdcard/resetuv");
 +package_extract_dir("gpsconf", "/sdcard/gpsconf");
 +show_progress(0.100000, 0);
@@ -46,5 +43,4 @@
 +set_perm(0, 0, 0644, "/data/market/Vending.apk.20110613");
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/media/uvscripts");
 +unmount("/data");
-+## End ICEDroiD postinstallation
  unmount("/system");
