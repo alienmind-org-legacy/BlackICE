@@ -16,3 +16,5 @@ for i in $CLEAN_LIST; do
    echo "[RM] $i"
    rm -rf $OUT_DIR/$i >> $LOG_FILE
 done
+
+find $OUT_DIR/ -name '*.exclude' -exec rm \{\} \;

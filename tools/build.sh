@@ -69,9 +69,11 @@ if [ ! -d "$DOWN_DIR" ]; then
 fi
 
 # If provided files exist, we use them
-# If not, we download them from sources.ini
+# If not, we download them from the base url in sources.ini
 if [ -f "$1" ]; then
   ROMFILE=$1
+elif [ -f "$DOWN_DIR/$1" ]; then
+  ROMFILE=$DOWN_DIR/$1
 else
   cd $DOWN_DIR
   ShowMessage "* Downloading $ROMBASE/$1"
@@ -114,9 +116,12 @@ unzip -x $ROMFILE >> $LOG
 
 # Extract relevant identification strings from kernel
 # and remove updater-script so we don't mess up things
-KERNEL_ID=`cat $KERNEL_DIR/META-INF/com/google/android/updater-script | \
+if [ -f $KERNEL_DIR/META-INF/com/google/android/updater-script ]; then
+  mv $KERNEL_DIR/META-INF/com/google/android/updater-script \
+     $KERNEL_DIR/META-INF/com/google/android/updater-script.exclude
+fi
+KERNEL_ID=`cat $KERNEL_DIR/META-INF/com/google/android/updater-script.exclude | \
            grep -e Lord -e High`
-rm -f $KERNEL_DIR/META-INF/com/google/android/updater-script
 
 # Mixup everything
 cd $ROOT_DIR
@@ -171,16 +176,32 @@ for i in app/* ; do
    fi
 done
 
+# Bootanimation
+cd artwork/bootanimation/
+zip -r9 $ROOT_DIR/work/bootanimation.zip .
+cp -av $ROOT_DIR/work/bootanimation.zip $OUT_DIR/system/media/
+cd - &> /dev/null
+
 # updater-script
+# it's build from the prepared logo, extracted kernel-id and patches
 cd $OUT_DIR/META-INF/com/google/android/
 patch -p0 < $ROOT_DIR/meta/updater-script.patch
-cat $ROOT_DIR/meta/updater-script.logo updater-script > updater-script.new
+( cat $ROOT_DIR/meta/updater-script.logo ;
+  echo $KERNEL_ID ;
+  cat updater-script ) \
+  > updater-script.new
 mv updater-script.new updater-script
 cd - &>/dev/null
 
 # TODO mkbootimg-remote.sh when kernel is not the included one
 
 # TODO source build ICETool
+
+# Copy bin/ICETool.apk and whatever is built under src
+for i in src/*/bin/*.apk; do
+   ShowMessage "[APK] "`basename $i`
+   cp $i $OUT_DIR/system/app/
+done
 
 # zip and sign
 ShowMessage "[ZIP] $OUT_ZIP"
@@ -193,20 +214,5 @@ cd - &>/dev/null
 # Call the clean script
 ShowMessage "* Cleaning up..."
 $TOOLS_DIR/clean.sh $OUT_DIR $LOG
-
-## Timestamp
-# cat $OUT_DIR/META-INF/com/google/android/updater-script | sed "s/%DATE%/$DATE/g" > $OUT_DIR/META-INF/com/google/android/updater-script.new 
-#mv $OUT_DIR/META-INF/com/google/android/updater-script.new $OUT_DIR/META-INF/com/google/android/updater-script
-#cat $OUT_DIR/system/build.prop | sed "s/%DATE%/$DATE/g" | sed "s/%TIMESTAMP%/$TIMESTAMP/g" > $OUT_DIR/system/build.prop.new
-#mv $OUT_DIR/system/build.prop.new $OUT_DIR/system/build.prop
-#
-## Missing elements
-#gvim -d $OUT_DIR/META-INF/com/google/android/updater-script \
-#        $KANG_DIR/META-INF/com/google/android/updater-script \
-#        $KERNEL_DIR/META-INF/com/google/android/updater-script
-#
-#cat <<EOF
-#cd $OUT_DIR/ ; zip -r9 ../out-$DATE.zip . ; cd ../ ; ./sign.sh out-$DATE.zip out-$DATE-signed.zip 
-#EOF
 
 ShowMessage "* Done!!!"
