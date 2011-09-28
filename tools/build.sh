@@ -178,8 +178,8 @@ done
 
 # Bootanimation
 cd artwork/bootanimation/
-zip $ZIPFLAGS $ROOT_DIR/work/bootanimation.zip .
-cp -av $ROOT_DIR/work/bootanimation.zip $OUT_DIR/system/media/
+zip -r $ROOT_DIR/work/bootanimation.zip . >> $LOG
+cp -av $ROOT_DIR/work/bootanimation.zip $OUT_DIR/system/media/ >> $LOG
 cd - &> /dev/null
 
 # updater-script
@@ -205,11 +205,13 @@ done
 
 # zipalign
 if [ "$ZIPALIGN" = "1" ]; then
+  printf "[ZIPALIGN] " 
   for i in `find $OUT_DIR/ -name '*.apk'`; do
-     echo "[ZIPALIGN] " `basename $i`
+     printf "`basename $i` "
      tools/zipalign -f 4 $i $i.new 
      mv $i.new $i
   done
+  printf "\n"
 fi
 
 # zip and sign
@@ -218,7 +220,7 @@ cd $OUT_DIR
 zip -r9 $OUT_ZIP . >> $LOG
 if [ "$SIGN_ZIP" = "1" ]; then
   ShowMessage "[SIGN] $OUT_SIGNED"
-  sign.sh $OUT_ZIP $OUT_SIGNED
+  sign.sh $OUT_ZIP $OUT_SIGNED >> $LOG
 fi
 cd - &>/dev/null
 
