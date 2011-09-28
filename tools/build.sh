@@ -168,6 +168,7 @@ for i in `find $OUT_DIR/ -name '*.append'`; do
 done
 
 # Mod files
+if [ "$MODAPKS" = "1" ]; then
 for i in app/* ; do
    BASE=`basename "$i"`
    ORIG=`find $OUT_DIR/ -name "$BASE.apk"`
@@ -176,6 +177,7 @@ for i in app/* ; do
      tools/apkmod.sh $ORIG $i
    fi
 done
+fi
 
 # Bootanimation
 cd artwork/bootanimation/
