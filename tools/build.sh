@@ -115,20 +115,21 @@ mkdir $KANG_DIR ; cd $KANG_DIR
 unzip -x $ROMFILE >> $LOG
 
 # Extract relevant identification strings from kernel
-# and remove updater-script so we don't mess up things
-if [ -f $KERNEL_DIR/META-INF/com/google/android/updater-script ]; then
-  mv $KERNEL_DIR/META-INF/com/google/android/updater-script \
-     $KERNEL_DIR/META-INF/com/google/android/updater-script.exclude
-fi
-KERNEL_ID=`cat $KERNEL_DIR/META-INF/com/google/android/updater-script.exclude | \
+if [ -f "$KERNEL_DIR/META-INF/com/google/android/updater-script" ]; then
+  KERNEL_ID=`cat $KERNEL_DIR/META-INF/com/google/android/updater-script | \
            grep -e Lord -e High`
+fi
 
 # Mixup everything
 cd $ROOT_DIR
 ShowMessage "* Copying KANG files..."
-cp -av $KANG_DIR/*   $OUT_DIR/  >> $LOG 2>&1
+for i in $ROM_DIR_LIST; do
+   cp -av $KANG_DIR/$i   $OUT_DIR/  >> $LOG 2>&1
+done
 ShowMessage "* Copying KERNEL files..."
-cp -av $KERNEL_DIR/* $OUT_DIR/  >> $LOG 2>&1
+for i in $KERNEL_DIR_LIST; do
+  cp -av $KERNEL_DIR/$i $OUT_DIR/  >> $LOG 2>&1
+done
 ShowMessage "* Copying custom extra directories..."
 for i in $EXTRA_DIRS ; do 
   if [ ! -d $i ]; then
@@ -178,7 +179,7 @@ done
 
 # Bootanimation
 cd artwork/bootanimation/
-zip -r $ROOT_DIR/work/bootanimation.zip . >> $LOG
+zip -r $ROOT_DIR/work/bootanimation.zip desc.txt part0 part1 >> $LOG
 cp -av $ROOT_DIR/work/bootanimation.zip $OUT_DIR/system/media/ >> $LOG
 cd - &> /dev/null
 
@@ -217,7 +218,8 @@ fi
 # zip and sign
 ShowMessage "[ZIP] $OUT_ZIP"
 cd $OUT_DIR
-zip -r9 $OUT_ZIP . >> $LOG
+zip $ZIPFLAGS $OUT_ZIP \
+  $ROM_DIR_LIST >> $LOG
 if [ "$SIGN_ZIP" = "1" ]; then
   ShowMessage "[SIGN] $OUT_SIGNED"
   sign.sh $OUT_ZIP $OUT_SIGNED >> $LOG

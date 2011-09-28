@@ -1,7 +1,7 @@
 ro.modversion=ICEDroidV0.1
 ro.sf.lcd_density=200
-debug.sf.hw=1                     # Force hw acceleration
-wifi.supplicant_scan_interval=100 # Increased interval
-dalvik.vm.heapsize=48m            # Increased from 32
-windowsmgr.max_events_per_sec=150 # Increased
-ro.config.play.bootsound=1        # Allow bootsound
+debug.sf.hw=1
+wifi.supplicant_scan_interval=100
+dalvik.vm.heapsize=48m
+windowsmgr.max_events_per_sec=150
+ro.config.play.bootsound=1

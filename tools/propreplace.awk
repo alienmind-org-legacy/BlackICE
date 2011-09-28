@@ -1,7 +1,6 @@
 #!/usr/bin/gawk -f
 # Store the keys and values of the append files
 BEGIN {
-  PROPCOMMENT = " # ICEDroid customization";
 }
 (FILENAME ~ ".append") {
   key="";
@@ -20,7 +19,7 @@ BEGIN {
   if (n >= 2) {
     key=a[1];
     if (key in KEYS) {
-      print key "=" KEYS[key] " " PROPCOMMENT;
+      print key "=" KEYS[key];
       KEYS[key] = "DONE";
       next;
     }
@@ -31,7 +30,7 @@ BEGIN {
 END {
   for (key in KEYS) {
      if (KEYS[key] != "DONE") {
-       print key "=" KEYS[key] " " PROPCOMMENT;
+       print key "=" KEYS[key];
      }
   }
 }
