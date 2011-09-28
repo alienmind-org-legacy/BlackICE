@@ -1,6 +1,9 @@
 #!/bin/bash
 # ICEDroid - setup.sh
 # Custom kitchen to build the ROM given a CM nightly build / KANG build
+# Read config
+. conf/sources.ini
+. conf/icedroid.ini
 . tools/util_sh
 
 KANG_DIR=$1
@@ -16,9 +19,6 @@ DOWN_DIR=$ROOT_DIR/download/
 OUT_DIR="$ROOT_DIR/out/icedroid-$DATE"
 OUT_ZIP="${OUT_DIR}.zip"
 OUT_SIGNED="${OUT_DIR}-signed.zip"
-
-# Read config
-. conf/sources.ini
 
 if [ "$1" = "-v" ]; then
   VERBOSE=1
@@ -178,7 +178,7 @@ done
 
 # Bootanimation
 cd artwork/bootanimation/
-zip -r9 $ROOT_DIR/work/bootanimation.zip .
+zip $ZIPFLAGS $ROOT_DIR/work/bootanimation.zip .
 cp -av $ROOT_DIR/work/bootanimation.zip $OUT_DIR/system/media/
 cd - &> /dev/null
 
@@ -203,12 +203,23 @@ for i in src/*/bin/*.apk; do
    cp $i $OUT_DIR/system/app/
 done
 
+# zipalign
+if [ "$ZIPALIGN" = "1" ]; then
+  for i in `find $OUT_DIR/ -name '*.apk'`; do
+     echo "[ZIPALIGN] " `basename $i`
+     tools/zipalign -f 4 $i $i.new 
+     mv $i.new $i
+  done
+fi
+
 # zip and sign
 ShowMessage "[ZIP] $OUT_ZIP"
 cd $OUT_DIR
 zip -r9 $OUT_ZIP . >> $LOG
-ShowMessage "[SIGN] $OUT_SIGNED"
-sign.sh $OUT_ZIP $OUT_SIGNED
+if [ "$SIGN_ZIP" = "1" ]; then
+  ShowMessage "[SIGN] $OUT_SIGNED"
+  sign.sh $OUT_ZIP $OUT_SIGNED
+fi
 cd - &>/dev/null
 
 # Call the clean script

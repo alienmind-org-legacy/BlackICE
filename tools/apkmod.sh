@@ -20,8 +20,7 @@ if [ -f "$APK" ]; then
   unzip -x $APK &> /dev/null
   cp -a $MOD_DIR/* .
   zip -r9 $NEWAPK . &>/dev/null
-  mv $APK $APK.orig
+  #mv $APK $APK.orig # if we want to preserve
   sign.sh $NEWAPK $APK
-  #mv $NEWAPK $APK
   cd - &> /dev/null
 fi
