@@ -181,12 +181,15 @@ fi
 
 # Bootanimation
 cd artwork/bootanimation/
-zip -r $ROOT_DIR/work/bootanimation.zip desc.txt part0 part1 >> $LOG
+zip -r $ROOT_DIR/work/bootanimation.zip desc.txt part0/* part1/* >> $LOG
 cp -av $ROOT_DIR/work/bootanimation.zip $OUT_DIR/system/media/ >> $LOG
 cd - &> /dev/null
 
-# updater-script
-# it's build from the prepared logo, extracted kernel-id and patches
+# META-INF files
+# updater-script is built from the prepared logo, extracted kernel-id and patches
+for i in CERT.RSA CERT.SF MANIFEST.MF; do
+   cp $ROOT_DIR/meta/$i $OUT_DIR/META-INF/
+done
 cd $OUT_DIR/META-INF/com/google/android/
 patch -p0 < $ROOT_DIR/meta/updater-script.patch
 ( cat $ROOT_DIR/meta/updater-script.logo ;
