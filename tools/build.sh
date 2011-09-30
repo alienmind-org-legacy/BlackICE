@@ -227,6 +227,10 @@ if [ "$ZIPALIGN" = "1" ]; then
   printf "\n"
 fi
 
+# Call the clean script
+ShowMessage "* Cleaning up..."
+$TOOLS_DIR/clean.sh $OUT_DIR $LOG
+
 # zip and sign
 ShowMessage "[ZIP] $OUT_ZIP"
 cd $OUT_DIR
@@ -237,9 +241,5 @@ if [ "$SIGN_ZIP" = "1" ]; then
   sign.sh $OUT_ZIP $OUT_SIGNED >> $LOG
 fi
 cd - &>/dev/null
-
-# Call the clean script
-ShowMessage "* Cleaning up..."
-$TOOLS_DIR/clean.sh $OUT_DIR $LOG
 
 ShowMessage "* Done!!!"
