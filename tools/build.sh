@@ -168,7 +168,7 @@ for i in `find $OUT_DIR/ -name '*.prop.append'`; do
    $TOOLS_DIR/propreplace.awk $i $BASE > $BASE.new
    # Customize versioning from icedroid.ini
    cat $BASE.new | sed "s/ICEDROID_VERSION/$ICEDROID_VERSION/g" \
-        >> $BASE ; rm -f $i
+        > $BASE ; rm -f $i $BASE.new
 done
 
 # Remaining .append files are simply appended to original ones
