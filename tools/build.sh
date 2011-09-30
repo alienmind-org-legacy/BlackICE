@@ -77,7 +77,7 @@ elif [ -f "$DOWN_DIR/$1" ]; then
 else
   cd $DOWN_DIR
   ShowMessage "* Downloading $ROMBASE/$1"
-  wget "$ROMBASE/$1" >> $LOG
+  CheckDownloadZip "$ROMBASE/$1" || ExitError "Can't download $ROMBASE/$1"
   ROMFILE=$DOWN_DIR/$1
   cd - &>/dev/null
 fi
@@ -99,7 +99,7 @@ else
   KERNEL_DIR=$ROOT_DIR/kernel/ # Local copy
   #cd $DOWN_DIR
   #ShowMessage "* Downloading $KERNELBASE/$2"
-  #wget "$KERNELBASE/$2" >> $LOG
+  #CheckDownloadZip "$KERNELBASE/$2"  || ExitError "Can't download $ROMBASE/$1"
   #KERNELFILE=$DOWN_DIR/$2
   #cd - &>/dev/null
 fi
@@ -130,6 +130,17 @@ ShowMessage "* Copying KERNEL files..."
 for i in $KERNEL_DIR_LIST; do
   cp -av $KERNEL_DIR/$i $OUT_DIR/  >> $LOG 2>&1
 done
+#ShowMessage "* Downloading extra APKs..."
+#mkdir -p $OUT_DIR/data/app/
+#cd $DOWN_DIR/
+#for i in $DATA_APKS ; do 
+#  APK=`basename "$i"`
+#  ShowMessage "[GET] $APK"
+#  CheckDownloadZip "$i" | ExitError "Can't download $i"
+#  mv $APK $OUT_DIR/data/app/
+#done
+#cd - &>/dev/null
+
 ShowMessage "* Copying custom extra directories..."
 for i in $EXTRA_DIRS ; do 
   if [ ! -d $i ]; then
@@ -155,7 +166,9 @@ for i in `find $OUT_DIR/ -name '*.prop.append'`; do
    BASE=`dirname $i`/`basename "$i" .append`
    ShowMessage "[PROP] " `basename "$i"`
    $TOOLS_DIR/propreplace.awk $i $BASE > $BASE.new
-   mv $BASE.new $BASE ; rm -f $i
+   # Customize versioning from icedroid.ini
+   cat $BASE.new | sed "s/ICEDROID_VERSION/$ICEDROID_VERSION/g" \
+        >> $BASE ; rm -f $i
 done
 
 # Remaining .append files are simply appended to original ones

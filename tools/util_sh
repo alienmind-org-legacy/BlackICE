@@ -1,6 +1,17 @@
 export ROOT_DIR=$PWD
 export PATH=$PATH:$ROOT_DIR/tools
 
+# Error control
+function ExitError() {
+  ShowMessage "$@"
+  exit 1
+}
+
+# Logged output
+function ShowMessage() {
+  echo "$@" | tee $LOG 
+}
+
 # Fix relative path
 function FixPath() {
   local ARG=$1
@@ -11,7 +22,22 @@ function FixPath() {
   echo $ARG
 }
 
-# Logged output
-function ShowMessage() {
-  echo "$@" | tee $LOG 
+# Check zipfile
+function CheckZipFile() {
+  unzip -v "$1" &>/dev/null
+}
+
+# Check and download zipfile
+function CheckDownloadZip() {
+  local FILE=`basename "$1"`
+  local ret=0
+  unzip -v "$FILE" &>/dev/null
+  ret=$?
+  if [ "$ret" = "0" ]; then
+    return 0
+  else
+    ShowMessage "[GET] "`basename $1`
+    rm -f "$FILE"
+    wget "$1" >> $LOG 2>&1
+  fi
 }
