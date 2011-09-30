@@ -180,10 +180,17 @@ done
 fi
 
 # Bootanimation
-cd artwork/bootanimation/
-zip -r $ROOT_DIR/work/bootanimation.zip desc.txt part0/* part1/* >> $LOG
-cp -av $ROOT_DIR/work/bootanimation.zip $OUT_DIR/system/media/ >> $LOG
-cd - &> /dev/null
+if [ -f $ROOT_DIR/artwork/bootanimation.zip ]; then
+  ShowMessage "[CP] bootanimation.zip"
+  cp "$ROOT_DIR/artwork/bootanimation.zip" $OUT_DIR/system/media/ >> $LOG
+else
+  ShowMessage "[ZIP] bootanimation.zip"
+  cd artwork/bootanimation/
+  zip -r $ROOT_DIR/work/bootanimation.zip desc.txt part0/* part1/* >> $LOG
+  ShowMessage "[CP] bootanimation.zip"
+  cp -av $ROOT_DIR/work/bootanimation.zip $OUT_DIR/system/media/ >> $LOG
+  cd - &> /dev/null
+fi
 
 # META-INF files
 # updater-script is built from the prepared logo, extracted kernel-id and patches
