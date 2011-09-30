@@ -8,7 +8,7 @@
 
 KANG_DIR=$1
 KERNEL_DIR=$2
-EXTRA_DIRS="system data sdcard"
+
 DATE=`date +%Y%m%d`
 TIMESTAMP=`date +%Y%m%d`
 HELP="Usage: $0 [-v] <kang.zip> [kernel.zip]"

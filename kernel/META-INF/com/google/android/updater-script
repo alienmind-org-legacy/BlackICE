@@ -3,7 +3,7 @@ ui_print("AnyKernel Updater by Koush");
 ui_print("Fixed For eMMC By Bumble-Bee");
 ui_print("Fixed for EXT3 and EXT4 LorD Clockan");
 ui_print(" ");
-ui_print("LordMod Ultimate Edition kernel V7.2 CFS 2WCR V(r) I/O [23-Sep-2011]");
+ui_print("LordMod Ultimate Edition kernel V7.3 CFS 2WCR V(r) I/O [29-Sep-2011]");
 ui_print(" ");
 ui_print("High OC enabled, Battery fix, Smartass added and tweaked, TinyRCU, V(r) I/O, Audio boost, SLQB memory allocator, V(r) I/O, VDD interface, 2 Way Call Recording, smartass2 tweaked and renamed to brazilianwax, ... ");
 ui_print("Extracting System Files...");
