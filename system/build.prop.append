@@ -1,4 +1,4 @@
-ro.modversion=ICEDroidV0.1
+ro.modversion=ICEDROID_VERSION
 ro.sf.lcd_density=200
 debug.sf.hw=1
 wifi.supplicant_scan_interval=100
