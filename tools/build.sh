@@ -16,7 +16,7 @@ HELP="Usage: $0 [-v] <kang.zip> [kernel.zip]"
 TOOLS_DIR=$ROOT_DIR/tools/
 WORK_DIR=$ROOT_DIR/work/
 DOWN_DIR=$ROOT_DIR/download/
-OUT_DIR="$ROOT_DIR/out/icedroid-$DATE"
+OUT_DIR="$ROOT_DIR/out/$ICEDROID_VERSION-$DATE"
 OUT_ZIP="${OUT_DIR}.zip"
 OUT_SIGNED="${OUT_DIR}-signed.zip"
 
