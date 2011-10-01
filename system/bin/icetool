@@ -57,6 +57,7 @@ elif [ "$CMD" = "chargeenable" ]; then
 # oldmarket
 elif [ "$CMD" = "oldmarket" ]; then
   mount -o remount,rw /system
+  rm -f /data/app/com.android.vending*apk
   cp /data/market/Vending.apk.20110613 /system/app/Vending.apk
   mount -o remount,ro /system
   echo "Market reverted to old version"
@@ -65,6 +66,7 @@ elif [ "$CMD" = "oldmarket" ]; then
 # newmarket
 elif [ "$CMD" = "newmarket" ]; then
   mount -o remount,rw /system
+  rm -f /data/app/com.android.vending*apk
   cp /data/market/Vending.apk.20110828 /system/app/Vending.apk
   mount -o remount,ro /system
   echo "Market reverted to new version"
