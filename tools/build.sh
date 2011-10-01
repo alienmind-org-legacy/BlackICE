@@ -1,9 +1,9 @@
 #!/bin/bash
-# ICEDroid - setup.sh
+# BlackICE DroiD - setup.sh
 # Custom kitchen to build the ROM given a CM nightly build / KANG build
 # Read config
 . conf/sources.ini
-. conf/icedroid.ini
+. conf/blackice.ini
 . tools/util_sh
 
 KANG_DIR=$1
@@ -16,7 +16,7 @@ HELP="Usage: $0 [-v] <kang.zip> [kernel.zip]"
 TOOLS_DIR=$ROOT_DIR/tools/
 WORK_DIR=$ROOT_DIR/work/
 DOWN_DIR=$ROOT_DIR/download/
-OUT_DIR="$ROOT_DIR/out/$ICEDROID_VERSION-$DATE"
+OUT_DIR="$ROOT_DIR/out/$BLACKICE_VERSION-$DATE"
 OUT_ZIP="${OUT_DIR}.zip"
 OUT_SIGNED="${OUT_DIR}-signed.zip"
 
@@ -46,16 +46,8 @@ if [ "$#" -lt "1" ]; then
   exit 1
 fi
 
-###
-cat <<EOF
-     ProjectX introducing...
-           _  __ ___ __         __  
-          | |/ _| __|  \ _  _ ()  \ 
-          | ( (_| _|| o )_|/o\|| o )
-          |_|\__|___|__/L| \_/L|__/ 
-
-EOF
-
+### Show banner
+cat artwork/logo.txt
 
 # Make tmp directories
 if [ ! -d "$OUT_DIR" ]; then
@@ -85,24 +77,6 @@ fi
 # Fix relative path
 ROMFILE=`FixPath $ROMFILE`
 
-if [ -f "$2" ]; then
-  KERNELFILE=$2
-  KERNELFILE=`FixPath $KERNELFILE`
-  ShowMessage "* Unpacking KERNEL ..."
-  KERNEL_DIR=$WORK_DIR/`basename "$KERNELFILE" .zip`
-  rm -rf $KERNEL_DIR
-  mkdir $KERNEL_DIR ; cd $KERNEL_DIR
-  unzip -x $KERNELFILE >> $LOG
-  cd - &>/dev/null
-else
-  KERNELFILE=""
-  KERNEL_DIR=$ROOT_DIR/kernel/ # Local copy
-  #cd $DOWN_DIR
-  #ShowMessage "* Downloading $KERNELBASE/$2"
-  #CheckDownloadZip "$KERNELBASE/$2"  || ExitError "Can't download $ROMBASE/$1"
-  #KERNELFILE=$DOWN_DIR/$2
-  #cd - &>/dev/null
-fi
 
 # From there we are in work dir
 cd $WORK_DIR
@@ -113,6 +87,28 @@ KANG_DIR=$WORK_DIR/`basename "$ROMFILE" .zip`
 rm -rf $KANG_DIR
 mkdir $KANG_DIR ; cd $KANG_DIR
 unzip -x $ROMFILE >> $LOG
+
+# Unpack kernel zip and convert zImage to boot.img if provided
+if [ -f "$2" ]; then
+  KERNELFILE=$2
+  KERNELFILE=`FixPath $KERNELFILE`
+  ShowMessage "* Unpacking KERNEL ..."
+  KERNEL_DIR=$WORK_DIR/`basename "$KERNELFILE" .zip`
+  rm -rf $KERNEL_DIR
+  mkdir $KERNEL_DIR
+  cd $KERNEL_DIR
+  unzip -x $KERNELFILE >> $LOG
+  mkbootimg.sh $KANG_DIR/boot.img $KERNEL_DIR/kernel/zImage $KERNEL_DIR/boot.img
+  cd - &>/dev/null
+else
+  KERNELFILE=""
+  KERNEL_DIR=$ROOT_DIR/kernel/ # Local copy
+  #cd $DOWN_DIR
+  #ShowMessage "* Downloading $KERNELBASE/$2"
+  #CheckDownloadZip "$KERNELBASE/$2"  || ExitError "Can't download $ROMBASE/$1"
+  #KERNELFILE=$DOWN_DIR/$2
+  #cd - &>/dev/null
+fi
 
 # Extract relevant identification strings from kernel
 if [ -f "$KERNEL_DIR/META-INF/com/google/android/updater-script" ]; then
@@ -140,13 +136,13 @@ done
 #  mv $APK $OUT_DIR/data/app/
 #done
 #cd - &>/dev/null
-
 ShowMessage "* Copying custom extra directories..."
 for i in $EXTRA_DIRS ; do 
   if [ ! -d $i ]; then
     ShowMessage "Error: $i does not exists - skipping"
   fi
   ShowMessage "[CP] $i/ => "`basename "$OUT_DIR"`"/$i"
+  mkdir -p $OUT_DIR/$i/
   cp -av $i/* $OUT_DIR/$i/ >> $LOG 2>&1
 done
 
@@ -166,8 +162,8 @@ for i in `find $OUT_DIR/ -name '*.prop.append'`; do
    BASE=`dirname $i`/`basename "$i" .append`
    ShowMessage "[PROP] " `basename "$i"`
    $TOOLS_DIR/propreplace.awk $i $BASE > $BASE.new
-   # Customize versioning from icedroid.ini
-   cat $BASE.new | sed "s/ICEDROID_VERSION/$ICEDROID_VERSION/g" \
+   # Customize versioning from blackice.ini
+   cat $BASE.new | sed "s/BLACKICE_VERSION/$BLACKICE_VERSION/g" \
         > $BASE ; rm -f $i $BASE.new
 done
 
@@ -185,7 +181,7 @@ if [ "$MODAPKS" = "1" ]; then
 for i in app/* ; do
    BASE=`basename "$i"`
    ORIG=`find $OUT_DIR/ -name "$BASE.apk"`
-   if [ -f $ORIG ]; then
+   if [ -f "$ORIG" ]; then
      ShowMessage "[MOD] $i.apk "
      tools/apkmod.sh $ORIG $i
    fi
@@ -212,7 +208,8 @@ for i in CERT.RSA CERT.SF MANIFEST.MF; do
 done
 cd $OUT_DIR/META-INF/com/google/android/
 patch -p0 < $ROOT_DIR/meta/updater-script.patch
-( cat $ROOT_DIR/meta/updater-script.logo ;
+( cat $ROOT_DIR/artwork/logo.txt |
+  awk '{ print "ui_print(\"" $0 "\");" }' ;
   echo $KERNEL_ID ;
   cat updater-script ) \
   > updater-script.new
