@@ -5,3 +5,4 @@ wifi.supplicant_scan_interval=100
 dalvik.vm.heapsize=48m
 windowsmgr.max_events_per_sec=150
 ro.config.play.bootsound=1
+ro.ril.disable.power.collapse=0
