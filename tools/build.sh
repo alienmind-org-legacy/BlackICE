@@ -180,9 +180,10 @@ done
 if [ "$MODAPKS" = "1" ]; then
 for i in app/* ; do
    BASE=`basename "$i"`
+   BASE=${BASE%\.*} # We allow several mods for 1 apk
    ORIG=`find $OUT_DIR/ -name "$BASE.apk"`
    if [ -f "$ORIG" ]; then
-     ShowMessage "[MOD] $i.apk "
+     ShowMessage "[MOD] $BASE.apk ($i)"
      tools/apkmod.sh $ORIG $i
    fi
 done
