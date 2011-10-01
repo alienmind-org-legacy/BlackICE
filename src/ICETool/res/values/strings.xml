@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_full_name">ICETool v0.1 by ProjectX Team</string>
+    <string name="app_full_name">ICETool v0.2 by ProjectX Team</string>
     <string name="app_name">ICETool</string>
-    <string name="app_version">v0.1</string>
+    <string name="app_version">v0.2</string>
     <string name="app_author">ProjectX Team</string>    
     <string-array name="actions_array">
         <item>bootsound</item>
@@ -43,8 +43,10 @@
         <item>fastchargeoff</item>
 		<item>chargedisable</item>
 		<item>chargeenable</item>
+		<!--
 		<item>oldmarket</item>
-		<item>newmarket</item>		
+		<item>newmarket</item>
+		  -->		
         <item>swypeme</item>
         <item>clearconsole</item>        
     </string-array>
@@ -55,8 +57,10 @@
     	<item>Disable high power charging</item>
 		<item>Disable USB charging - for battery benchmarks while plugged</item>
 		<item>Enable USB charging</item>
+		<!--
 		<item>Install old (20110613) Market</item>
-		<item>Install new (20110828) Market</item>		
+		<item>Install new (20110828) Market</item>
+		  -->		
         <item>Install Nexus S Swype</item>
         <item>Clear console window</item>
     </string-array>
