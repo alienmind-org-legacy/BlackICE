@@ -17,7 +17,7 @@ NEWAPK=`FixPath $NEWAPK`
 if [ -f "$APK" ]; then
   mkdir -p $OUT_DIR
   cd $OUT_DIR
-  unzip -x $APK &> /dev/null
+  unzip -ox $APK &> /dev/null
   cp -a $MOD_DIR/* .
   zip -r9 $NEWAPK . &>/dev/null
   #mv $APK $APK.orig # if we want to preserve
