@@ -9,8 +9,9 @@
 	    <activity android:name=".ActionsActivity" />    
 	    <activity android:name=".UVActivity" />
 	    <activity android:name=".ExtrasActivity" />
-	    <activity android:name=".GPSActivity" />	    
-	    <activity android:name=".ConsoleActivity" />	    
+	    <activity android:name=".GPSActivity" />
+	    <activity android:name=".DSPActivity" />	    
+	    <activity android:name=".ConsoleActivity" />
 	    <activity android:name=".ICETool" android:label="@string/app_name"
     		      android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
