@@ -88,7 +88,14 @@ elif [ "$CMD" = "gpsconf" ]; then
       echo "GPS configuration for $2 applied - open GPS Status and redownload AGPS data"
     fi
     mount -o remount,ro /system
-  fi
+    fi
+
+###
+# dspchooser
+elif [ "$CMD" = "dspinit" ]; then
+    snd3254 -dspmode $2
+       echo "DSP profile for $2 applied"
+       
 ### Any other command - we are a wrapper
 else
 
