@@ -181,6 +181,9 @@ if [ "$MODAPKS" = "1" ]; then
 for i in app/* ; do
    BASE=`basename "$i"`
    BASE=${BASE%\.*} # We allow several mods for 1 apk
+   if [ -f "app/${BASE}.exclude" ]; then
+     continue ; # dirty hack to exclude framework-res modding
+   fi
    ORIG=`find $OUT_DIR/ -name "$BASE.apk"`
    if [ -f "$ORIG" ]; then
      ShowMessage "[MOD] $BASE.apk ($i)"
@@ -209,7 +212,7 @@ for i in CERT.RSA CERT.SF MANIFEST.MF; do
 done
 cd $OUT_DIR/META-INF/com/google/android/
 patch -p0 < $ROOT_DIR/meta/updater-script.patch
-( cat $ROOT_DIR/artwork/logo.txt |
+( ( cat $ROOT_DIR/artwork/logo.txt ; echo $BLACKICE_VERSION ) |
   awk '{ print "ui_print(\"" $0 "\");" }' ;
   echo $KERNEL_ID ;
   cat updater-script ) \
