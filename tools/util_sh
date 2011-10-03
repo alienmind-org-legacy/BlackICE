@@ -1,5 +1,5 @@
 export ROOT_DIR=$PWD
-export PATH=$PATH:$ROOT_DIR/tools
+export PATH=$PATH:$ROOT_DIR/tools:$ANDROID_ROOT/platform-tools/:$ANDROID_ROOT/tools/
 
 # Error control
 function ExitError() {
