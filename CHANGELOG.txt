@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 
+v0.6 - Hability to use a binary modded apk. Included binary framework-res.apk provided by Paradoxxx
+v0.5 - ICETool v0.2
 v0.4 - WORKING data/app included, new apps, new bootanim and bootsound, based on #NB213, kernel v7.4BFSb5
 v0.3 - data/app included, based on #NB212 
 v0.2 - New bootanimation, icetool, based on #NB209
