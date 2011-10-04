@@ -6,3 +6,6 @@ dalvik.vm.heapsize=48m
 windowsmgr.max_events_per_sec=150
 ro.config.play.bootsound=1
 ro.ril.disable.power.collapse=0
+mot.proximity.delay=150
+ro.telephony.call_ring.delay=1000
+ro.ril.hep=1
