@@ -1,13 +1,24 @@
+#!/system/bin/sh
+#
+
 # Further power savings
 echo 6000 > /proc/sys/vm/dirty_writeback_centisecs
 echo 5 > /proc/sys/vm/laptop_mode
+
 # Fix permissions
 chown -R 1000:1000 /data/app
 chmod 771 /data/app
 chmod 777 /data/app/*.apk
-# Custom scripts for gscript
-/system/bin/alienmind-scripts.sh
+
 # Fix Flash Player v10.3
 for i in com.android.browser mobi.mgeek.TunnyBrowser ; do
   chmod 000 /data/data/$i/app_plugins/com.adobe.flashplayer/.macromedia/Flash_Player/config.data 2>/dev/null
 done
+
+# by a user
+#tcp tweaks
+setprop net.tcp.buffersize.wifi 8192,87380,524288,8192,87380,524288
+setprop net.tcp.buffersize.hsdpa 8192,87380,524288,8192,65536,393216
+setprop net.tcp.buffersize.umts 6144,87380,393216,6144,32768,283008
+setprop net.tcp.buffersize.edge 4096,32768,220416,4096,32768,110208
+setprop net.tcp.buffersize.gprs 4096,16384,32768,4096,11680,16384
