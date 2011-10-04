@@ -184,7 +184,7 @@ for i in app/* ; do
    if [ -f "app/${BASE}.exclude" ]; then
      continue ; # dirty hack to exclude framework-res modding
    fi
-   ORIG=`find $OUT_DIR/ -name "$BASE.apk"`
+   ORIG=`find $OUT_DIR/system -name "$BASE.apk"`
    if [ -f "$ORIG" ]; then
      ShowMessage "[MOD] $BASE.apk ($i)"
      tools/apkmod.sh $ORIG $i
@@ -219,8 +219,6 @@ patch -p0 < $ROOT_DIR/meta/updater-script.patch
   > updater-script.new
 mv updater-script.new updater-script
 cd - &>/dev/null
-
-# TODO mkbootimg-remote.sh when kernel is not the included one
 
 # TODO source build ICETool
 
