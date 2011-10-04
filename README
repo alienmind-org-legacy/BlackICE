@@ -7,14 +7,14 @@ ProjectX introducing...
  |___/_\__,_\__|_\_\|___\___|___|
                                  
 
-BlackICEDroiD is a Android distribution based on CyanogenModv7.1 
+BlackICE is a Android distribution based on CyanogenModv7.1 
 intended to run on Desire HD / Inspire 4G devices
 
 This is under development
 
 ================================================================================
 
-BUILD INSTRUCTIONS (tested on GNU/Linux ... needed bash/gawk/j2sdk)
+BUILD INSTRUCTIONS (tested on GNU/Linux ... needed bash/gawk/j2sdk/android.SDK)
 
 1) Clone the repo
   git clone git://github.com/alienmind/ICEDroid.git
@@ -26,5 +26,5 @@ BUILD INSTRUCTIONS (tested on GNU/Linux ... needed bash/gawk/j2sdk)
    tools/build.sh clean
    tools/build.sh download/cm_ace_full-208.zip download/lordmodUEv7.2-CFS-2WCR.zip
 
-4) Flash out/BlackICEDroiD-vX.X-YYYYMMDD-signed.zip
+4) Flash out/BlackICE-vX.X-YYYYMMDD-signed.zip
 
