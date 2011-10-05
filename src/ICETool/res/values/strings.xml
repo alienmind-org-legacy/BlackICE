@@ -211,7 +211,8 @@
     <item>UZBEKISTAN</item>
     <item>VIETNAM</item>
     <item>YUGOSLAVIA</item>    
-    </string-array><string-array name="dsp_actions_array">
+    </string-array>
+    <string-array name="dsp_actions_array">
         <item>dspinit 00</item>
         <item>dspinit 01</item>
         <item>dspinit 02</item>
@@ -267,5 +268,20 @@
         <item>Rock</item>
         <item>Treble Booster</item>
         <item>Vocal Booster</item>
-    </string-array>        
+    </string-array>
+    
+    <string-array name="ril_actions_array">
+        <item>ril HTC-RIL_1.6.1062G</item>
+        <item>ril HTC-RIL_1.6.1062G</item>
+		<item>ril HTC-RIL_2.2.0018G</item>
+        <item>ril HTC-RIL_2.2.0014G</item>    
+    </string-array>
+    
+    <string-array name="ril_descriptions_array">
+        <item>Install HTC-RIL_1.6.1062G</item>
+        <item>Install HTC-RIL_1.6.1062G</item>
+		<item>Install HTC-RIL_2.2.0018G</item>
+        <item>Install HTC-RIL_2.2.0014G</item>        
+    </string-array>                
+            
 </resources>

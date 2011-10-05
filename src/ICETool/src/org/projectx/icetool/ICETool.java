@@ -16,8 +16,9 @@ public class ICETool extends TabActivity {
 	public static final int TAB_UV = 1;
 	public static final int TAB_EXTRA = 2;
 	public static final int TAB_GPS = 3;	
-	public static final int TAB_DSP = 4;	
-	public static final int TAB_CONSOLE = 5;	
+	public static final int TAB_DSP = 4;
+	public static final int TAB_RIL = 5;		
+	public static final int TAB_CONSOLE = 6;	
 		
 	/// Singleton //////////////////////////////////////////
     private static ICETool INSTANCE = null;     
@@ -80,6 +81,13 @@ public class ICETool extends TabActivity {
 	    intent = new Intent().setClass(this, DSPActivity.class);
 	    spec = tabHost.newTabSpec("dsp").setIndicator("DSP chooser",
 	    				  res.getDrawable(R.drawable.ic_tab_dsp))
+	    			  .setContent(intent);
+	    tabHost.addTab(spec);
+
+	    //RIL chooser tab
+	    intent = new Intent().setClass(this, RILActivity.class);
+	    spec = tabHost.newTabSpec("dsp").setIndicator("RIL",
+	    				  res.getDrawable(R.drawable.ic_tab_ril))
 	    			  .setContent(intent);
 	    tabHost.addTab(spec);
 	    

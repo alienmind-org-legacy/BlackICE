@@ -95,6 +95,22 @@ elif [ "$CMD" = "gpsconf" ]; then
 elif [ "$CMD" = "dspinit" ]; then
     snd3254 -dspmode $2
        echo "DSP profile for $2 applied"
+
+###
+# ril
+elif [ "$CMD" = "ril" ]; then
+  DIR=/sdcard/ril/$2
+  if [ -d "$DIR" ]; then
+    printf "RIL before patch: "
+    getprop | grep RIL
+    mount -o remount,rw /system
+    cp -r $DIR/* /
+    mount -o remount,ro /system
+    echo "RIL switched to $2. Rebooting is highly recommended!"
+  else 
+     echo "Error: $DIR does not exist"
+     exit 1
+  fi
        
 ### Any other command - we are a wrapper
 else
