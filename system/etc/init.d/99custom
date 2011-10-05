@@ -1,9 +1,4 @@
 #!/system/bin/sh
-#
-
-# Further power savings
-echo 6000 > /proc/sys/vm/dirty_writeback_centisecs
-echo 5 > /proc/sys/vm/laptop_mode
 
 # Fix permissions
 chown -R 1000:1000 /data/app
