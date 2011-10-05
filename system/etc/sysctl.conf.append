@@ -3,7 +3,6 @@
 
 # vm settings
 vm.oom_kill_allocating_task=1
-vm.vfs_cache_pressure=50
 vm.min_free_kbytes=4096
 vm.dirty_expire_centisecs=3000
 vm.dirty_writeback_centisecs=6000
