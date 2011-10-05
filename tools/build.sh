@@ -77,16 +77,13 @@ fi
 # Fix relative path
 ROMFILE=`FixPath $ROMFILE`
 
-
-# From there we are in work dir
-cd $WORK_DIR
-
 # Unpack ROM
 ShowMessage "* Unpacking ROM ..."
 KANG_DIR=$WORK_DIR/`basename "$ROMFILE" .zip`
 rm -rf $KANG_DIR
 mkdir $KANG_DIR ; cd $KANG_DIR
 unzip -x $ROMFILE >> $LOG
+cd - &>/dev/null
 
 # Unpack kernel zip and convert zImage to boot.img if provided
 if [ -f "$2" ]; then
@@ -109,6 +106,9 @@ else
   #KERNELFILE=$DOWN_DIR/$2
   #cd - &>/dev/null
 fi
+
+# From there we are in work dir
+cd $WORK_DIR
 
 # Extract relevant identification strings from kernel
 if [ -f "$KERNEL_DIR/META-INF/com/google/android/updater-script" ]; then
