@@ -113,7 +113,7 @@ cd $WORK_DIR
 # Extract relevant identification strings from kernel
 if [ -f "$KERNEL_DIR/META-INF/com/google/android/updater-script" ]; then
   KERNEL_ID=`cat $KERNEL_DIR/META-INF/com/google/android/updater-script | \
-           grep -e Lord -e High`
+           grep -e Lord`
 fi
 
 # Mixup everything
