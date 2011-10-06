@@ -9,7 +9,7 @@ function ExitError() {
 
 # Logged output
 function ShowMessage() {
-  echo "$@" | tee $LOG 
+  echo "$@" | tee -a $LOG 
 }
 
 # Fix relative path
