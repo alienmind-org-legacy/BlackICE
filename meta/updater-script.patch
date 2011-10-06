@@ -21,6 +21,8 @@
  show_progress(0.100000, 0);
 +package_extract_dir("resetuv", "/sdcard/resetuv");
 +package_extract_dir("gpsconf", "/sdcard/gpsconf");
++package_extract_dir("ril", "/sdcard/ril");
++package_extract_dir("market", "/sdcard/market");
 +show_progress(0.100000, 0);
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/etc/init.d");
 +set_perm(0, 0, 0755, "/system/bin/bootsound");
@@ -39,8 +41,6 @@
 +set_perm(0, 0, 0755, "/system/bin/icetool");
 +set_perm(0, 0, 0755, "/system/bin/swypeme");
 +set_perm(0, 0, 0644, "/system/app/ICETool.apk");
-+set_perm(0, 0, 0644, "/data/market/Vending.apk.20110828");
-+set_perm(0, 0, 0644, "/data/market/Vending.apk.20110613");
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/media/uvscripts");
 +unmount("/data");
  unmount("/system");
