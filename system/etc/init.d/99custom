@@ -17,3 +17,7 @@ setprop net.tcp.buffersize.hsdpa 8192,87380,524288,8192,65536,393216
 setprop net.tcp.buffersize.umts 6144,87380,393216,6144,32768,283008
 setprop net.tcp.buffersize.edge 4096,32768,220416,4096,32768,110208
 setprop net.tcp.buffersize.gprs 4096,16384,32768,4096,11680,16384
+
+# Dolby and SRS startup settings
+snd3254 -dspmode 04
+snd3254 -dspmode 08
