@@ -1,4 +1,4 @@
-#!/system/bin/sh
+#!/system/xbin/bash
 WHO=`whoami`
 if [ "$WHO" != "root" ]; then
   echo "Must be root"
@@ -11,6 +11,26 @@ if [ "$1" = "" ]; then
 fi
 
 CMD=$1
+
+Remount() {
+  local MODE=$1
+  mount -o remount,$MODE /system
+}
+
+InstallMarket() {
+  local APK=$1
+  Remount "rw"
+  pm uninstall com.android.vending
+  rm -f /data/app/com.android.vending*apk
+  cp $APK /system/app/Vending.apk
+  chmod 644 /system/app/Vending.apk
+  pm install $APK
+  Remount "ro"
+}
+
+LaunchMarket() {
+  am start -a android.intent.action.MAIN -n com.android.vending/com.android.vending.AssetBrowserActivity
+}
 
 ###
 # Internal commands
@@ -30,14 +50,14 @@ elif [ "$CMD" = "fastchargeoff" ]; then
 ###
 # remountsysrw
 elif [ "$CMD" = "remountsysrw" ]; then
-  mount -o remount,rw /system
+  Remount "rw"
   mount | grep system
   echo "/system remounted read/write"
 
 ###
 # remountsysro
 elif [ "$CMD" = "remountsysro" ]; then
-  mount -o remount,ro /system
+  Remount "ro"
   mount | grep system
   echo "/system remounted read-only"
 
@@ -56,21 +76,17 @@ elif [ "$CMD" = "chargeenable" ]; then
 ###
 # oldmarket
 elif [ "$CMD" = "oldmarket" ]; then
-  mount -o remount,rw /system
-  rm -f /data/app/com.android.vending*apk
-  cp /sdcard/market/Vending.apk.20110613 /system/app/Vending.apk
-  chmod 644 /system/app/Vending.apk
-  mount -o remount,ro /system
+  APK=/sdcard/market/Vending.apk.20110613
+  InstallMarket $APK
+  LaunchMarket
   echo "Market reverted to old version"
 
 ###
 # newmarket
 elif [ "$CMD" = "newmarket" ]; then
-  mount -o remount,rw /system
-  rm -f /data/app/com.android.vending*apk
-  cp /sdcard/market/Vending.apk.20110828 /system/app/Vending.apk
-  chmod 644 /system/app/Vending.apk
-  mount -o remount,ro /system
+  APK=/sdcard/market/Vending.apk.20110828
+  InstallMarket $APK
+  LaunchMarket
   echo "Market reverted to new version"
 
 ###
@@ -80,7 +96,7 @@ elif [ "$CMD" = "gpsconf" ]; then
   if [ ! -f "$ZIP" ]; then
     echo "Nonexistent $ZIP!!!"
   else
-    mount -o remount,rw /system
+    Remount "rw"
     cd /
     unzip -o $ZIP system/etc/gps.conf
     RET=$?
@@ -89,14 +105,14 @@ elif [ "$CMD" = "gpsconf" ]; then
     else
       echo "GPS configuration for $2 applied - open GPS Status and redownload AGPS data"
     fi
-    mount -o remount,ro /system
-    fi
+    Remount "ro"
+  fi
 
 ###
 # dspchooser
 elif [ "$CMD" = "dspinit" ]; then
     snd3254 -dspmode $2
-       echo "DSP profile for $2 applied"
+    echo "DSP profile for $2 applied"
 
 ###
 # ril
@@ -105,9 +121,9 @@ elif [ "$CMD" = "ril" ]; then
   if [ -d "$DIR" ]; then
     printf "RIL before patch: "
     getprop | grep RIL
-    mount -o remount,rw /system
+    Remount "rw"
     cp -r $DIR/* /
-    mount -o remount,ro /system
+    Remount "ro"
     echo "RIL switched to $2. Rebooting is highly recommended!"
   else 
      echo "Error: $DIR does not exist"
