@@ -1,7 +1,7 @@
-diff --git a/res/values/config.xml b/res/values/config.xml
+diff --git res/values/config.xml res/values/config.xml
 index 9b7d4bd..3989723 100644
---- a/res/values/config.xml
-+++ b/res/values/config.xml
+--- res/values/config.xml
++++ res/values/config.xml
 @@ -15,7 +15,7 @@
  -->
  
@@ -22,10 +22,10 @@ index 9b7d4bd..3989723 100644
      <bool name="config_autosizeIcons">false</bool>
      <bool name="config_drawerLabels">true</bool>
      <bool name="config_fadeDrawerLabels">false</bool>
-diff --git a/res/xml/default_workspace.xml b/res/xml/default_workspace.xml
+diff --git res/xml/default_workspace.xml res/xml/default_workspace.xml
 index fa42690..5fd7fce 100644
---- a/res/xml/default_workspace.xml
-+++ b/res/xml/default_workspace.xml
+--- res/xml/default_workspace.xml
++++ res/xml/default_workspace.xml
 @@ -63,6 +63,13 @@
          launcher:y="0" />
  
