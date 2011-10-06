@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+v0.72 - New market switching actions, fixed G Rils tab
 v0.71 - Fixed updater-script that didn't copied the new ril folder
 v0.7  - Included SystemUI.apk provided by Paradoxxx. RIL Switching from ICETool
 v0.6  - Hability to use a binary modded apk. Included binary framework-res.apk provided by Paradoxxx
