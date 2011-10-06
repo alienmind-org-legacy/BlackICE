@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_full_name">ICETool v0.2 by ProjectX Team</string>
+    <string name="app_full_name">ICETool v0.3 by ProjectX Team</string>
     <string name="app_name">ICETool</string>
     <string name="app_version">v0.2</string>
     <string name="app_author">ProjectX Team</string>    
@@ -43,10 +43,11 @@
         <item>fastchargeoff</item>
 		<item>chargedisable</item>
 		<item>chargeenable</item>
-		<!--
 		<item>oldmarket</item>
 		<item>newmarket</item>
-		  -->		
+		<item>density 240</item>
+		<item>density 200</item>		
+		<item>density 170</item>		
         <item>swypeme</item>
         <item>clearconsole</item>        
     </string-array>
@@ -57,10 +58,11 @@
     	<item>Disable high power charging</item>
 		<item>Disable USB charging - for battery benchmarks while plugged</item>
 		<item>Enable USB charging</item>
-		<!--
-		<item>Install old (20110613) Market</item>
-		<item>Install new (20110828) Market</item>
-		  -->		
+		<item>Install and run old (20110613) Market</item>
+		<item>Install and run new (20110828) Market</item>
+        <item>Switch density to 240 (CM default)</item>		
+        <item>Switch density to 200 (Alien style)</item>
+        <item>Switch density to 170 (Lord style)</item>        
         <item>Install Nexus S Swype</item>
         <item>Clear console window</item>
     </string-array>
@@ -273,15 +275,15 @@
     <string-array name="ril_actions_array">
         <item>ril HTC-RIL_1.6.1062G</item>
         <item>ril HTC-RIL_2.2.0014G</item>
-	<item>ril HTC-RIL_2.2.0018G</item>
+		<item>ril HTC-RIL_2.2.0018G</item>
         <item>ril HTC-RIL_2.2.1003G</item>
     </string-array>
     
     <string-array name="ril_descriptions_array">
         <item>Install HTC-RIL_1.6.1062G</item>
         <item>Install HTC-RIL_2.2.0014G</item>
-	<item>Install HTC-RIL_2.2.0018G</item>
-	<item>Install HTC-RIL_2.2.1003G</item>
+		<item>Install HTC-RIL_2.2.0018G</item>
+		<item>Install HTC-RIL_2.2.1003G</item>
     </string-array>                
             
 </resources>

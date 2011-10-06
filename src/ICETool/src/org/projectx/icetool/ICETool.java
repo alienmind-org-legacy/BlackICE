@@ -86,7 +86,7 @@ public class ICETool extends TabActivity {
 
 	    //RIL chooser tab
 	    intent = new Intent().setClass(this, RILActivity.class);
-	    spec = tabHost.newTabSpec("dsp").setIndicator("RIL",
+	    spec = tabHost.newTabSpec("ril").setIndicator("RIL",
 	    				  res.getDrawable(R.drawable.ic_tab_ril))
 	    			  .setContent(intent);
 	    tabHost.addTab(spec);
