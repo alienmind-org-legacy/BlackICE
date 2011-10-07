@@ -27,7 +27,7 @@ Reboot() {
     sleep 1
   done
   printf "\n"
-  killall
+  reboot
 }
 
 InstallMarket() {
@@ -87,20 +87,18 @@ elif [ "$CMD" = "chargeenable" ]; then
   echo "Charge on plug enabled - unplug/plug to make it work"
 
 ###
-# oldmarket
-elif [ "$CMD" = "oldmarket" ]; then
-  APK=/sdcard/market/Vending.apk.20110613
-  InstallMarket $APK
-  LaunchMarket
-  echo "Market reverted to old version"
-
-###
-# newmarket
-elif [ "$CMD" = "newmarket" ]; then
-  APK=/sdcard/market/Vending.apk.20110828
-  InstallMarket $APK
-  LaunchMarket
-  echo "Market reverted to new version"
+# market
+elif [ "$CMD" = "market" ]; then
+  VER=$2
+  APK=/sdcard/market/Vending-${VER}.apk
+  if [ -f $APK ]; then
+    InstallMarket $APK
+    LaunchMarket
+    echo "Market reverted to new version"
+  else
+    echo "Couldn't find Market version $VER" 
+    exit 1
+  fi
 
 ###
 # gpsconf
