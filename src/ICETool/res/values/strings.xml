@@ -47,7 +47,7 @@
 		<item>newmarket</item>
 		<item>density 240</item>
 		<item>density 200</item>		
-		<item>density 170</item>		
+		<item>density 190</item>		
         <item>swypeme</item>
         <item>clearconsole</item>        
     </string-array>
@@ -62,7 +62,7 @@
 		<item>Install and run new (20110828) Market</item>
         <item>Switch density to 240 (CM default)</item>		
         <item>Switch density to 200 (Alien style)</item>
-        <item>Switch density to 170 (Lord style)</item>        
+        <item>Switch density to 190 (Lord style)</item>        
         <item>Install Nexus S Swype</item>
         <item>Clear console window</item>
     </string-array>
