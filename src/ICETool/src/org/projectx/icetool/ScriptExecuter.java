@@ -1,6 +1,7 @@
 package org.projectx.icetool;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 
 import android.widget.TextView;
@@ -16,11 +17,11 @@ public class ScriptExecuter extends Thread {
 		this.script = script;
 	}
 	
+	 
 	public void run() {
 		String      inputLine = null; 
 		// FIXME - the app will always ask for root as su checks for 
 		// the full command plus its arguments
-		String[]    cmd       = { CMD_SU , CMD_C, CMD_ICETOOL + " " + script};
 		TextView consoleView  = ICETool.getInstance().getConsoleView();		
 		
 		if (script == null || consoleView == null)
@@ -28,7 +29,10 @@ public class ScriptExecuter extends Thread {
 				
 		try {
 			consoleView.append("==== Starting execution: " + script + " ====\n");			
-			Process p = Runtime.getRuntime().exec(cmd);
+			Process p = Runtime.getRuntime().exec(CMD_SU);
+		    DataOutputStream os=new DataOutputStream(p.getOutputStream());
+		    os.writeBytes(CMD_ICETOOL + " " + script + "\n" + "; exit\n"); 
+		    os.flush();
 			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			while ((inputLine = br.readLine()) != null) 
 				consoleView.append(inputLine + "\n");
