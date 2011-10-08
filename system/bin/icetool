@@ -89,6 +89,7 @@ elif [ "$CMD" = "chargeenable" ]; then
 ###
 # market
 elif [ "$CMD" = "market" ]; then
+set -x
   VER=$2
   APK=/sdcard/market/Vending-${VER}.apk
   if [ -f $APK ]; then
@@ -99,7 +100,7 @@ elif [ "$CMD" = "market" ]; then
     echo "Couldn't find Market version $VER" 
     exit 1
   fi
-
+set +x
 ###
 # gpsconf
 elif [ "$CMD" = "gpsconf" ]; then

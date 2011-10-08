@@ -112,8 +112,9 @@ cd $WORK_DIR
 
 # Extract relevant identification strings from kernel
 if [ -f "$KERNEL_DIR/META-INF/com/google/android/updater-script" ]; then
-  KERNEL_ID=`cat $KERNEL_DIR/META-INF/com/google/android/updater-script | \
-           grep -e Lord`
+  KERNEL_ID=`basename $KERNEL_DIR`
+#  KERNEL_ID=`cat $KERNEL_DIR/META-INF/com/google/android/updater-script | \
+#           grep -e Lord`
 fi
 
 # Mixup everything
@@ -212,9 +213,8 @@ for i in CERT.RSA CERT.SF MANIFEST.MF; do
 done
 cd $OUT_DIR/META-INF/com/google/android/
 patch -p0 < $ROOT_DIR/meta/updater-script.patch
-( ( cat $ROOT_DIR/artwork/logo.txt ; echo $BLACKICE_VERSION ) |
+( ( cat $ROOT_DIR/artwork/logo.txt ; echo $BLACKICE_VERSION "-" $KERNEL_ID ) |
   awk '{ print "ui_print(\"" $0 "\");" }' ;
-  echo $KERNEL_ID ;
   cat updater-script ) \
   > updater-script.new
 mv updater-script.new updater-script
