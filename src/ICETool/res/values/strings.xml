@@ -68,77 +68,76 @@
     </string-array>
     
     <string-array name="gps_actions_array">
-    <item>gpsconf ARGENTINA.zip</item>
-    <item>gpsconf AUSTRALIA.zip</item>
-    <item>gpsconf AUSTRIA.zip</item>
-    <item>gpsconf BELARUS.zip</item>
-    <item>gpsconf BELGIUM.zip</item>
-    <item>gpsconf BOSNIA AND HERZEGOVINA.zip</item>
-    <item>gpsconf Brazil.zip</item>
-    <item>gpsconf BULGARIA.zip</item>
-    <item>gpsconf CAMBODIA.zip</item>
-    <item>gpsconf CANADA.zip</item>
-    <item>gpsconf CHINA.zip</item>
-    <item>gpsconf CROATIA.zip</item>
-    <item>gpsconf CZECH REPUBLIC.zip</item>
-    <item>gpsconf DENMARK.zip</item>
-    <item>gpsconf ESTONIA.zip</item>
-    <item>gpsconf FINLAND.zip</item>
-    <item>gpsconf FRANCE.zip</item>
-    <item>gpsconf GERMANY.zip</item>
-    <item>gpsconf GREECE.zip</item>
-    <item>gpsconf HONG KONG.zip</item>
-    <item>gpsconf HUNGARY.zip</item>
-    <item>gpsconf INDIA.zip</item>
-    <item>gpsconf INDONESIA.zip</item>
-    <item>gpsconf IRAN.zip</item>
-    <item>gpsconf IRELAND.zip</item>
-    <item>gpsconf ITALY.zip</item>
-    <item>gpsconf JAPAN.zip</item>
-    <item>gpsconf KOREA.zip</item>
-    <item>gpsconf KYRGYZSTAN.zip</item>
-    <item>gpsconf LATVIA.zip</item>
-    <item>gpsconf LITHUANIA.zip</item>
-    <item>gpsconf LUXEMBOURG.zip</item>
-    <item>gpsconf MACEDONIA.zip</item>
-    <item>gpsconf MALAYSIA.zip</item>
-    <item>gpsconf MEXICO.zip</item>
-    <item>gpsconf MOLDOVA.zip</item>
-    <item>gpsconf NETHERLANDS.zip</item>
-    <item>gpsconf NEW CALEDONIA.zip</item>
-    <item>gpsconf NEW ZEALAND.zip</item>
-    <item>gpsconf NORWAY.zip</item>
-    <item>gpsconf PANAMA.zip</item>
-    <item>gpsconf PHILIPPINES.zip</item>
-    <item>gpsconf POLAND.zip</item>
-    <item>gpsconf PORTUGAL.zip</item>
-    <item>gpsconf QATAR.zip</item>
-    <item>gpsconf REPUBLIC OF SERBIA.zip</item>
-    <item>gpsconf ROMANIA.zip</item>
-    <item>gpsconf RUSSIA.zip</item>
-    <item>gpsconf SINGAPORE.zip</item>
-    <item>gpsconf SLOVAKIA.zip</item>
-    <item>gpsconf SLOVENIA.zip</item>
-    <item>gpsconf SPAIN.zip</item>
-    <item>gpsconf SRI LANKA.zip</item>
-    <item>gpsconf SWEDEN.zip</item>
-    <item>gpsconf SWITZERLAND.zip</item>
-    <item>gpsconf TAIWAN.zip</item>
-    <item>gpsconf THAILAND.zip</item>
-    <item>gpsconf TURKEY.zip</item>
-    <item>gpsconf UKRAINE.zip</item>
-    <item>gpsconf UNITED KINGDOM.zip</item>
-    <item>gpsconf US.HAWAII.zip</item>
-    <item>gpsconf US.NESE.zip</item>
-    <item>gpsconf US.NorthEast.zip</item>
-    <item>gpsconf US.NorthMidState.zip</item>
-    <item>gpsconf US.NorthWest.zip</item>
-    <item>gpsconf US.SouthEast.zip</item>
-    <item>gpsconf US.SouthMidState.zip</item>
-    <item>gpsconf US.SouthWest.zip</item>
-    <item>gpsconf UZBEKISTAN.zip</item>
-    <item>gpsconf VIETNAM.zip</item>
-    <item>gpsconf YUGOSLAVIA.zip</item>    
+	<item>gpsconf "ARGENTINA"</item>
+    <item>gpsconf "AUSTRALIA"</item>
+    <item>gpsconf "AUSTRIA"</item>
+    <item>gpsconf "BELARUS"</item>
+    <item>gpsconf "BELGIUM"</item>
+    <item>gpsconf "BOSNIA AND HERZEGOVINA"</item>
+    <item>gpsconf "Brazil"</item>
+    <item>gpsconf "BULGARIA"</item>
+    <item>gpsconf "CAMBODIA"</item>
+    <item>gpsconf "CANADA"</item>
+    <item>gpsconf "CHINA"</item>
+    <item>gpsconf "CROATIA"</item>
+    <item>gpsconf "CZECH REPUBLIC"</item>
+    <item>gpsconf "DENMARK"</item>
+    <item>gpsconf "ESTONIA"</item>
+    <item>gpsconf "FINLAND"</item>
+    <item>gpsconf "FRANCE"</item>
+    <item>gpsconf "GERMANY"</item>
+    <item>gpsconf "GREECE"</item>
+    <item>gpsconf "HONG KONG"</item>
+    <item>gpsconf "HUNGARY"</item>
+    <item>gpsconf "INDIA"</item>
+    <item>gpsconf "INDONESIA"</item>
+    <item>gpsconf "IRAN"</item>
+    <item>gpsconf "IRELAND"</item>
+    <item>gpsconf "ITALY"</item>
+    <item>gpsconf "JAPAN"</item>
+    <item>gpsconf "KOREA"</item>
+    <item>gpsconf "KYRGYZSTAN"</item>
+    <item>gpsconf "LATVIA"</item>
+    <item>gpsconf "LITHUANIA"</item>
+    <item>gpsconf "LUXEMBOURG"</item>
+    <item>gpsconf "MACEDONIA"</item>
+    <item>gpsconf "MALAYSIA"</item>
+    <item>gpsconf "MEXICO"</item>
+    <item>gpsconf "MOLDOVA"</item>
+    <item>gpsconf "NETHERLANDS"</item>
+    <item>gpsconf "NEW CALEDONIA"</item>
+    <item>gpsconf "NEW ZEALAND"</item>
+    <item>gpsconf "NORWAY"</item>
+    <item>gpsconf "PANAMA"</item>
+    <item>gpsconf "PHILIPPINES"</item>
+    <item>gpsconf "POLAND"</item>
+    <item>gpsconf "PORTUGAL"</item>
+    <item>gpsconf "QATAR"</item>
+    <item>gpsconf "REPUBLIC OF SERBIA"</item>
+    <item>gpsconf "ROMANIA"</item>
+    <item>gpsconf "RUSSIA"</item>
+    <item>gpsconf "SINGAPORE"</item>
+    <item>gpsconf "SLOVAKIA"</item>
+    <item>gpsconf "SLOVENIA"</item>
+    <item>gpsconf "SPAIN"</item>
+    <item>gpsconf "SRI LANKA"</item>
+    <item>gpsconf "SWEDEN"</item>
+    <item>gpsconf "SWITZERLAND"</item>
+    <item>gpsconf "TAIWAN"</item>
+    <item>gpsconf "THAILAND"</item>
+    <item>gpsconf "TURKEY"</item>
+    <item>gpsconf "UKRAINE"</item>
+    <item>gpsconf "UNITED KINGDOM"</item>
+    <item>gpsconf "US.HAWAII"</item>
+    <item>gpsconf "US.NESE"</item>
+    <item>gpsconf "US.NorthEast"</item>
+    <item>gpsconf "US.NorthMidState"</item>
+    <item>gpsconf "US.NorthWest"</item>
+    <item>gpsconf "US.SouthEast"</item>
+    <item>gpsconf "US.SouthMidState"</item>
+    <item>gpsconf "US.SouthWest"</item>
+    <item>gpsconf "UZBEKISTAN"</item>
+    <item>gpsconf "VIETNAM"</item>
     </string-array>
     
     <string-array name="gps_descriptions_array">
