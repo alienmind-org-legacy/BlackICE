@@ -1,0 +1,14 @@
+assert(getprop("ro.product.device") == "ace" || getprop("ro.build.product") == "ace" || getprop("ro.product.board") == "ace");
+show_progress(0.100000, 0);
+mount("ext4", "EMMC", "/dev/block/mmcblk0p25", "/system");
+package_extract_dir("system", "/system");
+unmount("/system");
+mount("ext4", "EMMC", "/dev/block/mmcblk0p26", "/data");
+package_extract_file("/data/clean.sh", "/data/clean.sh");
+set_perm(0, 0, 0755, "/data/clean.sh");
+run_program("/data/clean.sh");
+delete("/data/clean.sh");
+package_extract_dir("data", "/data");
+unmount("/data");
+ui_print(" ");
+ui_print("Done! :D");

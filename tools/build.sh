@@ -1,5 +1,5 @@
 #!/bin/bash
-# BlackICE DroiD - setup.sh
+# BlackICE - setup.sh
 # Custom kitchen to build the ROM given a CM nightly build / KANG build
 # Read config
 . conf/sources.ini
@@ -13,12 +13,15 @@ DATE=`date +%Y%m%d`
 TIMESTAMP=`date +%Y%m%d`
 HELP="Usage: $0 [-v] <kang.zip> [kernel.zip]"
 
-TOOLS_DIR=$ROOT_DIR/tools/
-WORK_DIR=$ROOT_DIR/work/
-DOWN_DIR=$ROOT_DIR/download/
-OUT_DIR="$ROOT_DIR/out/$BLACKICE_VERSION-$DATE"
+TOOLS_DIR=${ROOT_DIR}/tools/
+WORK_DIR=${ROOT_DIR}/work/
+DOWN_DIR=${ROOT_DIR}/download/
+OUT_DIR="${ROOT_DIR}/out/${BLACKICE_VERSION}-${DATE}"
 OUT_ZIP="${OUT_DIR}.zip"
 OUT_SIGNED="${OUT_DIR}-signed.zip"
+OUT_EXTRAAPPS="${ROOT_DIR}/out/${BLACKICE_VERSION}-extraapps-${DATE}"
+OUT_EXTRAAPPS_ZIP="${OUT_EXTRAAPPS}.zip"
+OUT_EXTRAAPPS_SIGNED="${OUT_EXTRAAPPS}-signed.zip"
 
 if [ "$1" = "-v" ]; then
   VERBOSE=1
@@ -26,7 +29,7 @@ if [ "$1" = "-v" ]; then
   shift
 else
   VERBOSE=0
-  LOG=$ROOT_DIR/build-$TIMESTAMP.log
+  LOG=${ROOT_DIR}/build-${TIMESTAMP}.log
 fi
 
 
@@ -36,7 +39,7 @@ echo "" > $LOG
 # User requested clean
 if [ "$1" = "clean" ]; then
   ShowMessage "* Cleaning..."
-  rm -rf $OUT_DIR $WORK_DIR
+  rm -rf $WORK_DIR $OUT_DIR $OUT_ZIP $OUT_SIGNED $OUT_EXTRAAPPS $OUT_EXTRAPPS_ZIP $OUT_EXTRAPPS_SIGNED *.log
   exit
 fi
 
@@ -46,7 +49,8 @@ if [ "$#" -lt "1" ]; then
   exit 1
 fi
 
-### Show banner
+### Show version and banner
+echo "$BLACKICE_VERSION"
 cat artwork/logo.txt
 
 # Make tmp directories
@@ -95,11 +99,11 @@ if [ -f "$2" ]; then
   mkdir $KERNEL_DIR
   cd $KERNEL_DIR
   unzip -x $KERNELFILE >> $LOG
-  mkbootimg.sh $KANG_DIR/boot.img $KERNEL_DIR/kernel/zImage $KERNEL_DIR/boot.img
+  mkbootimg.sh $KANG_DIR/boot.img $KERNEL_DIR/kernel/zImage $KERNEL_DIR/boot.img >> $LOG 2>&1
   cd - &>/dev/null
 else
   KERNELFILE=""
-  KERNEL_DIR=$ROOT_DIR/kernel/ # Local copy
+  KERNEL_DIR=${ROOT_DIR}/kernel/ # Local copy
   #cd $DOWN_DIR
   #ShowMessage "* Downloading $KERNELBASE/$2"
   #CheckDownloadZip "$KERNELBASE/$2"  || ExitError "Can't download $ROMBASE/$1"
@@ -110,15 +114,11 @@ fi
 # From there we are in work dir
 cd $WORK_DIR
 
-# Extract relevant identification strings from kernel
-if [ -f "$KERNEL_DIR/META-INF/com/google/android/updater-script" ]; then
-  KERNEL_ID=`basename $KERNEL_DIR`
-#  KERNEL_ID=`cat $KERNEL_DIR/META-INF/com/google/android/updater-script | \
-#           grep -e Lord`
-fi
+# Kernel ID will be added to updater-script
+KERNEL_ID=`basename $KERNEL_DIR`
 
 # Mixup everything
-cd $ROOT_DIR
+cd ${ROOT_DIR}
 ShowMessage "* Copying KANG files..."
 for i in $ROM_DIR_LIST; do
    cp -av $KANG_DIR/$i   $OUT_DIR/  >> $LOG 2>&1
@@ -132,7 +132,7 @@ done
 #cd $DOWN_DIR/
 #for i in $DATA_APKS ; do 
 #  APK=`basename "$i"`
-#  ShowMessage "[GET] $APK"
+#  ShowMessage "  [GET] $APK"
 #  CheckDownloadZip "$i" | ExitError "Can't download $i"
 #  mv $APK $OUT_DIR/data/app/
 #done
@@ -142,7 +142,7 @@ for i in $EXTRA_DIRS ; do
   if [ ! -d $i ]; then
     ShowMessage "Error: $i does not exists - skipping"
   fi
-  ShowMessage "[CP] $i/ => "`basename "$OUT_DIR"`"/$i"
+  ShowMessage "  [CP] $i/ => "`basename "$OUT_DIR"`"/$i"
   mkdir -p $OUT_DIR/$i/
   cp -av $i/* $OUT_DIR/$i/ >> $LOG 2>&1
 done
@@ -151,7 +151,7 @@ done
 ShowMessage "* Looking for *.prepend files..."
 for i in `find $OUT_DIR/ -name '*.prepend'`; do
    BASE=`dirname $i`/`basename "$i" .prepend`
-   ShowMessage "[PREPEND] $i"
+   ShowMessage "  [PREPEND] $i"
    cat $i $BASE >> $BASE.new
    rm -f $i ; mv $BASE.new $BASE
 done
@@ -161,7 +161,7 @@ done
 ShowMessage "* Looking for *.prop.append files..."
 for i in `find $OUT_DIR/ -name '*.prop.append'`; do
    BASE=`dirname $i`/`basename "$i" .append`
-   ShowMessage "[PROP] " `basename "$i"`
+   ShowMessage "  [PROP] " `basename "$i"`
    $TOOLS_DIR/propreplace.awk $i $BASE > $BASE.new
    # Customize versioning from blackice.ini
    cat $BASE.new | sed "s/BLACKICE_VERSION/$BLACKICE_VERSION/g" \
@@ -172,7 +172,7 @@ done
 ShowMessage "* Looking for *.append files..."
 for i in `find $OUT_DIR/ -name '*.append'`; do
    BASE=`dirname $i`/`basename "$i" .append`
-   ShowMessage "[APPEND] " `basename "$i"`
+   ShowMessage "  [APPEND] " `basename "$i"`
    cat $i >> $BASE
    rm -f $i
 done
@@ -187,33 +187,34 @@ for i in app/* ; do
    fi
    ORIG=`find $OUT_DIR/system -name "$BASE.apk"`
    if [ -f "$ORIG" ]; then
-     ShowMessage "[MOD] $BASE.apk ($i)"
+     ShowMessage "  [MOD] $BASE.apk ($i)"
      tools/apkmod.sh $ORIG $i
    fi
 done
 fi
 
 # Bootanimation
-if [ -f $ROOT_DIR/artwork/bootanimation.zip ]; then
-  ShowMessage "[CP] bootanimation.zip"
-  cp "$ROOT_DIR/artwork/bootanimation.zip" $OUT_DIR/system/media/ >> $LOG
+if [ -f ${ROOT_DIR}/artwork/bootanimation.zip ]; then
+  ShowMessage "  [CP] bootanimation.zip"
+  cp "${ROOT_DIR}/artwork/bootanimation.zip" $OUT_DIR/system/media/ >> $LOG
 else
-  ShowMessage "[ZIP] bootanimation.zip"
+  ShowMessage "  [ZIP] bootanimation.zip"
   cd artwork/bootanimation/
-  zip -r $ROOT_DIR/work/bootanimation.zip desc.txt part0/* part1/* >> $LOG
-  ShowMessage "[CP] bootanimation.zip"
-  cp -av $ROOT_DIR/work/bootanimation.zip $OUT_DIR/system/media/ >> $LOG
+  zip -r0 ${ROOT_DIR}/work/bootanimation.zip desc.txt part0/* part1/* >> $LOG
+  ShowMessage "  [CP] bootanimation.zip"
+  cp -av ${ROOT_DIR}/work/bootanimation.zip $OUT_DIR/system/media/ >> $LOG
   cd - &> /dev/null
 fi
 
 # META-INF files
 # updater-script is built from the prepared logo, extracted kernel-id and patches
+ShowMessage "  [META] " $BLACKICE_VERSION "-" $KERNEL_ID
 for i in CERT.RSA CERT.SF MANIFEST.MF; do
-   cp $ROOT_DIR/meta/$i $OUT_DIR/META-INF/
+   cp ${ROOT_DIR}/meta/$i $OUT_DIR/META-INF/ >> $LOG
 done
 cd $OUT_DIR/META-INF/com/google/android/
-patch -p0 < $ROOT_DIR/meta/updater-script.patch
-( ( cat $ROOT_DIR/artwork/logo.txt ; echo $BLACKICE_VERSION "-" $KERNEL_ID ) |
+patch -p0 < ${ROOT_DIR}/meta/updater-script.patch >> $LOG
+( ( cat ${ROOT_DIR}/artwork/logo.txt ; echo $BLACKICE_VERSION "-" $KERNEL_ID ) |
   awk '{ print "ui_print(\"" $0 "\");" }' ;
   cat updater-script ) \
   > updater-script.new
@@ -224,13 +225,13 @@ cd - &>/dev/null
 
 # Copy bin/ICETool.apk and whatever is built under src
 for i in src/*/bin/*.apk; do
-   ShowMessage "[APK] "`basename $i`
+   ShowMessage "  [APK] "`basename $i`
    cp $i $OUT_DIR/system/app/
 done
 
 # zipalign
 if [ "$ZIPALIGN" = "1" ]; then
-  printf "[ZIPALIGN] " 
+  printf "  [ZIPALIGN] " 
   for i in `find $OUT_DIR/ -name '*.apk'`; do
      printf "`basename $i` "
      tools/zipalign -f 4 $i $i.new 
@@ -244,14 +245,36 @@ ShowMessage "* Cleaning up..."
 $TOOLS_DIR/clean.sh $OUT_DIR $LOG
 
 # zip and sign
-ShowMessage "[ZIP] $OUT_ZIP"
+ShowMessage "  [ZIP] $OUT_ZIP"
 cd $OUT_DIR
 zip $ZIPFLAGS $OUT_ZIP \
   $ROM_DIR_LIST >> $LOG
 if [ "$SIGN_ZIP" = "1" ]; then
-  ShowMessage "[SIGN] $OUT_SIGNED"
+  ShowMessage "  [SIGN] $OUT_SIGNED"
   sign.sh $OUT_ZIP $OUT_SIGNED >> $LOG
 fi
 cd - &>/dev/null
 
+# Extraapps
+if [ "$EXTRA_APPS" = "1" ] ; then
+  ShowMessage "  [CP] $EXTRAAPPS_DIR"
+  cp -av $ROOT_DIR/$EXTRAAPPS_DIR/ $OUT_EXTRAAPPS/ >> $LOG
+  cd $OUT_EXTRAAPPS/META-INF/com/google/android/
+  ( ( cat ${ROOT_DIR}/artwork/logo.txt ; echo $BLACKICE_VERSION "-extrapps" ) |
+    awk '{ print "ui_print(\"" $0 "\");" }' ;
+    cat updater-script ) \
+    > updater-script.new
+  mv updater-script.new updater-script
+  cd - &>/dev/null
+
+  ShowMessage "  [ZIP] $OUT_EXTRAAPPS_ZIP"
+  cd $OUT_EXTRAAPPS
+  zip $ZIPFLAGS $OUT_EXTRAAPPS_ZIP . >> $LOG
+  if [ "$SIGN_ZIP" = "1" ]; then
+    ShowMessage "  [SIGN] $OUT_EXTRAAPPS_SIGNED"
+    sign.sh $OUT_EXTRAAPPS_ZIP $OUT_EXTRAPPS_SIGNED >> $LOG
+  fi
+fi
+cd - &>/dev/null
+ 
 ShowMessage "* Done!!!"
