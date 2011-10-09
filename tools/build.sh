@@ -229,6 +229,15 @@ for i in src/*/bin/*.apk; do
    cp $i $OUT_DIR/system/app/
 done
 
+# Move possible packages to extraapps
+for i in $EXTRAAPPS_APK; do
+   if [ -f $OUT_DIR/$i ]; then
+     mkdir -p `dirname $OUT_EXTRAAPPS/$i`
+     ShowMessage "  [MV] " $i " => extra/$i"
+     mv $OUT_DIR/$i $OUT_EXTRAAPPS/$i
+   fi
+done
+
 # zipalign
 if [ "$ZIPALIGN" = "1" ]; then
   printf "  [ZIPALIGN] " 
@@ -258,7 +267,7 @@ cd - &>/dev/null
 # Extraapps
 if [ "$EXTRA_APPS" = "1" ] ; then
   ShowMessage "  [CP] $EXTRAAPPS_DIR"
-  cp -av $ROOT_DIR/$EXTRAAPPS_DIR/ $OUT_EXTRAAPPS/ >> $LOG
+  cp -av $ROOT_DIR/$EXTRAAPPS_DIR/* $OUT_EXTRAAPPS/ >> $LOG
   cd $OUT_EXTRAAPPS/META-INF/com/google/android/
   ( ( cat ${ROOT_DIR}/artwork/logo.txt ; echo $BLACKICE_VERSION "-extrapps" ) |
     awk '{ print "ui_print(\"" $0 "\");" }' ;
