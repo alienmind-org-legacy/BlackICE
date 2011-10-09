@@ -89,7 +89,6 @@ elif [ "$CMD" = "chargeenable" ]; then
 ###
 # market
 elif [ "$CMD" = "market" ]; then
-set -x
   VER=$2
   APK=/sdcard/market/Vending-${VER}.apk
   if [ -f $APK ]; then
@@ -100,20 +99,19 @@ set -x
     echo "Couldn't find Market version $VER" 
     exit 1
   fi
-set +x
 ###
 # gpsconf
 elif [ "$CMD" = "gpsconf" ]; then
-  ZIP=/sdcard/gpsconf/$2
-  if [ ! -f "$ZIP" ]; then
-    echo "Nonexistent $ZIP!!!"
+  GPSCONF=/sdcard/gpsconf/$2/gps.conf
+  if [ ! -f "$GPSCONF" ]; then
+    echo "Nonexistent $GPSCONF!!!"
   else
     Remount "rw"
     cd /
-    unzip -o $ZIP system/etc/gps.conf
+    cp -p $GPSCONF system/etc/gps.conf
     RET=$?
     if [ "$RET" != "0" ]; then
-      echo "Error extracting /system/etc/gps.conf from $ZIP"
+      echo "Error copying $GPSCONF => /system/etc/gps.conf"
     else
       echo "GPS configuration for $2 applied - open GPS Status and redownload AGPS data"
     fi
