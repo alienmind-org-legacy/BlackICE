@@ -1,0 +1,43 @@
+#!/system/bin/sh
+FILE=UDLauncher.apk
+MD5SUM=8ff77ee16373b5803683768d387db0e0
+URL="http://www39.multiupload.com:81/files/FA758A47A0503ABE90901F46DC214EF3E43B232C7E54D0B5DD28DDAC5666577D8B613ADBE38EAD2DA1FE4DF0A868EC4C450D4EE5CF99C572460F05420BCDEA04B8264F8FCA2FF9FDD58448DA0F53DB2C02/UDLauncher.apk"
+
+if [ ! -d /sdcard/tmp ]; then
+  MK=1
+  mkdir -p /sdcard/tmp
+fi
+cd /sdcard/tmp
+if [ -f "$FILE" ]; then
+  MD5=`md5sum $FILE | awk '{ print $1 }'`
+  if [ "$MD5" = "$MD5SUM" ]; then
+     GOOD=1
+  fi
+fi
+if [ "$GOOD" != "1" ]; then
+  rm -f "$FILE"
+  wget "$URL"
+  MD5=`md5sum $FILE | awk '{ print $1 }'`
+  if [ "$MD5" = "$MD5SUM" ]; then
+     GOOD=1
+  fi
+fi
+if [ "$GOOD" = "1" ]; then
+  mount -o remount,rw /system
+  cd /
+  cp $FILE /system/app/
+  chmod 644 /system/app/$FILE
+  mount -o remount,ro /system
+  cd - >/dev/null 2>&1
+  echo "Done!"
+else
+  echo "Failed to download / install $FILE"
+  exit 1
+fi
+# rm -f /sdcard/tmp/$FILE
+
+if [ "$MK" = "1" ]; then
+  rmdir /sdcard/tmp 
+fi
+
+

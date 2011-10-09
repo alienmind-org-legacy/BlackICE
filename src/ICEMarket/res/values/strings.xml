@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_full_name">ICEMarket v0.5 by ProjectX Team</string>
+    <string name="app_name">ICEMarket</string>
+    <string name="app_version">v0.5</string>
+    <string name="app_author">ProjectX Team</string>
+        
+    <string-array name="apps_array">
+		<item>market 2.3.6</item>
+		<item>market 3.1.7</item>		
+        <item>install udlauncher</item>
+		<item>swypeme</item>
+        <item>clearconsole</item>
+    </string-array>
+    
+    <string-array name="descriptions_array">
+		<item>Install and run Market v2.3.6</item>
+		<item>Install and run Market v3.1.7</item>
+        <item>Install UDLauncher (dark)</item>		
+        <item>Install Nexus S Swype (black)</item>
+        <item>Clear console window</item>
+    </string-array>
+    
+    <string-array name="dpi_array">
+		<item>density 240</item>
+		<item>density 200</item>		
+		<item>density 190</item>		
+    </string-array>
+    
+    <string-array name="dpi_descriptions_array">
+        <item>Switch density to 240 (Paradoxxx style - CM default)</item>		
+        <item>Switch density to 200 (Alien style)</item>
+        <item>Switch density to 190 (Lord style)</item>        
+    </string-array>    
+    
+</resources>
