@@ -1,43 +1,62 @@
 #!/system/bin/sh
-FILE=UDLauncher.apk
+set -x
+UDLAUNCHER=UDLauncher.apk
+ADWLAUNCHER=ADWLauncher.apk
+
+# For UDLauncher - not included
 MD5SUM=8ff77ee16373b5803683768d387db0e0
-URL="http://www39.multiupload.com:81/files/FA758A47A0503ABE90901F46DC214EF3E43B232C7E54D0B5DD28DDAC5666577D8B613ADBE38EAD2DA1FE4DF0A868EC4C450D4EE5CF99C572460F05420BCDEA04B8264F8FCA2FF9FDD58448DA0F53DB2C02/UDLauncher.apk"
-
-if [ ! -d /sdcard/tmp ]; then
+URL="http://www39.multiupload.com:81/files/1FE7531028F0CC22AC7131A1923D14646FC70D171FB7AC2108A612C1D2BB0F5DD5AB3959F273D7F6904E357B21599976BB1B117E88208270FA6999A0077DD9C9AE13B90A0A9079E39C7514518A8F1D76F9/UDLauncher.apk"
+if [ ! -d /sdcard/blackice ]; then
   MK=1
-  mkdir -p /sdcard/tmp
+  mkdir -p /sdcard/blackice
 fi
-cd /sdcard/tmp
-if [ -f "$FILE" ]; then
-  MD5=`md5sum $FILE | awk '{ print $1 }'`
-  if [ "$MD5" = "$MD5SUM" ]; then
-     GOOD=1
-  fi
-fi
-if [ "$GOOD" != "1" ]; then
-  rm -f "$FILE"
-  wget "$URL"
-  MD5=`md5sum $FILE | awk '{ print $1 }'`
-  if [ "$MD5" = "$MD5SUM" ]; then
-     GOOD=1
-  fi
-fi
-if [ "$GOOD" = "1" ]; then
-  mount -o remount,rw /system
-  cd /
-  cp $FILE /system/app/
-  chmod 644 /system/app/$FILE
-  mount -o remount,ro /system
-  cd - >/dev/null 2>&1
-  echo "Done!"
-else
-  echo "Failed to download / install $FILE"
-  exit 1
-fi
-# rm -f /sdcard/tmp/$FILE
+cd /sdcard/blackice
 
-if [ "$MK" = "1" ]; then
-  rmdir /sdcard/tmp 
-fi
+# 1) switchlauncher udlauncher
+if [ "$1" = "udlauncher" ]; then
+  if [ -f "$UDLAUNCHER" ]; then
+    MD5=`md5sum $UDLAUNCHER | awk '{ print $1 }'`
+    if [ "$MD5" = "$MD5SUM" ]; then
+       GOOD=1
+    fi
+  fi
+  if [ "$GOOD" != "1" ]; then
+    rm -f "$UDLAUNCHER"
+    wget "$URL"
+    MD5=`md5sum $UDLAUNCHER | awk '{ print $1 }'`
+    if [ "$MD5" = "$MD5SUM" ]; then
+       GOOD=1
+    fi
+  fi
+  if [ "$GOOD" = "1" ]; then
+    mount -o remount,rw /system
+    cd /
+    mv /system/app/ADWLauncher.apk /sdcard/blackice/
+    cp /sdcard/blackice/$UDLAUNCHER /system/app/
+    chmod 644 /system/app/$UDLAUNCHER
+    mount -o remount,ro /system
+    cd - >/dev/null 2>&1
+    echo "Done!"
+  else
+    echo "Failed to download / install $UDLAUNCHER"
+    exit 1
+  fi
+  # rm -f /sdcard/blackice/$UDLAUNCHER
 
+# 2) switchlauncher adwlauncher
+elif [ "$1" = "adwlauncher" ]; then
+  if [ -f "$ADWLAUNCHER" ]; then
+    mount -o remount,rw /system
+    cd /
+    mv /system/app/$UDLAUNCHER /sdcard/blackice/
+    cp /sdcard/blackice/$ADWLAUNCHER /system/app/
+    chmod 644 /system/app/$ADWLAUNCHER
+    mount -o remount,ro /system
+    cd - >/dev/null 2>&1
+    echo "Done!"
+  else
+    echo "Nonexistent /sdcard/blackice/$ADWLAUNCHER"
+  fi
+
+fi
 

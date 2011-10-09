@@ -43,12 +43,6 @@
         <item>fastchargeoff</item>
 		<item>chargedisable</item>
 		<item>chargeenable</item>
-		<item>market 2.3.6</item>
-		<item>market 3.1.7</item>
-		<item>density 240</item>
-		<item>density 200</item>		
-		<item>density 190</item>		
-        <item>swypeme</item>
         <item>clearconsole</item>        
     </string-array>
     <string-array name="extra_descriptions_array">
@@ -58,12 +52,6 @@
     	<item>Disable high power charging</item>
 		<item>Disable USB charging - for battery benchmarks while plugged</item>
 		<item>Enable USB charging</item>
-		<item>Install and run Market v2.3.6</item>
-		<item>Install and run Market v3.1.7</item>
-        <item>Switch density to 240 (CM default)</item>		
-        <item>Switch density to 200 (Alien style)</item>
-        <item>Switch density to 190 (Lord style)</item>        
-        <item>Install Nexus S Swype</item>
         <item>Clear console window</item>
     </string-array>
     

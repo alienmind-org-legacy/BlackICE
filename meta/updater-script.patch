@@ -1,5 +1,5 @@
 --- updater-script	2008-02-29 03:33:46.000000000 +0100
-+++ updater-script	2011-10-09 08:54:38.137089495 +0200
++++ updater-script	2011-10-09 17:05:21.547045061 +0200
 @@ -5,6 +5,14 @@
  show_progress(0.500000, 0);
  format("ext4", "EMMC", "/dev/block/mmcblk0p25");
@@ -15,7 +15,7 @@
  package_extract_dir("recovery", "/system");
  package_extract_dir("system", "/system");
  symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
-@@ -139,4 +147,28 @@
+@@ -139,4 +147,29 @@
  show_progress(0.200000, 10);
  package_extract_file("boot.img", "/dev/block/mmcblk0p22");
  show_progress(0.100000, 0);
@@ -37,10 +37,11 @@
 +set_perm(0, 0, 0755, "/system/bin/uvoff");
 +set_perm(0, 0, 0755, "/system/bin/icetool");
 +set_perm(0, 0, 0755, "/system/bin/swypeme");
++set_perm(0, 0, 0755, "/system/bin/switchlauncher");
 +set_perm(0, 0, 0644, "/system/app/ICETool.apk");
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/media/uvscripts");
-+run_program("/sdcard/setup/post.sh");
-+delete("/sdcard/setup/pre.sh");
-+delete("/sdcard/setup/post.sh");
++run_program("/system/setup/post.sh");
++delete("/system/setup/pre.sh");
++delete("/system/setup/post.sh");
 +unmount("/data");
  unmount("/system");
