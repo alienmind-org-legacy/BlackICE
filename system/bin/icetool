@@ -102,13 +102,13 @@ elif [ "$CMD" = "market" ]; then
 ###
 # gpsconf
 elif [ "$CMD" = "gpsconf" ]; then
-  GPSCONF=/sdcard/gpsconf/$2/gps.conf
+  GPSCONF="/sdcard/gpsconf/$2/gps.conf"
   if [ ! -f "$GPSCONF" ]; then
     echo "Nonexistent $GPSCONF!!!"
   else
     Remount "rw"
     cd /
-    cp -p $GPSCONF system/etc/gps.conf
+    cp -p "$GPSCONF" system/etc/gps.conf
     RET=$?
     if [ "$RET" != "0" ]; then
       echo "Error copying $GPSCONF => /system/etc/gps.conf"
