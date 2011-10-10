@@ -1,6 +1,5 @@
 #!/system/bin/sh
 
-# Copy default market from sdcard/market
-# Default is older
-cp /sdcard/market/Vending-2.3.6.apk /system/app/Vending.apk
-chmod 644 /system/app/Vending.apk
+# Copy default market (older) to sdcard/market
+# So icetool finds there
+cp /system/app/Vending.apk /sdcard/market/Vending-2.3.6.apk
