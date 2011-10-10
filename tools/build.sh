@@ -72,8 +72,9 @@ elif [ -f "$DOWN_DIR/$1" ]; then
   ROMFILE=$DOWN_DIR/$1
 else
   cd $DOWN_DIR
-  ShowMessage "* Downloading $ROMBASE/$1"
-  CheckDownloadZip "$ROMBASE/$1" || ExitError "Can't download $ROMBASE/$1"
+  ROMSRC=$ROMBASE/`basename $1`
+  ShowMessage "* Downloading $ROMSRC"
+  CheckDownloadZip "$ROMSRC" || ExitError "Can't download $ROMSRC"
   ROMFILE=$DOWN_DIR/$1
   cd - &>/dev/null
 fi
@@ -82,13 +83,12 @@ if [ -f "$2" ]; then
 elif [ -f "$DOWN_DIR/$2" ]; then
   KERNELFILE=$DOWN_DIR/$2
 else
-  ShowMessage "[ERROR] Couldn't find $2 nor $KERNELBASE/$2"
-  exit 2
-#  cd $DOWN_DIR
-#  ShowMessage "* Downloading $KERNELBASE/$2"
-#  CheckDownloadZip "$KERNELBASE/$2" || ExitError "Can't download $KERNELBASE/$2"
-#  KERNELFILE=$DOWN_DIR/$2
-#  cd - &>/dev/null
+  cd $DOWN_DIR
+  KERNELSRC=$KERNELBASE/`basename $2`
+  ShowMessage "* Downloading $KERNELSRC"
+  CheckDownloadZip "$KERNELSRC" || ExitError "Can't download $KERNELSRC"
+  KERNELFILE=$DOWN_DIR/$2
+  cd - &>/dev/null
 fi
 
 # Fix relative path
@@ -129,16 +129,23 @@ ShowMessage "* Copying KERNEL files..."
 for i in $KERNEL_DIR_LIST; do
   cp -av $KERNEL_DIR/$i $OUT_DIR/  >> $LOG 2>&1
 done
-#ShowMessage "* Downloading extra APKs..."
-#mkdir -p $OUT_DIR/data/app/
-#cd $DOWN_DIR/
-#for i in $DATA_APKS ; do 
-#  APK=`basename "$i"`
-#  ShowMessage "  [GET] $APK"
-#  CheckDownloadZip "$i" | ExitError "Can't download $i"
-#  mv $APK $OUT_DIR/data/app/
-#done
-#cd - &>/dev/null
+ShowMessage "* Downloading data APKs..."
+mkdir -p $OUT_DIR/data/app/
+cd $DOWN_DIR/
+for i in $DATA_APKS ; do 
+  APK=`basename "$i"`
+  CheckDownloadZip "$i" || ExitError "Can't download $i"
+  cp $APK $OUT_DIR/data/app/
+done
+ShowMessage "* Downloading extra APKs..."
+mkdir -p $OUT_EXTRAAPPS/data/app/
+for i in $EXTRA_APKS ; do 
+  APK=`basename "$i"`
+  CheckDownloadZip "$i" || ExitError "Can't download $i"
+  cp $APK $OUT_EXTRAAPPS/data/app/
+done
+cd - &>/dev/null
+
 ShowMessage "* Copying custom extra directories..."
 for i in $EXTRA_DIRS ; do 
   if [ ! -d $i ]; then
