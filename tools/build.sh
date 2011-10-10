@@ -6,12 +6,12 @@
 . conf/blackice.ini
 . tools/util_sh
 
-KANG_DIR=$1
-KERNEL_DIR=$2
+KANG_ZIP=$1
+KERNEL_ZIP=$2
 
 DATE=`date +%Y%m%d`
 TIMESTAMP=`date +%Y%m%d`
-HELP="Usage: $0 [-v] <kang.zip> [kernel.zip]"
+HELP="Usage: $0 [-v] <kang.zip> <kernel.zip>"
 
 TOOLS_DIR=${ROOT_DIR}/tools/
 WORK_DIR=${ROOT_DIR}/work/
@@ -43,8 +43,8 @@ if [ "$1" = "clean" ]; then
   exit
 fi
 
-# No args
-if [ "$#" -lt "1" ]; then
+# Bad args
+if [ "$#" -lt "2" ]; then
   ShowMessage "$HELP"
   exit 1
 fi
@@ -77,6 +77,19 @@ else
   ROMFILE=$DOWN_DIR/$1
   cd - &>/dev/null
 fi
+if [ -f "$2" ]; then
+  KERNELFILE=$2
+elif [ -f "$DOWN_DIR/$2" ]; then
+  KERNELFILE=$DOWN_DIR/$2
+else
+  ShowMessage "[ERROR] Couldn't find $2 nor $KERNELBASE/$2"
+  exit 2
+#  cd $DOWN_DIR
+#  ShowMessage "* Downloading $KERNELBASE/$2"
+#  CheckDownloadZip "$KERNELBASE/$2" || ExitError "Can't download $KERNELBASE/$2"
+#  KERNELFILE=$DOWN_DIR/$2
+#  cd - &>/dev/null
+fi
 
 # Fix relative path
 ROMFILE=`FixPath $ROMFILE`
@@ -89,27 +102,16 @@ mkdir $KANG_DIR ; cd $KANG_DIR
 unzip -x $ROMFILE >> $LOG
 cd - &>/dev/null
 
-# Unpack kernel zip and convert zImage to boot.img if provided
-if [ -f "$2" ]; then
-  KERNELFILE=$2
-  KERNELFILE=`FixPath $KERNELFILE`
-  ShowMessage "* Unpacking KERNEL ..."
-  KERNEL_DIR=$WORK_DIR/`basename "$KERNELFILE" .zip`
-  rm -rf $KERNEL_DIR
-  mkdir $KERNEL_DIR
-  cd $KERNEL_DIR
-  unzip -x $KERNELFILE >> $LOG
-  mkbootimg.sh $KANG_DIR/boot.img $KERNEL_DIR/kernel/zImage $KERNEL_DIR/boot.img >> $LOG 2>&1
-  cd - &>/dev/null
-else
-  KERNELFILE=""
-  KERNEL_DIR=${ROOT_DIR}/kernel/ # Local copy
-  #cd $DOWN_DIR
-  #ShowMessage "* Downloading $KERNELBASE/$2"
-  #CheckDownloadZip "$KERNELBASE/$2"  || ExitError "Can't download $ROMBASE/$1"
-  #KERNELFILE=$DOWN_DIR/$2
-  #cd - &>/dev/null
-fi
+# Unpack kernel zip and convert zImage to boot.img 
+KERNELFILE=`FixPath $KERNELFILE`
+ShowMessage "* Unpacking KERNEL ..."
+KERNEL_DIR=$WORK_DIR/`basename "$KERNELFILE" .zip`
+rm -rf $KERNEL_DIR
+mkdir $KERNEL_DIR
+cd $KERNEL_DIR
+unzip -x $KERNELFILE >> $LOG
+mkbootimg.sh $KANG_DIR/boot.img $KERNEL_DIR/kernel/zImage $KERNEL_DIR/boot.img >> $LOG 2>&1
+cd - &>/dev/null
 
 # From there we are in work dir
 cd $WORK_DIR
