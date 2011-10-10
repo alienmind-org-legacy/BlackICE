@@ -12,8 +12,9 @@ import android.widget.TextView;
 public class ICEMarket extends TabActivity {
 	TextView   consoleView = null;
 	
-	public static final int TAB_APPS = 0;			
-	public static final int TAB_CONSOLE = 1;	
+	public static final int TAB_APPS    = 0;			
+	public static final int TAB_DPI     = 1;
+	public static final int TAB_CONSOLE = 2;	
 		
 	/// Singleton //////////////////////////////////////////
     private static ICEMarket INSTANCE = null;     
@@ -48,6 +49,13 @@ public class ICEMarket extends TabActivity {
 	    intent = new Intent().setClass(this, AppsActivity.class);	    
 	    spec = tabHost.newTabSpec("actions").setIndicator("Apps",
 	                      res.getDrawable(R.drawable.ic_tab_apps))
+	                  .setContent(intent);
+	    tabHost.addTab(spec);
+
+	    // Actions tab
+	    intent = new Intent().setClass(this, DPIActivity.class);	    
+	    spec = tabHost.newTabSpec("dpi").setIndicator("DPI",
+	                      res.getDrawable(R.drawable.ic_tab_dpi))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
 	    

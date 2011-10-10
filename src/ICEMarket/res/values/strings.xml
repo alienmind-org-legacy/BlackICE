@@ -30,9 +30,9 @@
     </string-array>
     
     <string-array name="dpi_descriptions_array">
-        <item>Switch density to 240 (Paradoxxx style - CM default)</item>		
-        <item>Switch density to 200 (Alien style)</item>
-        <item>Switch density to 190 (Lord style)</item>        
+        <item>[REBOOT] Switch density to 240 (Paradoxxx style)</item>		
+        <item>[REBOOT] Switch density to 200 (Alien style)</item>
+        <item>[REBOOT] Switch density to 190 (Lord style)</item>        
     </string-array>    
     
 </resources>
