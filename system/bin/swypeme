@@ -1,7 +1,7 @@
 #!/system/bin/sh
 FILE=nexussswype.tgz
 MD5SUM=cf933c0e76022bfc16d9e00df9a0c3d0
-URL="http://www23.multiupload.com:81/files/22AD835CB51AF618394B0E514475445660338CFFB70A900DEC5CE42CD88ECF37537BC96BF67B0E8499EED01B17DEE761E13E162A0CA26315BF070BCFA0D43A2825EF3D9A3ABDD1BDF6BDFD39D9159496A4/nexussswype.tgz"
+URL="http://www.losinj.com/blackice/nexussswype.tgz"
 if [ ! -d /sdcard/blackice ]; then
   MK=1
   mkdir -p /sdcard/blackice

@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+v0.92 - Moved animated wallpapers, themes to extrapackages. Removed RomManager.
 v0.91 - Modded CMWallpapers and framework-res with default background. Launcher switching
 v0.90 - ICEMarket and ICETool (splitted in two).
 v0.80 - New bootanim

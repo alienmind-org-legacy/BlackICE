@@ -5,7 +5,7 @@ ADWLAUNCHER=ADWLauncher.apk
 
 # For UDLauncher - not included
 MD5SUM=8ff77ee16373b5803683768d387db0e0
-URL="http://www39.multiupload.com:81/files/1FE7531028F0CC22AC7131A1923D14646FC70D171FB7AC2108A612C1D2BB0F5DD5AB3959F273D7F6904E357B21599976BB1B117E88208270FA6999A0077DD9C9AE13B90A0A9079E39C7514518A8F1D76F9/UDLauncher.apk"
+URL="http://www.losinj.com/blackice/UDLauncher.apk"
 if [ ! -d /sdcard/blackice ]; then
   MK=1
   mkdir -p /sdcard/blackice
