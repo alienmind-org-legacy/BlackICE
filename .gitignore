@@ -1,0 +1,11 @@
+download/
+out/
+src/ICEMarket/bin/classes.dex
+src/ICEMarket/bin/org/
+src/ICEMarket/bin/resources.ap_
+src/ICETool/bin/classes.dex
+src/ICETool/bin/org/
+src/ICETool/bin/resources.ap_
+tmp/
+tools/apkmanager/
+work/
