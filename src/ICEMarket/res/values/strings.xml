@@ -8,8 +8,8 @@
     <string-array name="apps_array">
 		<item>market 2.3.6</item>
 		<item>market 3.1.7</item>		
-        <item>switchlauncher udlauncher</item>
-        <item>switchlauncher adwlauncher</item>        
+        <item>switchlauncher adwlauncher</item>
+		<item>switchlauncher udlauncher</item>
 		<item>swypeme</item>
         <item>clearconsole</item>
     </string-array>

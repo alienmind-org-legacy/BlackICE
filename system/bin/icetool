@@ -94,7 +94,7 @@ elif [ "$CMD" = "market" ]; then
   if [ -f $APK ]; then
     InstallMarket $APK
     LaunchMarket
-    echo "Market reverted to new version"
+    echo "Market $VER version installed"
   else
     echo "Couldn't find Market version $VER" 
     exit 1
