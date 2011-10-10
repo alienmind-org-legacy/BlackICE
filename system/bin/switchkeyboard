@@ -1,7 +1,13 @@
 #!/system/bin/sh
-FILE=nexussswype.tgz
-MD5SUM=cf933c0e76022bfc16d9e00df9a0c3d0
-URL="http://www.losinj.com/blackice/nexussswype.tgz"
+if [ "$1" = "nexussswype" ]; then
+  FILE=nexussswype.tgz
+  MD5SUM=cf933c0e76022bfc16d9e00df9a0c3d0
+  URL="http://www.losinj.com/blackice/nexussswype.tgz"
+elif [ "$1" = "htcime" ]; then
+  FILE=htcime.tgz
+  MD5SUM=4f46cc059c890db70b324816e8722775
+  URL="http://www.losinj.com/blackice/htcime.tgz"
+fi
 if [ ! -d /sdcard/blackice ]; then
   MK=1
   mkdir -p /sdcard/blackice
@@ -25,13 +31,13 @@ if [ "$GOOD" = "1" ]; then
   mount -o remount,rw /system
   cd /
   tar -xzvf "/sdcard/blackice/$FILE"
-  chmod 644 /system/lib/libSwype*.so
-  chmod 644 /system/app/Swype.apk
+  chmod 644 /system/lib/lib*.so
+  chmod 644 /system/app/*.apk
   mount -o remount,ro /system
   cd - >/dev/null 2>&1
-  echo "Done! Please reboot and choose Input Method -> Swype"
+  echo "Done! Please choose new Input Method"
 else
-  echo "Failed to download / uncompress Swype package"
+  echo "Failed to download / uncompress input method package"
   exit 1
 fi
 # rm -f /sdcard/blackice/$FILE
