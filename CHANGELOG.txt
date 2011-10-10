@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+v0.93 - HTC_IME and Swype both installable via update or extraapps. New entries: DPI / HTC_IME on ICEMarket
 v0.92 - Moved animated wallpapers, themes to extrapackages. Removed RomManager.
 v0.91 - Modded CMWallpapers and framework-res with default background. Launcher switching
 v0.90 - ICEMarket and ICETool (splitted in two).
