@@ -1,11 +1,4 @@
 #!/system/bin/sh
-set -x
-UDLAUNCHER=UDLauncher.apk
-ADWLAUNCHER=ADWLauncher.apk
-
-# For UDLauncher - not included
-MD5SUM=8ff77ee16373b5803683768d387db0e0
-URL="http://www.losinj.com/blackice/UDLauncher.apk"
 if [ ! -d /sdcard/blackice ]; then
   MK=1
   mkdir -p /sdcard/blackice
@@ -14,49 +7,44 @@ cd /sdcard/blackice
 
 # 1) switchlauncher udlauncher
 if [ "$1" = "udlauncher" ]; then
-  if [ -f "$UDLAUNCHER" ]; then
-    MD5=`md5sum $UDLAUNCHER | awk '{ print $1 }'`
-    if [ "$MD5" = "$MD5SUM" ]; then
-       GOOD=1
-    fi
-  fi
-  if [ "$GOOD" != "1" ]; then
-    rm -f "$UDLAUNCHER"
-    wget "$URL"
-    MD5=`md5sum $UDLAUNCHER | awk '{ print $1 }'`
-    if [ "$MD5" = "$MD5SUM" ]; then
-       GOOD=1
-    fi
-  fi
-  if [ "$GOOD" = "1" ]; then
-    mount -o remount,rw /system
-    cd /
-    mv /system/app/ADWLauncher.apk /sdcard/blackice/
-    cp /sdcard/blackice/$UDLAUNCHER /system/app/
-    chmod 644 /system/app/$UDLAUNCHER
-    mount -o remount,ro /system
-    cd - >/dev/null 2>&1
-    echo "Done!"
-  else
-    echo "Failed to download / install $UDLAUNCHER"
-    exit 1
-  fi
-  # rm -f /sdcard/blackice/$UDLAUNCHER
+  APK=UDLauncher.apk
+  OLDAPK=ADWLauncher.apk
+  MD5SUM=8ff77ee16373b5803683768d387db0e0
+  URL="http://www.losinj.com/blackice/UDLauncher.apk"
 
 # 2) switchlauncher adwlauncher
 elif [ "$1" = "adwlauncher" ]; then
-  if [ -f "$ADWLAUNCHER" ]; then
-    mount -o remount,rw /system
-    cd /
-    mv /system/app/$UDLAUNCHER /sdcard/blackice/
-    cp /sdcard/blackice/$ADWLAUNCHER /system/app/
-    chmod 644 /system/app/$ADWLAUNCHER
-    mount -o remount,ro /system
-    cd - >/dev/null 2>&1
-    echo "Done!"
-  else
-    echo "Nonexistent /sdcard/blackice/$ADWLAUNCHER"
-  fi
+  APK=ADWLauncher.apk
+  OLDAPK=UDLauncher.apk
+  MD5SUM=f7ce8f2047406648ca225a3bb7d8936f
+  URL="http://www.losinj.com/blackice/ADWLauncher.apk"
 
 fi
 
+if [ -f "$APK" ]; then
+  MD5SUM=`md5sum $APK | awk '{ print $1 }'`
+  if [ "$MD5" = "$MD5SUM" ]; then
+     GOOD=1
+  fi
+fi
+if [ "$GOOD" != "1" ]; then
+  rm -f "$APK"
+  wget "$URL"
+  MD5=`md5sum $APK | awk '{ print $1 }'`
+  if [ "$MD5" = "$MD5SUM" ]; then
+     GOOD=1
+  fi
+fi
+if [ "$GOOD" = "1" ]; then
+  mount -o remount,rw /system
+  cd /
+  mv /system/app/$OLDAPK /sdcard/blackice/
+  cp /sdcard/blackice/$APK /system/app/
+  chmod 644 /system/app/$APK
+  mount -o remount,ro /system
+  cd - >/dev/null 2>&1
+  echo "Done!"
+else
+  echo "Failed to download / install $APK"
+  exit 1
+fi
