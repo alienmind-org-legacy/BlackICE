@@ -7,7 +7,7 @@
         
     <string-array name="apps_array">
 		<item>market 2.3.6</item>
-		<item>market 3.1.7</item>		
+		<item>market 3.2.0</item>		
         <item>switchlauncher adwlauncher</item>
 		<item>switchlauncher udlauncher</item>
 		<item>switchkeyboard nexsussswype</item>
@@ -17,7 +17,7 @@
     
     <string-array name="descriptions_array">
 		<item>Install and run Market v2.3.6</item>
-		<item>Install and run Market v3.1.7</item>
+		<item>Install and run Market v3.2.0</item>
         <item>Install ADWLauncher (colored)</item>		
         <item>Install UDLauncher (black)</item>		
         <item>Install Nexus S Swype Keyboard (black)</item>
