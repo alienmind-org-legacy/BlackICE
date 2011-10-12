@@ -32,9 +32,13 @@ Reboot() {
 
 InstallMarket() {
   local APK=$1
+  local VER=${APK##Vending-} 
   Remount "rw"
   pm uninstall com.android.vending
   rm -f /data/app/com.android.vending*apk
+  if [ "$VER" != "2.3.4.apk" ]; then  # Backup
+    cp /system/app/Vending.apk /sdcard/blackice/market/Vending-2.3.4.apk
+  fi
   cp $APK /system/app/Vending.apk
   chmod 644 /system/app/Vending.apk
   pm install $APK
@@ -92,8 +96,8 @@ elif [ "$CMD" = "market" ]; then
   VER=$2
   APK=/sdcard/blackice/market/Vending-${VER}.apk
   if [ -f $APK ]; then
-    InstallMarket $APK
-    LaunchMarket
+    InstallMarket $APK &>/dev/null
+    LaunchMarket &>/dev/null
     echo "Market $VER version installed"
   else
     echo "Couldn't find Market version $VER" 
