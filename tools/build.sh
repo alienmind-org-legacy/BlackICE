@@ -240,10 +240,14 @@ done
 
 # Move possible packages to extraapps
 for i in $EXTRAAPPS_APK; do
-   if [ -f $OUT_DIR/$i ]; then
-     mkdir -p `dirname $OUT_EXTRAAPPS/$i`
-     ShowMessage "  [MV] " $i " => extra/$i"
-     mv $OUT_DIR/$i $OUT_EXTRAAPPS/$i
+   # It could have a :* part with destinatino
+   SRC=${i%\:*}
+   DST=${i##*:}
+   DST=$OUT_EXTRAAPPS/$DST
+   if [ -f $OUT_DIR/$SRC ]; then
+     mkdir -p `dirname $DST`
+     ShowMessage "  [MV] " $i " => $DST"
+     mv $OUT_DIR/$SRC $DST
    fi
 done
 

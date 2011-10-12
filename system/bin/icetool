@@ -90,7 +90,7 @@ elif [ "$CMD" = "chargeenable" ]; then
 # market
 elif [ "$CMD" = "market" ]; then
   VER=$2
-  APK=/sdcard/market/Vending-${VER}.apk
+  APK=/sdcard/blackice/market/Vending-${VER}.apk
   if [ -f $APK ]; then
     InstallMarket $APK
     LaunchMarket
@@ -103,7 +103,7 @@ elif [ "$CMD" = "market" ]; then
 # gpsconf
 elif [ "$CMD" = "gpsconf" ]; then
   shift
-  GPSCONF="/sdcard/gpsconf/$@/gps.conf"
+  GPSCONF="/sdcard/blackice/gpsconf/$@/gps.conf"
   if [ ! -f "$GPSCONF" ]; then
     echo "Nonexistent $GPSCONF!!!"
   else
@@ -128,7 +128,7 @@ elif [ "$CMD" = "dspinit" ]; then
 ###
 # ril
 elif [ "$CMD" = "ril" ]; then
-  DIR=/sdcard/ril/$2
+  DIR=/sdcard/blackice/ril/$2
   if [ -d "$DIR" ]; then
     printf "RIL before patch: "
     getprop | grep RIL
@@ -151,6 +151,19 @@ elif [ "$CMD" = "density" ]; then
   chmod 644 /system/build.prop
   Remount "ro"
   Reboot 5
+
+###
+# Cleanup - for older version directories, etc
+# This wouldn't be on ICETool app, it is on users's risk
+elif [ "$CMD" = "cleanup" ]; then
+  echo "Removing old BlackICE packages from sdcard..."
+  for i in /sdcard/market/  \
+           /sdcard/gpsconf/ \
+           /sdcard/ril/ \
+           /sdcard/ ; do
+     rm -rf $i
+     echo " [ $i ] Removed"
+  done
        
 ### Any other command - we are a wrapper
 else
