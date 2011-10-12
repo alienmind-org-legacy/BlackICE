@@ -160,7 +160,7 @@ elif [ "$CMD" = "cleanup" ]; then
   for i in /sdcard/market/  \
            /sdcard/gpsconf/ \
            /sdcard/ril/ \
-           /sdcard/ ; do
+           ; do
      rm -rf $i
      echo " [ $i ] Removed"
   done
