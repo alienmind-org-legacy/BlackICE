@@ -11,17 +11,18 @@
 +run_program("/system/setup/pre.sh");
 +package_extract_dir("data", "/data");
 +package_extract_dir("resetuv", "/sdcard/resetuv");
-+package_extract_dir("gpsconf", "/sdcard/gpsconf");
++package_extract_dir("gpsconf", "/sdcard/blackice/gpsconf");
  package_extract_dir("recovery", "/system");
  package_extract_dir("system", "/system");
  symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
-@@ -139,4 +147,35 @@
+@@ -139,4 +147,36 @@
  show_progress(0.200000, 10);
  package_extract_file("boot.img", "/dev/block/mmcblk0p22");
  show_progress(0.100000, 0);
 +package_extract_dir("sdcard", "/sdcard");
 +show_progress(0.100000, 0);
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/etc/init.d");
++set_perm(0, 0, 0644, "/system/etc/SuplRootCert");
 +set_perm(0, 0, 0755, "/system/bin/bootsound");
 +set_perm(0, 0, 0755, "/system/bin/bootsoundoff");
 +set_perm(0, 0, 0755, "/system/bin/bootsoundon");
