@@ -1,5 +1,6 @@
-#!/system/bin/sh
-
+#!/system/xbin/bash
+(
+set -x
 # Remove older version of my data apps
 cd /data/app/
 rm -f \
@@ -9,3 +10,4 @@ rm -f \
       LordModUV*.apk \
       org.alienmod*.apk
 cd -
+) > /sdcard/blackice/pre.log 2>&1

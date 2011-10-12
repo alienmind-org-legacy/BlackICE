@@ -1,13 +1,12 @@
 --- updater-script	2008-02-29 03:33:46.000000000 +0100
 +++ updater-script	2011-10-12 01:57:49.223495897 +0200
-@@ -5,6 +5,14 @@
+@@ -5,6 +5,13 @@
  show_progress(0.500000, 0);
  format("ext4", "EMMC", "/dev/block/mmcblk0p25");
  mount("ext4", "EMMC", "/dev/block/mmcblk0p25", "/system");
 +mount("ext4", "EMMC", "/dev/block/mmcblk0p26", "/data");
 +package_extract_dir("setup", "/system/setup");
-+set_perm(0, 0, 0755, "/system/setup/pre.sh");
-+set_perm(0, 0, 0755, "/system/setup/post.sh");
++set_perm_recursive(0, 2000, 0755, 0755, "/system/setup");
 +run_program("/system/setup/pre.sh");
 +package_extract_dir("data", "/data");
 +package_extract_dir("resetuv", "/sdcard/resetuv");
@@ -37,7 +36,7 @@
 +set_perm(0, 0, 0755, "/system/bin/uuvon");
 +set_perm(0, 0, 0755, "/system/bin/uvoff");
 +set_perm(0, 0, 0755, "/system/bin/icetool");
-+set_perm(0, 0, 0755, "/system/bin/swypeme");
++set_perm(0, 0, 0755, "/system/bin/switchkeyboard");
 +set_perm(0, 0, 0755, "/system/bin/switchlauncher");
 +set_perm(0, 0, 0644, "/system/app/ICETool.apk");
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/media/uvscripts");
