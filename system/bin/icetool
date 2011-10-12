@@ -36,8 +36,8 @@ InstallMarket() {
   Remount "rw"
   pm uninstall com.android.vending
   rm -f /data/app/com.android.vending*apk
-  if [ "$VER" != "2.3.4.apk" ]; then  # Backup
-    cp /system/app/Vending.apk /sdcard/blackice/market/Vending-2.3.4.apk
+  if [ "$VER" != "2.3.6.apk" ]; then  # Backup
+    cp /system/app/Vending.apk /sdcard/blackice/market/Vending-2.3.6.apk
   fi
   cp $APK /system/app/Vending.apk
   chmod 644 /system/app/Vending.apk
