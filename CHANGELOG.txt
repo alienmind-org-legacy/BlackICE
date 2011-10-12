@@ -1,17 +1,19 @@
 CHANGELOG
 =========
 
-v0.93 - HTC_IME and Swype both installable via update or extraapps. New entries: DPI / HTC_IME on ICEMarket
-v0.92 - Moved animated wallpapers, themes to extrapackages. Removed RomManager.
-v0.91 - Modded CMWallpapers and framework-res with default background. Launcher switching
-v0.90 - ICEMarket and ICETool (splitted in two).
-v0.80 - New bootanim
-v0.72 - New market switching actions, fixed G Rils tab
-v0.71 - Fixed updater-script that didn't copied the new ril folder
-v0.7  - Included SystemUI.apk provided by Paradoxxx. RIL Switching from ICETool
-v0.6  - Hability to use a binary modded apk. Included binary framework-res.apk provided by Paradoxxx
-v0.5  - ICETool v0.2
-v0.4  - WORKING data/app included, new apps, new bootanim and bootsound, based on #NB213, kernel v7.4BFSb5
-v0.3  - data/app included, based on #NB212 
-v0.2  - New bootanimation, icetool, based on #NB209
-v0.1  - Initial prealpha version
+v1.00b3 - Swype included on extraapps. Dalvik Cache and Cache formatted from updater-script
+v1.00b2 - First public release
+v0.93   - HTC_IME and Swype both installable via update or extraapps. New entries: DPI / HTC_IME on ICEMarket
+v0.92   - Moved animated wallpapers, themes to extrapackages. Removed RomManager.
+v0.91   - Modded CMWallpapers and framework-res with default background. Launcher switching
+v0.90   - ICEMarket and ICETool (splitted in two).
+v0.80   - New bootanim
+v0.72   - New market switching actions, fixed G Rils tab
+v0.71   - Fixed updater-script that didn't copied the new ril folder
+v0.7    - Included SystemUI.apk provided by Paradoxxx. RIL Switching from ICETool
+v0.6    - Hability to use a binary modded apk. Included binary framework-res.apk provided by Paradoxxx
+v0.5    - ICETool v0.2
+v0.4    - WORKING data/app included, new apps, new bootanim and bootsound, based on #NB213, kernel v7.4BFSb5
+v0.3    - data/app included, based on #NB212 
+v0.2    - New bootanimation, icetool, based on #NB209
+v0.1    - Initial prealpha version

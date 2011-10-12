@@ -1,5 +1,5 @@
 --- updater-script	2008-02-29 03:33:46.000000000 +0100
-+++ updater-script	2011-10-09 17:05:21.547045061 +0200
++++ updater-script	2011-10-12 01:57:49.223495897 +0200
 @@ -5,6 +5,14 @@
  show_progress(0.500000, 0);
  format("ext4", "EMMC", "/dev/block/mmcblk0p25");
@@ -15,7 +15,7 @@
  package_extract_dir("recovery", "/system");
  package_extract_dir("system", "/system");
  symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
-@@ -139,4 +147,29 @@
+@@ -139,4 +147,35 @@
  show_progress(0.200000, 10);
  package_extract_file("boot.img", "/dev/block/mmcblk0p22");
  show_progress(0.100000, 0);
@@ -43,5 +43,11 @@
 +run_program("/system/setup/post.sh");
 +delete("/system/setup/pre.sh");
 +delete("/system/setup/post.sh");
++ui_print("wiping /cache ...");
++unmount("/cache");
++format("ext4", "EMMC", "/dev/block/mmcblk0p27");
++ui_print("wiping dalvik-cache ...");
++mount("ext4", "EMMC", "/dev/block/mmcblk0p26", "/data");
++delete_recursive("/data/dalvik-cache");
 +unmount("/data");
  unmount("/system");
