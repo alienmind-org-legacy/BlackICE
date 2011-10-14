@@ -149,7 +149,7 @@ cd - &>/dev/null
 ShowMessage "* Copying custom extra directories..."
 for i in $EXTRA_DIRS ; do 
   if [ ! -d $i ]; then
-    ShowMessage "Error: $i does not exists - skipping"
+    ShowMessage "Warning: $i does not exists - skipping"
   fi
   ShowMessage "  [CP] $i/ => "`basename "$OUT_DIR"`"/$i"
   mkdir -p $OUT_DIR/$i/
