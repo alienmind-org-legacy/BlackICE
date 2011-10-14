@@ -9,4 +9,4 @@ ro.ril.disable.power.collapse=0
 mot.proximity.delay=150
 ro.telephony.call_ring.delay=1000
 ro.ril.hep=1
-persist.sys.use_16bpp_alpha=1
+persist.sys.use_16bpp_alpha=0
