@@ -1,4 +1,8 @@
 #!/system/xbin/bash
+HELP="Usage: $0 <cmd> ..."
+MARKET_DIR=/sdcard/blackice/market
+RIL_DIR=/sdcard/blackice/ril
+GPS_DIR=/sdcard/blackice/gpsconf
 WHO=`whoami`
 if [ "$WHO" != "root" ]; then
   echo "Must be root"
@@ -6,11 +10,58 @@ if [ "$WHO" != "root" ]; then
 fi
 
 if [ "$1" = "" ]; then
-  echo "Usage: $0 <cmd> ..."
+  echo "$HELP"
   exit 2
 fi
-
 CMD=$1
+
+Setup() {
+  # Basic commands
+  SUPPORTED_COMMANDS="remountsysrw|remountsysro|density"
+  DENSITY_LIST="190|200|240"
+  DENSITY_DESCR="190 (LordClockan style)|200 (AlienMind style)|240 (Default style)"
+
+  # The rest of the commands are optional
+  if [ -f /sys/class/power_supply/battery/force_high_power_charging ]; then
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|fastchargeon|fastchargeoff"
+  fi
+  if [ -f /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled ]; then
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|chargeenable|chargesdisable"
+  fi
+  if [ -d $MARKET_DIR ]; then
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|market"
+    MARKET_LIST=`for i in $MARKET_DIR/Vending*.apk; do basename $i ; done | tr '\n' '|'`
+    MARKET_DESCR=$MARKET_LIST
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}market:$MARKET_LIST\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}market:$MARKET_DESCR\n"
+  fi
+  if [ -d $RIL_DIR ]; then
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|ril"
+    RIL_LIST=`ls $RIL_DIR/ | tr '\n' '|'`
+    RIL_DESCR=$RIL_LIST
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}ril:$RIL_LIST\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}ril:$RIL_DESCR\n"
+  fi
+  if [ -d $GPS_DIR ]; then
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|gpsconf"
+    GPS_LIST=`ls $GPS_DIR/ | tr '\n' '|'`
+    GPS_DESCR=$GPS_LIST
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}gpsconf:$GPS_LIST\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}gpsconf:$GPS_DESCR\n"
+  fi
+  if [ -f /system/bin/snd3254 ]; then
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|dspinit"
+    DSP_LIST=`echo "" | snd3254 -dspmode | grep -v Please | awk -F'.' '{ printf("%s|",$1); }'`
+    DSP_DESCR=`echo "" | snd3254 -dspmode | grep -v Please | awk '{ printf("%s|",$2); }'`
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}dspinit:$DSP_LIST\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}dspinit:$DSP_DESCR\n"
+  fi
+}
+
+ListCommands() {
+  printf "$SUPPORTED_COMMANDS\n"
+  ( printf "$COMMAND_OPTIONS" ; printf "$COMMAND_DESCRIPTIONS" ) | sort
+}
 
 Remount() {
   local MODE=$1
@@ -52,8 +103,14 @@ LaunchMarket() {
 ###
 # Internal commands
 #
+# setup
+if [ "$CMD" = "setup" ]; then
+  Setup
+  ListCommands
+  exit 0
+
 # fastchargeon
-if [ "$CMD" = "fastchargeon" ]; then
+elif [ "$CMD" = "fastchargeon" ]; then
   echo "1" > /sys/class/power_supply/battery/force_high_power_charging
   echo "High power charging enabled"
   exit 0
