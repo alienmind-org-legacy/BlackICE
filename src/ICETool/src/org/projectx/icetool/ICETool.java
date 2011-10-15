@@ -1,13 +1,13 @@
 package org.projectx.icetool;
 
-import org.projectx.icetool.R;
-
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ICETool extends TabActivity {
 	TextView   consoleView = null;
@@ -18,8 +18,15 @@ public class ICETool extends TabActivity {
 	public static final int TAB_GPS = 3;	
 	public static final int TAB_DSP = 4;
 	public static final int TAB_RIL = 5;		
-	public static final int TAB_CONSOLE = 6;	
+	public static final int TAB_CONSOLE = 6;
+	
+	// Setup class
+	ICESetup setup = new ICESetup();
 		
+	public ICESetup getSetup() {
+		return setup;
+	}
+
 	/// Singleton //////////////////////////////////////////
     private static ICETool INSTANCE = null;     
 
@@ -47,7 +54,16 @@ public class ICETool extends TabActivity {
 	    TabHost tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Resusable TabSpec for each tab
 	    Intent intent;  // Reusable Intent for each tab
-
+	    
+	    ///// TEST
+	    try {
+	    	setup.readCapabilities();
+	    } catch (Exception e) {
+			Toast.makeText(getApplicationContext(), "icetool error: Cannot read capabilities",
+					Toast.LENGTH_SHORT).show();				
+	    }
+	    //AssetManager assetManager = getAssets();
+	    
 	    // Create an Intent to launch an Activity for the tab (to be reused)
 	    // Actions tab
 	    intent = new Intent().setClass(this, ActionsActivity.class);	    
@@ -102,6 +118,7 @@ public class ICETool extends TabActivity {
 	    // In order to get a consoleView, as ConsoleActivity will
 	    // invoke this.setConsoleView()
 	    tabHost.setCurrentTab(TAB_CONSOLE);
+	    
 	}
 
 	public void setConsoleView(TextView textView) {

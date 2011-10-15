@@ -17,42 +17,54 @@ CMD=$1
 
 Setup() {
   # Basic commands
-  SUPPORTED_COMMANDS="remountsysrw|remountsysro|density"
-  DENSITY_LIST="190|200|240"
-  DENSITY_DESCR="190 (LordClockan style)|200 (AlienMind style)|240 (Default style)"
+  SUPPORTED_COMMANDS="CAPABILITIES:"
 
-  # The rest of the commands are optional
+  # Basic commands - mandatory, without options
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}remountsysrw@remountsysro";
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}remountsysrw:\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}remountsysrw:\n"
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}remountsysro:\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}remountsysro:\n"
+
+  # Density is mandatory but has 3 options
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@density";
+  DENSITY_LIST="190@200@240"
+  DENSITY_DESCR="190 (LordClockan style)@200 (AlienMind style)@240 (Default style)"
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}density:$DENSITY_LIST\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}density:$DENSITY_DESCR\n"
+
+  # The rest of the commands are optional and depending on environmental factors
   if [ -f /sys/class/power_supply/battery/force_high_power_charging ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|fastchargeon|fastchargeoff"
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@fastchargeon@fastchargeoff"
   fi
   if [ -f /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|chargeenable|chargesdisable"
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@chargeenable@chargesdisable"
   fi
   if [ -d $MARKET_DIR ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|market"
-    MARKET_LIST=`for i in $MARKET_DIR/Vending*.apk; do basename $i ; done | tr '\n' '|'`
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@market"
+    MARKET_LIST=`for i in $MARKET_DIR/Vending*.apk; do basename $i ; done | tr '\n' '@'`
     MARKET_DESCR=$MARKET_LIST
     COMMAND_OPTIONS="${COMMAND_OPTIONS}market:$MARKET_LIST\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}market:$MARKET_DESCR\n"
   fi
   if [ -d $RIL_DIR ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|ril"
-    RIL_LIST=`ls $RIL_DIR/ | tr '\n' '|'`
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@ril"
+    RIL_LIST=`ls $RIL_DIR/ | tr '\n' '@'`
     RIL_DESCR=$RIL_LIST
     COMMAND_OPTIONS="${COMMAND_OPTIONS}ril:$RIL_LIST\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}ril:$RIL_DESCR\n"
   fi
   if [ -d $GPS_DIR ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|gpsconf"
-    GPS_LIST=`ls $GPS_DIR/ | tr '\n' '|'`
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@gpsconf"
+    GPS_LIST=`ls $GPS_DIR/ | tr '\n' '@'`
     GPS_DESCR=$GPS_LIST
     COMMAND_OPTIONS="${COMMAND_OPTIONS}gpsconf:$GPS_LIST\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}gpsconf:$GPS_DESCR\n"
   fi
   if [ -f /system/bin/snd3254 ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS|dspinit"
-    DSP_LIST=`echo "" | snd3254 -dspmode | grep -v Please | awk -F'.' '{ printf("%s|",$1); }'`
-    DSP_DESCR=`echo "" | snd3254 -dspmode | grep -v Please | awk '{ printf("%s|",$2); }'`
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@dspinit"
+    DSP_LIST=`echo "" | snd3254 -dspmode | grep -v Please | awk -F'.' '{ printf("%s@",$1); }'`
+    DSP_DESCR=`echo "" | snd3254 -dspmode | grep -v Please | awk '{ printf("%s@",$2); }'`
     COMMAND_OPTIONS="${COMMAND_OPTIONS}dspinit:$DSP_LIST\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}dspinit:$DSP_DESCR\n"
   fi
@@ -183,7 +195,7 @@ elif [ "$CMD" = "gpsconf" ]; then
 ###
 # dspchooser
 elif [ "$CMD" = "dspinit" ]; then
-    snd3254 -dspmode $2
+    snd3254 -dspmode $2 | grep "^DSP profile" # Remove all the options we already know
     echo "DSP profile for $2 applied"
 
 ###

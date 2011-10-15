@@ -201,63 +201,6 @@
     <item>VIETNAM</item>
     <item>YUGOSLAVIA</item>    
     </string-array>
-    <string-array name="dsp_actions_array">
-        <item>dspinit 00</item>
-        <item>dspinit 01</item>
-        <item>dspinit 02</item>
-        <item>dspinit 03</item>
-        <item>dspinit 04</item>
-        <item>dspinit 05</item>
-        <item>dspinit 06</item>
-        <item>dspinit 07</item>
-        <item>dspinit 08</item>
-        <item>dspinit 09</item>
-        <item>dspinit 10</item>
-        <item>dspinit 11</item>
-        <item>dspinit 12</item>
-        <item>dspinit 13</item>
-        <item>dspinit 14</item>
-        <item>dspinit 15</item>
-        <item>dspinit 16</item>
-        <item>dspinit 17</item>
-        <item>dspinit 18</item>
-        <item>dspinit 19</item>
-        <item>dspinit 20</item>
-        <item>dspinit 21</item>
-        <item>dspinit 22</item>
-        <item>dspinit 23</item>
-        <item>dspinit 24</item>
-        <item>dspinit 25</item>
-    </string-array>
-    
-    <string-array name="dsp_descriptions_array">
-        <item>Original_Phone_REC</item>
-        <item>Original_Phone_SPK</item>
-        <item>Original_Phone</item>
-        <item>Original</item>
-        <item>Original_SPK</item>
-        <item>dolby_a_spk</item>
-        <item>dolby_a_hp</item>
-        <item>dolby_v_spk</item>
-        <item>dolby_v_hp</item>
-        <item>Srs_a_hp</item>
-        <item>Srs_a_spk</item>
-        <item>Srs_v_hp</item>
-        <item>Srs_v_spk</item>
-        <item>Bass Booster</item>
-        <item>Blues</item>
-        <item>Classical</item>
-        <item>Country</item>
-        <item>Jazz</item>
-        <item>Latin</item>
-        <item>New Age</item>
-        <item>Piano</item>
-        <item>Pop</item>
-        <item>R&amp;B</item>
-        <item>Rock</item>
-        <item>Treble Booster</item>
-        <item>Vocal Booster</item>
-    </string-array>
     
     <string-array name="ril_actions_array">
         <item>ril HTC-RIL_1.6.1062G</item>

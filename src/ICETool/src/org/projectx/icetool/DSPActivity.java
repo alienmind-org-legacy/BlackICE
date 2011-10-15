@@ -10,8 +10,10 @@ public class DSPActivity extends ScriptedActivity {
 	}
 	
 	public void onCreate(Bundle savedInstanceState) {		
-		this.actions      = getResources().getStringArray(R.array.dsp_actions_array);
-		this.descriptions = getResources().getStringArray(R.array.dsp_descriptions_array);
+		//this.actions      = getResources().getStringArray(R.array.dsp_actions_array);
+		//this.descriptions = getResources().getStringArray(R.array.dsp_descriptions_array);
+		this.actions      = ICETool.getInstance().getSetup().getCapabilityOptions("dspinit");
+		this.descriptions = ICETool.getInstance().getSetup().getCapabilityDescriptions("dspinit");
 		super.onCreate(savedInstanceState);		
 	}
 }
