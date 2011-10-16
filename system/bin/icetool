@@ -1,8 +1,9 @@
 #!/system/xbin/bash
 HELP="Usage: $0 <cmd> ..."
-MARKET_DIR=/sdcard/blackice/market
-RIL_DIR=/sdcard/blackice/ril
-GPS_DIR=/sdcard/blackice/gpsconf
+BASE_DIR=/sdcard/blackice
+MARKET_DIR=$BASE_DIR/market
+RIL_DIR=$BASE_DIR/ril
+GPS_DIR=$BASE_DIR/gpsconf
 WHO=`whoami`
 if [ "$WHO" != "root" ]; then
   echo "Must be root"
@@ -16,62 +17,75 @@ fi
 CMD=$1
 
 Setup() {
+  # Categories
+  CATEGORIES="CATEGORIES:sys@gps@dsp@ril" # dpi is for icemarket - let's see
+
+  # Categories - commands relationship
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:remount@fastcharge@charge\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:gps:gpsconf\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:dsp:dspinit\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:ril:ril\n"
+
   # Basic commands
-  SUPPORTED_COMMANDS="CAPABILITIES:"
+  SUPPORTED_COMMANDS="COMMANDS:"
 
   # Basic commands - mandatory, without options
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}remountsysrw@remountsysro";
-  COMMAND_OPTIONS="${COMMAND_OPTIONS}remountsysrw:\n";
-  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}remountsysrw:\n"
-  COMMAND_OPTIONS="${COMMAND_OPTIONS}remountsysro:\n";
-  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}remountsysro:\n"
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}remount";
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:remount:rw@ro\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:remount:Remount /system as read/write@Remount /system as read-only\n"
 
   # Density is mandatory but has 3 options
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@density";
   DENSITY_LIST="190@200@240"
   DENSITY_DESCR="190 (LordClockan style)@200 (AlienMind style)@240 (Default style)"
-  COMMAND_OPTIONS="${COMMAND_OPTIONS}density:$DENSITY_LIST\n";
-  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}density:$DENSITY_DESCR\n"
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:density:$DENSITY_LIST\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:density:$DENSITY_DESCR\n"
 
   # The rest of the commands are optional and depending on environmental factors
   if [ -f /sys/class/power_supply/battery/force_high_power_charging ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@fastchargeon@fastchargeoff"
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@fastcharge"
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:fastcharge:1@0\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:fastcharge:Force high power charging@Disable high power charging\n"
   fi
   if [ -f /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@chargeenable@chargesdisable"
+    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@charge"
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:charge:1@0\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:charge:Enable USB charging@Disable USB charging\n"
   fi
   if [ -d $MARKET_DIR ]; then
     SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@market"
     MARKET_LIST=`for i in $MARKET_DIR/Vending*.apk; do basename $i ; done | tr '\n' '@'`
     MARKET_DESCR=$MARKET_LIST
-    COMMAND_OPTIONS="${COMMAND_OPTIONS}market:$MARKET_LIST\n"
-    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}market:$MARKET_DESCR\n"
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:market:$MARKET_LIST\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:market:$MARKET_DESCR\n"
   fi
   if [ -d $RIL_DIR ]; then
     SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@ril"
     RIL_LIST=`ls $RIL_DIR/ | tr '\n' '@'`
     RIL_DESCR=$RIL_LIST
-    COMMAND_OPTIONS="${COMMAND_OPTIONS}ril:$RIL_LIST\n"
-    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}ril:$RIL_DESCR\n"
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:ril:$RIL_LIST\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:ril:$RIL_DESCR\n"
   fi
   if [ -d $GPS_DIR ]; then
     SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@gpsconf"
     GPS_LIST=`ls $GPS_DIR/ | tr '\n' '@'`
     GPS_DESCR=$GPS_LIST
-    COMMAND_OPTIONS="${COMMAND_OPTIONS}gpsconf:$GPS_LIST\n"
-    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}gpsconf:$GPS_DESCR\n"
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:gpsconf:$GPS_LIST\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:gpsconf:$GPS_DESCR\n"
   fi
   if [ -f /system/bin/snd3254 ]; then
     SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@dspinit"
     DSP_LIST=`echo "" | snd3254 -dspmode | grep -v Please | awk -F'.' '{ printf("%s@",$1); }'`
     DSP_DESCR=`echo "" | snd3254 -dspmode | grep -v Please | awk '{ printf("%s@",$2); }'`
-    COMMAND_OPTIONS="${COMMAND_OPTIONS}dspinit:$DSP_LIST\n"
-    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}dspinit:$DSP_DESCR\n"
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:dspinit:$DSP_LIST\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:dspinit:$DSP_DESCR\n"
   fi
 }
 
 ListCommands() {
   printf "$SUPPORTED_COMMANDS\n"
+  printf "$CATEGORIES\n"
+  printf "$CATEGORY_COMMANDS"
   ( printf "$COMMAND_OPTIONS" ; printf "$COMMAND_DESCRIPTIONS" ) | sort
 }
 
@@ -100,7 +114,7 @@ InstallMarket() {
   pm uninstall com.android.vending
   rm -f /data/app/com.android.vending*apk
   if [ "$VER" != "2.3.6.apk" ]; then  # Backup
-    cp /system/app/Vending.apk /sdcard/blackice/market/Vending-2.3.6.apk
+    cp /system/app/Vending.apk $MARKET_DIR/Vending-2.3.6.apk
   fi
   cp $APK /system/app/Vending.apk
   chmod 644 /system/app/Vending.apk
@@ -121,49 +135,36 @@ if [ "$CMD" = "setup" ]; then
   ListCommands
   exit 0
 
-# fastchargeon
-elif [ "$CMD" = "fastchargeon" ]; then
-  echo "1" > /sys/class/power_supply/battery/force_high_power_charging
-  echo "High power charging enabled"
+# fastcharge
+elif [ "$CMD" = "fastcharge" ]; then
+  echo "$2" > /sys/class/power_supply/battery/force_high_power_charging
+  echo "High power charging set to $2"
   exit 0
 
 ###
-# fastchargeoff
-elif [ "$CMD" = "fastchargeoff" ]; then
-  echo "0" > /sys/class/power_supply/battery/force_high_power_charging
-  echo "High power charging disabled"
-
-###
-# remountsysrw
-elif [ "$CMD" = "remountsysrw" ]; then
-  Remount "rw"
+# remount
+elif [ "$CMD" = "remount" ]; then
+  if [ "$2" != "ro" -a "$2" != "rw" ]; then
+    echo "Unknown command $CMD $2"
+    exit 1
+  fi
+  Remount "$2"
   mount | grep system
-  echo "/system remounted read/write"
+  echo "/system remounted"
+  exit 0
 
 ###
-# remountsysro
-elif [ "$CMD" = "remountsysro" ]; then
-  Remount "ro"
-  mount | grep system
-  echo "/system remounted read-only"
-
-###
-# chargedisable
-elif [ "$CMD" = "chargedisable" ]; then
-  echo "0" > /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled
-  echo "Charge on plug disabled - unplug/plug to make it work"
-
-###
-# chargeenable
-elif [ "$CMD" = "chargeenable" ]; then
-  echo "1" > /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled
-  echo "Charge on plug enabled - unplug/plug to make it work"
+# charge
+elif [ "$CMD" = "charge" ]; then
+  echo "$2" > /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled
+  echo "Charge on plug set to $2 - you may need to unplug/plug to make it work"
+  exit 0
 
 ###
 # market
 elif [ "$CMD" = "market" ]; then
   VER=$2
-  APK=/sdcard/blackice/market/Vending-${VER}.apk
+  APK=$MARKET_DIR/Vending-${VER}.apk
   if [ -f $APK ]; then
     InstallMarket $APK &>/dev/null
     LaunchMarket &>/dev/null
@@ -176,7 +177,7 @@ elif [ "$CMD" = "market" ]; then
 # gpsconf
 elif [ "$CMD" = "gpsconf" ]; then
   shift
-  GPSCONF="/sdcard/blackice/gpsconf/$@/gps.conf"
+  GPSCONF="$GPS_DIR/$@/gps.conf"
   if [ ! -f "$GPSCONF" ]; then
     echo "Nonexistent $GPSCONF!!!"
   else
@@ -186,22 +187,24 @@ elif [ "$CMD" = "gpsconf" ]; then
     RET=$?
     if [ "$RET" != "0" ]; then
       echo "Error copying $GPSCONF => /system/etc/gps.conf"
+      exit 1
     else
       echo "GPS configuration for $2 applied - open GPS Status and redownload AGPS data"
     fi
     Remount "ro"
   fi
+  exit 0
 
 ###
 # dspchooser
 elif [ "$CMD" = "dspinit" ]; then
     snd3254 -dspmode $2 | grep "^DSP profile" # Remove all the options we already know
     echo "DSP profile for $2 applied"
-
+    exit 0
 ###
 # ril
 elif [ "$CMD" = "ril" ]; then
-  DIR=/sdcard/blackice/ril/$2
+  DIR=$RIL_DIR/$2
   if [ -d "$DIR" ]; then
     printf "RIL before patch: "
     getprop | grep RIL
@@ -213,6 +216,7 @@ elif [ "$CMD" = "ril" ]; then
      echo "Error: $DIR does not exist"
      exit 1
   fi
+  exit 0
 
 ###
 # density
@@ -237,6 +241,7 @@ elif [ "$CMD" = "cleanup" ]; then
      rm -rf $i
      echo " [ $i ] Removed"
   done
+  exit 0
        
 ### Any other command - we are a wrapper
 else

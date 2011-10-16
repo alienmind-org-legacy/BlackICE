@@ -1,5 +1,7 @@
 package org.projectx.icetool;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
 import org.projectx.icetool.R;
 import android.os.Bundle;
@@ -29,6 +31,22 @@ public abstract class ScriptedActivity extends ListActivity {
 		// Override on children
 		// Return false is action aborted
 		return true;
+	}
+	
+	public void initList(String category) {
+		String categoryCommands[] = ICETool.getInstance().getSetup().getCategoryCommands(category);
+		ArrayList<String> allActions      = new ArrayList<String>(10);
+		ArrayList<String> allDescriptions = new ArrayList<String>(10);		
+		for (String c : categoryCommands) {
+			for (String s : ICETool.getInstance().getSetup().getCommandOptions(c)) {
+				allActions.add(s);				
+			}
+			for (String s : ICETool.getInstance().getSetup().getCommandDescriptions(c)) {
+				allDescriptions.add(s);				
+			}			
+		}
+		this.actions      = allActions.toArray(new String[allActions.size()]);			
+		this.descriptions = allDescriptions.toArray(new String[allDescriptions.size()]);						
 	}
 	
 	public void onCreate(Bundle savedInstanceState) {

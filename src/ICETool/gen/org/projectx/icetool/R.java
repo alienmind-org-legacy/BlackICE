@@ -11,12 +11,6 @@ public final class R {
     public static final class array {
         public static final int actions_array=0x7f050000;
         public static final int descriptions_array=0x7f050001;
-        public static final int extra_actions_array=0x7f050004;
-        public static final int extra_descriptions_array=0x7f050005;
-        public static final int gps_actions_array=0x7f050006;
-        public static final int gps_descriptions_array=0x7f050007;
-        public static final int ril_actions_array=0x7f050008;
-        public static final int ril_descriptions_array=0x7f050009;
         public static final int uv_actions_array=0x7f050002;
         public static final int uv_descriptions_array=0x7f050003;
     }
@@ -33,15 +27,15 @@ public final class R {
         public static final int ic_tab_dsp=0x7f020007;
         public static final int ic_tab_dsp_grey=0x7f020008;
         public static final int ic_tab_dsp_white=0x7f020009;
-        public static final int ic_tab_extras=0x7f02000a;
-        public static final int ic_tab_extras_grey=0x7f02000b;
-        public static final int ic_tab_extras_white=0x7f02000c;
-        public static final int ic_tab_gps=0x7f02000d;
-        public static final int ic_tab_gps_grey=0x7f02000e;
-        public static final int ic_tab_gps_white=0x7f02000f;
-        public static final int ic_tab_ril=0x7f020010;
-        public static final int ic_tab_ril_grey=0x7f020011;
-        public static final int ic_tab_ril_white=0x7f020012;
+        public static final int ic_tab_gps=0x7f02000a;
+        public static final int ic_tab_gps_grey=0x7f02000b;
+        public static final int ic_tab_gps_white=0x7f02000c;
+        public static final int ic_tab_ril=0x7f02000d;
+        public static final int ic_tab_ril_grey=0x7f02000e;
+        public static final int ic_tab_ril_white=0x7f02000f;
+        public static final int ic_tab_sys=0x7f020010;
+        public static final int ic_tab_sys_grey=0x7f020011;
+        public static final int ic_tab_sys_white=0x7f020012;
         public static final int ic_tab_uv=0x7f020013;
         public static final int ic_tab_uv_grey=0x7f020014;
         public static final int ic_tab_uv_white=0x7f020015;

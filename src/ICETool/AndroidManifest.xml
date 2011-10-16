@@ -8,7 +8,7 @@
     <application android:icon="@drawable/icon" android:label="@string/app_name">
 	    <activity android:name=".ActionsActivity" />    
 	    <activity android:name=".UVActivity" />
-	    <activity android:name=".ExtrasActivity" />
+	    <activity android:name=".SysActivity" />
 	    <activity android:name=".GPSActivity" />
 	    <activity android:name=".DSPActivity" />	    
 	    <activity android:name=".RILActivity" />	    

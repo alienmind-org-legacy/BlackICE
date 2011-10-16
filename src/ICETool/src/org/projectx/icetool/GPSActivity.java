@@ -1,7 +1,6 @@
 package org.projectx.icetool;
 
 import android.os.Bundle;
-import org.projectx.icetool.R;
 
 public class GPSActivity extends ScriptedActivity {
 	public boolean onItemSelected(String itemAction, String itemDescription) {
@@ -10,8 +9,7 @@ public class GPSActivity extends ScriptedActivity {
 	}
 	
 	public void onCreate(Bundle savedInstanceState) {		
-		this.actions      = getResources().getStringArray(R.array.gps_actions_array);
-		this.descriptions = getResources().getStringArray(R.array.gps_descriptions_array);
+		initList("gps");
 		super.onCreate(savedInstanceState);		
 	}	
 }

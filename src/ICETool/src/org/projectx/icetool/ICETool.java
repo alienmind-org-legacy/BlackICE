@@ -2,7 +2,6 @@ package org.projectx.icetool;
 
 import android.app.TabActivity;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TabHost;
@@ -57,15 +56,15 @@ public class ICETool extends TabActivity {
 	    
 	    ///// TEST
 	    try {
-	    	setup.readCapabilities();
+	    	setup.run();
 	    } catch (Exception e) {
-			Toast.makeText(getApplicationContext(), "icetool error: Cannot read capabilities",
+			Toast.makeText(getApplicationContext(), "icetool error: Cannot read supported commands",
 					Toast.LENGTH_SHORT).show();				
 	    }
 	    //AssetManager assetManager = getAssets();
 	    
 	    // Create an Intent to launch an Activity for the tab (to be reused)
-	    // Actions tab
+	    // Actions tab	    
 	    intent = new Intent().setClass(this, ActionsActivity.class);	    
 	    spec = tabHost.newTabSpec("actions").setIndicator("Actions",
 	                      res.getDrawable(R.drawable.ic_tab_actions))
@@ -79,33 +78,41 @@ public class ICETool extends TabActivity {
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
 
-	    // Extras tab
-	    intent = new Intent().setClass(this, ExtrasActivity.class);
-	    spec = tabHost.newTabSpec("extras").setIndicator("Extras",
-	                      res.getDrawable(R.drawable.ic_tab_extras))
-	                  .setContent(intent);
-	    tabHost.addTab(spec);
+	    // Sys tab
+	    if (setup.hasCategory("sys")) {
+	    	intent = new Intent().setClass(this, SysActivity.class);
+	    	spec = tabHost.newTabSpec("sys").setIndicator("System",
+	    			res.getDrawable(R.drawable.ic_tab_sys))
+	    			.setContent(intent);
+	    	tabHost.addTab(spec);
+	    }
 
 	    // GPS tab
-	    intent = new Intent().setClass(this, GPSActivity.class);
-	    spec = tabHost.newTabSpec("gps").setIndicator("GPS",
-	                      res.getDrawable(R.drawable.ic_tab_gps))
-	                  .setContent(intent);
-	    tabHost.addTab(spec);
+	    if (setup.hasCategory("gps")) {	    
+	    	intent = new Intent().setClass(this, GPSActivity.class);
+	    	spec = tabHost.newTabSpec("gps").setIndicator("GPS",
+	    			res.getDrawable(R.drawable.ic_tab_gps))
+	    			.setContent(intent);
+	    	tabHost.addTab(spec);
+	    }
 	    
-	    //DSP chooser tab
-	    intent = new Intent().setClass(this, DSPActivity.class);
-	    spec = tabHost.newTabSpec("dsp").setIndicator("DSP chooser",
-	    				  res.getDrawable(R.drawable.ic_tab_dsp))
-	    			  .setContent(intent);
-	    tabHost.addTab(spec);
+	    // DSP chooser tab
+	    if (setup.hasCategory("dsp")) {
+	    	intent = new Intent().setClass(this, DSPActivity.class);
+	    	spec = tabHost.newTabSpec("dsp").setIndicator("DSP chooser",
+	    			res.getDrawable(R.drawable.ic_tab_dsp))
+	    			  	.setContent(intent);
+	    	tabHost.addTab(spec);
+	    }
 
-	    //RIL chooser tab
-	    intent = new Intent().setClass(this, RILActivity.class);
-	    spec = tabHost.newTabSpec("ril").setIndicator("RIL",
-	    				  res.getDrawable(R.drawable.ic_tab_ril))
-	    			  .setContent(intent);
-	    tabHost.addTab(spec);
+	    // RIL chooser tab
+	    if (setup.hasCategory("ril")) {
+	    	intent = new Intent().setClass(this, RILActivity.class);
+	    	spec = tabHost.newTabSpec("ril").setIndicator("RIL",
+	    			res.getDrawable(R.drawable.ic_tab_ril))
+	    			.setContent(intent);
+	    	tabHost.addTab(spec);
+	    }
 	    
 	    // Console tab
 	    intent = new Intent().setClass(this, ConsoleActivity.class);
@@ -113,8 +120,7 @@ public class ICETool extends TabActivity {
 	                      res.getDrawable(R.drawable.ic_tab_console))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
-	    
-	    	    
+	    	    	   
 	    // In order to get a consoleView, as ConsoleActivity will
 	    // invoke this.setConsoleView()
 	    tabHost.setCurrentTab(TAB_CONSOLE);

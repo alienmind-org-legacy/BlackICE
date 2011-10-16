@@ -1,7 +1,6 @@
 package org.projectx.icetool;
 
 import android.os.Bundle;
-import org.projectx.icetool.R;
 
 public class RILActivity extends ScriptedActivity {
 	public boolean onItemSelected(String itemAction, String itemDescription) {
@@ -10,8 +9,7 @@ public class RILActivity extends ScriptedActivity {
 	}
 	
 	public void onCreate(Bundle savedInstanceState) {		
-		this.actions      = getResources().getStringArray(R.array.ril_actions_array);
-		this.descriptions = getResources().getStringArray(R.array.ril_descriptions_array);
+		initList("ril");
 		super.onCreate(savedInstanceState);		
 	}	
 }
