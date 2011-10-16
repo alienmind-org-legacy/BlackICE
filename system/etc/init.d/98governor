@@ -1,11 +1,14 @@
 ##!/system/bin/sh
 # Default governor settings
-echo "ondemandx" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-echo "614400"    > /sys/devices/system/cpu/cpufreq/ondemandx/suspend_freq
-echo "15"        > /sys/devices/system/cpu/cpufreq/ondemandx/down_differential
-echo "50"        > /sys/devices/system/cpu/cpufreq/ondemandx/sampling_down_factor
-echo "0"         > /sys/devices/system/cpu/cpufreq/ondemandx/ignore_nice_load
-echo "85"        > /sys/devices/system/cpu/cpufreq/ondemandx/up_threshold
-echo "50"        > /sys/devices/system/cpu/cpufreq/ondemandx/powersave_bias
-echo "80000"     > /sys/devices/system/cpu/cpufreq/ondemandx/sampling_rate
-echo "1"         > /sys/devices/system/cpu/cpufreq/ondemandx/io_is_busy
+echo "ondemand"  > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+#echo "614400"   > /sys/devices/system/cpu/cpufreq/ondemand/suspend_freq
+echo "15"        > /sys/devices/system/cpu/cpufreq/ondemand/down_differential
+echo "50"        > /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
+echo "0"         > /sys/devices/system/cpu/cpufreq/ondemand/ignore_nice_load
+echo "85"        > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
+echo "150"       > /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
+echo "80000"     > /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
+echo "1"         > /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
+
+# Better thread behavior
+echo "0"         > /proc/sys/kernel/sched_compat_yield
