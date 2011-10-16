@@ -16,21 +16,11 @@ public class ConsoleActivity extends Activity {
         setContentView(consoleTextView);        
         ap = ICETool.getInstance();
         ap.setConsoleView(consoleTextView);
-        /*
-        ap.getTabHost().setCurrentTab(ICETool.TAB_ACTIONS);
-        ap.getTabWidget().getChildAt(ICETool.TAB_CONSOLE).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {*/
-            	if (consoleTextView.getText().equals("")) {
-                	consoleTextView.setText(getResources().getText(R.string.app_name) + " " +
-                	        getResources().getText(R.string.app_version) +
-                	        " by " +
-                	        getResources().getText(R.string.app_author) + "\n"                                
-                			);	
-            	}/*            	
-            }
-    });
-                */
-
-
+        consoleTextView.setText(getResources().getText(R.string.app_name) + " " +
+        		getResources().getText(R.string.app_version) +
+        		" by " +
+        		getResources().getText(R.string.app_author) + "\n"                                
+        		);	
+            	
     }
 }

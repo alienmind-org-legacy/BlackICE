@@ -18,7 +18,7 @@ CMD=$1
 
 Setup() {
   # Categories
-  CATEGORIES="CATEGORIES:sys@gps@dsp@ril" # dpi is for icemarket - let's see
+  CATEGORIES="CATEGORIES:sys@dsp@gps@ril" # dpi is for icemarket - let's see
 
   # Categories - commands relationship
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:remount@fastcharge@charge\n"

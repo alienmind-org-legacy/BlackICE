@@ -19,18 +19,18 @@ public class ICESetup {
 	
 	// Parsed data
 	private      String rawData = "";
-	private 	 String allCategories[];	
-	private 	 String allCommands[];	
-	private      Hashtable<String, String[]> categoryCommands = 
+	String allCategories[];	
+	String allCommands[];	
+	Hashtable<String, String[]> categoryCommands = 
     		new Hashtable<String,String[]>();	
-	private      Hashtable<String, String[]> cmdOptions = 
+	Hashtable<String, String[]> cmdOptions = 
 			new Hashtable<String,String[]>();
-    private      Hashtable<String, String[]> cmdDescriptions = 
+    Hashtable<String, String[]> cmdDescriptions = 
     		new Hashtable<String,String[]>();
     		
 
     private String[] parseSimpleLine(String key, String line) {
-    	String l      = line.substring(STR_COMMANDS.length()).trim();
+    	String l      = line.substring(key.length()).trim();
     	return l.split("@");		    			
     }
     
