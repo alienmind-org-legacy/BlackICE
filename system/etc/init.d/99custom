@@ -20,4 +20,4 @@ setprop net.tcp.buffersize.gprs 4096,16384,32768,4096,11680,16384
 
 # Dolby and SRS startup settings
 snd3254 -dspmode 07
-snd3254 -dspmode 12
+snd3254 -dspmode 11
