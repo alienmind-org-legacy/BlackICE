@@ -2,8 +2,8 @@ package org.projectx.icetool;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
-import org.projectx.icetool.R;
 
 public class ConsoleActivity extends Activity {
 	TextView consoleTextView = null;
@@ -12,6 +12,7 @@ public class ConsoleActivity extends Activity {
         super.onCreate(savedInstanceState);
         consoleTextView = new TextView(this);
         consoleTextView.setText("");
+        consoleTextView.setMovementMethod(new ScrollingMovementMethod());
         setContentView(consoleTextView);        
         ap = ICETool.getInstance();
         ap.setConsoleView(consoleTextView);
