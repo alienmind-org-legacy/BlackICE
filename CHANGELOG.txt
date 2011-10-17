@@ -1,10 +1,23 @@
 CHANGELOG
 =========
-v1.01b1 - Built against new KANG 20111015. Webkitaccel.
-v1.00   - Fix 98governor script. Removed 16bpp optimization. Add portability setup to icetool for other ROMS (wip)
-v1.00b4 - SuplRootCert for agps. ADWLauncher, Swype, HTC_IME will be moved to sdcard instead of system, so ICETool finds it. IceMarket fixed swype install
-v1.00b3 - Swype included on extraapps. Dalvik Cache and Cache formated from updater-script.
+v1.01b3 - Built against KANG20111015-Kernelv8.0. 
+v1.01b2 - Fixed snd3254 init script, Dolby for speakers SRS for headphones.
+          New ondemand code by default (with powersave_bias=150)
+          Tunable sched_compat_yield=0.
+          ICETool v0.6 with dynamic options
+v1.01b1 - Built against new KANG 20111015.
+          Webkitaccel <= NOT WORKING AT ALL
+v1.00   - Fix 98governor script not being executed.
+          Removed 16bpp optimization.
+          Add portability setup to icetool for other ROMS (wip)
+v1.00b4 - SuplRootCert for agps.
+          ADWLauncher, Swype, HTC_IME will be moved to sdcard instead of system, so ICETool finds it.
+          IceMarket fixed swype install
+v1.00b3 - Swype included on extraapps.
+          Dalvik Cache and Cache formated from updater-script.
 v1.00b2 - First public release
+
+### ALPHA AND BETA RELEASES (Ancient History)
 v0.93   - HTC_IME and Swype both installable via update or extraapps. New entries: DPI / HTC_IME on ICEMarket
 v0.92   - Moved animated wallpapers, themes to extrapackages. Removed RomManager.
 v0.91   - Modded CMWallpapers and framework-res with default background. Launcher switching
