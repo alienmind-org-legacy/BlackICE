@@ -1,0 +1,11 @@
+#!/system/bin/sh
+PREFERRED_VERSION=/sdcard/blackice/market/Vending-2.3.6.apk
+
+# On first boot after flash we would not have /system/app/Vending.apk
+# as it is on /sdcard/blackice/market/Vending-2.3.6.apk
+if [ ! -f /system/app/Vending.apk ]; then
+  mount -o rw,remount /system
+  cp -p $PREFERRED_VERSION /system/app/Vending.apk
+  chmod 644 /system/app/Vending.apk
+  mount -o ro,remount /system
+fi
