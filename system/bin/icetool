@@ -43,10 +43,15 @@ Setup() {
   # Basic commands
   SUPPORTED_COMMANDS="COMMANDS:"
 
-  # Basic commands - mandatory, without options
+  # Remount command
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}remount";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:remount:rw@ro\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:remount:Remount /system as read/write@Remount /system as read-only\n"
+
+  # hosts command
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}hosts";
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:hosts:\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:hosts:Refresh hosts file (adfree replacement)\n"
 
   # Density is mandatory but has 3 options
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@density";
@@ -152,10 +157,12 @@ Market() {
 
 InstallHost() {
   URL=http://someonewhocares.org/hosts/hosts
-  RemountSys "rw"
-  cd /tmp/ ; rm -f hosts
-  wget "$URL"
+  mkdir -p /data/tmp
+  cd /data/tmp
+  rm -f hosts
+  wget "$URL" &>/dev/null
   RET=$?
+  RemountSys "rw"
   if [ "$RET" = "0" ]; then
     mv hosts /system/etc/hosts
     echo "hosts file updated"
@@ -205,10 +212,10 @@ GPSConf() {
 DSPInit() {
   MODE=$1
 
-  # 00 <= MODE <= 20
+  # 00 <= MODE <= 99 # It is in fact to 25, but I dont want to limit this
   CHAR_STOP=$(expr "$MODE" : '\([0-9]*\)')
   test "$MODE" != "$CHAR_STOP" && die "Illegal value : $MODE"
-  test $MODE -ge 00 -a $MODE -le 20 || die "Illegal value dspmode:$MODE (00>= MODE >=20)"
+  test $MODE -ge 00 -a $MODE -le 99 || die "Illegal value dspmode:$MODE (00>= MODE >=20)"
  
   snd3254 -dspmode $1 | grep "^DSP profile" # Remove all the options we already know
   echo "DSP profile for $1 applied"
@@ -264,7 +271,7 @@ case $CMD in
   "fastcharge") FastCharge "$2" ;;
   "charge")     Charge     "$2" ;;
   "remount")    Remount    "$2" ;;
-  "hosts")      InstallHosts    ;;
+  "hosts")      InstallHost     ;;
   "market")     Market     "$2" ;;
   "gpsconf")    GPSConf    "$2" ;;
   "dspinit")    DSPInit    "$2" ;;
