@@ -205,9 +205,9 @@ GPSConf() {
 DSPInit() {
   MODE=$1
 
-  # 00 >= MODE >= 20
+  # 00 <= MODE <= 20
   CHAR_STOP=$(expr "$MODE" : '\([0-9]*\)')
-  test "$MODE" != "$CHAR_STOP" && die "Illegal Value : $MODE"
+  test "$MODE" != "$CHAR_STOP" && die "Illegal value : $MODE"
   test $MODE -ge 00 -a $MODE -le 20 || die "Illegal value dspmode:$MODE (00>= MODE >=20)"
  
   snd3254 -dspmode $1 | grep "^DSP profile" # Remove all the options we already know
@@ -234,8 +234,8 @@ Density() {
 
   # 240 >= DENSITY >= 190
   CHAR_STOP=$(expr "$DENSITY" : '\([0-9]*\)')
-  test "$DENSITY" != "$CHAR_STOP" && die "Illegal Value : $DENSITY"
-  test $DENSITY -ge 190 -a $DENSITY -le 240 || die "Illegal Value Density:$DENSITY (240>= DENSITY >=190)"
+  test "$DENSITY" != "$CHAR_STOP" && die "Illegal value : $DENSITY"
+  test $DENSITY -ge 190 -a $DENSITY -le 240 || die "Illegal value Density:$DENSITY (240>= DENSITY >=190)"
 
   RemountSys "rw"
   sed  -i "s/ro.sf.lcd_density=.*/ro.sf.lcd_density=$DENSITY/g" /system/build.prop
