@@ -16,12 +16,20 @@ if [ "$1" = "" ]; then
 fi
 CMD=$1
 
+
+####
+# Here we setup the offered commands for the gui
+# We will print the following tags:
+# CATEGORIES: high level categories (=gui tabs)
+# CATEGORY_COMMANDS: relation of commands included in each high level category
+# COMMANDS:   all the supported commands
+# OPTIONS:    options available for each command (if any)
 Setup() {
   # Categories
-  CATEGORIES="CATEGORIES:sys@dsp@gps@ril" # dpi is for icemarket - let's see
+  CATEGORIES="CATEGORIES:sys@dsp@gps@ril" # dpi is for icemarket - let's see if we merge both
 
   # Categories - commands relationship
-  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:remount@fastcharge@charge\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:remount@fastcharge@charge@hosts\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:gps:gpsconf\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:dsp:dspinit\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:ril:ril\n"
@@ -89,7 +97,7 @@ ListCommands() {
   ( printf "$COMMAND_OPTIONS" ; printf "$COMMAND_DESCRIPTIONS" ) | sort
 }
 
-Remount() {
+RemountSys() {
   local MODE=$1
   mount -o remount,$MODE /system
 }
@@ -110,7 +118,7 @@ Reboot() {
 InstallMarket() {
   local APK=$1
   local VER=${APK##Vending-} 
-  Remount "rw"
+  RemountSys "rw"
   pm uninstall com.android.vending
   rm -f /data/app/com.android.vending*apk
   if [ "$VER" != "2.3.6.apk" ]; then  # Backup
@@ -119,51 +127,15 @@ InstallMarket() {
   cp $APK /system/app/Vending.apk
   chmod 644 /system/app/Vending.apk
   pm install $APK
-  Remount "ro"
+  RemountSys "ro"
 }
 
 LaunchMarket() {
   am start -a android.intent.action.MAIN -n com.android.vending/com.android.vending.AssetBrowserActivity
 }
 
-###
-# Internal commands
-#
-# setup
-if [ "$CMD" = "setup" ]; then
-  Setup
-  ListCommands
-  exit 0
-
-# fastcharge
-elif [ "$CMD" = "fastcharge" ]; then
-  echo "$2" > /sys/class/power_supply/battery/force_high_power_charging
-  echo "High power charging set to $2"
-  exit 0
-
-###
-# remount
-elif [ "$CMD" = "remount" ]; then
-  if [ "$2" != "ro" -a "$2" != "rw" ]; then
-    echo "Unknown command $CMD $2"
-    exit 1
-  fi
-  Remount "$2"
-  mount | grep system
-  echo "/system remounted"
-  exit 0
-
-###
-# charge
-elif [ "$CMD" = "charge" ]; then
-  echo "$2" > /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled
-  echo "Charge on plug set to $2 - you may need to unplug/plug to make it work"
-  exit 0
-
-###
-# market
-elif [ "$CMD" = "market" ]; then
-  VER=$2
+Market() {
+  VER=$1
   APK=$MARKET_DIR/Vending-${VER}.apk
   if [ -f $APK ]; then
     InstallMarket $APK &>/dev/null
@@ -173,15 +145,47 @@ elif [ "$CMD" = "market" ]; then
     echo "Couldn't find Market version $VER" 
     exit 1
   fi
-###
-# gpsconf
-elif [ "$CMD" = "gpsconf" ]; then
-  shift
+}
+
+InstallHost() {
+  URL=http://someonewhocares.org/hosts/hosts
+  RemountSys "rw"
+  cd /tmp/ ; rm -f hosts
+  wget "$URL"
+  RET=$?
+  if [ "$RET" = "0" ]; then
+    mv hosts /system/etc/hosts
+    echo "hosts file updated"
+  fi
+  RemountSys "ro" 
+}
+
+FastCharge() {
+  echo "$1" > /sys/class/power_supply/battery/force_high_power_charging
+  echo "High power charging set to $1"
+}
+
+Charge() {
+  echo "$1" > /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled
+  echo "Charge on plug set to $1 - you may need to unplug/plug to make it work"
+}
+
+Remount() {
+  if [ "$1" != "ro" -a "$1" != "rw" ]; then
+    echo "Unknown mode $1"
+    exit 1
+  fi
+  RemountSys "$1"
+  mount | grep system
+  echo "/system remounted"
+}
+
+GPSConf() {
   GPSCONF="$GPS_DIR/$@/gps.conf"
   if [ ! -f "$GPSCONF" ]; then
     echo "Nonexistent $GPSCONF!!!"
   else
-    Remount "rw"
+    RemountSys "rw"
     cd /
     cp -p "$GPSCONF" system/etc/gps.conf
     RET=$?
@@ -191,48 +195,44 @@ elif [ "$CMD" = "gpsconf" ]; then
     else
       echo "GPS configuration for $2 applied - open GPS Status and redownload AGPS data"
     fi
-    Remount "ro"
+    RemountSys "ro"
   fi
-  exit 0
+}
 
-###
-# dspchooser
-elif [ "$CMD" = "dspinit" ]; then
-    snd3254 -dspmode $2 | grep "^DSP profile" # Remove all the options we already know
-    echo "DSP profile for $2 applied"
-    exit 0
-###
-# ril
-elif [ "$CMD" = "ril" ]; then
-  DIR=$RIL_DIR/$2
+DSPInit() {
+  snd3254 -dspmode $1 | grep "^DSP profile" # Remove all the options we already know
+  echo "DSP profile for $1 applied"
+}
+
+RIL() {
+  DIR=$RIL_DIR/$1
   if [ -d "$DIR" ]; then
     printf "RIL before patch: "
     getprop | grep RIL
-    Remount "rw"
+    RemountSys "rw"
     cp -r $DIR/* /
-    Remount "ro"
-    echo "RIL switched to $2. Rebooting is highly recommended!"
+    RemountSys "ro"
+    echo "RIL switched to $1. Rebooting is highly recommended!"
   else 
      echo "Error: $DIR does not exist"
      exit 1
   fi
-  exit 0
+}
 
-###
-# density
-elif [ "$CMD" = "density" ]; then
-  DENSITY=$2
-  Remount "rw"
+Density() {
+  DENSITY=$1
+  RemountSys "rw"
   cat /system/build.prop |  sed "s/ro.sf.lcd_density=.*/ro.sf.lcd_density=$DENSITY/g" > /system/build.prop.new
   mv /system/build.prop.new /system/build.prop
   chmod 644 /system/build.prop
-  Remount "ro"
+  RemountSys "ro"
   Reboot 5
+}
 
 ###
 # Cleanup - for older version directories, etc
 # This wouldn't be on ICETool app, it is on users's risk
-elif [ "$CMD" = "cleanup" ]; then
+Cleanup() {
   echo "Removing old BlackICE packages from sdcard..."
   for i in /sdcard/market/  \
            /sdcard/gpsconf/ \
@@ -241,11 +241,24 @@ elif [ "$CMD" = "cleanup" ]; then
      rm -rf $i
      echo " [ $i ] Removed"
   done
-  exit 0
-       
-### Any other command - we are a wrapper
-else
+}
 
-  exec $@
+#### Supported commands
+case $CMD in
+  "setup")      Setup ; ListCommands ;;
+  "fastcharge") FastCharge "$2" ;;
+  "charge")     Charge     "$2" ;;
+  "remount")    Remount    "$2" ;;
+  "hosts")      InstallHosts    ;;
+  "market")     Market     "$2" ;;
+  "gpsconf")    GPSConf    $@   ;;
+  "dspinit")    DSPInit    "$2" ;;
+  "ril")        RIL        "$2" ;;
+  "density")    Density    "$2" ;;
+  "cleanup")    Cleanup    "$2" ;;
 
-fi
+  ### Any other command - we are a wrapper
+  *)            exec $@ ;;
+esac
+
+exit 0
