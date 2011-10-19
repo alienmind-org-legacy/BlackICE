@@ -239,7 +239,6 @@ Density() {
 
   RemountSys "rw"
   sed  -i "s/ro.sf.lcd_density=.*/ro.sf.lcd_density=$DENSITY/g" /system/build.prop
-  mv /system/build.prop.new /system/build.prop
   chmod 644 /system/build.prop
   RemountSys "ro"
   Reboot 5
