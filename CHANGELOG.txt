@@ -1,6 +1,8 @@
 CHANGELOG
 =========
-v1.01b4 - Built against KANG20111018-lordModUE-8.1b5-CFS
+v1.01WIP - Built against KANG20111010-lordModUE-8.1b5-CFS 
+          New icetool command to refresh hosts (gui pending)
+v1.01b4 - Built against KANG20111018-lordModUE-8.1b5-CFS <= Buggy
 v1.01b3 - Built against KANG20111015-lordModUE-8.0-BFS
 v1.01b2 - Fixed snd3254 init script, Dolby for speakers SRS for headphones.
           New ondemand code by default (with powersave_bias=150)
