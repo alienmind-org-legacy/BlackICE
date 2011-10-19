@@ -5,6 +5,12 @@ MARKET_DIR=$BASE_DIR/market
 RIL_DIR=$BASE_DIR/ril
 GPS_DIR=$BASE_DIR/gpsconf
 WHO=`whoami`
+
+die () {
+  echo $@
+  exit 1
+}
+
 if [ "$WHO" != "root" ]; then
   echo "Must be root"
   exit 1
@@ -121,9 +127,6 @@ InstallMarket() {
   RemountSys "rw"
   pm uninstall com.android.vending
   rm -f /data/app/com.android.vending*apk
-  if [ "$VER" != "2.3.6.apk" ]; then  # Backup
-    cp /system/app/Vending.apk $MARKET_DIR/Vending-2.3.6.apk
-  fi
   cp $APK /system/app/Vending.apk
   chmod 644 /system/app/Vending.apk
   pm install $APK
@@ -181,7 +184,7 @@ Remount() {
 }
 
 GPSConf() {
-  GPSCONF="$GPS_DIR/$@/gps.conf"
+  GPSCONF="$GPS_DIR/$2/gps.conf"
   if [ ! -f "$GPSCONF" ]; then
     echo "Nonexistent $GPSCONF!!!"
   else
@@ -200,6 +203,13 @@ GPSConf() {
 }
 
 DSPInit() {
+  MODE=$1
+
+  # 00 >= MODE >= 20
+  CHAR_STOP=$(expr "$MODE" : '\([0-9]*\)')
+  test "$MODE" != "$CHAR_STOP" && die "Illegal Value : $MODE"
+  test $MODE -ge 00 -a $MODE -le 20 || die "Illegal value dspmode:$MODE (00>= MODE >=20)"
+ 
   snd3254 -dspmode $1 | grep "^DSP profile" # Remove all the options we already know
   echo "DSP profile for $1 applied"
 }
@@ -221,8 +231,14 @@ RIL() {
 
 Density() {
   DENSITY=$1
+
+  # 240 >= DENSITY >= 190
+  CHAR_STOP=$(expr "$DENSITY" : '\([0-9]*\)')
+  test "$DENSITY" != "$CHAR_STOP" && die "Illegal Value : $DENSITY"
+  test $DENSITY -ge 190 -a $DENSITY -le 240 || die "Illegal Value Density:$DENSITY (240>= DENSITY >=190)"
+
   RemountSys "rw"
-  cat /system/build.prop |  sed "s/ro.sf.lcd_density=.*/ro.sf.lcd_density=$DENSITY/g" > /system/build.prop.new
+  sed  -i "s/ro.sf.lcd_density=.*/ro.sf.lcd_density=$DENSITY/g" /system/build.prop
   mv /system/build.prop.new /system/build.prop
   chmod 644 /system/build.prop
   RemountSys "ro"
@@ -251,7 +267,7 @@ case $CMD in
   "remount")    Remount    "$2" ;;
   "hosts")      InstallHosts    ;;
   "market")     Market     "$2" ;;
-  "gpsconf")    GPSConf    $@   ;;
+  "gpsconf")    GPSConf    "$2" ;;
   "dspinit")    DSPInit    "$2" ;;
   "ril")        RIL        "$2" ;;
   "density")    Density    "$2" ;;
