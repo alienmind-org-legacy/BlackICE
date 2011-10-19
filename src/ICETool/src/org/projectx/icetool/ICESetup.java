@@ -38,14 +38,22 @@ public class ICESetup {
 		String l      = line.substring(key.length()).trim(); 
 		String str[]  = l.split(":");
 		String token    = str[0];
-		String tokens[] = str[1].split("@");
-		if (!cmdOptions.containsKey(token)) {
-			if ( addKeyToValue )
-				for (int i=0;i<tokens.length;i++) {
-					tokens[i] = token+" "+tokens[i]; // the command should be in the option too 	
+		String tokens[] ;
+		if (str.length < 2) {
+			tokens = new String[1];
+          	tokens[0] = token;
+		} else {
+			tokens = str[1].split("@");
+			if (!cmdOptions.containsKey(token)) {
+				if ( addKeyToValue ) {
+					for (int i=0;i<tokens.length;i++) {
+						if (tokens[i] != null && !tokens[i].isEmpty())
+							tokens[i] = token+" "+tokens[i]; // the command should be in the option too 	
+					}
 				}
-			hsh.put(token, tokens);  	
+			}
 		}
+		hsh.put(token, tokens);
     }
     
 	String run() throws Exception {
@@ -56,21 +64,26 @@ public class ICESetup {
 	    os.writeBytes(CMD_SH + " " + CMD_SETUP + "\n" + "; exit\n"); 
 	    os.flush();
 		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		while ((inputLine = br.readLine()) != null) { 
-			String line = inputLine + "\n";
-			if (line.startsWith(STR_COMMANDS)) {
-				allCommands = parseSimpleLine(STR_COMMANDS,line);
-			} else if (line.startsWith(STR_CATEGORIES))
-				allCategories = parseSimpleLine(STR_CATEGORIES,line);
-			else if (line.startsWith(STR_CATEGORY_COMMANDS))
-				parseArgsLine(categoryCommands, false, STR_CATEGORY_COMMANDS, line);
-			else if (line.startsWith(STR_OPTIONS))
-				parseArgsLine(cmdOptions, true, STR_OPTIONS, line);
-			else if (line.startsWith(STR_DESCRIPTIONS))
-				parseArgsLine(cmdDescriptions, false, STR_DESCRIPTIONS, line);
+		try {
+			while ((inputLine = br.readLine()) != null) {
+				String line = inputLine.trim() + "\n";
+				if (line.startsWith(STR_COMMANDS)) {
+					allCommands = parseSimpleLine(STR_COMMANDS,line);
+				} else if (line.startsWith(STR_CATEGORIES))
+					allCategories = parseSimpleLine(STR_CATEGORIES,line);
+				else if (line.startsWith(STR_CATEGORY_COMMANDS))
+					parseArgsLine(categoryCommands, false, STR_CATEGORY_COMMANDS, line);
+				else if (line.startsWith(STR_OPTIONS))
+					parseArgsLine(cmdOptions, true, STR_OPTIONS, line);
+				else if (line.startsWith(STR_DESCRIPTIONS))
+					parseArgsLine(cmdDescriptions, false, STR_DESCRIPTIONS, line);
 			
-			rawData += line;
+				rawData += line;
+			}
+		} catch (Exception e) {
+			System.err.println(e.toString());
 		}
+		
 		p.waitFor();		
 		return rawData;
 	}
