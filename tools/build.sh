@@ -9,9 +9,15 @@
 KANG_ZIP=$1
 KERNEL_ZIP=$2
 
+# Custom param LANGUAGE for GPS conf
+GPS_LANG=$3
+
+# Custom param for ril version
+RIL_VER=$4
+
 DATE=`date +%Y%m%d`
 TIMESTAMP=`date +%Y%m%d`
-HELP="Usage: $0 [-v] <kang.zip> <kernel.zip>"
+HELP="Usage: $0 [-v] <kang.zip> <kernel.zip> <gps LANGUAGE> <RIL version>"
 
 TOOLS_DIR=${ROOT_DIR}/tools/
 WORK_DIR=${ROOT_DIR}/work/
@@ -215,6 +221,18 @@ else
   cd - &> /dev/null
 fi
 
+# GPS and RIL
+if [ -d ${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER ]; then
+  ShowMessage "  [CP] HTC-RIL $RIL_VER"
+  cp -a "${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER/system/bin/rild" $OUT_DIR/system/bin/rild >> $LOG
+  cp -a "${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER/system/lib/libhtc_ril.so" $OUT_DIR/system/lib/libhtc_ril.so >> $LOG
+  cp -a "${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER/system/lib/libril.so" $OUT_DIR/system/lib/libril.so >> $LOG
+fi
+if [ -d ${ROOT_DIR}/sdcard/blackice/gpsconf/$GPS_LANG ]; then
+  ShowMessage "  [CP] GPS for $GPS_LANG"
+  cp -a "${ROOT_DIR}/sdcard/blackice/gpsconf/$GPS_LANG/gps.conf" $OUT_DIR/system/etc/ >> $LOG
+fi
+
 # META-INF files
 # updater-script is built from the prepared logo, extracted kernel-id and patches
 ShowMessage "  [META] " $BLACKICE_VERSION "-" $KERNEL_ID
@@ -298,5 +316,4 @@ if [ "$EXTRA_APPS" = "1" ] ; then
   fi
 fi
 cd - &>/dev/null
- 
-ShowMessage "* Done!!!"
+ShowMessage "* Done!!!" 
