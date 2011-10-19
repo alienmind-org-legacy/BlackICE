@@ -10,14 +10,17 @@ KANG_ZIP=$1
 KERNEL_ZIP=$2
 
 # Custom param LANGUAGE for GPS conf
-GPS_LANG=$3
+# If we leave this empty, our default system/etc/gps.conf will
+# be included 
+GPS_REGION=$3
 
 # Custom param for ril version
+# If we leave this empty, original CM RIL will get included
 RIL_VER=$4
 
 DATE=`date +%Y%m%d`
 TIMESTAMP=`date +%Y%m%d`
-HELP="Usage: $0 [-v] <kang.zip> <kernel.zip> <gps LANGUAGE> <RIL version>"
+HELP="Usage: $0 [-v] <kang.zip> <kernel.zip> [GPS region] [RIL version]"
 
 TOOLS_DIR=${ROOT_DIR}/tools/
 WORK_DIR=${ROOT_DIR}/work/
@@ -228,9 +231,9 @@ if [ -d ${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER ]; then
   cp -a "${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER/system/lib/libhtc_ril.so" $OUT_DIR/system/lib/libhtc_ril.so >> $LOG
   cp -a "${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER/system/lib/libril.so" $OUT_DIR/system/lib/libril.so >> $LOG
 fi
-if [ -d ${ROOT_DIR}/sdcard/blackice/gpsconf/$GPS_LANG ]; then
-  ShowMessage "  [CP] GPS for $GPS_LANG"
-  cp -a "${ROOT_DIR}/sdcard/blackice/gpsconf/$GPS_LANG/gps.conf" $OUT_DIR/system/etc/ >> $LOG
+if [ -d ${ROOT_DIR}/sdcard/blackice/gpsconf/$GPS_REGION ]; then
+  ShowMessage "  [CP] GPS for $GPS_REGION"
+  cp -a "${ROOT_DIR}/sdcard/blackice/gpsconf/$GPS_REGION/gps.conf" $OUT_DIR/system/etc/ >> $LOG
 fi
 
 # META-INF files
