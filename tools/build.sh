@@ -23,6 +23,7 @@ TOOLS_DIR=${ROOT_DIR}/tools/
 WORK_DIR=${ROOT_DIR}/work/
 DOWN_DIR=${ROOT_DIR}/download/
 OUT_DIR="${ROOT_DIR}/out/${BLACKICE_VERSION}-${DATE}"
+BI_DIR="${ROOT_DIR}/out/BlackICE*
 OUT_ZIP="${OUT_DIR}.zip"
 OUT_SIGNED="${OUT_DIR}-signed.zip"
 OUT_EXTRAAPPS="${ROOT_DIR}/out/${BLACKICE_VERSION}-extraapps-${DATE}"
@@ -45,7 +46,7 @@ echo "" > $LOG
 # User requested clean
 if [ "$1" = "clean" ]; then
   ShowMessage "* Cleaning..."
-  rm -rf $WORK_DIR $OUT_DIR $OUT_ZIP $OUT_SIGNED $OUT_EXTRAAPPS $OUT_EXTRAPPS_ZIP $OUT_EXTRAPPS_SIGNED *.log
+  rm -rf $WORK_DIR $BI_DIR *.log
   exit
 fi
 
