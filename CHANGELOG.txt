@@ -1,5 +1,8 @@
 CHANGELOG
 =========
+v1.1    - Built against KANG20111014-lordModUE-8.1b7-CFS 
+          Removed AdFree
+          Refreshed extraapps
 v1.01b5 - Built against KANG20111014-lordModUE-8.1b5-BFS 
           New icetool command to refresh hosts
           Fixed FC on ICETool
