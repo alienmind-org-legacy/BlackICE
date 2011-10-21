@@ -45,10 +45,17 @@ fi
 # Reset log
 echo "" > $LOG
 
-# User requested clean
+# User requested clean of all temporary content
+if [ "$1" = "mrproper" ]; then
+  ShowMessage "* Cleaning ..."
+  rm -rf $WORK_DIR $OUT_DIR *.log
+  exit
+fi
+
+# User requested clean of today's version
 if [ "$1" = "clean" ]; then
-  ShowMessage "* Cleaning..."
-  rm -rf $WORK_DIR $OUT_DIR $OUT_ZIP $OUT_SIGNED $OUT_EXTRAAPPS $OUT_EXTRAPPS_ZIP $OUT_EXTRAPPS_SIGNED *.log
+  ShowMessage "* Removing $DATE data..."
+  rm -rf $WORK_DIR $OUT_DIR $OUT_ZIP $OUT_SIGNED $OUT_EXTRAAPPS $OUT_EXTRAPPS_ZIP $OUT_EXTRAPPS_SIGNED *${DATE}*.log
   exit
 fi
 
@@ -225,13 +232,13 @@ else
 fi
 
 # GPS and RIL
-if [ -d ${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER ]; then
+if [ "$RIL_VER" != "" -a -d ${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER ]; then
   ShowMessage "  [CP] HTC-RIL $RIL_VER"
   cp -a "${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER/system/bin/rild" $OUT_DIR/system/bin/rild >> $LOG
   cp -a "${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER/system/lib/libhtc_ril.so" $OUT_DIR/system/lib/libhtc_ril.so >> $LOG
   cp -a "${ROOT_DIR}/sdcard/blackice/ril/HTC-RIL_$RIL_VER/system/lib/libril.so" $OUT_DIR/system/lib/libril.so >> $LOG
 fi
-if [ -d ${ROOT_DIR}/sdcard/blackice/gpsconf/$GPS_REGION ]; then
+if [ "$GPS_REGION" != "" -a -d ${ROOT_DIR}/sdcard/blackice/gpsconf/$GPS_REGION ]; then
   ShowMessage "  [CP] GPS for $GPS_REGION"
   cp -a "${ROOT_DIR}/sdcard/blackice/gpsconf/$GPS_REGION/gps.conf" $OUT_DIR/system/etc/ >> $LOG
 fi
