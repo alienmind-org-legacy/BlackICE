@@ -191,7 +191,7 @@ Remount() {
 }
 
 GPSConf() {
-  GPSCONF="$GPS_DIR/$2/gps.conf"
+  GPSCONF="$GPS_DIR/$1/gps.conf"
   if [ ! -f "$GPSCONF" ]; then
     echo "Nonexistent $GPSCONF!!!"
   else
@@ -203,7 +203,7 @@ GPSConf() {
       echo "Error copying $GPSCONF => /system/etc/gps.conf"
       exit 1
     else
-      echo "GPS configuration for $2 applied - open GPS Status and redownload AGPS data"
+      echo "GPS configuration for $1 applied - open GPS Status and redownload AGPS data"
     fi
     RemountSys "ro"
   fi
