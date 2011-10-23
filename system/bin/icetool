@@ -191,7 +191,8 @@ Remount() {
 }
 
 GPSConf() {
-  GPSCONF="$GPS_DIR/$1/gps.conf"
+set -x
+  GPSCONF="$GPS_DIR/$@/gps.conf"
   if [ ! -f "$GPSCONF" ]; then
     echo "Nonexistent $GPSCONF!!!"
   else
@@ -203,10 +204,11 @@ GPSConf() {
       echo "Error copying $GPSCONF => /system/etc/gps.conf"
       exit 1
     else
-      echo "GPS configuration for $1 applied - open GPS Status and redownload AGPS data"
+      echo "GPS configuration for $@ applied - open GPS Status and redownload AGPS data"
     fi
     RemountSys "ro"
   fi
+set +x
 }
 
 DSPInit() {
@@ -266,21 +268,22 @@ Cleanup() {
 }
 
 #### Supported commands
+shift
 case $CMD in
   "setup")      Setup ; ListCommands ;;
-  "fastcharge") FastCharge "$2" ;;
-  "charge")     Charge     "$2" ;;
-  "remount")    Remount    "$2" ;;
+  "fastcharge") FastCharge "$1" ;;
+  "charge")     Charge     "$1" ;;
+  "remount")    Remount    "$1" ;;
   "hosts")      InstallHost     ;;
-  "market")     Market     "$2" ;;
-  "gpsconf")    GPSConf    "$2" ;;
-  "dspinit")    DSPInit    "$2" ;;
-  "ril")        RIL        "$2" ;;
-  "density")    Density    "$2" ;;
-  "cleanup")    Cleanup    "$2" ;;
+  "market")     Market     "$1" ;;
+  "gpsconf")    GPSConf    "$@" ;;
+  "dspinit")    DSPInit    "$1" ;;
+  "ril")        RIL        "$1" ;;
+  "density")    Density    "$1" ;;
+  "cleanup")    Cleanup    "$1" ;;
 
   ### Any other command - we are a wrapper
-  *)            exec $@ ;;
+  *)            exec $CMD $@ ;;
 esac
 
 exit 0
