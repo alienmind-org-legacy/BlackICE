@@ -1,5 +1,7 @@
 CHANGELOG
 =========
+v1.12   - Built against KANG20111014-lordModUE-8.1-CFS 
+          Fixed icetool not switching gps.conf
 v1.1    - Built against KANG20111014-lordModUE-8.1b7-CFS 
           Removed AdFree
           Refreshed extraapps
