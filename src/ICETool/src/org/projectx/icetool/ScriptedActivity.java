@@ -53,8 +53,9 @@ public abstract class ScriptedActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 	
 		setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, descriptions));
-	
-		ListView lv = getListView();
+		//this.setContentView(R.layout.img_item);
+		
+		ListView lv = getListView();		
 		lv.setTextFilterEnabled(true);
 	
 		lv.setOnItemClickListener(new OnItemClickListener() {

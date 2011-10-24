@@ -1,9 +1,12 @@
 #!/system/xbin/bash
+ICETOOL_VERSION="0.7" # Script version
 HELP="Usage: $0 <cmd> ..."
 BASE_DIR=/sdcard/blackice
 MARKET_DIR=$BASE_DIR/market
 RIL_DIR=$BASE_DIR/ril
 GPS_DIR=$BASE_DIR/gpsconf
+ICETOOL_URL=http://www.losinj.com/blackice/icetool.tgz
+ICETOOL_VERSION_URL=http://www.losinj.com/blackice/icetool.version
 WHO=`whoami`
 
 die () {
@@ -35,13 +38,18 @@ Setup() {
   CATEGORIES="CATEGORIES:sys@dsp@gps@ril" # dpi is for icemarket - let's see if we merge both
 
   # Categories - commands relationship
-  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:remount@fastcharge@charge@hosts\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:upgrade@remount@fastcharge@charge@hosts\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:gps:gpsconf\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:dsp:dspinit\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:ril:ril\n"
 
   # Basic commands
   SUPPORTED_COMMANDS="COMMANDS:"
+
+  # Upgrade command
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}upgrade";
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:upgrade:checkversion@icetool\n"; # TODO @rom@kernel
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:upgrade:Check for new version@Upgrade ICETool\n"
 
   # Remount command
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}remount";
@@ -106,6 +114,60 @@ ListCommands() {
   printf "$CATEGORIES\n"
   printf "$CATEGORY_COMMANDS"
   ( printf "$COMMAND_OPTIONS" ; printf "$COMMAND_DESCRIPTIONS" ) | sort
+}
+
+Upgrade() {
+  local MODE=$1
+  case $MODE in
+    "checkversion") CheckVersion ;;
+    "icetool")      UpgradeICETool ;;
+  esac
+}
+
+CheckVersion() {
+  printf "Looking for new versions...\n"
+  mkdir -p /data/tmp
+  cd /data/tmp
+  rm -f icetool.version
+  wget "$ICETOOL_VERSION_URL" &>/dev/null
+  RET=$?
+  if [ "$RET" != "0" ]; then
+    echo "Error checking new version"
+    exit 1
+  fi
+  ICETOOL_REMOTE_VERSION=`cat icetool.version`
+  printf "Current ICETool version: $ICETOOL_VERSION\n"
+  printf "Latest version available: $ICETOOL_REMOTE_VERSION\n"
+  cd - &>/dev/null
+}
+
+UpgradeICETool() {
+  CheckVersion 
+  RET=$?
+  if [ $RET != 0 ]; then
+    return $RET
+  fi
+  cd /data/tmp
+  ICETOOL_REMOTE_VERSION=`cat icetool.version`
+  if [ "$ICETOOL_VERSION" != "$ICETOOL_REMOTE_VERSION" ]; then
+    rm -f icetool.tgz
+    wget "$ICETOOL_URL" &>/dev/null
+    RET=$?
+    if [ "$RET" != "0" ]; then
+      echo "Error downloading new version"
+      exit 1
+    fi
+    cd /
+    RemountSys "rw"                 &>/dev/null
+    tar -xzvf /data/tmp/icetool.tgz &>/dev/null
+    RemountSys "ro"                 &>/dev/null
+    chmod 755 /system/bin/icetool
+    chmod 644 /system/app/ICETool.apk
+    cd - &>/dev/null
+    echo "ICETool v$ICETOOL_REMOTE_VERSION succesfully installed. Please restart ICETool"
+    exit 0
+  fi
+  cd - &>/dev/null
 }
 
 RemountSys() {
@@ -191,7 +253,6 @@ Remount() {
 }
 
 GPSConf() {
-set -x
   GPSCONF="$GPS_DIR/$@/gps.conf"
   if [ ! -f "$GPSCONF" ]; then
     echo "Nonexistent $GPSCONF!!!"
@@ -208,7 +269,6 @@ set -x
     fi
     RemountSys "ro"
   fi
-set +x
 }
 
 DSPInit() {
@@ -275,6 +335,7 @@ Cleanup() {
 shift
 case $CMD in
   "setup")      Setup ; ListCommands ;;
+  "upgrade")    Upgrade    "$1" ;;
   "fastcharge") FastCharge "$1" ;;
   "charge")     Charge     "$1" ;;
   "remount")    Remount    "$1" ;;
