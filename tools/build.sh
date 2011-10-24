@@ -40,6 +40,7 @@ else
   VERBOSE=0
   LOG=${ROOT_DIR}/build-${TIMESTAMP}.log
 fi
+export LOG
 
 
 # Reset log
