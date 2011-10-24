@@ -82,8 +82,8 @@ Setup() {
     SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@ril"
     RIL_LIST=`ls $RIL_DIR/ | tr '\n' '@'`
     RIL_DESCR=$RIL_LIST
-    COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:ril:$RIL_LIST\n"
-    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:ril:$RIL_DESCR\n"
+    COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:ril:showril@$RIL_LIST\n"
+    COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:ril:Show RIL info@$RIL_DESCR\n"
   fi
   if [ -d $GPS_DIR ]; then
     SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@gpsconf"
@@ -224,17 +224,21 @@ DSPInit() {
 }
 
 RIL() {
-  DIR=$RIL_DIR/$1
-  if [ -d "$DIR" ]; then
-    printf "RIL before patch: "
+  if [ "$1" = "showril" ]; then
     getprop | grep RIL
-    RemountSys "rw"
-    cp -r $DIR/* /
-    RemountSys "ro"
-    echo "RIL switched to $1. Rebooting is highly recommended!"
-  else 
-     echo "Error: $DIR does not exist"
-     exit 1
+  else
+    DIR=$RIL_DIR/$1
+    if [ -d "$DIR" ]; then
+      printf "RIL before patch: "
+      getprop | grep RIL
+      RemountSys "rw"
+      cp -r $DIR/* /
+      RemountSys "ro"
+      echo "RIL switched to $1. Rebooting is highly recommended!"
+    else 
+       echo "Error: $DIR does not exist"
+       exit 1
+    fi
   fi
 }
 
