@@ -20,7 +20,8 @@ APKTOOL=$PWD/tools/apktool.jar
 SIGN=1
 
 # SystemUI / framework-res shouldn't have their meta-inf removed
-SYS=`echo $MOD_DIR | grep -e SystemUI -e framework-res`
+#SYS=`echo $MOD_DIR | grep -e SystemUI -e framework-res`
+SYS="true"
 if [ "$SYS" != "" ]; then
   SYS=1
   RMMETA=0
