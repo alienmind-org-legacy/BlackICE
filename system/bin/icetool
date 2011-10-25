@@ -18,7 +18,16 @@ EXTRA_APKS="ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \
             Google+Music+4.0.1.apk:d31a972968ab0798921aa6f3b9b4aaf1 "
 
 # Extra APKs names
-EXTRA_APKS_NAME=`for i in $EXTRA_APKS; do B=${i%\:*} ; echo $B | tr ' ' '\n' ; done`
+EXTRA_APKS_NAMES=`for i in $EXTRA_APKS; do B=${i%\:*} ; echo "$B@" ; done | tr '\n' ' ' | sed 's/\ *//g'`
+EXTRA_APKS_DESCR="ICS v2.4 Launcher2@Google++ 2.0@Google Maps v5.11.0@Street View v1.7.0.4@Google Music v4.0.1"
+
+# Switch Keyboard options
+EXTRA_KEY_NAMES="nexussswype@htcime"
+EXTRA_KEY_DESCR="Nexus S Swype (black)@HTC IME Mod (grey)"
+
+# Switch launcher options
+EXTRA_LAUNCH_NAMES="udlauncher@adwlauncher"
+EXTRA_LAUNCH_DESCR="UD Launcher (black)@ADW Launcher (color)"
 
 die () {
   echo $@
@@ -46,10 +55,11 @@ CMD=$1
 # OPTIONS:    options available for each command (if any)
 Setup() {
   # Categories
-  CATEGORIES="CATEGORIES:sys@dsp@gps@ril" # dpi is for icemarket - let's see if we merge both
+  CATEGORIES="CATEGORIES:sys@apps@dsp@gps@ril"
 
   # Categories - commands relationship
-  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:upgrade@remount@fastcharge@charge@hosts\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:upgrade@remount@fastcharge@charge@hosts@density\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:apps:market@switchkeyboard@switchlauncher@extraapk\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:gps:gpsconf\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:dsp:dspinit\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:ril:ril\n"
@@ -58,27 +68,37 @@ Setup() {
   SUPPORTED_COMMANDS="COMMANDS:"
 
   # Upgrade command
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}upgrade";
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}upgrade@";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:upgrade:checkversion@icetool\n"; # TODO @rom@kernel
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:upgrade:Check for new version@Upgrade ICETool\n"
 
   # Remount command
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}remount";
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}remount@";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:remount:rw@ro\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:remount:Remount /system as read/write@Remount /system as read-only\n"
 
   # hosts command
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}hosts";
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}hosts@";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:hosts:\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:hosts:Refresh hosts file (adfree replacement)\n"
 
   # Density is mandatory but has 3 options
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@density";
   DENSITY_LIST="190@200@240"
-  DENSITY_DESCR="190 (LordClockan style)@200 (AlienMind style)@240 (Default style)"
+  DENSITY_DESCR="Set LCD density as 190 (LordClockan style)@Set LCD density as 200 (AlienMind style)@Set LCD density as 240 (Default style)"
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:density:$DENSITY_LIST\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:density:$DENSITY_DESCR\n"
 
+  # Rest of market options
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@extraapk";
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:extraapk:$EXTRA_APKS_NAMES\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:extraapk:$EXTRA_APKS_DESCR\n"
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@switchkeyboard";
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:switchkeyboard:$EXTRA_KEY_NAMES\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:switchkeyboard:$EXTRA_KEY_DESCR\n"
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@switchlauncher";
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:switchlauncher:$EXTRA_LAUNCH_NAMES\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:switchlauncher:$EXTRA_LAUNCH_DESCR\n"
 
   # The rest of the commands are optional and depending on environmental factors
   if [ -f /sys/class/power_supply/battery/force_high_power_charging ]; then
@@ -335,7 +355,7 @@ Density() {
 # Extraapp - to download content
 ExtraAPK() {
   if [ "$1" = "list" ]; then
-    echo "$EXTRA_APKS_NAME"
+    echo "$EXTRA_APKS_NAMES"
     exit 0
   fi
   APK=$1
@@ -416,8 +436,8 @@ case $CMD in
   "gpsconf")    GPSConf    "$@" ;;
   "dspinit")    DSPInit    "$1" ;;
   "ril")        RIL        "$1" ;;
-  "density")    Density    "$1" ;;     # TODO
-  "extraapk")   ExtraAPK   "$1" ;;     # TODO
+  "density")    Density    "$1" ;;
+  "extraapk")   ExtraAPK   "$1" ;;
   "cleanup")    Cleanup    "$1" ;;
 
   ### Any other command - we are a wrapper
