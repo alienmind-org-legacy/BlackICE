@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v1.20b2 - Built against KANG20111023-lordModUE-8.1-CFS 
+          Fixed SystemUI missing resources
+          Recovered 48m heap size
+          Removed Google Music ICS leak from main build
+          More ICS leaks on icetool (or in extraapps, whatever)
 v1.20b1 - Built against KANG20111023-lordModUE-8.1-CFS 
           ICETool v0.7 : autoupgrade option
           ICETool v0.7 : show ril option
