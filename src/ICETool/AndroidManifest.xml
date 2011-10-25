@@ -9,6 +9,7 @@
 	    <activity android:name=".ActionsActivity" />    
 	    <activity android:name=".UVActivity" />
 	    <activity android:name=".SysActivity" />
+	    <activity android:name=".AppsActivity" />	    
 	    <activity android:name=".GPSActivity" />
 	    <activity android:name=".DSPActivity" />	    
 	    <activity android:name=".RILActivity" />	    

@@ -12,12 +12,13 @@ public class ICETool extends TabActivity {
 	TextView   consoleView = null;
 	
 	public static final int TAB_ACTIONS = 0;
-	public static final int TAB_UV = 1;
-	public static final int TAB_EXTRA = 2;
-	public static final int TAB_GPS = 3;	
-	public static final int TAB_DSP = 4;
-	public static final int TAB_RIL = 5;		
-	public static final int TAB_CONSOLE = 6;
+	public static final int TAB_APPS    = 1;
+	public static final int TAB_SYS     = 2;	
+	public static final int TAB_UV      = 3;	
+	public static final int TAB_GPS     = 4;	
+	public static final int TAB_DSP     = 5;
+	public static final int TAB_RIL     = 6;		
+	public static final int TAB_CONSOLE = 7;
 	
 	// Setup class
 	ICESetup setup = new ICESetup();
@@ -86,6 +87,16 @@ public class ICETool extends TabActivity {
 	    			.setContent(intent);
 	    	tabHost.addTab(spec);
 	    }
+	    
+	    // Extra tab
+	    if (setup.hasCategory("apps")) {
+	    	intent = new Intent().setClass(this, AppsActivity.class);
+	    	spec = tabHost.newTabSpec("apps").setIndicator("Apps",
+	    			res.getDrawable(R.drawable.ic_tab_apps))
+	    			.setContent(intent);
+	    	tabHost.addTab(spec);
+	    }
+	    
 
 	    // GPS tab
 	    if (setup.hasCategory("gps")) {	    
