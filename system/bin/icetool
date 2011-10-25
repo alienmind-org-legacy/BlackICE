@@ -5,9 +5,20 @@ BASE_DIR=/sdcard/blackice
 MARKET_DIR=$BASE_DIR/market
 RIL_DIR=$BASE_DIR/ril
 GPS_DIR=$BASE_DIR/gpsconf
-ICETOOL_URL=http://www.losinj.com/blackice/icetool.tgz
-ICETOOL_VERSION_URL=http://www.losinj.com/blackice/icetool.version
+BASE_URL=http://www.losinj.com/blackice
+ICETOOL_URL=$BASE_URL/icetool.tgz
+ICETOOL_VERSION_URL=$BASE_URL/icetool.version
 WHO=`whoami`
+
+### More extra content to come
+EXTRA_APKS="ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \
+            Google++2.0.0.apk:18eb66a953318ef3be5702a063454a38 \
+            Google_Maps_v5.11.0.apk:c0ac28f4a503807d10579090d105e894 \
+            Street+View+1.7.0.4.apk:d761639c4abe8b13538ca77e8f6b2ada \
+            Google+Music+4.0.1.apk:d31a972968ab0798921aa6f3b9b4aaf1 "
+
+# Extra APKs names
+EXTRA_APKS_NAME=`for i in $EXTRA_APKS; do B=${i%\:*} ; echo $B | tr ' ' '\n' ; done`
 
 die () {
   echo $@
@@ -67,6 +78,7 @@ Setup() {
   DENSITY_DESCR="190 (LordClockan style)@200 (AlienMind style)@240 (Default style)"
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:density:$DENSITY_LIST\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:density:$DENSITY_DESCR\n"
+
 
   # The rest of the commands are optional and depending on environmental factors
   if [ -f /sys/class/power_supply/battery/force_high_power_charging ]; then
@@ -317,6 +329,66 @@ Density() {
   Reboot 5
 }
 
+
+###
+#
+# Extraapp - to download content
+ExtraAPK() {
+  if [ "$1" = "list" ]; then
+    echo "$EXTRA_APKS_NAME"
+    exit 0
+  fi
+  APK=$1
+  for i in $EXTRA_APKS; do
+     B=${i%\:*}  # filename
+     MD5SUM=${i##*:}  # md5
+     if [ "$APK" = "$B" ]; then
+       URL="$BASE_URL/$B"
+       break
+     fi
+  done
+
+  if [ ! -d /sdcard/blackice ]; then
+    MK=1
+    mkdir -p /sdcard/blackice
+  fi
+  cd /sdcard/blackice
+  # We allow having it in /data/app
+  if [ ! -f "$APK" -a -f "/data/app/$APK" ]; then
+    cp /data/app/$APK .
+  fi
+  if [ -f "$APK" ]; then
+    MD5SUM=`md5sum $APK | awk '{ print $1 }'`
+    if [ "$MD5" = "$MD5SUM" ]; then
+      GOOD=1
+    fi
+  fi
+  if [ "$GOOD" != "1" ]; then
+    rm -f "$APK"
+    wget "$URL"  &>/dev/null
+    RET=$?
+    if [ "$RET" != "0" ]; then
+      echo "Error downloading $APK"
+      exit 1
+    fi
+    MD5=`md5sum $APK | awk '{ print $1 }'`
+    if [ "$MD5" = "$MD5SUM" ]; then
+      GOOD=1
+    fi
+  fi
+  if [ "$GOOD" = "1" ]; then
+    RemountSys "rw"
+    cp /sdcard/blackice/$APK /data/app/
+    chmod 644 /data/app/$APK
+    RemountSys "ro"
+    echo "Done!"
+  else
+    echo "Failed to download / install $APK"
+    exit 1
+  fi
+}
+
+
 ###
 # Cleanup - for older version directories, etc
 # This wouldn't be on ICETool app, it is on users's risk
@@ -344,7 +416,8 @@ case $CMD in
   "gpsconf")    GPSConf    "$@" ;;
   "dspinit")    DSPInit    "$1" ;;
   "ril")        RIL        "$1" ;;
-  "density")    Density    "$1" ;;
+  "density")    Density    "$1" ;;     # TODO
+  "extraapk")   ExtraAPK   "$1" ;;     # TODO
   "cleanup")    Cleanup    "$1" ;;
 
   ### Any other command - we are a wrapper
