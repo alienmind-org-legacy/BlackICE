@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.20b3 - Same CM / Kernel as b2
+          Fixed missing resources of default theme
+          ICEMarket merged into ICETool
+          SysTune v1.3.7
 v1.20b2 - Built against cm_ace_full-235.zip - lordModUE-8.1-CFS 
           Fixed SystemUI missing resources
           Recovered 48m heap size
