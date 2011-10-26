@@ -114,7 +114,7 @@ Setup() {
   if [ -d $MARKET_DIR ]; then
     SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@market"
     MARKET_LIST=`for i in $MARKET_DIR/Vending*.apk; do basename $i ; done | tr '\n' '@'`
-    MARKET_DESCR=$MARKET_LIST
+    MARKET_DESCR=`echo $MARKET_LIST | sed 's/Vending-/Install and launch Market v/g' | sed 's/.apk//g'`
     COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:market:$MARKET_LIST\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:market:$MARKET_DESCR\n"
   fi
