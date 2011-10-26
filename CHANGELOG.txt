@@ -1,8 +1,12 @@
 CHANGELOG
 =========
 v1.20-WIP Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
-          CMWallpapers : More wallpapers from H2O
-          ICETool: Market versions entries prettified
+          CMWallpapers : More wallpapers from H2O, fixed default wallpaper
+          ICETool: Market versions entries beautified
+          ICETool: New entries for user provides bootanimations
+          ICETool: New option to test current bootanimation
+          Contacts: Removed wrong resources
+          Base: provided synaptics-rmi-touchscreen.kcm.bin to avoid repetitive messages
 v1.20b3 - Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
           SystemUI: Fixed missing resources of default theme
           ICETool: ICEMarket merged into ICETool
