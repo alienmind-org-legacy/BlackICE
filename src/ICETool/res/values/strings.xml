@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_full_name">ICETool v0.7 by alienmind / ProjectX Team</string>
+    <string name="app_full_name">ICETool v0.8 by alienmind / ProjectX Team</string>
     <string name="app_name">ICETool</string>
-    <string name="app_version">v0.7</string>
+    <string name="app_version">v0.8</string>
     <string name="app_author">alienmind @ ProjectX</string>    
     <string-array name="actions_array">
         <item>bootsound</item>
         <item>bootsoundon</item>
         <item>bootsoundoff</item>
         <item>newbootsound</item>
+        <item>testbootanim</item>
         <item>newbootanim</item>
         <item>newlocksounds</item>
     </string-array>
@@ -17,6 +18,7 @@
         <item>Turn on bootsound</item>
         <item>Turn off bootsound</item>
         <item>/sdcard/android_audio.mp3 is copied as new bootsound</item>
+        <item>Play current bootanimation for 10 seconds</item>        
         <item>/sdcard/bootanimation.zip is copied as new boot animation</item>
         <item>/sdcard/[un]lock.ogg are copied as new lock / unlock sound</item>
     </string-array>    

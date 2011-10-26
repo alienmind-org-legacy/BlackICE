@@ -5,6 +5,7 @@ BASE_DIR=/sdcard/blackice
 MARKET_DIR=$BASE_DIR/market
 RIL_DIR=$BASE_DIR/ril
 GPS_DIR=$BASE_DIR/gpsconf
+BOOTANIM_DIR=$BASE_DIR/bootanimation/
 BASE_URL=http://www.losinj.com/blackice
 ICETOOL_URL=$BASE_URL/icetool.tgz
 ICETOOL_VERSION_URL=$BASE_URL/icetool.version
@@ -59,7 +60,7 @@ Setup() {
 
   # Categories - commands relationship
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:upgrade@remount@fastcharge@charge@hosts@density\n"
-  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:apps:market@switchkeyboard@switchlauncher@extraapk\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:apps:market@bootanim@switchkeyboard@switchlauncher@extraapk\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:gps:gpsconf\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:dsp:dspinit\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:ril:ril\n"
@@ -83,57 +84,64 @@ Setup() {
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:hosts:Refresh hosts file (adfree replacement)\n"
 
   # Density is mandatory but has 3 options
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@density";
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}density@";
   DENSITY_LIST="190@200@240"
   DENSITY_DESCR="Set LCD density as 190 (LordClockan style)@Set LCD density as 200 (AlienMind style)@Set LCD density as 240 (Default style)"
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:density:$DENSITY_LIST\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:density:$DENSITY_DESCR\n"
 
+  # Boot animations catalog
+  EXTRA_BOOTANIM_NAMES=`ls $BOOTANIM_DIR/ | tr '\n' '@'`
+  EXTRA_BOOTANIM_DESCR=`for i in $BOOTANIM_DIR/*; do basename $i .zip ; done | tr '\n' ' ' | tr ' ' '@' | tr '-' ' '`
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}bootanim@";
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:bootanim:$EXTRA_BOOTANIM_NAMES\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:bootanim:$EXTRA_BOOTANIM_DESCR\n"
+
   # Rest of market options
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@extraapk";
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}extraapk@";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:extraapk:$EXTRA_APKS_NAMES\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:extraapk:$EXTRA_APKS_DESCR\n"
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@switchkeyboard";
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}switchkeyboard@";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:switchkeyboard:$EXTRA_KEY_NAMES\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:switchkeyboard:$EXTRA_KEY_DESCR\n"
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}@switchlauncher";
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}switchlauncher@";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:switchlauncher:$EXTRA_LAUNCH_NAMES\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:switchlauncher:$EXTRA_LAUNCH_DESCR\n"
 
   # The rest of the commands are optional and depending on environmental factors
   if [ -f /sys/class/power_supply/battery/force_high_power_charging ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@fastcharge"
+    SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}fastcharge@"
     COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:fastcharge:1@0\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:fastcharge:Force high power charging@Disable high power charging\n"
   fi
   if [ -f /sys/devices/platform/rs30100001:00000000/power_supply/battery/charge_on_plug_enabled ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@charge"
+    SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}charge@"
     COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:charge:1@0\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:charge:Enable USB charging@Disable USB charging\n"
   fi
   if [ -d $MARKET_DIR ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@market"
+    SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}market@"
     MARKET_LIST=`for i in $MARKET_DIR/Vending*.apk; do basename $i ; done | tr '\n' '@'`
     MARKET_DESCR=`echo $MARKET_LIST | sed 's/Vending-/Install and launch Market v/g' | sed 's/.apk//g'`
     COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:market:$MARKET_LIST\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:market:$MARKET_DESCR\n"
   fi
   if [ -d $RIL_DIR ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@ril"
+    SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}ril@"
     RIL_LIST=`ls $RIL_DIR/ | tr '\n' '@'`
     RIL_DESCR=$RIL_LIST
     COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:ril:showril@$RIL_LIST\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:ril:Show RIL info@$RIL_DESCR\n"
   fi
   if [ -d $GPS_DIR ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@gpsconf"
+    SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}gpsconf@"
     GPS_LIST=`ls $GPS_DIR/ | tr '\n' '@'`
     GPS_DESCR=$GPS_LIST
     COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:gpsconf:$GPS_LIST\n"
     COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:gpsconf:$GPS_DESCR\n"
   fi
   if [ -f /system/bin/snd3254 ]; then
-    SUPPORTED_COMMANDS="$SUPPORTED_COMMANDS@dspinit"
+    SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}dspinit@"
     DSP_LIST=`echo "" | snd3254 -dspmode | grep -v Please | awk -F'.' '{ printf("%s@",$1); }'`
     DSP_DESCR=`echo "" | snd3254 -dspmode | grep -v Please | awk '{ printf("%s@",$2); }'`
     COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:dspinit:$DSP_LIST\n"
@@ -408,6 +416,28 @@ ExtraAPK() {
   fi
 }
 
+###
+#
+# BootAnim - copy specific bootanimation to media
+BootAnim() {
+  local ANIM=$BOOTANIM_DIR/$1
+  RemountSys "rw"
+  cp -p $ANIM /system/media/bootanimation.zip
+  RemountSys "ro"
+  echo "$ANIM set as new bootanimation"
+}
+
+###
+#
+# TestBootAnim - Play current bootanimation
+TestBootAnim() {
+  bootanimation &
+  PID=$!
+  sleep 10
+  kill $PID
+}
+
+
 
 ###
 # Cleanup - for older version directories, etc
@@ -438,6 +468,8 @@ case $CMD in
   "ril")        RIL        "$1" ;;
   "density")    Density    "$1" ;;
   "extraapk")   ExtraAPK   "$1" ;;
+  "bootanim")   BootAnim   "$1" ;;
+  "testbootanim") TestBootAnim  ;;
   "cleanup")    Cleanup    "$1" ;;
 
   ### Any other command - we are a wrapper
