@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="extra_wallpapers" />
+    <string-array name="wallpapers">
+        <item>wallpaper_blackice1</item>
+        <item>wallpaper_blackice2</item>
+        <item>wallpaper_blackice3</item>
+        <item>wallpaper_blackice4</item>
+        <item>wallpaper_blackice5</item>
+        <item>wallpaper_blackice6</item>
+        <item>wallpaper_blackice7</item>
+        <item>wallpaper_blackice8</item>
+        <item>wallpaper_blackice9</item>
+        <item>wallpaper_blackice10</item>
+        <item>wallpaper_blackice11</item>
+        <item>wallpaper_blackice12</item>
+        <item>wallpaper_blackice13</item>
+        <item>wallpaper_blackice14</item>
+        <item>wallpaper_blackice15</item>
+        <item>wallpaper_blackice16</item>
+        <item>wallpaper_blackice17</item>
+        <item>wallpaper_blackice18</item>
+        <item>wallpaper_blackice19</item>
+        <item>wallpaper_blackice20</item>
+        <item>wallpaper_blackice21</item>
+        <item>wallpaper_blackice22</item>
+    </string-array>
+    <string-array name="info">
+        <item>BlackICE 1</item>
+        <item>BlackICE 2</item>
+        <item>BlackICE 3</item>
+        <item>BlackICE 4</item>
+        <item>BlackICE 5</item>
+        <item>BlackICE 6</item>
+        <item>BlackICE 7</item>
+        <item>BlackICE 8</item>
+        <item>BlackICE 9</item>
+        <item>BlackICE 10</item>
+        <item>BlackICE 11</item>
+        <item>BlackICE 12</item>
+        <item>BlackICE 13</item>
+        <item>BlackICE 14</item>
+        <item>BlackICE 15</item>
+        <item>BlackICE 16</item>
+        <item>BlackICE 17</item>
+        <item>BlackICE 18</item>
+        <item>BlackICE 19</item>
+        <item>BlackICE 20</item>
+        <item>BlackICE 21</item>
+        <item>BlackICE 22</item>
+    </string-array>
+</resources>
