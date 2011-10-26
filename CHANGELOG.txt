@@ -1,45 +1,48 @@
 CHANGELOG
 =========
-v1.20b3 - Same CM / Kernel as b2
-          Fixed missing resources of default theme
-          ICEMarket merged into ICETool
-          SysTune v1.3.7
-v1.20b2 - Built against cm_ace_full-235.zip - lordModUE-8.1-CFS 
-          Fixed SystemUI missing resources
-          Recovered 48m heap size
-          Removed Google Music ICS leak from main build
-          More ICS leaks on icetool and in extraapps (if you don't want to download)
-v1.20b1 - Built against KANG20111023-lordModUE-8.1-CFS 
-          ICETool v0.7 : autoupgrade option
-          ICETool v0.7 : show ril option
-          Roboto Font from ICS by default
-          Updated v3.0.3 su binary
-          Modded Contacts.apk from H2O
-          Modded Phone.apk from H2O
-v1.12   - Built against KANG20111014-lordModUE-8.1-CFS 
-          Fixed icetool not switching gps.conf
-v1.1    - Built against KANG20111014-lordModUE-8.1b7-CFS 
-          Removed AdFree
-          Refreshed extraapps
-v1.01b5 - Built against KANG20111014-lordModUE-8.1b5-BFS 
-          New icetool command to refresh hosts
-          Fixed FC on ICETool
-v1.01b4 - Built against KANG20111018-lordModUE-8.1b5-CFS <= Buggy
-v1.01b3 - Built against KANG20111015-lordModUE-8.0-BFS
-v1.01b2 - Fixed snd3254 init script, Dolby for speakers SRS for headphones.
-          New ondemand code by default (with powersave_bias=150)
-          Tunable sched_compat_yield=0.
-          ICETool v0.6 with dynamic options
-v1.01b1 - Built against new KANG 20111015.
+v1.20-WIP Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
+          CMWallpapers : More wallpapers from H2O
+          ICETool: Market versions entries prettified
+v1.20b3 - Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
+          SystemUI: Fixed missing resources of default theme
+          ICETool: ICEMarket merged into ICETool
+          SysTune: Upgraded to v1.3.7
+v1.20b2 - Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
+          SystemUI: Fixed missing resources
+          Base: Recovered 48m heap size
+          Apps: Removed Google Music ICS leak from main build
+          ICETool: More ICS leaks on icetool and in extraapps (if you don't want to download)
+v1.20b1 - Base:  KANG20111023 - lordModUE-8.1-CFS 
+          ICETool: upped to v0.7 : autoupgrade option
+          ICETool: upped to v0.7 : show ril option
+          Base: Roboto Font from ICS by default
+          SU: Updated v3.0.3 su binary
+          Contacts: Modded version from H2O
+          Phone: Modded version from H2O
+v1.12   - Base: KANG20111014 - lordModUE-8.1-CFS 
+          ICETool: Fixed icetool not switching gps.conf
+v1.1    - Base: KANG20111014 - lordModUE-8.1b7-CFS 
+          Apps: Removed AdFree
+          Extrapps: Refreshed versions
+v1.01b5 - Base: KANG20111014 - lordModUE-8.1b5-BFS 
+          ICETool: New icetool command to refresh hosts
+          ICETool: Fixed FC
+v1.01b4 - Base: KANG20111018 - lordModUE-8.1b5-CFS <= Buggy
+v1.01b3 - Base: KANG20111015 - lordModUE-8.0-BFS
+v1.01b2 - Tweaks: Fixed snd3254 init script, Dolby for speakers SRS for headphones.
+          Tweaks: New ondemand code by default (with powersave_bias=150)
+          Tweaks: Tunable sched_compat_yield=0.
+          ICETool: New version v0.6 with dynamic options
+v1.01b1 - Base: KANG 20111015.
           Webkitaccel <= NOT WORKING AT ALL
-v1.00   - Fix 98governor script not being executed.
-          Removed 16bpp optimization.
-          Add portability setup to icetool for other ROMS (wip)
-v1.00b4 - SuplRootCert for agps.
-          ADWLauncher, Swype, HTC_IME will be moved to sdcard instead of system, so ICETool finds it.
-          IceMarket fixed swype install
-v1.00b3 - Swype included on extraapps.
-          Dalvik Cache and Cache formated from updater-script.
+v1.00   - Tweaks: Fix 98governor script not being executed.
+          Tweaks: Removed 16bpp optimization.
+          ICETool: Add portability setup to icetool for other ROMS (wip)
+v1.00b4 - Tweaks: SuplRootCert for agps.
+          Apps: ADWLauncher, Swype, HTC_IME will be moved to sdcard instead of system, so ICETool finds it.
+          IceMarket: fixed swype install
+v1.00b3 - Apps: Swype included on extraapps.
+          Install: Dalvik Cache and Cache formated from updater-script.
 v1.00b2 - First public release
 
 ### ALPHA AND BETA RELEASES (Ancient History)
