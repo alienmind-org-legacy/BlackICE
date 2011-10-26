@@ -25,6 +25,7 @@ HELP="Usage: $0 [-v] <kang.zip> <kernel.zip> [GPS region] [RIL version]"
 TOOLS_DIR=${ROOT_DIR}/tools/
 WORK_DIR=${ROOT_DIR}/work/
 DOWN_DIR=${ROOT_DIR}/download/
+MOD_DIR=${ROOT_DIR}/mod
 OUT_DIR="${ROOT_DIR}/out/${BLACKICE_VERSION}-${DATE}"
 OUT_ZIP="${OUT_DIR}.zip"
 OUT_SIGNED="${OUT_DIR}-signed.zip"
@@ -205,7 +206,7 @@ done
 
 # Mod files
 if [ "$MODAPKS" = "1" ]; then
-for i in app/* ; do
+for i in $MOD_DIR/* ; do
    BASE=`basename "$i"`
    BASE=${BASE%\.*} # We allow several mods for 1 apk
    if [ -f "app/${BASE}.exclude" ]; then
