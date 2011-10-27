@@ -1,6 +1,10 @@
 CHANGELOG
 =========
-v1.20-WIP Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
+v1.21b1 - Base: cm_ace_full-235.zip - lordModUE-8.2-b2-BFS
+          icetool: autorun mode (early beta) for tuning options from updater-script
+          Contacts: Vanilla CM Contacts.apk to avoid FCs
+          Included bootanimation v1 final by jameslsmith
+v1.20   - Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
           CMWallpapers : More wallpapers from H2O, fixed default wallpaper
           ICETool: Market versions entries beautified
           ICETool: New entries for user provides bootanimations
