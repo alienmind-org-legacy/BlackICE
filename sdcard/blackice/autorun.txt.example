@@ -1,0 +1,15 @@
+# This is an autorun file for BlackICE
+# We can put here our custom parameters
+# to applied in every flash
+# This file should be on /sdcard/blackice/autorun.txt
+
+# Uncomment this if you want new market (default is 2.3.6)
+#market 3.2.0
+# Uncomment this if you want standard lcd density (BI default is 200)
+#density 240
+# Uncomment this if you want to setup your region GPS
+# Available configurations are on /sdcard/blackice/gpsconf/
+#gpsconf SPAIN
+# Uncomment this if you want to setup your RIL
+# Available configurations are on /sdcard/blackice/ril/
+#ril HTC-RIL_2.2.1003G
