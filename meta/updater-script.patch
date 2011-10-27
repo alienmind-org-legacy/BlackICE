@@ -1,5 +1,5 @@
---- updater-script	2008-02-29 03:33:46.000000000 +0100
-+++ updater-script	2011-10-12 01:57:49.223495897 +0200
+--- updater-script	2008-02-29 02:33:46.000000000 +0100
++++ updater-script	2011-10-28 00:39:19.663197315 +0200
 @@ -5,6 +5,13 @@
  show_progress(0.500000, 0);
  format("ext4", "EMMC", "/dev/block/mmcblk0p25");
@@ -14,7 +14,7 @@
  package_extract_dir("recovery", "/system");
  package_extract_dir("system", "/system");
  symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
-@@ -139,4 +147,36 @@
+@@ -138,4 +145,35 @@
  show_progress(0.200000, 10);
  package_extract_file("boot.img", "/dev/block/mmcblk0p22");
  show_progress(0.100000, 0);
@@ -39,15 +39,14 @@
 +set_perm(0, 0, 0755, "/system/bin/switchkeyboard");
 +set_perm(0, 0, 0755, "/system/bin/switchlauncher");
 +set_perm(0, 0, 0644, "/system/app/ICETool.apk");
++set_perm(0, 0, 0755, "/system/setup/pre.sh");
++set_perm(0, 0, 0755, "/system/setup/post.sh");
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/media/uvscripts");
-+run_program("/system/setup/post.sh");
-+delete("/system/setup/pre.sh");
-+delete("/system/setup/post.sh");
 +ui_print("wiping /cache ...");
 +unmount("/cache");
 +format("ext4", "EMMC", "/dev/block/mmcblk0p27");
 +ui_print("wiping dalvik-cache ...");
-+mount("ext4", "EMMC", "/dev/block/mmcblk0p26", "/data");
 +delete_recursive("/data/dalvik-cache");
++run_program("/system/setup/post.sh");
 +unmount("/data");
  unmount("/system");
