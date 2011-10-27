@@ -1,7 +1,3 @@
-#!/system/xbin/bash
-(
-set -x
-# Copy default market (older) to sdcard/market
-# So icetool finds there
-cp /system/app/Vending.apk /sdcard/blackice/market/Vending-2.3.6.apk
-) > /sdcard/blackice/post.log 2>&1
+#!/sbin/sh
+# Run icetool autoinstall
+/system/bin/icetool autoinstall > /sdcard/blackice/autorun.log 2>&1

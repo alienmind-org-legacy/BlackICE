@@ -1,6 +1,4 @@
-#!/system/xbin/bash
-(
-set -x
+#!/bin/sh
 # Remove older version of my data apps
 cd /data/app/
 rm -f \
@@ -8,6 +6,6 @@ rm -f \
       com.android.vending*.apk \
       com.keramidas.TitaniumBackup-*.apk \
       LordModUV*.apk \
-      org.alienmod*.apk
+      org.alienmod*.apk \
+     > /sdcard/blackice/pre.log 2>&1
 cd -
-) > /sdcard/blackice/pre.log 2>&1
