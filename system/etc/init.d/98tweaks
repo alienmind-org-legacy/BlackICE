@@ -12,3 +12,6 @@ echo "1"         > /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
 
 # Better thread behavior
 echo "0"         > /proc/sys/kernel/sched_compat_yield
+
+# BFS rr_interval
+echo "2"         > /proc/sys/kernel/rr_interval
