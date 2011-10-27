@@ -209,7 +209,7 @@ if [ "$MODAPKS" = "1" ]; then
 for i in $MOD_DIR/* ; do
    BASE=`basename "$i"`
    BASE=${BASE%\.*} # We allow several mods for 1 apk
-   if [ -f "app/${BASE}.exclude" ]; then
+   if [ -f "mod/${BASE}.exclude" ]; then
      continue ; # dirty hack to exclude framework-res modding
    fi
    ORIG=`find $OUT_DIR/system -name "$BASE.apk"`
