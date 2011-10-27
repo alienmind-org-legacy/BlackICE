@@ -468,6 +468,7 @@ AutoInstall() {
   # * We haven't internet connection
   # * We don't want to reboot (ie: dpi command normally does)
   export RECOVERY_MODE="1"
+  export PATH=$PATH:/system/bin/
 
   if [ -f "$ICETOOL_AUTORUN" ]; then
     echo "$ICETOOL_AUTORUN found! applying custom settings..."
