@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_full_name">ICETool v0.8 by alienmind / ProjectX Team</string>
+    <string name="app_full_name">ICETool v0.81 by alienmind / ProjectX Team</string>
     <string name="app_name">ICETool</string>
-    <string name="app_version">v0.8</string>
+    <string name="app_version">v0.81</string>
     <string name="app_author">alienmind @ ProjectX</string>    
     <string-array name="actions_array">
         <item>bootsound</item>
