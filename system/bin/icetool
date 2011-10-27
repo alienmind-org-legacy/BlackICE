@@ -20,7 +20,7 @@ BASE_URL=http://www.losinj.com/blackice
 ICETOOL_URL=$BASE_URL/icetool.tgz
 ICETOOL_VERSION_URL=$BASE_URL/icetool.version
 ICETOOL_AUTORUN=$BASE_DIR/autorun.txt
-RECOVERY_CMD_WHITELIST="market gpsconf ril density bootanim switchlauncher switchkeyboard"
+RECOVERY_CMD_WHITELIST="market gpsconf ril density bootanim switchlauncher switchkeyboard bootsoundoff"
 
 ### More extra content to come
 EXTRA_APKS="ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \

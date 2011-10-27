@@ -13,3 +13,9 @@
 # Uncomment this if you want to setup your RIL
 # Available configurations are on /sdcard/blackice/ril/
 #ril HTC-RIL_2.2.1003G
+# Keyboard
+#switchkeyboard nexusswype
+# Launcher
+#switchlauncher adw
+# Boot Sound off
+#bootsoundoff
