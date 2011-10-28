@@ -24,7 +24,6 @@ RECOVERY_CMD_WHITELIST="market gpsconf ril density bootanim switchlauncher extra
 
 ### More extra content to come
 EXTRA_APKS="ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \
-            Google++2.0.0.apk:18eb66a953318ef3be5702a063454a38 \
             Google_Maps_v5.11.0.apk:c0ac28f4a503807d10579090d105e894 \
             Street+View+1.7.0.4.apk:d761639c4abe8b13538ca77e8f6b2ada \
             Google+Music+4.0.1.apk:d31a972968ab0798921aa6f3b9b4aaf1 \
@@ -32,7 +31,7 @@ EXTRA_APKS="ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \
 
 # Extra APKs
 EXTRA_APKS_NAMES=`for i in $EXTRA_APKS; do B=${i%\:*} ; echo "$B@" ; done | tr '\n' ' ' | sed 's/\ *//g'`
-EXTRA_APKS_DESCR="ICS v2.4 Launcher2@Google++ 2.0@Google Maps v5.11.0@Street View v1.7.0.4@Google Music v4.0.1"
+EXTRA_APKS_DESCR="ICS v2.4 Launcher2@Google Maps v5.11.0@Street View v1.7.0.4@Google Music v4.0.1"
 
 # Extra TGZ on /system
 # FIXME - allow any tgz

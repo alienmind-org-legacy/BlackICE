@@ -1,5 +1,7 @@
 CHANGELOG
 =========
+v1.21b2 - Base: cm_ace_full-240.zip - lordModUE-8.2-b2-BFS
+          Removed Google+ ICS leak, causes FC in contacts
 v1.21b1 - Base: cm_ace_full-240.zip - lordModUE-8.2-b2-BFS
           Kernel: set BFS rr_interval=2
           icetool: autorun mode (early beta) for tuning options from updater-script
