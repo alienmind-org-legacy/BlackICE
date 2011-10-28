@@ -28,11 +28,16 @@ if [ -f "$APK" ]; then
   fi
 fi
 if [ "$GOOD" != "1" ]; then
-  rm -f "$APK"
-  wget "$URL"
-  MD5=`md5sum $APK | awk '{ print $1 }'`
-  if [ "$MD5" = "$MD5SUM" ]; then
-     GOOD=1
+  if [ "$RECOVERY_MODE" != "1" ]; then
+    rm -f "$APK"
+    wget "$URL"
+    MD5=`md5sum $APK | awk '{ print $1 }'`
+    if [ "$MD5" = "$MD5SUM" ]; then
+       GOOD=1
+    fi
+  else
+    echo "Failed checking $APK ($MD5 != $MD5SUM)"
+    exit 1
   fi
 fi
 if [ "$GOOD" = "1" ]; then
