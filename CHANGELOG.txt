@@ -3,6 +3,7 @@ CHANGELOG
 v1.21b1 - Base: cm_ace_full-235.zip - lordModUE-8.2-b2-BFS
           Kernel: set BFS rr_interval=2
           icetool: autorun mode (early beta) for tuning options from updater-script
+          icetool: merge switchkeyboard into icetool extrapkg
           Included bootanimation v1 final by jameslsmith
 v1.20   - Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
           CMWallpapers : More wallpapers from H2O, fixed default wallpaper
