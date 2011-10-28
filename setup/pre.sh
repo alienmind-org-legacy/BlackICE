@@ -8,4 +8,4 @@ rm -f \
       LordModUV*.apk \
       org.alienmod*.apk \
      > /sdcard/blackice/pre.log 2>&1
-cd -
+cd - > /dev/null 2>&1
