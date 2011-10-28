@@ -1,7 +1,7 @@
 # This is an autorun file for BlackICE
-# We can put here our custom parameters
-# to applied in every flash
 # This file should be on /sdcard/blackice/autorun.txt
+# We can put here our custom parameters
+# to be applied in every flash
 
 # Uncomment this if you want new market (default is 2.3.6)
 #market 3.2.0
@@ -14,7 +14,7 @@
 # Available configurations are on /sdcard/blackice/ril/
 #ril HTC-RIL_2.2.1003G
 # Keyboard
-#switchkeyboard nexusswype
+#extrapkg nexussswype
 # Launcher
 #switchlauncher adw
 # Boot Sound off
