@@ -6,7 +6,7 @@
 # plus a configuration interface that allows modifying ICETool.apk
 # interface (adding and removing tabs and options)
 #
-# TODO - merge switchkeyboard and switchlauncher separate scripts
+# TODO - merge switchlauncher separate scripts
 #
 
 ICETOOL_VERSION="0.81" # Script version
@@ -20,22 +20,26 @@ BASE_URL=http://www.losinj.com/blackice
 ICETOOL_URL=$BASE_URL/icetool.tgz
 ICETOOL_VERSION_URL=$BASE_URL/icetool.version
 ICETOOL_AUTORUN=$BASE_DIR/autorun.txt
-RECOVERY_CMD_WHITELIST="market gpsconf ril density bootanim switchlauncher switchkeyboard bootsoundoff"
+RECOVERY_CMD_WHITELIST="market gpsconf ril density bootanim switchlauncher extrapkg bootsoundoff"
 
 ### More extra content to come
 EXTRA_APKS="ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \
             Google++2.0.0.apk:18eb66a953318ef3be5702a063454a38 \
             Google_Maps_v5.11.0.apk:c0ac28f4a503807d10579090d105e894 \
             Street+View+1.7.0.4.apk:d761639c4abe8b13538ca77e8f6b2ada \
-            Google+Music+4.0.1.apk:d31a972968ab0798921aa6f3b9b4aaf1 "
+            Google+Music+4.0.1.apk:d31a972968ab0798921aa6f3b9b4aaf1 \
+"
 
-# Extra APKs names
+# Extra APKs
 EXTRA_APKS_NAMES=`for i in $EXTRA_APKS; do B=${i%\:*} ; echo "$B@" ; done | tr '\n' ' ' | sed 's/\ *//g'`
 EXTRA_APKS_DESCR="ICS v2.4 Launcher2@Google++ 2.0@Google Maps v5.11.0@Street View v1.7.0.4@Google Music v4.0.1"
 
-# Switch Keyboard options
-EXTRA_KEY_NAMES="nexussswype@htcime"
-EXTRA_KEY_DESCR="Nexus S Swype (black)@HTC IME Mod (grey)"
+# Extra TGZ on /system
+# FIXME - allow any tgz
+EXTRA_PKGS="nexussswype.tgz:cf933c0e76022bfc16d9e00df9a0c3d0 \
+            htcime.tgz:4f46cc059c890db70b324816e8722775"
+EXTRA_PKG_NAMES=`for i in $EXTRA_PKGS; do B=${i%\:*} ; echo "$B@" ; done | tr '\n' ' ' | sed 's/\ *//g'`
+EXTRA_PKG_DESCR="Nexus S Swype (black)@HTC IME Mod (grey)"
 
 # Switch launcher options
 EXTRA_LAUNCH_NAMES="udlauncher@adwlauncher"
@@ -71,7 +75,7 @@ Setup() {
 
   # Categories - commands relationship
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:upgrade@remount@fastcharge@charge@hosts@density\n"
-  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:apps:market@bootanim@switchkeyboard@switchlauncher@extraapk\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:apps:market@bootanim@extrapkg@switchlauncher@extraapk\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:gps:gpsconf\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:dsp:dspinit\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:ril:ril\n"
@@ -112,9 +116,9 @@ Setup() {
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}extraapk@";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:extraapk:$EXTRA_APKS_NAMES\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:extraapk:$EXTRA_APKS_DESCR\n"
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}switchkeyboard@";
-  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:switchkeyboard:$EXTRA_KEY_NAMES\n";
-  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:switchkeyboard:$EXTRA_KEY_DESCR\n"
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}extrapkg@";
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:extrapkg:$EXTRA_PKG_NAMES\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:extrapkg:$EXTRA_PKG_DESCR\n"
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}switchlauncher@";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:switchlauncher:$EXTRA_LAUNCH_NAMES\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:switchlauncher:$EXTRA_LAUNCH_DESCR\n"
@@ -377,10 +381,68 @@ Density() {
   Reboot 5
 }
 
+###
+#
+# ExtraPKG - to download extra content on /system (.tgz)
+ExtraPKG() {
+  if [ "$1" = "list" ]; then
+    echo "$EXTRA_PKG_NAMES"
+    exit 0
+  fi
+  PKG=$1
+  for i in $EXTRA_PKGS; do
+     B=${i%\:*}  # filename
+     MD5SUM=${i##*:}  # md5
+     if [ "$PKG" = "$B" ]; then
+       URL="$BASE_URL/$B"
+       break
+     fi
+  done
+
+  if [ ! -d /sdcard/blackice ]; then
+    MK=1
+    mkdir -p /sdcard/blackice
+  fi
+  cd /sdcard/blackice
+  if [ -f "$PKG" ]; then
+    MD5=`md5sum $PKG | awk '{ print $1 }'`
+    if [ "$MD5" = "$MD5SUM" ]; then
+      GOOD=1
+    fi
+  fi
+  if [ "$GOOD" != "1" ]; then
+    if [ "$RECOVERY_MODE" != "1" ]; then
+      rm -f "$PKG"
+      wget "$URL"  &>/dev/null
+      RET=$?
+      if [ "$RET" != "0" ]; then
+        echo "Error downloading $PKG"
+        exit 1
+      fi
+      MD5=`md5sum $PKG | awk '{ print $1 }'`
+      if [ "$MD5" = "$MD5SUM" ]; then
+        GOOD=1
+      fi
+    else
+      echo "Error checking $PKG ($MD5 != $MD5SUM) and we can't download - STOP"
+    fi
+  fi
+  if [ "$GOOD" = "1" ]; then
+    RemountSys "rw"
+    cd /
+    tar -xzvf /sdcard/blackice/$PKG
+    chmod 644 `tar -tzvf /sdcard/blackice/$PKG | awk '(substr($NF,length($NF)) != "/"){ print $NF }'`
+    RemountSys "ro"
+    echo "Done!"
+  else
+    echo "Failed to download / install $PKG"
+    exit 1
+  fi
+}
 
 ###
 #
-# Extraapp - to download content
+# Extraapp - to download APK content
 ExtraAPK() {
   if [ "$1" = "list" ]; then
     echo "$EXTRA_APKS_NAMES"
@@ -530,6 +592,7 @@ main() {
     "ril")          RIL        "$1" ;;
     "density")      Density    "$1" ;;
     "extraapk")     ExtraAPK   "$1" ;;
+    "extrapkg")     ExtraPKG   "$1" ;;
     "bootanim")     BootAnim   "$1" ;;
     "testbootanim") TestBootAnim    ;;
     "cleanup")      Cleanup    "$1" ;;
