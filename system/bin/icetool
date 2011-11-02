@@ -519,6 +519,19 @@ TestBootAnim() {
 }
 
 ###
+#
+# BootSoundOff - Disable default bootsound
+BootSoundOff() {
+  RemountSys "rw"
+  if [ -e /system/media/android_audio.mp3 ]; then
+    mv /system/media/android_audio.mp3 /data/local/boot/android_audio.mp3
+  fi
+  RemountSys "ro"
+  echo "Boot sound disabled"
+}
+
+
+###
 # AutoInstall
 # Execute a sequence of commands available on a fixed path
 # configuration file
@@ -529,7 +542,7 @@ AutoInstall() {
   # * We haven't internet connection
   # * We don't want to reboot (ie: dpi command normally does)
   export RECOVERY_MODE="1"
-  export PATH=$PATH:/system/bin/
+  export PATH=$PATH:/system/bin/:/system/xbin/
 
   if [ -f "$ICETOOL_AUTORUN" ]; then
     echo "$ICETOOL_AUTORUN found! applying custom settings..."
@@ -594,6 +607,7 @@ main() {
     "extrapkg")     ExtraPKG   "$1" ;;
     "bootanim")     BootAnim   "$1" ;;
     "testbootanim") TestBootAnim    ;;
+    "bootsoundoff") BootSoundOff    ;;
     "cleanup")      Cleanup    "$1" ;;
   
     ### Any other command - we are a wrapper

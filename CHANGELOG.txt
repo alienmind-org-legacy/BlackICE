@@ -1,5 +1,8 @@
 CHANGELOG
 =========
+v1.22   - Base: KANG-20111102.zip - lordModUE-8.2-b5.2-kernelizer-CFS
+          Lockscreen: Press home to torch (by alienmind)
+          CMparts: Updated spanish translations (by alienmind)
 v1.21b2 - Base: cm_ace_full-240.zip - lordModUE-8.2-b2-BFS
           Removed Google+ ICS leak, causes FC in contacts
 v1.21b1 - Base: cm_ace_full-240.zip - lordModUE-8.2-b2-BFS
