@@ -215,7 +215,7 @@ for i in $MOD_DIR/* ; do
    ORIG=`find $OUT_DIR/system -name "$BASE.apk"`
    if [ -f "$ORIG" ]; then
      ShowMessage "  [MOD] $BASE.apk ($i)"
-     tools/apkmod.sh $ORIG $i
+     tools/apkmod.sh $ORIG $i || ExitError "Cannot mod $ORIG. See $LOG for details"
    fi
 done
 fi
@@ -312,7 +312,7 @@ if [ "$EXTRA_APPS" = "1" ] ; then
   ShowMessage "  [CP] $EXTRAAPPS_DIR"
   cp -av $ROOT_DIR/$EXTRAAPPS_DIR/* $OUT_EXTRAAPPS/ >> $LOG
   cd $OUT_EXTRAAPPS/META-INF/com/google/android/
-  ( ( cat ${ROOT_DIR}/artwork/logo.txt ; echo $BLACKICE_VERSION "-extrapps" ) |
+  ( ( cat ${ROOT_DIR}/artwork/logo.txt ; echo "$BLACKICE_VERSION-extrapps" ) |
     awk '{ print "ui_print(\"" $0 "\");" }' ;
     cat updater-script ) \
     > updater-script.new

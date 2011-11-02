@@ -42,16 +42,16 @@ if [ -f "$APK" ]; then
   # Decompile
   if [ "$RES" != "" ]; then
     ShowMessage "  [MOD|apkd] " `basename $APK` " => " `basename "$OUT_DIR"`
-    java -jar $APKTOOL d $APK $OUT_DIR &>> $LOG
+    java -jar $APKTOOL d $APK $OUT_DIR &>> $LOG || exit 1
   # just unzip
   else 
     ShowMessage "  [MOD|7zax] " `basename $APK` " => " `basename "$OUT_DIR"`
-    7za x -o"$OUT_DIR" $APK &>> $LOG
+    7za x -o"$OUT_DIR" $APK &>> $LOG || exit 1
   fi
 
   # Copy content
   ShowMessage "  [MOD|cp] " `basename $MOD_DIR` " => " `basename "$OUT_DIR"`
-  cp -av $MOD_DIR/* $OUT_DIR &>> $LOG
+  cp -av $MOD_DIR/* $OUT_DIR &>> $LOG || exit 1
 
   # Optimize png?
 	#find "$OUT_DIR/res" -name *.png | while read PNG_FILE ;
@@ -64,27 +64,29 @@ if [ -f "$APK" ]; then
   # Remove meta-inf on regular apk's
   if [ "$RMMETA" = "1" ]; then
     ShowMessage "  [MOD|rm] META-INF"
-    rm -rf $OUT_DIR/META-INF/ &>> $LOG
+    rm -rf $OUT_DIR/META-INF/ &>> $LOG || exit 1
   fi
 
   # Recompile
   if [ "$RES" != "" ]; then
     ShowMessage "  [MOD|apkb] " `basename $MOD_DIR` " => " `basename "$OUT_DIR"`
-    java -jar $APKTOOL b $OUT_DIR $NEWAPK &>> $LOG
+    java -jar $APKTOOL b $OUT_DIR $NEWAPK &>> $LOG || exit 1
   # just rezip
   else
     ShowMessage "  [MOD|7zaa] " `basename $MOD_DIR` " => " `basename "$OUT_DIR"`
-    7za a -tzip $NEWAPK $OUT_DIR/* -mx9 &>> $LOG
+    7za a -tzip $NEWAPK $OUT_DIR/* -mx9 &>> $LOG || exit 1
   fi
 
   # Sign
   if [ "$SIGN" = "1" ]; then
     ShowMessage "  [MOD|sign] " `basename $NEWAPK`  " => " `basename "$APK"`
-    sign.sh $NEWAPK $APK &>> $LOG
+    sign.sh $NEWAPK $APK &>> $LOG || exit 1
   else
     ShowMessage "  [MOD|mv] " `basename $NEWAPK`  " => " `basename "$APK"`
-    mv $NEWAPK $APK &>> $LOG
+    mv $NEWAPK $APK &>> $LOG || exit 1
   fi
 
   cd - &> /dev/null
 fi
+
+exit 0
