@@ -15,3 +15,17 @@ echo "0"         > /proc/sys/kernel/sched_compat_yield
 
 # BFS rr_interval
 echo "2"         > /proc/sys/kernel/rr_interval
+
+# Disable normalized sleeper
+if [ -e /sys/kernel/debug/sched_features ] ; then
+  echo NO_NORMALIZED_SLEEPER > /sys/kernel/debug/sched_features;
+  echo NO_NEW_FAIR_SLEEPERS > /sys/kernel/debug/sched_features;
+else
+  mount -t debugfs none /sys/kernel/debug
+  if [ -e /sys/kernel/debug/sched_features ] ; then
+    echo NO_NORMALIZED_SLEEPER > /sys/kernel/debug/sched_features;
+    echo NO_NEW_FAIR_SLEEPERS > /sys/kernel/debug/sched_features;
+  fi
+  umount /sys/kernel/debug
+fi
+
