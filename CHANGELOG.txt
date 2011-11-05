@@ -1,5 +1,16 @@
 CHANGELOG
 =========
+v1.23b3 - WIP 
+          Framework: New battery icons with percentage (by "The Unknown Noob")
+          Framework: Reworking all broken 9patches
+v1.23b2 - Base: KANG-20111102.zip - lordModUE-8.2-CFS-b6
+          Base: NO_NORMALIZER_SLEEPERS and NO_NEW_FAIR_SLEEPERS scheduler tweaks
+          Browser: Removed broken Browser.apk dependant on older framework
+          Setup: Working "bootsoundoff" action on autorun.txt
+          Setup: Fixed wrong removal of apk's on pre.sh script
+          Revert: Fixed framework-res 9patch files
+          Revert: ICS alike notification panel
+          Revert: SU 3.0.3
 v1.23b1 - Base: KANG-20111102.zip - lordModUE-8.2-b5.2-kernelizer-CFS
           Fixed framework-res 9patch files
           ICS alike notification panel
