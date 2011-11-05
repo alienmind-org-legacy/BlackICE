@@ -9,7 +9,7 @@
 # TODO - merge switchlauncher separate scripts
 #
 
-ICETOOL_VERSION="0.81" # Script version
+ICETOOL_VERSION="0.82" # Script version
 HELP="Usage: $0 <cmd> ..."
 BASE_DIR=/sdcard/blackice
 MARKET_DIR=$BASE_DIR/market
@@ -523,6 +523,7 @@ TestBootAnim() {
 # BootSoundOff - Disable default bootsound
 BootSoundOff() {
   RemountSys "rw"
+  mkdir -p /data/local/boot/
   if [ -e /system/media/android_audio.mp3 ]; then
     mv /system/media/android_audio.mp3 /data/local/boot/android_audio.mp3
   fi
