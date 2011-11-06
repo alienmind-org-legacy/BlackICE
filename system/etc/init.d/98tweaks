@@ -16,6 +16,17 @@ echo "0"         > /proc/sys/kernel/sched_compat_yield
 # BFS rr_interval
 #echo "2"         > /proc/sys/kernel/rr_interval
 
+## IO Scheduler
+#echo "deadline" > \
+#  /sys/devices/platform/msm_sdcc.4/mmc_host/mmc2/mmc2:b368/block/mmcblk0/queue/scheduler
+#echo "deadline" > \
+#  /sys/devices/platform/msm_sdcc.4/mmc_host/mmc2/mmc2:b368/block/mmcblk1/queue/scheduler
+## Read ahead
+#echo "2048" > \
+#  /sys/devices/platform/msm_sdcc.2/mmc_host/mmc0/mmc0:0001/block/mmcblk0/queue/read_ahead_kb
+#echo "3072" > \
+#  /sys/devices/platform/msm_sdcc.4/mmc_host/mmc2/mmc2:b368/block/mmcblk1/queue/read_ahead_kb
+
 # Low memory killer - units are in 4kb pages
 # Order is as follows
 # FOREGROUND_APP:
