@@ -2,21 +2,55 @@
 # Default governor settings
 echo "ondemand"  > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 #echo "614400"   > /sys/devices/system/cpu/cpufreq/ondemand/suspend_freq
-echo "15"        > /sys/devices/system/cpu/cpufreq/ondemand/down_differential
+echo "10"        > /sys/devices/system/cpu/cpufreq/ondemand/down_differential
 echo "50"        > /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
 echo "0"         > /sys/devices/system/cpu/cpufreq/ondemand/ignore_nice_load
 echo "85"        > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
-echo "150"       > /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
-echo "80000"     > /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
-echo "1"         > /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
+echo "100"       > /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
+echo "0"         > /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
+#echo "80000"     > /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
 
 # Better thread behavior
 echo "0"         > /proc/sys/kernel/sched_compat_yield
 
 # BFS rr_interval
-echo "2"         > /proc/sys/kernel/rr_interval
+#echo "2"         > /proc/sys/kernel/rr_interval
 
-# Disable normalized sleeper
+# Low memory killer - units are in 4kb pages
+# Order is as follows
+# FOREGROUND_APP:
+#  This is the process running the current foreground app.  We'd really
+#  rather not kill it! Value set in system/rootdir/init.rc on startup.
+# VISIBLE_APP:
+#  This is a process only hosting activities that are visible to the
+#  user, so we'd prefer they don't disappear. Value set in
+#  system/rootdir/init.rc on startup.
+# SECONDARY_SERVER:
+#  This is a process holding a secondary server -- killing it will not
+#  have much of an impact as far as the user is concerned. Value set in
+#  system/rootdir/init.rc on startup.
+# HIDDEN_APP:
+#  This is a process only hosting activities that are not visible,
+#  so it can be killed without any disruption. Value set in
+#  system/rootdir/init.rc on startup.
+# CONTENT_PROVIDER:
+#  This is a process with a content provider that does not have any clients
+#  attached to it.  If it did have any clients, its adjustment would be the
+#  one for the highest-priority of those processes.
+# EMPTY_APP:
+#  This is a process without anything currently running in it.  Definitely
+#  the first to go! Value set in system/rootdir/init.rc on startup.
+#  This value is initalized in the constructor, careful when refering to
+#  this static variable externally.
+
+# Unagressive policy : we value more not killing apps, we are plenty of memory
+# We start killing at 64MB
+echo "2048,3072,4096,6144,8192,16384"  > /sys/module/lowmemorykiller/parameters/minfree
+
+# The opposite policy: 6,12,150,165,180,200 MB"
+#echo 1536,3072,38400,42240,46080,51200 > /sys/module/lowmemorykiller/parameters/minfree
+
+## Disable normalized sleeper
 if [ -e /sys/kernel/debug/sched_features ] ; then
   echo NO_NORMALIZED_SLEEPER > /sys/kernel/debug/sched_features;
   echo NO_NEW_FAIR_SLEEPERS > /sys/kernel/debug/sched_features;
