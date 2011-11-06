@@ -1,8 +1,13 @@
 CHANGELOG
 =========
-v1.23b3 - WIP 
+v1.24b1 - Still WIP 
           Framework: New battery icons with percentage (by "The Unknown Noob")
           Framework: Reworking all broken 9patches
+          Included Chain3D preconfigured, with plugins and shaders
+v1.23   - Base: KANG-20111102.zip - lordModUE-8.2-CFS
+          Tweaks: retweaked ondemand
+          Tweaks: low memory killer
+          Removed Protips.apk
 v1.23b2 - Base: KANG-20111102.zip - lordModUE-8.2-CFS-b6
           Base: NO_NORMALIZER_SLEEPERS and NO_NEW_FAIR_SLEEPERS scheduler tweaks
           Browser: Removed broken Browser.apk dependant on older framework
