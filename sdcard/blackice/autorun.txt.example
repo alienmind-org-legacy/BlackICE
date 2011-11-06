@@ -11,3 +11,5 @@
 # Uncomment this if you want to setup your RIL
 # Available configurations are on /sdcard/blackice/ril/
 #ril HTC-RIL_2.2.1003G
+# Uncomment this if you don't want boot sound
+#bootsoundoff
