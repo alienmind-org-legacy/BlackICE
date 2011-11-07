@@ -1,9 +1,9 @@
 CHANGELOG
 =========
-v1.24b1 - Still WIP 
+v1.24b1 - Base: KANG-20111102.zip - lordModUE-8.2-CFS
           Framework: New battery icons with percentage (by "The Unknown Noob")
-          Framework: Reworking all broken 9patches
-          Included Chain3D preconfigured, with plugins and shaders
+          Apps: Chainfire3D preconfigured, with plugins and shaders on /sdcard
+          Extraapps: Flash Player downgraded to 10.2.156.12
 v1.23   - Base: KANG-20111102.zip - lordModUE-8.2-CFS
           Tweaks: retweaked ondemand
           Tweaks: low memory killer
