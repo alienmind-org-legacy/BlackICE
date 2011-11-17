@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.24b2 - WIP
+          Base: KANG-20111118 - lordModUE-8.2-CFS
+          Apps: Google Street View upgraded
+          Apps: Google Maps v5.12 all roads
+          Apps: Upgraded Youtube
+          ICETool: autorun.txt overlay command to customize /system or /data
 v1.24b1 - Base: KANG-20111102.zip - lordModUE-8.3-CFS-b2
           Framework: New battery icons with percentage (by "The Unknown Noob")
           Apps: Chainfire3D preconfigured, with plugins and shaders on /sdcard
