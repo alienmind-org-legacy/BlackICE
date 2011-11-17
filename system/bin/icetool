@@ -9,7 +9,7 @@
 # TODO - merge switchlauncher separate scripts
 #
 
-ICETOOL_VERSION="0.82" # Script version
+ICETOOL_VERSION="0.85" # Script version
 HELP="Usage: $0 <cmd> ..."
 BASE_DIR=/sdcard/blackice
 MARKET_DIR=$BASE_DIR/market
@@ -20,18 +20,16 @@ BASE_URL=http://www.losinj.com/blackice
 ICETOOL_URL=$BASE_URL/icetool.tgz
 ICETOOL_VERSION_URL=$BASE_URL/icetool.version
 ICETOOL_AUTORUN=$BASE_DIR/autorun.txt
-RECOVERY_CMD_WHITELIST="market gpsconf ril density bootanim switchlauncher extrapkg bootsoundoff"
+RECOVERY_CMD_WHITELIST="market gpsconf ril density bootanim switchlauncher extrapkg bootsoundoff overlay"
 
 ### More extra content to come
 EXTRA_APKS="ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \
-            Google_Maps_v5.11.0.apk:c0ac28f4a503807d10579090d105e894 \
-            Street+View+1.7.0.4.apk:d761639c4abe8b13538ca77e8f6b2ada \
             Google+Music+4.0.1.apk:d31a972968ab0798921aa6f3b9b4aaf1 \
 "
 
 # Extra APKs
 EXTRA_APKS_NAMES=`for i in $EXTRA_APKS; do B=${i%\:*} ; echo "$B@" ; done | tr '\n' ' ' | sed 's/\ *//g'`
-EXTRA_APKS_DESCR="ICS v2.4 Launcher2@Google Maps v5.11.0@Street View v1.7.0.4@Google Music v4.0.1"
+EXTRA_APKS_DESCR="ICS v2.4 Launcher2@Google Music v4.0.1"
 
 # Extra TGZ on /system
 # FIXME - allow any tgz
@@ -531,6 +529,31 @@ BootSoundOff() {
   echo "Boot sound disabled"
 }
 
+###
+#
+# Overlay - Copy custom content from sdcard
+Overlay() {
+  local DST="$1"
+  local SRC="$2"
+
+  if [ "$DST" = "/system" ]; then
+    DEV=/dev/block/mmcblk0p25
+  elif [ "$DST" = "/data" ]; then
+    DEV=/dev/block/mmcblk0p26
+  else
+    die "overlay: Invalid destination $DST"
+  fi
+
+  if [ ! -d "$SRC" ]; then
+    die "overlay: Invalid source $SRC"
+  fi
+
+  mount $DEV $DST &>/dev/null || mount -o remount,rw $DEV $DST
+  cp -av $SRC/* $DST/
+  umount $DST
+}
+
+
 
 ###
 # AutoInstall
@@ -609,6 +632,7 @@ main() {
     "bootanim")     BootAnim   "$1" ;;
     "testbootanim") TestBootAnim    ;;
     "bootsoundoff") BootSoundOff    ;;
+    "overlay")      Overlay    "$1" "$2" ;;
     "cleanup")      Cleanup    "$1" ;;
   
     ### Any other command - we are a wrapper
