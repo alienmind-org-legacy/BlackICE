@@ -1,8 +1,12 @@
 #!/bin/bash
+: ${ROOT_DIR:=~/DEVEL/ICEDroid}
 
-ICE_DIR=~/android/blackice/ICEDroid
+if [ ! -d "$ROOT_DIR" ]; then
+  echo "Please set ROOT_DIR to ICEDroid root directory"
+  exit 1
+fi
 
-. $ICE_DIR/tools/util_sh
+. $ROOT_DIR/tools/util_sh
 
 if [ "$#" -lt "2" ]; then
   echo
@@ -17,7 +21,7 @@ APK_BASE=framework-res
 APK=$APK_BASE.apk
 APK_DIR=$1
 PNG_DIR=$2
-OUT_DIR=$ICE_DIR/work/$APK_BASE
+OUT_DIR=$ROOT_DIR/work/$APK_BASE
 PNG_ARCHIVE_PATH=res/drawable-hdpi
 
 : ${LOG:=/dev/null}
