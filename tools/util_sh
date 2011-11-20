@@ -12,7 +12,7 @@ function ShowMessage() {
   echo "$@" | tee -a $LOG 
 }
 
-# Fix relative path
+# Convert relative path to absolute path
 function FixPath() {
   local ARG=$1
   P=${ARG:0:1}
@@ -21,6 +21,17 @@ function FixPath() {
   fi
   echo $ARG
 }
+
+# Fix relative path
+function FixRelPath() {
+  local ARG=$1
+  P=${ARG:0:2}
+  if [ "$P" = "./" ]; then
+    ARG=${ARG:2}
+  fi
+  echo $ARG
+}
+
 
 # Check zipfile
 function CheckZipFile() {
