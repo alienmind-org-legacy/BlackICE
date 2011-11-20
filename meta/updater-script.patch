@@ -14,13 +14,15 @@
  package_extract_dir("recovery", "/system");
  package_extract_dir("system", "/system");
  symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
-@@ -138,4 +145,35 @@
+@@ -138,4 +145,37 @@
  show_progress(0.200000, 10);
  package_extract_file("boot.img", "/dev/block/mmcblk0p22");
  show_progress(0.100000, 0);
 +package_extract_dir("sdcard", "/sdcard");
 +show_progress(0.100000, 0);
 +set_perm_recursive(0, 2000, 0755, 0750, "/system/etc/init.d");
++set_perm_recursive(0, 0, 0755, 0750, "/system/etc/be_movie");
++set_perm_recursive(0, 0, 0755, 0750, "/system/etc/be_photo");
 +set_perm(0, 0, 0644, "/system/etc/SuplRootCert");
 +set_perm(0, 0, 0755, "/system/bin/bootsound");
 +set_perm(0, 0, 0755, "/system/bin/bootsoundoff");
