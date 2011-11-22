@@ -206,18 +206,26 @@ done
 
 # Mod files
 if [ "$MODAPKS" = "1" ]; then
-for i in $MOD_DIR/* ; do
-   BASE=`basename "$i"`
-   BASE=${BASE%\.*} # We allow several mods for 1 apk
-   if [ -f "mod/${BASE}.exclude" ]; then
-     continue ; # dirty hack to exclude framework-res modding
-   fi
-   ORIG=`find $OUT_DIR/system -name "$BASE.apk"`
-   if [ -f "$ORIG" ]; then
-     ShowMessage "  [MOD] $BASE.apk ($i)"
-     tools/apkmod.sh $ORIG $i || ExitError "Cannot mod $ORIG. See $LOG for details"
-   fi
-done
+   MODS=`for i in $MOD_DIR/*.apk; do echo $i ; done | sort -n`
+set -x
+   for i in $MODS ; do
+     BASE=`basename "$i" .apk`
+     BASE=${BASE%\.*} # We allow several mods for 1 apk
+     if [ -f "mod/${BASE}.exclude" ]; then
+       continue ; # dirty hack to exclude framework-res modding
+     fi
+     # Read specific options
+     if [ -f "mod/${BASE}.options" ]; then
+       . mod/${BASE}.options
+       APKMOD_METHOD=$method 
+     fi
+     ORIG=`find $OUT_DIR/system -name "$BASE.apk"`
+     if [ -f "$ORIG" ]; then
+       ShowMessage "  [MOD] $BASE.apk ($i)"
+       tools/apkmod.sh $ORIG $i || ExitError "Cannot mod $ORIG. See $LOG for details"
+     fi
+   done
+set +x
 fi
 
 # Bootanimation
@@ -270,7 +278,7 @@ done
 
 # Move possible packages to extraapps
 for i in $EXTRAAPPS_APK; do
-   # It could have a :* part with destinatino
+   # It could have a :* part with destination
    SRC=${i%\:*}
    DST=${i##*:}
    DST=$OUT_EXTRAAPPS/$DST
