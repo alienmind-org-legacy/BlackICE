@@ -20,7 +20,7 @@ BASE_URL=http://www.losinj.com/blackice
 ICETOOL_URL=$BASE_URL/icetool.tgz
 ICETOOL_VERSION_URL=$BASE_URL/icetool.version
 ICETOOL_AUTORUN=$BASE_DIR/autorun.txt
-RECOVERY_CMD_WHITELIST="market gpsconf ril density bootanim switchlauncher extrapkg bootsoundoff overlay"
+RECOVERY_CMD_WHITELIST="market gpsconf ril density braviaengine bootanim switchlauncher extrapkg bootsoundoff overlay"
 
 ### More extra content to come
 EXTRA_APKS="ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \
@@ -71,7 +71,7 @@ Setup() {
   CATEGORIES="CATEGORIES:sys@apps@dsp@gps@ril"
 
   # Categories - commands relationship
-  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:upgrade@remount@fastcharge@charge@hosts@density\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:upgrade@remount@fastcharge@charge@hosts@density@braviaengine\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:apps:market@bootanim@extrapkg@switchlauncher@extraapk\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:gps:gpsconf\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:dsp:dspinit\n"
@@ -101,6 +101,13 @@ Setup() {
   DENSITY_DESCR="Set LCD density as 190 (LordClockan style)@Set LCD density as 200 (AlienMind style)@Set LCD density as 240 (Default style)"
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:density:$DENSITY_LIST\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:density:$DENSITY_DESCR\n"
+
+  # BraviaEngine has 2 options
+  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}braviaengine@";
+  BRAVIA_LIST="on@off"
+  BRAVIA_DESCR="Enable Bravia Engine (reboot needed)@Disable Bravia Engine (reboot needed)"
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:braviaengine:$BRAVIA_LIST\n";
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:braviaengine:$BRAVIA_DESCR\n"
 
   # Boot animations catalog
   EXTRA_BOOTANIM_NAMES=`ls $BOOTANIM_DIR/ | tr '\n' '@'`
@@ -378,6 +385,28 @@ Density() {
   Reboot 5
 }
 
+BraviaEngine() {
+  MODE=$1
+
+  if [ "$MODE" != "on" -a "$MODE" != "off" ]; then
+    die "Illegal value : $MODE"
+  fi
+
+  RemountSys "rw"
+  if [ "$MODE" = "on" ]; then
+    sed  -i "s/ro.service.swiqi.supported=.*/ro.service.swiqi.supported=true/g" /system/build.prop
+    sed  -i "s/persist.service.swiqi.enable=.*/persist.service.swiqi.enable=1/g" /system/build.prop
+    echo "Bravia Engine enabled - reboot needed to take effect"
+  elif [ "$MODE" = "off" ]; then
+    sed  -i "s/ro.service.swiqi.supported=.*/ro.service.swiqi.supported=false/g" /system/build.prop
+    sed  -i "s/persist.service.swiqi.enable=.*/persist.service.swiqi.enable=0/g" /system/build.prop
+    echo "Bravia Engine disabled - reboot needed to take effect"
+  fi
+  chmod 644 /system/build.prop
+  RemountSys "ro"
+}
+
+
 ###
 #
 # ExtraPKG - to download extra content on /system (.tgz)
@@ -627,6 +656,7 @@ main() {
     "dspinit")      DSPInit    "$1" ;;
     "ril")          RIL        "$1" ;;
     "density")      Density    "$1" ;;
+    "braviaengine") BraviaEngine "$1" ;;
     "extraapk")     ExtraAPK   "$1" ;;
     "extrapkg")     ExtraPKG   "$1" ;;
     "bootanim")     BootAnim   "$1" ;;
