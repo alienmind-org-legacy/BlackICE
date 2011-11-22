@@ -207,7 +207,6 @@ done
 # Mod files
 if [ "$MODAPKS" = "1" ]; then
    MODS=`for i in $MOD_DIR/*.apk; do echo $i ; done | sort -n`
-set -x
    for i in $MODS ; do
      BASE=`basename "$i" .apk`
      BASE=${BASE%\.*} # We allow several mods for 1 apk
@@ -225,7 +224,6 @@ set -x
        tools/apkmod.sh $ORIG $i || ExitError "Cannot mod $ORIG. See $LOG for details"
      fi
    done
-set +x
 fi
 
 # Bootanimation
