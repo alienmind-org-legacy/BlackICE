@@ -1,0 +1,9 @@
+--- orig/res/layout/status_bar.xml	2011-11-05 08:38:50.780871362 +0100
++++ new/res/layout/status_bar.xml	2011-11-05 08:40:37.659839203 +0100
+@@ -34,5 +34,5 @@
+             <TextView android:textAppearance="@android:style/TextAppearance.StatusBar.Ticker" android:layout_width="fill_parent" android:layout_height="wrap_content" android:singleLine="true" />
+         </com.android.systemui.statusbar.TickerView>
+     </LinearLayout>
+-    <com.android.systemui.statusbar.DateView android:textAppearance="@android:style/TextAppearance.StatusBar.Icon" android:textColor="@android:color/transparent" android:gravity="left|center" android:id="@id/date" android:background="@android:color/transparent" android:paddingLeft="6.0px" android:paddingRight="6.0px" android:layout_width="wrap_content" android:layout_height="fill_parent" android:singleLine="true" />
++    <com.android.systemui.statusbar.DateView android:textAppearance="@android:style/TextAppearance.StatusBar.Icon" android:gravity="center" android:id="@id/date" android:background="@drawable/statusbar_background2" android:paddingLeft="6.0px" android:paddingRight="6.0px" android:layout_width="fill_parent" android:layout_height="fill_parent" android:singleLine="true" />
+ </com.android.systemui.statusbar.CmStatusBarView>

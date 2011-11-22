@@ -1,1 +1,2 @@
 method=apktool
+patch=framework-res.1.patch
