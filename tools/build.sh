@@ -209,15 +209,17 @@ if [ "$MODAPKS" = "1" ]; then
    MODS=`for i in $MOD_DIR/*.apk; do echo $i ; done | sort -n`
    for i in $MODS ; do
      BASE=`basename "$i" .apk`
-     BASE=${BASE%\.*} # We allow several mods for 1 apk
      if [ -f "mod/${BASE}.exclude" ]; then
        continue ; # dirty hack to exclude framework-res modding
      fi
      # Read specific options
      if [ -f "mod/${BASE}.options" ]; then
        . mod/${BASE}.options
-       APKMOD_METHOD=$method 
+       export APKMOD_METHOD=$method 
+       export APKMOD_PATCH=$patch
      fi
+     # We allow several mods for 1 apk
+     BASE=${BASE%\.*}
      ORIG=`find $OUT_DIR/system -name "$BASE.apk"`
      if [ -f "$ORIG" ]; then
        ShowMessage "  [MOD] $BASE.apk ($i)"

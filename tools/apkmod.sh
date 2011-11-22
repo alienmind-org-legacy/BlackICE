@@ -73,10 +73,17 @@ if [ -f "$APK" ]; then
     rm -rf $OUT_DIR
     java -jar $APKTOOL d $APK $OUT_DIR &>> $LOG || exit 1
     # Copy resources
-    ShowMessage "  [MOD|cp] " `basename $MOD_DIR`
+    ShowMessage "  [MOD|cp] " `basename $MOD_DIR` " => " `basename "$OUT_DIR"`
     for i in $XML $IMG; do
        cp -av $MOD_DIR/$i $OUT_DIR/$i &>> $LOG
     done
+    # Patch
+    if [ "$APKMOD_PATCH" != "" ]; then
+      ShowMessage "  [MOD|patch] $APKMOD_PATCH"
+      cd $OUT_DIR
+      patch -p0 < $MOD_DIR/../$APKMOD_PATCH &>> $LOG || exit 1
+      cd - &>> $LOG
+    fi
     # Recompile
     ShowMessage "  [MOD|apkb] " `basename $MOD_DIR`
     java -jar $APKTOOL b $OUT_DIR ${TMPAPK}1 &>> $LOG || exit 1
@@ -99,7 +106,7 @@ if [ -f "$APK" ]; then
   # $APK.step1 => $APK.step2
   if [ "$APKMOD_METHOD" = "7z" ]; then
 
-    ShowMessage "  [MOD|7zax] " `basename $APK`
+    ShowMessage "  [MOD|7zax] " `basename ${TMPAPK}1`
     7za x -o"$OUT_DIR" ${TMPAPK}1 &>> $LOG || exit 1
 
     # Copy
@@ -116,6 +123,7 @@ if [ -f "$APK" ]; then
  		#done
 
     # Repack the whole dir
+    ShowMessage "  [MOD|7zaa] " `basename ${TMPAPK}2`
     cd $OUT_DIR
     7za a -tzip ${TMPAPK}2 * -mx9 &>> $LOG || exit 1
     cd - >> $LOG 2>&1
@@ -124,7 +132,7 @@ if [ -f "$APK" ]; then
   else
 
     # Copy and follow
-    ShowMessage "  [MOD|cp] " `basename $APK`
+    ShowMessage "  [MOD|cp] " `basename ${TMPAPK}1` " => " `basename ${TMPAPK}2`
     cp -p ${TMPAPK}1 ${TMPAPK}2
 
   fi
@@ -134,11 +142,12 @@ if [ -f "$APK" ]; then
     ShowMessage "  [MOD|sign] " `basename $APK`
     sign.sh ${TMPAPK}2 ${TMPAPK}3 &>> $LOG || exit 1
   else
-    ShowMessage "  [MOD|mv] " `basename $NEWAPK`
+    ShowMessage "  [MOD|mv] " `basename ${TMPAPK}2` " => " `basename ${TMPAPK}3`
     cp -p ${TMPAPK}2 ${TMPAPK}3 &>> $LOG || exit 1
   fi
 
   # Last step overwrites original apk
+  ShowMessage "  [MOD|cp] " `basename ${TMPAPK}3` " => " `basename $APK`
   cp -p ${TMPAPK}3 $APK
 
   cd - &> /dev/null
