@@ -13,3 +13,11 @@
 #ril HTC-RIL_2.2.1003G
 # Uncomment this if you don't want boot sound
 #bootsoundoff
+# Uncomment this if you want to overlay an existing 
+# directory hierarchy on sdcard over /system
+#overlay /system /sdcard/blackice/system
+# Uncomment this if you want to overlay an existing 
+# directory hierarchy on sdcard over /data
+#overlay /data /sdcard/blackice/data
+# Uncomment this if you want to enable braviaengine
+#braviaengine on
