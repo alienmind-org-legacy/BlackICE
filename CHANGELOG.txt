@@ -7,6 +7,7 @@ v1.24b2 - Base: KANG-20111119 - lordModUE-8.5-CFS
           ICETool: autorun.txt overlay command to customize /system or /data
           ICETool: Bravia Engine on / off (disabled by default)
           Framework: New battery icons
+          Apps: Prevent sound jumping by replacing DSPManager with Volume+
           Kitchen: Workaround to faulty apktool - new framework-res tweaks coming soon
 v1.24b1 - Base: KANG-20111102.zip - lordModUE-8.3-CFS-b2
           Framework: New battery icons with percentage (by "The Unknown Noob")
