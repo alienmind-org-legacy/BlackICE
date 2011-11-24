@@ -62,9 +62,9 @@ TMP_APK=$OUT_DIR.tmp
 APKTOOL=$PWD/tools/apktool.jar 
 : ${LOG:=/dev/null}
 
-# SystemUI / framework-res shouldn't have their meta-inf removed
-SYS=`echo $MOD_DIR | grep -e SystemUI -e framework-res`
-#SYS="true"
+## SystemUI / framework-res shouldn't have their meta-inf removed
+#SYS=`echo $MOD_DIR | grep -e SystemUI -e framework-res`
+SYS="true"
 if [ "$SYS" != "" ]; then
   SYS=1
   RMMETA=0
