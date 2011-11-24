@@ -51,14 +51,14 @@ echo "" > $LOG
 if [ "$1" = "mrproper" ]; then
   ShowMessage "* Cleaning ..."
   rm -rf $WORK_DIR $OUT_DIR *.log
-  exit
+  exit 0
 fi
 
 # User requested clean of today's version
 if [ "$1" = "clean" ]; then
   ShowMessage "* Removing $DATE data..."
   rm -rf $WORK_DIR $OUT_DIR $OUT_ZIP $OUT_SIGNED $OUT_EXTRAAPPS $OUT_EXTRAPPS_ZIP $OUT_EXTRAPPS_SIGNED *${DATE}*.log
-  exit
+  exit 0
 fi
 
 # Bad args
@@ -217,6 +217,9 @@ if [ "$MODAPKS" = "1" ]; then
        . mod/${BASE}.options
        export APKMOD_METHOD=$method 
        export APKMOD_PATCH=$patch
+     else
+       unset APKMOD_METHOD
+       unset APKMOD_PATCH
      fi
      # We allow several mods for 1 apk
      BASE=${BASE%\.*}
