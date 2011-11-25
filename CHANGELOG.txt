@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v1.24   - Base: KANG-20111125 - lordModUE-8.5-CFS
+          Apps: Upgraded SysTune, Titanium Backup
+          Apps: Removed Volume+, added AudioFXWidget
+          Apps: Added DHD Proximity Recalibrator
+          Apps: Included Flash Player 11, ChainFire3D on main ROM
 v1.24b2 - Base: KANG-20111119 - lordModUE-8.5-CFS
           Apps: Google Street View upgraded
           Apps: Google Maps v5.12 all roads
