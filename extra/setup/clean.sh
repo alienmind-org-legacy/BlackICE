@@ -4,7 +4,6 @@
 cd /data/app/
 rm -f \
       com.google.android.gm-*.apk \
-      com.adobe.flashplayer-*.apk \
       com.bigtincan.android.adfree-*.apk \
       com.martino2k6.fontchangerlite-*.apk \
       com.xtralogic.android.logcollector-*.apk \
