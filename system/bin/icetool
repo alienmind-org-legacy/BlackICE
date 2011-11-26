@@ -9,7 +9,7 @@
 # TODO - merge switchlauncher separate scripts
 #
 
-ICETOOL_VERSION="0.85" # Script version
+ICETOOL_VERSION="0.86" # Script version
 HELP="Usage: $0 <cmd> ..."
 BASE_DIR=/sdcard/blackice
 MARKET_DIR=$BASE_DIR/market
@@ -82,8 +82,8 @@ Setup() {
 
   # Upgrade command
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}upgrade@";
-  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:upgrade:checkversion@icetool\n"; # TODO @rom@kernel
-  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:upgrade:Check for new version@Upgrade ICETool\n"
+  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:upgrade:version@checkversion@icetool\n"; # TODO @rom@kernel
+  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:upgrade:Show version info@Check for new version@Upgrade ICETool\n"
 
   # Remount command
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}remount@";
@@ -169,6 +169,7 @@ Setup() {
 }
 
 ListCommands() {
+  printf "ICETOOL_VERSION:$ICETOOL_VERSION\n"
   printf "$SUPPORTED_COMMANDS\n"
   printf "$CATEGORIES\n"
   printf "$CATEGORY_COMMANDS"
@@ -178,9 +179,14 @@ ListCommands() {
 Upgrade() {
   local MODE=$1
   case $MODE in
+    "version")      PrintVersion ;;
     "checkversion") CheckVersion ;;
     "icetool")      UpgradeICETool ;;
   esac
+}
+
+PrintVersion() {
+  printf "$ICETOOL_VERSION"
 }
 
 CheckVersion() {

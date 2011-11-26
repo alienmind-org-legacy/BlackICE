@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ICETool extends TabActivity {
+	public String ICETOOL_VERSION = ""; // Read from icetool script
+	
 	TextView   consoleView = null;
 	
 	public static final int TAB_ACTIONS = 0;

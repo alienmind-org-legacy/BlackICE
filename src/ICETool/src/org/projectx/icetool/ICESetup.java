@@ -11,6 +11,7 @@ public class ICESetup {
 	static final String CMD_SETUP = "/system/bin/icetool setup";
 	
 	// Key tokens
+	static final String STR_ICETOOL_VERSION= "ICETOOL_VERSION:";
 	static final String STR_COMMANDS = "COMMANDS:";
 	static final String STR_CATEGORIES = "CATEGORIES:";
 	static final String STR_CATEGORY_COMMANDS = "CATEGORY_COMMANDS:";
@@ -67,9 +68,13 @@ public class ICESetup {
 		try {
 			while ((inputLine = br.readLine()) != null) {
 				String line = inputLine.trim() + "\n";
-				if (line.startsWith(STR_COMMANDS)) {
+				if (line.startsWith(STR_ICETOOL_VERSION)) {
+					String[] version = parseSimpleLine(STR_ICETOOL_VERSION,line);
+					if (version != null && version.length >= 1)
+					  ICETool.getInstance().ICETOOL_VERSION = version[0];
+				} else if (line.startsWith(STR_COMMANDS))
 					allCommands = parseSimpleLine(STR_COMMANDS,line);
-				} else if (line.startsWith(STR_CATEGORIES))
+				else if (line.startsWith(STR_CATEGORIES))
 					allCategories = parseSimpleLine(STR_CATEGORIES,line);
 				else if (line.startsWith(STR_CATEGORY_COMMANDS))
 					parseArgsLine(categoryCommands, false, STR_CATEGORY_COMMANDS, line);

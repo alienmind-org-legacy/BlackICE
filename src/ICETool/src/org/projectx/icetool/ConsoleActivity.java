@@ -17,7 +17,7 @@ public class ConsoleActivity extends Activity {
         ap = ICETool.getInstance();
         ap.setConsoleView(consoleTextView);
         consoleTextView.setText(getResources().getText(R.string.app_name) + " " +
-        		getResources().getText(R.string.app_version) +
+        		ICETool.getInstance().ICETOOL_VERSION +
         		" by " +
         		getResources().getText(R.string.app_author) + "\n"                                
         		);	
