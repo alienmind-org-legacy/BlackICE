@@ -6,10 +6,8 @@
 # plus a configuration interface that allows modifying ICETool.apk
 # interface (adding and removing tabs and options)
 #
-# TODO - merge switchlauncher separate scripts
-#
 
-ICETOOL_VERSION="0.86" # Script version
+ICETOOL_VERSION="0.87" # Script version
 HELP="Usage: $0 <cmd> ..."
 BASE_DIR=/sdcard/blackice
 MARKET_DIR=$BASE_DIR/market
@@ -20,16 +18,20 @@ BASE_URL=http://blackice.omca.co.uk/download/buildpackages/
 ICETOOL_URL=$BASE_URL/icetool.tgz
 ICETOOL_VERSION_URL=$BASE_URL/icetool.version
 ICETOOL_AUTORUN=$BASE_DIR/autorun.txt
-RECOVERY_CMD_WHITELIST="market gpsconf ril density braviaengine bootanim switchlauncher extrapkg bootsoundoff overlay"
+RECOVERY_CMD_WHITELIST="market gpsconf ril density braviaengine bootanim extrapkg bootsoundoff overlay"
 
 ### More extra content to come
-EXTRA_APKS="ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \
+EXTRA_APKS="org.zeam-1.apk:366e89a3a8ef8e6075b3b5bde593ae82 \
+            ADWLauncher.apk:366e89a3a8ef8e6075b3b5bde593ae82 \
+            ICS_2.4_Launcher_2.apk:e518049b4359ffcd4769a98b034f73bf \
             Google+Music+4.0.1.apk:d31a972968ab0798921aa6f3b9b4aaf1 \
 "
+# Extra packages that are supposed to be installed on system
+EXTRA_APKS_SYS="ADWLauncher.apk"
 
 # Extra APKs
 EXTRA_APKS_NAMES=`for i in $EXTRA_APKS; do B=${i%\:*} ; echo "$B@" ; done | tr '\n' ' ' | sed 's/\ *//g'`
-EXTRA_APKS_DESCR="ICS v2.4 Launcher2@Google Music v4.0.1"
+EXTRA_APKS_DESCR="Zeam Launcher@ADW Launcher@ICS v2.4 Launcher2@Google Music v4.0.1"
 
 # Extra TGZ on /system
 # FIXME - allow any tgz
@@ -37,10 +39,6 @@ EXTRA_PKGS="nexussswype.tgz:cf933c0e76022bfc16d9e00df9a0c3d0 \
             htcime.tgz:4f46cc059c890db70b324816e8722775"
 EXTRA_PKG_NAMES=`for i in $EXTRA_PKGS; do B=${i%\:*} ; echo "$B@" ; done | tr '\n' ' ' | sed 's/\ *//g'`
 EXTRA_PKG_DESCR="Nexus S Swype (black)@HTC IME Mod (grey)"
-
-# Switch launcher options
-EXTRA_LAUNCH_NAMES="udlauncher@adwlauncher"
-EXTRA_LAUNCH_DESCR="UD Launcher (black)@ADW Launcher (color)"
 
 ### Only root allowed
 WHO=`whoami`
@@ -72,7 +70,7 @@ Setup() {
 
   # Categories - commands relationship
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:sys:upgrade@remount@fastcharge@charge@hosts@density@braviaengine\n"
-  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:apps:market@bootanim@extrapkg@switchlauncher@extraapk\n"
+  CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:apps:market@bootanim@extrapkg@extraapk\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:gps:gpsconf\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:dsp:dspinit\n"
   CATEGORY_COMMANDS="${CATEGORY_COMMANDS}CATEGORY_COMMANDS:ril:ril\n"
@@ -123,9 +121,6 @@ Setup() {
   SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}extrapkg@";
   COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:extrapkg:$EXTRA_PKG_NAMES\n";
   COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:extrapkg:$EXTRA_PKG_DESCR\n"
-  SUPPORTED_COMMANDS="${SUPPORTED_COMMANDS}switchlauncher@";
-  COMMAND_OPTIONS="${COMMAND_OPTIONS}OPTIONS:switchlauncher:$EXTRA_LAUNCH_NAMES\n";
-  COMMAND_DESCRIPTIONS="${COMMAND_DESCRIPTIONS}DESCRIPTIONS:switchlauncher:$EXTRA_LAUNCH_DESCR\n"
 
   # The rest of the commands are optional and depending on environmental factors
   if [ -f /sys/class/power_supply/battery/force_high_power_charging ]; then
@@ -520,8 +515,14 @@ ExtraAPK() {
   fi
   if [ "$GOOD" = "1" ]; then
     RemountSys "rw"
-    cp /sdcard/blackice/$APK /data/app/
-    chmod 644 /data/app/$APK
+    SYSAPK=`echo $EXTRA_APKS_SYS | grep $APK`
+    if [ "$SYSAPK" != "" ]; then
+      DEST="/system/app/$APK"
+    else
+      DEST="/data/app/$APK"
+    fi
+    cp /sdcard/blackice/$APK $DEST
+    chmod 644 $DEST
     RemountSys "ro"
     echo "Done!"
   else
