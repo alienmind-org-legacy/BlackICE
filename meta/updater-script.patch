@@ -1,5 +1,5 @@
---- updater-script	2008-02-29 02:33:46.000000000 +0100
-+++ updater-script	2011-10-28 00:39:19.663197315 +0200
+--- updater-script	2008-02-29 03:33:46.000000000 +0100
++++ updater-script	2011-11-29 00:13:54.012333493 +0100
 @@ -5,6 +5,13 @@
  show_progress(0.500000, 0);
  format("ext4", "EMMC", "/dev/block/mmcblk0p25");
@@ -14,7 +14,7 @@
  package_extract_dir("recovery", "/system");
  package_extract_dir("system", "/system");
  symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
-@@ -138,4 +145,37 @@
+@@ -138,4 +145,23 @@
  show_progress(0.200000, 10);
  package_extract_file("boot.img", "/dev/block/mmcblk0p22");
  show_progress(0.100000, 0);
@@ -24,22 +24,8 @@
 +set_perm_recursive(0, 0, 0755, 0750, "/system/etc/be_movie");
 +set_perm_recursive(0, 0, 0755, 0750, "/system/etc/be_photo");
 +set_perm(0, 0, 0644, "/system/etc/SuplRootCert");
-+set_perm(0, 0, 0755, "/system/bin/bootsound");
-+set_perm(0, 0, 0755, "/system/bin/bootsoundoff");
-+set_perm(0, 0, 0755, "/system/bin/bootsoundon");
-+set_perm(0, 0, 0755, "/system/bin/enablebootsound");
-+set_perm(0, 0, 0755, "/system/bin/newbootsound");
-+set_perm(0, 0, 0755, "/system/bin/newbootanim");
-+set_perm(0, 0, 0755, "/system/bin/newlocksounds");
-+set_perm(0, 0, 0755, "/system/bin/25uvon");
-+set_perm(0, 0, 0755, "/system/bin/50uvon");
-+set_perm(0, 0, 0755, "/system/bin/puvon");
-+set_perm(0, 0, 0755, "/system/bin/puvxon");
-+set_perm(0, 0, 0755, "/system/bin/uuvon");
-+set_perm(0, 0, 0755, "/system/bin/uvoff");
++set_perm(0, 0, 0644, "/system/app/icetool.conf");
 +set_perm(0, 0, 0755, "/system/bin/icetool");
-+set_perm(0, 0, 0755, "/system/bin/switchkeyboard");
-+set_perm(0, 0, 0755, "/system/bin/switchlauncher");
 +set_perm(0, 0, 0644, "/system/app/ICETool.apk");
 +set_perm(0, 0, 0755, "/system/setup/pre.sh");
 +set_perm(0, 0, 0755, "/system/setup/post.sh");

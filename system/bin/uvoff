@@ -1,9 +1,0 @@
-#!/system/bin/sh
-#
-# Remove Undervolting
-mount -o remount,rw /system
-rm -f /system/etc/init.d/99voltages
-/system/media/uvscripts/stock/99voltages
-mount -o remount,ro /system
-echo Undervolt Removed!
-echo Deactivated Undervolting!
