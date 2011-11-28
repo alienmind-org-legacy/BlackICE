@@ -1,4 +1,4 @@
-#!/system/xbin/bash
+#!/system/bin/sh
 #
 # icetool - by AlienMind
 # ICETool.apk companion scripts
