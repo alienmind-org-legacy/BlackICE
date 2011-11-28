@@ -1,9 +1,9 @@
 CHANGELOG
 =========
-v1.25b1 - WIP - Base: KANG-20111125 - lordModUE-8.6-b5-CFS
+v1.25b1 - WIP - Base: KANG-20111125 - lordModUE-8.6-b2-CFS
           Base: Zeam Launcher by default, removed UDLauncher
           Apps: Upgraded apps and extraapps
-          ICETool: Included v0.86
+          ICETool: Included v0.88, all additional scripts merged
 v1.24   - Base: KANG-20111125 - lordModUE-8.5-CFS
           Apps: Upgraded SysTune, Titanium Backup
           Apps: Removed Volume+, added AudioFXWidget
