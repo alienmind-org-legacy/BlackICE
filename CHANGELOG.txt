@@ -2,9 +2,10 @@ CHANGELOG
 =========
 v1.25   - WIP - Base: KANG-20111125 - lordModUE-8.5-CFS
           Base: Zeam Launcher by default, removed UDLauncher
-          Apps: Upgraded apps and extraapps
           ICETool: Included v0.90, all additional scripts merged into one
           ICETool: Fixed the goddam missing tabs bug
+          Apps: Google Maps 6.0.0 All Roads
+          Apps: Upgraded apps and extraapps
 v1.24   - Base: KANG-20111125 - lordModUE-8.5-CFS
           Apps: Upgraded SysTune, Titanium Backup
           Apps: Removed Volume+, added AudioFXWidget
