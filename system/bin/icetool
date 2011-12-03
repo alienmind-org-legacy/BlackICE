@@ -14,11 +14,11 @@
 #   and exported via icetool setup
 #
 . /system/etc/icetool.conf
-ICETOOL_VERSION="0.88" # Script version
+ICETOOL_VERSION="0.90" # Script version
 HELP="Usage: $0 <cmd> ..."
 ### Only root allowed
-WHO=`whoami`
-if [ "$WHO" != "root" ]; then
+WHO=`whoami 2>&1`
+if [ "$WHO" != "root" -a "$WHO" != "whoami: unknown uid 0" ]; then
   echo "Must be root"
   exit 1
 fi
