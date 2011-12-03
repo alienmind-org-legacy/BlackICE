@@ -1,6 +1,6 @@
 CHANGELOG
 =========
-v1.25   - WIP - Base: KANG-20111125 - lordModUE-8.5-CFS
+v1.25   - Base: KANG-20111125 - lordModUE-8.5-CFS
           Base: Zeam Launcher by default, removed UDLauncher
           ICETool: Included v0.90, all additional scripts merged into one
           ICETool: Fixed the goddam missing tabs bug
