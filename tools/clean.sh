@@ -13,7 +13,7 @@ if [ "$#" -lt "2" ]; then
 fi
 
 for i in $CLEAN_LIST; do
-   echo "  [RM] $i" | tee -a $LOG_FILE
+   echo "  [RM]        $i" | tee -a $LOG_FILE
    rm -rf $OUT_DIR/$i >> $LOG_FILE
 done
 
