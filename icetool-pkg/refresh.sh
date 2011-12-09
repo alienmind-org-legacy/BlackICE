@@ -1,4 +1,5 @@
 cp -p ../system/bin/icetool system/bin/
+cp -p ../system/etc/icetool.conf system/etc/
 cp -p ../src/ICETool/bin/ICETool.apk system/app/
 tar -czvf icetool.tgz system/
 grep ICETOOL_VERSION system/bin/icetool | head -n 1 | \
