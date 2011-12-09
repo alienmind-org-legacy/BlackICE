@@ -14,7 +14,7 @@
 #   and exported via icetool setup
 #
 . /system/etc/icetool.conf
-ICETOOL_VERSION="0.90" # Script version
+ICETOOL_VERSION="0.91" # Script version
 HELP="Usage: $0 <cmd> ..."
 ### Only root allowed
 WHO=`whoami 2>&1`
@@ -494,18 +494,14 @@ UV() {
   echo "UV script $script applied"
 } 
 
-BootSound() {
-  bprop=/system/build.prop
-  play=$(cat $bprop | egrep -c -i -o ro.config.play.bootsound=1)
-  if [ "$play" = "1" ]; then
-    stagefright -a -o /system/media/android_audio.mp3
-  fi
-}
-
 ###
 #
 # BootSoundOn - Enable default bootsound
 BootSoundOn() {
+  # Perform bootsound script creation
+  BootSoundInstall
+
+  # Enable boot sound
   mount -o remount,rw /system
   if [ -e /data/local/boot/android_audio.mp3 ];
   	then
@@ -532,8 +528,8 @@ BootSoundOff() {
 
 ###
 #
-# BootSoundEnable - Enable boot sound service at boottime
-BootSoundEnable() {
+# BootSoundInstall - Install boot sound service at boottime
+BootSoundInstall() {
   echo "preparing system..."
   #Setting up the system for read/write access
   mount -o remount,rw /system
@@ -541,61 +537,47 @@ BootSoundEnable() {
   rm /system/bin/mkdir
   ln -s /system/xbin/mkdir /system/bin/mkdir
   mkdir -p /data/local/boot
-  echo "checking for previous bootsound installation..."
-  if [ -e /system/bin/bootsound ];
-  	then
-  		echo "bootsound already enabled, exiting.."
-  		mount -o remount,ro /system
-  		exit
-  fi
-  if [ "`ls /sbin|grep -q recovery;echo $?`" = "0" ];
-  then
-      mount -a > /dev/null
-      recoverymode=y
-  else
-      mount -o rw,remount /system
-      recoverymode=n
-  fi
+  mount -o rw,remount /system
   echo "preparing startup scripts..."
   #This is to create the needed scripts in init.local.rc
-  echo '' >> /system/etc/init.local.rc
-  echo '' >> /system/etc/init.local.rc
-  echo '###Bootsound - Safe to Delete: Start ###' >> /system/etc/init.local.rc
-  echo "" >> /system/etc/init.local.rc
-  echo 'service bootsound /system/bin/bootsound' >> /system/etc/init.local.rc
-  echo '        user media' >> /system/etc/init.local.rc
-  echo '        group audio' >> /system/etc/init.local.rc
-  echo '        disabled' >> /system/etc/init.local.rc
-  echo '        oneshot' >> /system/etc/init.local.rc
-  echo '' >> /system/etc/init.local.rc
-  echo 'on property:init.svc.bootanim=running   # to correct timin' >> /system/etc/init.local.rc
-  echo '        start bootsound' >> /system/etc/init.local.rc
-  echo '' >> /system/etc/init.local.rc
-  echo 'on property:dev.bootcomplete=1' >> /system/etc/init.local.rc
-  echo '        stop bootsound' >> /system/etc/init.local.rc
-  echo '### Bootsound - Safe to Delete: End ###' >> /system/etc/init.local.rc
-  echo "creating script for bootsound in /system/bin..."
-  #Now creating the bootsound script
-  touch /system/bin/bootsound
-  echo '#!/system/bin/sh' >> /system/bin/bootsound
-  echo '' >> /system/bin/bootsound
-  echo 'bprop=/system/build.prop' >> /system/bin/bootsound
-  echo '' >> /system/bin/bootsound
-  echo 'play=$(cat $bprop | egrep -c -i -o ro.config.play.bootsound=1)' >> /system/bin/bootsound
-  echo 'if [ "$play" = "1" ]; then' >> /system/bin/bootsound
-  echo '        stagefright -a -o /system/media/android_audio.mp3' >> /system/bin/bootsound
-  echo 'fi' >> /system/bin/bootsound
-  echo 'exit 0' >> /system/bin/bootsound
-  
+  if [ "`grep bootsound /system/etc/init.local.rc`" = "" ]; then
+    cat >> /system/etc/init.local.rc <<EOF
+  ###Bootsound - Safe to Delete: Start ###
+  service bootsound /system/bin/bootsound
+          user media
+          group audio
+          disabled
+          oneshot
+
+  on property:init.svc.bootanim=running   # to correct timing
+          start bootsound
+
+  on property:dev.bootcomplete=1
+          stop bootsound
+  ### Bootsound - Safe to Delete: End ###
+EOF
+  fi
+  if [ ! -f /system/bin/bootsound ]; then
+    echo "creating script for bootsound in /system/bin..."
+    #Now creating the bootsound script
+    cat > /system/bin/bootsound <<EOF
+#!/system/bin/sh
+bprop=/system/build.prop
+play=$(cat $bprop | egrep -c -i -o ro.config.play.bootsound=1)
+if [ "$play" != "" ]; then
+        stagefright -a -o /system/media/android_audio.mp3
+fi
+exit 0
+EOF
+  fi
   #Changing some permissions
   chmod 777 /system/bin/bootsound
   chown root:shell /system/bin/bootsound
-  echo '' >> /system/build.pro
-  echo 'ro.config.play.bootsound=1' >> /system/build.prop
-  #removed self-destruct, script checks for previous install
-  sleep 1
+  if [ "`grep ro.config.play.bootsound /system/build.prop`" = "" ]; then
+    echo 'ro.config.play.bootsound=1' >> /system/build.prop
+  fi
   mount -o ro,remount /system
-  echo "done."
+  echo "Boot sound service installed."
 }
 
 ###
@@ -695,8 +677,7 @@ main() {
 
     # Sound management
     "dspinit")       DSPInit    "$1" ;;
-    "bootsound")     BootSound       ;;   # * Hardcoded into ICETool.apk
-    "bootsoundon")   BootSoundOn     ;;   # *
+    "bootsoundon")   BootSoundOn     ;;   # Hardcoded into ICETool.apk
     "bootsoundoff")  BootSoundOff    ;;   # *
     "newbootsound")  NewBootSound    ;;   # *
     "newlocksounds") NewLockSounds   ;;   # *
