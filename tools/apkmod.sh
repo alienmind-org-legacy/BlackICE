@@ -24,7 +24,7 @@ function UpdateMeta() {
   local META_DIR=$2
   local TMP_DIR=$1.tmp
 
-  ShowMessage "  [MOD|7zu] " $APK_FILE
+  ShowMessage "  [MOD|7zu]  " $APK_FILE
 
   # Temp dir
   CUR_DIR=`pwd`
@@ -59,7 +59,7 @@ MOD_DIR=`FixPath $2`
 OUT_DIR=$CUR_DIR/work/`basename $MOD_DIR`
 OUT_DIR=`FixPath $OUT_DIR`
 TMP_APK=$OUT_DIR.tmp
-APKTOOL=$PWD/tools/apktool.jar 
+APKTOOL=$PWD/tools/apktool.jar
 : ${LOG:=/dev/null}
 
 ## SystemUI / framework-res shouldn't have their meta-inf removed
@@ -90,7 +90,7 @@ if [ -f "$APK" ]; then
 
   # Preserve the original file and META's (META-INF, AndroidManifest.xml)
   cp -p $APK $TMP_APK.orig.apk
-  ShowMessage "  [MOD|7zx] " `basename $APK`
+  ShowMessage "  [MOD|7zx]  " `basename $APK`
   rm -rf "$OUT_DIR.orig"
   7za x -o"$OUT_DIR.orig" ${TMP_APK}.orig.apk &>> $LOG || exit 1
 
@@ -104,7 +104,7 @@ if [ -f "$APK" ]; then
     rm -rf $OUT_DIR
     java -jar $APKTOOL d $APK $OUT_DIR &>> $LOG || exit 1
     # Copy resources
-    ShowMessage "  [MOD|cp] " `basename $MOD_DIR` " => " `basename "$OUT_DIR"`
+    ShowMessage "  [MOD|cp]   " `basename $MOD_DIR` " => " `basename "$OUT_DIR"`
     for i in $XML $IMG; do
        cp -av $MOD_DIR/$i $OUT_DIR/$i &>> $LOG
     done
@@ -129,7 +129,7 @@ if [ -f "$APK" ]; then
   else
 
     # Copy and follow
-    ShowMessage "  [MOD|cp] " `basename $APK`
+    ShowMessage "  [MOD|cp]   " `basename $APK`
     cp -p $APK ${TMP_APK}.step1.apk
 
   fi
@@ -141,7 +141,7 @@ if [ -f "$APK" ]; then
   # $APK.step1 => $APK.step2
   if [ "$APKMOD_METHOD" = "7z" ]; then
 
-    ShowMessage "  [MOD|7zx] " `basename ${TMP_APK}.step1.apk`
+    ShowMessage "  [MOD|7zx]  " `basename ${TMP_APK}.step1.apk`
     7za x -o"$OUT_DIR" ${TMP_APK}.step1.apk &>> $LOG || exit 1
 
     # Copy
@@ -158,7 +158,7 @@ if [ -f "$APK" ]; then
  		#done
 
     # Repack the whole dir
-    ShowMessage "  [MOD|7za] " `basename ${TMP_APK}.step2.apk`
+    ShowMessage "  [MOD|7za]  " `basename ${TMP_APK}.step2.apk`
     cd $OUT_DIR
     7za a -tzip ${TMP_APK}.step2.apk * -mx9 &>> $LOG || exit 1
     cd - >> $LOG 2>&1
@@ -167,14 +167,14 @@ if [ -f "$APK" ]; then
   else
 
     # Copy and follow
-    ShowMessage "  [MOD|cp] " `basename ${TMP_APK}.step1.apk` " => " `basename ${TMP_APK}.step2.apk`
+    ShowMessage "  [MOD|cp]   " `basename ${TMP_APK}.step1.apk` " => " `basename ${TMP_APK}.step2.apk`
     cp -p ${TMP_APK}.step1.apk ${TMP_APK}.step2.apk
 
   fi
 
   # Sign $APK.step2 => $APK.step3
   if [ "$SIGN" = "1" ]; then
-    ShowMessage "  [MOD|sign] " `basename $APK`
+    ShowMessage "  [MOD|sign]  " `basename $APK`
     sign.sh ${TMP_APK}.step2.apk ${TMP_APK}.step3.apk &>> $LOG || exit 1
   else
     # Overwrite original metas
@@ -184,7 +184,7 @@ if [ -f "$APK" ]; then
   fi
 
   # Last step overwrites original apk
-  ShowMessage "  [MOD|cp] " `basename ${TMP_APK}.step3.apk` " => " `basename $APK`
+  ShowMessage "  [MOD|cp]   " `basename ${TMP_APK}.step3.apk` " => " `basename $APK`
   cp -p ${TMP_APK}.step3.apk $APK
 
   cd - &> /dev/null
