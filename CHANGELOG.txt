@@ -1,9 +1,12 @@
 CHANGELOG
 =========
 v1.26b1 - WIP - Base: KANG-20111210 - lordModUE-8.5-CFS
+          ICETool: Fixed Vending 2.3.6 => 3.2.0 => 2.3.6 
           ICETool: Fixed bootsound option
+          ICETool: Fixed overlay
           ICETool: Autorenice feature of running processes
-
+          Apps: Upgraded Systune 1.5.0
+          Apps: All upgraded to latest
 v1.25   - Base: KANG-20111125 - lordModUE-8.5-CFS
           Base: Zeam Launcher by default, removed UDLauncher
           ICETool: Included v0.90, all additional scripts merged into one

@@ -472,9 +472,15 @@ Overlay() {
     die "overlay: Invalid source $SRC"
   fi
 
-  mount $DEV $DST &>/dev/null || mount -o remount,rw $DEV $DST
+  # We try both methods for mounting
+  mount $DEV $DST &>/dev/null
+  mount -o remount,rw $DEV $DST
+
+  # Copy
   cp -av $SRC/* $DST/
-  umount $DST
+
+  # Do not umount ... further rules may depend on this
+  #umount $DST
 }
 
 ###
