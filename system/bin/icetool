@@ -631,10 +631,25 @@ NewLockSounds() {
 #
 #
 Renice() {
+  local ARG="$1"
+
+  # If "systune" is passed, we delegate handling in favor of the real app
+  if [ "$ARG" = "systune" ]; then
+    echo "Launching SysTune renice tab..."
+    am start -a dev.sci.SysTuneTabs -n dev.sci.systune/dev.sci.systune.Renice
+    exit 0
+  fi
+
+  # Any other thing, we give a shit about the arg
+  # We just use our txt file
+
+  # Possibly empty config? Get the provided example
   if [ ! -f $BASE_DIR/renice.txt -a
             $BASE_DIR/renice.txt.example ]; then
     cp -p $BASE_DIR/renice.txt.example $BASE_DIR/renice.txt
   fi
+
+  # Parse and renice
   if [ -f $BASE_DIR/renice.txt ]; then
     cat $BASE_DIR/renice.txt | grep -v ^\# | while read PNAME PRIO ;
  		do
@@ -695,7 +710,7 @@ main() {
     "remount")      Remount    "$1" ;;
     "extraapk")     ExtraAPK   "$1" ;;
     "extrapkg")     ExtraPKG   "$1" ;;
-    "renice")       Renice ;;
+    "renice")       Renice     "$1" ;;
 
     # Sound management
     "dspinit")       DSPInit    "$1" ;;
