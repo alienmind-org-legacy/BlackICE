@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.26b1 - WIP - Base: KANG-20111210 - lordModUE-8.5-CFS
+          ICETool: Fixed bootsound option
+          ICETool: Autorenice feature of running processes
+
 v1.25   - Base: KANG-20111125 - lordModUE-8.5-CFS
           Base: Zeam Launcher by default, removed UDLauncher
           ICETool: Included v0.90, all additional scripts merged into one
