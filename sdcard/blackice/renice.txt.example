@@ -1,0 +1,9 @@
+# Example renice.txt file
+# Below a list of processes that should be reniced 
+# #1 : Process name
+# #2 : Priority (ranging -20 to +19, being -20 realtime prio and +19 idle prio)
+#
+# These priorities are only applied *after* running "Autorenice" option of ICETool
+com.google.android.music -15
+com.android.systemui     -11
+org.adwfreak.launcher    -11

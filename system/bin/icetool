@@ -14,7 +14,7 @@
 #   and exported via icetool setup
 #
 . /system/etc/icetool.conf
-ICETOOL_VERSION="0.91" # Script version
+ICETOOL_VERSION="0.92" # Script version
 HELP="Usage: $0 <cmd> ..."
 ### Only root allowed
 WHO=`whoami 2>&1`
@@ -327,11 +327,11 @@ ExtraPKG() {
      fi
   done
 
-  if [ ! -d /sdcard/blackice ]; then
+  if [ ! -d $BASE_DIR ]; then
     MK=1
-    mkdir -p /sdcard/blackice
+    mkdir -p $BASE_DIR 
   fi
-  cd /sdcard/blackice
+  cd $BASE_DIR
   if [ -f "$PKG" ]; then
     MD5=`md5sum $PKG | awk '{ print $1 }'`
     if [ "$MD5" = "$MD5SUM" ]; then
@@ -358,8 +358,8 @@ ExtraPKG() {
   if [ "$GOOD" = "1" ]; then
     RemountSys "rw"
     cd /
-    tar -xzvf /sdcard/blackice/$PKG
-    chmod 644 `tar -tzvf /sdcard/blackice/$PKG | awk '(substr($NF,length($NF)) != "/"){ print $NF }'`
+    tar -xzvf $BASE_DIR/$PKG
+    chmod 644 `tar -tzvf $BASE_DIR/$PKG | awk '(substr($NF,length($NF)) != "/"){ print $NF }'`
     RemountSys "ro"
     echo "Done!"
   else
@@ -386,11 +386,11 @@ ExtraAPK() {
      fi
   done
 
-  if [ ! -d /sdcard/blackice ]; then
+  if [ ! -d $BASE_DIR ]; then
     MK=1
-    mkdir -p /sdcard/blackice
+    mkdir -p $BASE_DIR
   fi
-  cd /sdcard/blackice
+  cd $BASE_DIR
   # We allow having it in /data/app
   if [ ! -f "$APK" -a -f "/data/app/$APK" ]; then
     cp /data/app/$APK .
@@ -422,7 +422,7 @@ ExtraAPK() {
     else
       DEST="/data/app/$APK"
     fi
-    cp /sdcard/blackice/$APK $DEST
+    cp $BASE_DIR/$APK $DEST
     chmod 644 $DEST
     RemountSys "ro"
     echo "Done!"
@@ -627,6 +627,27 @@ NewLockSounds() {
   mount -o remount,ro /system >/dev/null 2>&1
 }
 
+###
+#
+#
+Renice() {
+  if [ ! -f $BASE_DIR/renice.txt -a
+            $BASE_DIR/renice.txt.example ]; then
+    cp -p $BASE_DIR/renice.txt.example $BASE_DIR/renice.txt
+  fi
+  if [ -f $BASE_DIR/renice.txt ]; then
+    cat $BASE_DIR/renice.txt | grep -v ^\# | while read PNAME PRIO ;
+ 		do
+ 			PID=`ps | grep $PNAME | awk '{ print $2 }'`
+      if [ "$PID" != "" -a "$PRIO" != "" ]; then
+        renice $PRIO $PID
+        echo "$PNAME (pid=$PID) reniced to $PRIO"
+ 			fi
+ 		done
+  fi
+}
+
+
 
 ###
 # Cleanup - for older version directories, etc
@@ -668,12 +689,13 @@ main() {
     "overlay")      Overlay    "$1" "$2" ;;
     "cleanup")      Cleanup    "$1" ;;
 
-    # Kernel tweaks
+    # System & kernel tweaks
     "fastcharge")   FastCharge "$1" ;;
     "charge")       Charge     "$1" ;;
     "remount")      Remount    "$1" ;;
     "extraapk")     ExtraAPK   "$1" ;;
     "extrapkg")     ExtraPKG   "$1" ;;
+    "renice")       Renice ;;
 
     # Sound management
     "dspinit")       DSPInit    "$1" ;;
