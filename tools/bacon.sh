@@ -85,6 +85,15 @@
 #     RIL that is part of ICEDroid.
 #     Affects the variable BLACKICE_RIL_NAME
 #
+#  -bp, -bpatch
+#     Name of a .git or .patch patch file to be applied to the BlackICE sources.
+#     If -bsync is true then the 'git pull' is done before any patches are applied.
+#     If you specify multiple patches then all .git patches will be done first
+#     (in the order they were given) and then all .patch patches will be done
+#     (in the order they were given).
+#     Affects the variables BLACKICE_GIT_PATCH_LIST and BLACKICE_DIFF_PATCH_LIST
+#
+#
 # Examples:
 #   bacon.sh -check
 #     - Display what would normal be built without actually building anything.
@@ -136,26 +145,39 @@ if [ "$USER" = "" ] || [ "$HOME" = "" ] ; then
 fi
 
 #
-# Load bacon.ini and try to be a bit flexible in finding it...
+# Load bacon.ini and try to be a bit flexible in finding it. The order is a little
+# important as we would prefer not to find a random copy somewhere in the path
+# except as a last resort.
 # This will initialize some variables to default values.
 #
+
 BACON_DIR=`dirname $0`
-if [ -f bacon.ini ]; then
-  source bacon.ini
-else
-  if [ -f ./conf/bacon.ini ]; then
-    source ./conf/bacon.ini
-  else
-    if [ -f ${BACON_DIR}/bacon.ini ]; then
-      source ${BACON_DIR}/bacon.ini
-    else
-      echo ""
-      echo "$0: Unable to find bacon.ini in PATH, ./conf or ${BACON_DIR}/"
-      echo ""
-      exit 1
-    fi
+FOUND_BACON_INI=0
+
+for bacon_ini_file in "${BACON_DIR}/bacon.ini" \
+                      "${BACON_DIR}/conf/bacon.ini" \
+                      "${BACON_DIR}/../conf/bacon.ini" \
+                      "bacon.ini"
+do
+  if [ -f $bacon_ini_file ]; then
+    FOUND_BACON_INI=1
+    banner "source ${bacon_ini_file}"
+    source $bacon_ini_file
+    break
   fi
+done
+
+if [ "$FOUND_BACON_INI" != "1" ]; then
+  echo ""
+  echo "$0: Unable to find bacon.ini"
+  echo ""
+  exit 1
 fi
+
+# These 2 lists will hold the names of any patch files that are given
+# via -patch options.
+BLACKICE_GIT_PATCH_LIST=""
+BLACKICE_DIFF_PATCH_LIST=""
 
 # If the -check command line option is given we only check everything and display
 # what would normally be built, but we quit without building anything.
@@ -329,6 +351,30 @@ while [ $# -gt 0 ]; do
     SHOW_HELP=0
   fi
 
+  if [ "$1" = "-bp" ] || [ "$1" = "-bpatch" ]; then
+    shift 1
+
+    # Check for leading "-", which indicates we got another command line option
+    # instead of a directory name.
+    ARG_TEMP=${BLACKICE_RIL_NAME:0:1}
+    if [ "$ARG_TEMP" = "-" ]; then
+      break
+    fi
+
+    # A valid patch file name must end with ".git" or ".patch"
+    if [ "${1:(-4)}" = ".git" ]; then
+      BLACKICE_GIT_PATCH_LIST=${BLACKICE_GIT_PATCH_LIST}" $1"
+      SHOW_HELP=0
+    else
+      if [ "${1:(-6)}" = ".patch" ]; then
+        BLACKICE_DIFF_PATCH_LIST=$BLACKICE_DIFF_PATCH_LIST" $1"
+        SHOW_HELP=0
+      else
+        break
+      fi
+    fi
+  fi
+
   if [ "$SHOW_HELP" = "1" ]; then
     break
   fi
@@ -360,6 +406,8 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "       Name of GPS region to build into BlackICE, can be \"\""
   echo "    -br, -bril"
   echo "       Name of RIL to build into BlackICE, can be \"\""
+  echo "    -patch"
+  echo "       Name of .git or .patch patch file. May be be given multiple times"
   echo ""
   echo "  For more details look in bacon.ini"
   echo ""
@@ -424,9 +472,28 @@ if [ "$ADD_BLACKICE" = "1" ]; then
       exit 1
     fi
   fi
+
+  # Verify that all specified patch files exist
+  PATCH_MISSING=0
+  if [ "$BLACKICE_GIT_PATCH_LIST" != "" ]; then
+    echo ""
+    for patch_file in $BLACKICE_GIT_PATCH_LIST $BLACKICE_DIFF_PATCH_LIST
+    do
+      if [ ! -f ${patch_file} ]; then
+        echo ""
+        echo "  ERROR: BlackICE patch file does not exist: ${patch_file}"
+        echo ""
+        PATCH_MISSING=1
+      fi
+    done
+  fi
+
+  if [ "$PATCH_MISSING" = "1" ]; then
+    exit 1
+  fi
+
 fi
 
-echo ""
 echo "Build information ('*' = changed by command line option)"
 echo "   User          = $USER"
 echo "  ${PH_OVER}Phone         = $PHONE"
@@ -439,6 +506,21 @@ if [ "$ADD_BLACKICE" = "1" ]; then
   echo "  ${BK_OVER}Kernel        = $BLACKICE_KERNEL_NAME  [$BLACKICE_KERNEL_FILE]"
   echo "  ${BG_OVER}GPS region    = $BLACKICE_GPS_NAME  [$BLACKICE_GPS_FILE]"
   echo "  ${BR_OVER}RIL           = $BLACKICE_RIL_NAME  [$BLACKICE_RIL_FILE]"
+
+  if [ "$BLACKICE_GIT_PATCH_LIST" != "" ]; then
+    echo ""
+    for patch_file in $BLACKICE_GIT_PATCH_LIST
+    do
+      echo "   Git patch     = ${patch_file}"
+    done
+  fi
+  if [ "$BLACKICE_DIFF_PATCH_LIST" != "" ]; then
+    echo ""
+    for patch_file in $BLACKICE_DIFF_PATCH_LIST
+    do
+      echo "   Diff patch    = ${patch_file}"
+    done
+  fi
 else
   echo "  ${BI_OVER}ROM Type      = CM7"
 fi
@@ -496,22 +578,47 @@ fi
 # Do a BlackICE 'git pull' if requested
 # We do this now so we don't have to wait for the entire CM7 build to finsih
 # before finding out if we have a BlackICE sync error.
-if [ "$ADD_BLACKICE" = "1" ] && [ "$DO_BLACKICE_SYNC" = "1" ] ; then
-  banner "BlackICE git pull"
-  cd $BLACKICE_DIR
+if [ "$ADD_BLACKICE" = "1" ]; then
+  if [ "$DO_BLACKICE_SYNC" = "1" ] ; then
+    banner "BlackICE git pull"
+    cd $BLACKICE_DIR
 
-  git pull
+    git pull
 
-  RESULT="$?"
-  if [ "$RESULT" != "0" ] ; then
-    echo ""
-    echo "  ERROR running BlackICE 'git pull' = ${RESULT}"
-    echo ""
-    exit 1
+    RESULT="$?"
+    if [ "$RESULT" != "0" ] ; then
+      echo ""
+      echo "  ERROR running BlackICE 'git pull' = ${RESULT}"
+      echo ""
+      exit 1
+    fi
+
+    # Change back to where we were previously
+    cd $ANDROID_DIR
   fi
 
-  # Change back to where we were previously
-  cd $ANDROID_DIR
+  # See if there are any GIT or DIFF patches to apply to BlackICE
+  if [ "$BLACKICE_GIT_PATCH_LIST" != "" ]; then
+    #
+    # *** TODO: How do we apply these patches?
+    # *** TODO: Do we need to change directories?
+    #
+    echo ""
+    echo "  *** Warning, bacon.sh does not support git patches yet..."
+    for patch_file in $BLACKICE_GIT_PATCH_LIST
+    do
+      echo "        Ignoring '${patch_file}'"
+    done
+  fi
+  if [ "$BLACKICE_DIFF_PATCH_LIST" != "" ]; then
+    echo ""
+    echo "  *** Warning, bacon.sh does not support diff patches yet..."
+    for patch_file in $BLACKICE_DIFF_PATCH_LIST
+    do
+      echo "        Ignoring '${patch_file}'"
+    done
+  fi
+
 fi
 
 # Making the bacon is the main build. The -j6 needs to match the system
