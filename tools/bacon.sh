@@ -41,62 +41,92 @@
 #     would have been built, but does not build anything. You may combine this
 #     with any of the other command line arguments.
 #
-#  -bi, -blackice"
-#     0 = CM7 build, 1 = BlackICE build"
-#     Affects the variable ADD_BLACKICE"
+#  -bi, -blackice
+#     0 = CM7 build, 1 = BlackICE build
+#     Affects the variable ADD_BLACKICE
 #
-#  -sy, -sync"
-#     0 = no CM7 repo sync, 1 = do CM7 repo sync"
-#     Affects the variable DO_CM7_REPO_SYNC"
+#  -cs, -csync
+#     0 = no CM7 'repo sync', 1 = do CM7 'repo sync'
+#     Affects the variable DO_CM7_SYNC
 #
-#  -pu, -push"
-#     0 = do not push KANG to phone, 1 = push KANG to phone"
-#     Affects the variable PUSH_TO_PHONE"
+#  -bs, -bsync
+#     0 = no BlackICE 'git pull', 1 = do BlackICE 'git pull'
+#     Affects the variable DO_BLACKICE_SYNC
 #
-#  -ph, -phone"
-#     Name of phone to build for, WARNING only tested with 'ace'"
-#     Affects the variable PHONE"
+#  -pu, -push
+#     0 = do not 'adb push' KANG to phone, 1 = 'adb push' KANG to phone
+#     Affects the variable PUSH_TO_PHONE
 #
-#  -adir"
-#     Full path to root of where Android (CM7) source is located"
-#     Affects the variable ANDROID_DIR"
+#  -ph, -phone
+#     Name of phone to build for, WARNING only tested with 'ace'
+#     Affects the variable PHONE
 #
-#  -bdir"
-#     Full path to the BlackICE's 'ICEDroid' directory "
-#     Affects the variable BLACKICE_DIR"
+#  -adir
+#     Full path to root of where Android (CM7) source is located
+#     Affects the variable ANDROID_DIR
 #
-#  -bk, -bkernel"
-#     Name of kernel file to build into BlackICE"
-#     Affects the variable BLACKICE_KERNEL_NAME"
+#  -bdir
+#     Full path to the BlackICE's 'ICEDroid' directory
+#     Affects the variable BLACKICE_DIR
 #
-#  -bg, -bgps"
-#     Name of GPS region to build into BlackICE". If this is set to the special
+#  -bk, -bkernel
+#     Name of kernel file to build into BlackICE
+#     Affects the variable BLACKICE_KERNEL_NAME
+#
+#  -bg, -bgps
+#     Name of GPS region to build into BlackICE. If this is set to the special
 #     value of "" then it the BlackICE build.sh script will use its normal
 #     default of system/etc/gps.conf (from ICEDroid).
-#     Affects the variable BLACKICE_GPS_NAME"
+#     Affects the variable BLACKICE_GPS_NAME
 #
-#
-#  -br, -bril"
-#     Name of RIL to build into BlackICE". If this is set to the special value
+#  -br, -bril
+#     Name of RIL to build into BlackICE. If this is set to the special value
 #     of "" then it the BlackICE build.sh script will use its normal CM7 default
 #     RIL that is part of ICEDroid.
-#     Affects the variable BLACKICE_RIL_NAME"
+#     Affects the variable BLACKICE_RIL_NAME
 #
 # Examples:
 #   bacon.sh -check
 #     - Display what would normal be built without actually building anything.
 #
-#   bacon.sh -bi 0 -sync 0 -push 1
+#   bacon.sh -bi 0 -csync 0 -push 1
 #     - Builds a CM7 KANG without first doing a repo sync. The result is pushed to the phone.
 #
-#   bacon.sh -bi 1 -bk lordmodUEv8.6-CFS-b5 -bg QATAR -br 2.2.1003G
+#   bacon.sh -bi 1 -bk lordmodUEv8.6-CFS-b5 -bg QATAR -br 2.2.1003G -bsync 1
 #     - Builds a BlackICE KANG using the following
 #       - Kernel = lordmodUEv8.6-CFS-b5 (this .zip must be in the ICEDroid/download directory)
 #       - GPS    = QATAR
 #       - RIL    = HTC-RIL_2.2.1003G
-#       - Does a repo sync of CM7 first (assuming the bacon.ini defaults haven't changed)
+#       - Does a 'repo sync' of CM7 first (assuming the bacon.ini defaults haven't changed)
+#       - Does a 'git pull' of BlackICE before building.
 #       - Pushes the result to the phone (assuming the bacon.ini defaults haven't changed)
 #
+
+#
+# Helper function to return a 'Yes' or 'No' string based on the value of the
+# given argument.
+#
+function yesNo() {
+  YN_STRING=No
+  if [ "$1" = "1" ]; then
+    YN_STRING=Yes
+  fi
+
+  echo $YN_STRING
+}
+
+#
+# Helper function for displaying a banner to indicate which step in the build is
+# currently being done.
+#
+function banner() {
+  echo ""
+  echo "*******************************************************************************"
+  echo "  Performing: $1"
+  echo "*******************************************************************************"
+  echo ""
+}
+
 
 if [ "$USER" = "" ] || [ "$HOME" = "" ] ; then
   echo ""
@@ -137,7 +167,8 @@ SHOW_HELP=0
 # Debug helpers to show which .ini items have been overridden.
 # " " = normal, "*" = overridden.
 BI_OVER=" "
-SY_OVER=" "
+BS_OVER=" "
+CS_OVER=" "
 PU_OVER=" "
 PH_OVER=" "
 AD_OVER=" "
@@ -172,12 +203,24 @@ while [ $# -gt 0 ]; do
     SHOW_HELP=0
   fi
 
-  if [ "$1" = "-sy" ] || [ "$1" = "-sync" ]; then
+  if [ "$1" = "-cs" ] || [ "$1" = "-csync" ]; then
     shift 1
-    DO_CM7_REPO_SYNC=$1
-    SY_OVER="*"
+    DO_CM7_SYNC=$1
+    CS_OVER="*"
 
-    if [ "$DO_CM7_REPO_SYNC" != "0" ] && [ "$DO_CM7_REPO_SYNC" != "1" ]; then
+    if [ "$DO_CM7_SYNC" != "0" ] && [ "$DO_CM7_SYNC" != "1" ]; then
+      break
+    fi
+
+    SHOW_HELP=0
+  fi
+
+  if [ "$1" = "-bs" ] || [ "$1" = "-bsync" ]; then
+    shift 1
+    DO_BLACKICE_SYNC=$1
+    BS_OVER="*"
+
+    if [ "$DO_BLACKICE_SYNC" != "0" ] && [ "$DO_BLACKICE_SYNC" != "1" ]; then
       break
     fi
 
@@ -286,6 +329,10 @@ while [ $# -gt 0 ]; do
     SHOW_HELP=0
   fi
 
+  if [ "$SHOW_HELP" = "1" ]; then
+    break
+  fi
+
   shift 1
 done
 
@@ -295,10 +342,12 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "  Usage is $0 [params]"
   echo "    -bi, -blackice"
   echo "       0 = CM7 build, 1 = BlackICE build"
-  echo "    -sy, -sync"
-  echo "       0 = no CM7 repo sync, 1 = do CM7 repo sync"
+  echo "    -csync"
+  echo "       0 = no CM7 'repo sync', 1 = do CM7 'repo sync'"
+  echo "    -bsync"
+  echo "       0 = no BlackICE 'git pull', 1 = do BlackICE 'git pull'"
   echo "    -pu, -push"
-  echo "       0 = do not push KANG to phone, 1 = push KANG to phone"
+  echo "       0 = do not 'adb push' KANG to phone, 1 = 'adb push' KANG to phone"
   echo "    -ph, -phone"
   echo "       Name of phone to build for, WARNING only tested with 'ace'"
   echo "    -adir"
@@ -336,7 +385,7 @@ BLACKICE_RIL_FILE=${BLACKICE_DIR}/sdcard/blackice/ril/HTC-RIL_${BLACKICE_RIL_NAM
 # Cyanogen makefile puts the new ROM, it needs to match.
 CM7_ROM_DIR=${ANDROID_DIR}/out/target/product/${PHONE}
 
-cd ${ANDROID_DIR}
+cd $ANDROID_DIR
 
 if [ "$ADD_BLACKICE" = "1" ]; then
   if [ ! -f $BLACKICE_KERNEL_FILE ]; then
@@ -395,16 +444,9 @@ else
 fi
 
 echo ""
-if [ "$DO_CM7_REPO_SYNC" = "1" ]; then
-  echo "  ${SY_OVER}Repo Sync     = Yes"
-else
-  echo "  ${SY_OVER}Repo Sync     = No"
-fi
-if [ "$PUSH_TO_PHONE" = "1" ]; then
-  echo "  ${PU_OVER}Push to phone = Yes"
-else
-  echo "  ${PU_OVER}Push to phone = No"
-fi
+echo "  ${CS_OVER}CM7 Repo Sync = "`yesNo $DO_CM7_SYNC`
+echo "  ${BS_OVER}BI Git Pull   = "`yesNo $DO_BLACKICE_SYNC`
+echo "  ${PU_OVER}Push to phone = "`yesNo $PUSH_TO_PHONE`
 echo ""
 
 if [ "$CHECK_ONLY" != "0" ]; then
@@ -417,6 +459,7 @@ sleep 5
 
 # Set up the environment for doing a Cyanogen build. We need to do a 'source' here
 # so that the environment variables are available for the following steps to access.
+banner "source build/envsetup.sh"
 source build/envsetup.sh
 RESULT="$?"
 if [ "$RESULT" != "0" ] ; then
@@ -427,6 +470,7 @@ if [ "$RESULT" != "0" ] ; then
 fi
 
 # We need to choose the target we are building for.
+banner "breakfast ${PHONE}"
 breakfast ${PHONE}
 if [ "$RESULT" != "0" ] ; then
   echo ""
@@ -435,29 +479,51 @@ if [ "$RESULT" != "0" ] ; then
   exit 1
 fi
 
-# Decide whether or not to run repo sync
-if [ "$DO_CM7_REPO_SYNC" = "1" ] ; then
+# Do a CM7 'repo sync' if requested
+if [ "$DO_CM7_SYNC" = "1" ] ; then
+  banner "CM7 repo sync -j16"
   repo sync -j16
 
   RESULT="$?"
   if [ "$RESULT" != "0" ] ; then
     echo ""
-    echo "  ERROR running repo sync = ${RESULT}"
+    echo "  ERROR running CM7 'repo sync' = ${RESULT}"
+    echo ""
+    exit 1
+  fi
+fi
+
+# Do a BlackICE 'git pull' if requested
+# We do this now so we don't have to wait for the entire CM7 build to finsih
+# before finding out if we have a BlackICE sync error.
+if [ "$ADD_BLACKICE" = "1" ] && [ "$DO_BLACKICE_SYNC" = "1" ] ; then
+  banner "BlackICE git pull"
+  cd $BLACKICE_DIR
+
+  git pull
+
+  RESULT="$?"
+  if [ "$RESULT" != "0" ] ; then
+    echo ""
+    echo "  ERROR running BlackICE 'git pull' = ${RESULT}"
     echo ""
     exit 1
   fi
 
+  # Change back to where we were previously
+  cd $ANDROID_DIR
 fi
 
 # Making the bacon is the main build. The -j6 needs to match the system
 # that is being used to do the build.
 NUM_CPUS=`grep -c processor /proc/cpuinfo`
-make bacon -j $NUM_CPUS
+banner "make bacon -j ${NUM_CPUS}"
+make bacon -j ${NUM_CPUS}
 
 RESULT="$?"
 if [ "$RESULT" != "0" ] ; then
   echo ""
-  echo "  ERROR running make bacon = ${RESULT}"
+  echo "  ERROR running 'make bacon' = ${RESULT}"
   echo ""
   exit 1
 fi
@@ -481,7 +547,7 @@ rm -f ${CM7_ROM_DIR}/${USER}-cm7*.zip.md5sum
 rm -f ${CM7_ROM_DIR}/cyanogen_${PHONE}-ota-eng*.zip
 
 mv $CM7_OLD_ROM $CM7_NEW_ROM
-mv $CM7_OLD_ROM.md5sum $CM7_NEW_ROM.md5sum
+mv $CM7_OLD_ROM.md5sum ${CM7_NEW_ROM}.md5sum
 
 if [ ! -e $CM7_NEW_ROM ] ; then
   echo ""
@@ -490,9 +556,9 @@ if [ ! -e $CM7_NEW_ROM ] ; then
   exit 1
 fi
 
-if [ ! -e $CM7_NEW_ROM.md5sum ] ; then
+if [ ! -e ${CM7_NEW_ROM}.md5sum ] ; then
   echo ""
-  echo "  ERROR creating ${CM7_NEW_ROM.md5sum}"
+  echo "  ERROR creating ${CM7_NEW_ROM}.md5sum"
   echo ""
   exit 1
 fi
@@ -516,9 +582,7 @@ if [ "$ADD_BLACKICE" = "1" ] ; then
 
   # We invoke this using "source" so that we can access the $OUT_ZIP variable
   # afterwards in order to know what ROM to push onto the phone (if requested).
-  echo ""
-  echo "source tools/build.sh download/${CM7_NEW_ROM_BASE} download/${BLACKICE_KERNEL_NAME} ${BLACKICE_GPS_NAME} ${BLACKICE_RIL_NAME}"
-  echo ""
+  banner "source tools/build.sh download/${CM7_NEW_ROM_BASE} download/${BLACKICE_KERNEL_NAME} ${BLACKICE_GPS_NAME} ${BLACKICE_RIL_NAME}"
   source tools/build.sh download/${CM7_NEW_ROM_BASE} download/${BLACKICE_KERNEL_NAME} ${BLACKICE_GPS_NAME} ${BLACKICE_RIL_NAME}
 
   RESULT="$?"
@@ -531,15 +595,17 @@ fi
 # Decide whether or not to push the result to the phone
 if [ "$PUSH_TO_PHONE" = "1" ] ; then
   if [ "$ADD_BLACKICE" = "0" ] ; then
-    echo ""
-    echo "adb push ${CM7_NEW_ROM} /sdcard/"
+    banner "adb push ${CM7_NEW_ROM} /sdcard/"
     adb push ${CM7_NEW_ROM} /sdcard/
-    echo ""
   else
-    echo ""
-    echo "adb push ${OUT_ZIP} /sdcard/"
+    banner "adb push ${OUT_ZIP} /sdcard/"
     adb push ${OUT_ZIP} /sdcard/
-    echo ""
+  fi
+
+  RESULT="$?"
+  if [ "$RESULT" != "0" ]; then
+    echo "  ERROR pushing ROM to phone (is the phone attached?) = ${RESULT}"
+    exit 1
   fi
 fi
 
