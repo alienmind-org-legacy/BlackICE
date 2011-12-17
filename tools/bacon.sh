@@ -527,7 +527,9 @@ fi
 
 echo ""
 echo "  ${CS_OVER}CM7 Repo Sync = "`yesNo $DO_CM7_SYNC`
-echo "  ${BS_OVER}BI Git Pull   = "`yesNo $DO_BLACKICE_SYNC`
+if [ "$ADD_BLACKICE" = "1" ]; then
+  echo "  ${BS_OVER}BI Git Pull   = "`yesNo $DO_BLACKICE_SYNC`
+fi
 echo "  ${PU_OVER}Push to phone = "`yesNo $PUSH_TO_PHONE`
 echo ""
 
