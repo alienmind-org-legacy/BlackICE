@@ -570,7 +570,7 @@ EOF
 #!/system/bin/sh
 bprop=/system/build.prop
 play=$(cat $bprop | egrep -c -i -o ro.config.play.bootsound=1)
-if [ "$play" != "" ]; then
+if [ "\$play" != "" ]; then
         stagefright -a -o /system/media/android_audio.mp3
 fi
 exit 0
