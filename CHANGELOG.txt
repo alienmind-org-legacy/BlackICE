@@ -1,6 +1,10 @@
 CHANGELOG
 =========
-v1.26b1 - WIP - Base: KANG-20111210 - lordModUE-8.5-CFS
+v1.26b2 - WIP - Base: KANG : cm7-20111223_004213.zip - LordModUEv8.6-CFS.zip
+          Fixed bootsound
+          Apps: Upgraded Vending 3.4.4 (on extraapps)
+          Apps: Upgraded Systune 1.5.9
+v1.26b1 - Base: KANG-20111210 - lordModUE-8.5-CFS
           ICETool: Fixed Vending 2.3.6 => 3.2.0 => 2.3.6 
           ICETool: Fixed bootsound option
           ICETool: Fixed overlay
