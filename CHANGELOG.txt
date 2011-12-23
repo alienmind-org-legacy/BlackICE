@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 v1.26b2 - WIP - Base: KANG : cm7-20111223_004213.zip - LordModUEv8.6-CFS.zip
+          Includes the dark dial buttons and custom emergency button images for the lockscreen (thx Chezbel!)
           Fixed bootsound
           Apps: Upgraded Vending 3.4.4 (on extraapps)
           Apps: Upgraded Systune 1.5.9
