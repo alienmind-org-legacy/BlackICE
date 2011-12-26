@@ -12,20 +12,21 @@ cd $ANDROID_DIR
 
 if [ "$CM7_MAKE" = "full" ]; then
   banner "make clobber"
-  make clobber || ExitError "Running 'make clobber'"
+  make clobber >> $LOG || ExitError "Running 'make clobber'"
 
   banner "build/envsetup.sh && brunch ${PHONE}"
-  source build/envsetup.sh && brunch ${PHONE} || ExitError "Running 'build/envsetup.sh && brunch ${PHONE}'"
+  (source build/envsetup.sh && brunch ${PHONE}) >> $LOG || ExitError "Running 'build/envsetup.sh && brunch ${PHONE}'"
 
 else
   if [ "$CM7_MAKE" = "bacon" ]; then
     banner "build/envsetup.sh && breakfast ${PHONE}"
-    source build/envsetup.sh && breakfast ${PHONE} || ExitError "Running 'build/envsetup.sh && breakfast ${PHONE}'"
+    source build/envsetup.sh >> $LOG || ExitError "Running 'build/envsetup.sh'"
+    breakfast ${PHONE} >> $LOG || ExitError "Running 'breakfast ${PHONE}'"
 
     # Making the bacon is the main build.
     NUM_CPUS=`grep -c processor /proc/cpuinfo`
     banner "make bacon -j ${NUM_CPUS}"
-    make bacon -j ${NUM_CPUS} || ExitError "Running 'make bacon'"
+    make bacon -j ${NUM_CPUS} >> $LOG || ExitError "Running 'make bacon'"
   fi
 fi
 

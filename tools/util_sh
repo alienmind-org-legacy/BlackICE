@@ -23,7 +23,7 @@ function ExitError() {
 
 # Logged output
 function ShowMessage() {
-  echo "$@" | tee -a $LOG
+  echo "$@" | tee -a $LOG  2>&1
 }
 
 # Convert relative path to absolute path

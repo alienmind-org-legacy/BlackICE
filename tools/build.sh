@@ -93,7 +93,7 @@ echo "Cmd Line: $@" >> $LOG
 # directory we are running in now).
 SCRIPT_DIR=${BUILD_DIR}/../build_scripts
 
-source ${BUILD_DIR}/util_sh
+source ${BUILD_DIR}/util_sh >> $LOG
 RESULT="$?"
 if [ "$RESULT" != "0" ] ; then
   echo "" | tee -a $LOG
@@ -149,7 +149,7 @@ sleep 4
 if [ "$DO_CM7" = "1" ] && ([ "$SYNC_TYPE" = "cm7" ] || [ "$SYNC_TYPE" = "all" ]); then
   banner "CM7 repo sync -j16"
   cd ${ANDROID_DIR}
-  repo sync -j16 || ExitError "Running CM7 'repo sync'"
+  repo sync -j16 >> $LOG  || ExitError "Running CM7 'repo sync'"
 fi
 
 # Do a BlackICE 'git pull' if requested
