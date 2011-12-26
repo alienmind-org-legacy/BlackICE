@@ -163,19 +163,6 @@
 #       the phone. So the setting for this in 'bi.ini' will be used.
 #
 
-#
-# Helper function for displaying a banner to indicate which step in the build is
-# currently being done.
-#
-function banner() {
-  echo ""
-  echo "*******************************************************************************"
-  echo "  $1"
-  echo "*******************************************************************************"
-  echo ""
-}
-
-
 if [ "$USER" = "" ] || [ "$HOME" = "" ] ; then
   echo ""
   echo "$0: The Linux environment variables USER and HOME must be defined!"
@@ -743,107 +730,107 @@ if [ "$CLEAN_ONLY" = "0" ]; then
 fi
 
 
-echo "Build information"
-echo "   INI file      = $INI_NAME"
-echo "   User          = $USER"
-echo "   Home dir      = $HOME"
+ShowMessage "Build information"
+ShowMessage "   INI file      = $INI_NAME"
+ShowMessage "   User          = $USER"
+ShowMessage "   Home dir      = $HOME"
 
 if [ "$CLEAN_ONLY" = "0" ]; then
-  echo "   Phone         = $PHONE"
+  ShowMessage "   Phone         = $PHONE"
 
   if [ "$ROM_TYPE" = "cm7" ]; then
-    echo "   ROM           = CM7 only"
+    ShowMessage "   ROM           = CM7 only"
   else
     if [ "$ROM_TYPE" = "bi" ]; then
-      echo "   ROM           = BlackICE only"
+      ShowMessage "   ROM           = BlackICE only"
     else
-      echo "   ROM           = CM7 + BlackICE"
+      ShowMessage "   ROM           = CM7 + BlackICE"
     fi
   fi
 
   if [ "$DO_CM7" = "1" ]; then
-    echo "   Android dir   = $ANDROID_DIR"
+    ShowMessage "   Android dir   = $ANDROID_DIR"
 
     if  [ "$CM7_MAKE" = "bacon" ]; then
-      echo "   CM7 make      = make bacon"
+      ShowMessage "   CM7 make      = make bacon"
     else
-      echo "   CM7 make      = make clobber + brunch"
+      ShowMessage "   CM7 make      = make clobber + brunch"
     fi
   fi
 
   if [ "$DO_BLACKICE" = "1" ]; then
-    echo "   BlackICE dir  = $BLACKICE_DIR"
-    echo "   Kernel        = $BLACKICE_KERNEL_NAME"
+    ShowMessage "   BlackICE dir  = $BLACKICE_DIR"
+    ShowMessage "   Kernel        = $BLACKICE_KERNEL_NAME"
 
 
     if [ "$BLACKICE_GPS_NAME" = "" ]; then
-     echo "   GPS region    = << default >>"
+     ShowMessage "   GPS region    = << default >>"
     else
-     echo "   GPS region    = $BLACKICE_GPS_NAME"
+     ShowMessage "   GPS region    = $BLACKICE_GPS_NAME"
     fi
 
     if [ "$BLACKICE_RIL_NAME" = "" ]; then
-      echo "   RIL           = << default >>"
+      ShowMessage "   RIL           = << default >>"
     else
-      echo "   RIL           = $BLACKICE_RIL_NAME"
+      ShowMessage "   RIL           = $BLACKICE_RIL_NAME"
     fi
 
     if [ "$DO_CM7" = "1" ]; then
-      echo "   CM7 base      = << from CM7 build >>"
+      ShowMessage "   CM7 base      = << from CM7 build >>"
     else
-      echo "   CM7 base      = $CM7_BASE_NAME"
+      ShowMessage "   CM7 base      = $CM7_BASE_NAME"
     fi
 
   fi
 
   if [ "$PATCH_FILE_LIST" != "" ]; then
-    echo ""
+    ShowMessage ""
     for patch_file in $PATCH_FILE_LIST
     do
-      echo "   Patch         = ${patch_file}"
+      ShowMessage "   Patch         = ${patch_file}"
     done
   fi
 
   if [ "$SYNC_TYPE" = "cm7" ]; then
-    echo "   Sync          = CM7 (repo sync)"
+    ShowMessage "   Sync          = CM7 (repo sync)"
   else
     if [ "$SYNC_TYPE" = "bi" ]; then
-      echo "   Sync          = BlackICE (git pull)"
+      ShowMessage "   Sync          = BlackICE (git pull)"
     else
       if [ "$SYNC_TYPE" = "all" ]; then
-        echo "   Sync          = CM7 + BlackICE (repo sync + git pull)"
+        ShowMessage "   Sync          = CM7 + BlackICE (repo sync + git pull)"
       else
-        echo "   Sync          = none"
+        ShowMessage "   Sync          = none"
       fi
     fi
   fi
 
-  echo "   Push to phone = $PUSH_TO_PHONE"
+  ShowMessage "   Push to phone = $PUSH_TO_PHONE"
 
 else
 
   # CLEAN_ONLY is 1
   if [ "$DO_CM7" = "1" ]; then
-    echo "   Android dir   = $ANDROID_DIR"
+    ShowMessage "   Android dir   = $ANDROID_DIR"
   fi
 
   if [ "$DO_BLACKICE" = "1" ]; then
-    echo "   BlackICE dir  = $BLACKICE_DIR"
+    ShowMessage "   BlackICE dir  = $BLACKICE_DIR"
   fi
 
   if [ "$CLEAN_TYPE" = "bi" ]; then
-    echo "   Clean         = BlackICE"
+    ShowMessage "   Clean         = BlackICE"
   else
     if [ "$CLEAN_TYPE" = "cm7" ]; then
-      echo "   Clean         = CM7"
+      ShowMessage "   Clean         = CM7"
     else
       if [ "$CLEAN_TYPE" = "all" ]; then
-        echo "   Clean         = CM7 + BlackICE"
+        ShowMessage "   Clean         = CM7 + BlackICE"
       fi
     fi
   fi
 fi
-echo ""
+ShowMessage ""
 
 # Return 0 for no error
 return 0

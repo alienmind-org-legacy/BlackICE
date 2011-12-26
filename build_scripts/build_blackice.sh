@@ -12,34 +12,8 @@
 
 # Read config
 
-source ${SCRIPT_DIR}/../conf/sources.ini
-RESULT="$?"
-if [ "$RESULT" != "0" ] ; then
-  echo ""
-  echo "  ERROR sourcing 'conf/sources.ini' = ${RESULT}"
-  echo ""
-  return 1
-fi
-
-source ${SCRIPT_DIR}/../conf/blackice.ini
-RESULT="$?"
-if [ "$RESULT" != "0" ] ; then
-  echo ""
-  echo "  ERROR sourcing 'conf/blackice.ini' = ${RESULT}"
-  echo ""
-  return 1
-fi
-
-# *** TODO: We should probably move util_sh (and other scripts in /tools) to the
-#           /build_scripts directory. Also should this be renamed to util.sh?
-source ${SCRIPT_DIR}/../tools/util_sh
-RESULT="$?"
-if [ "$RESULT" != "0" ] ; then
-  echo ""
-  echo "  ERROR sourcing 'util_sh' = ${RESULT}"
-  echo ""
-  return 1
-fi
+source ${SCRIPT_DIR}/../conf/sources.ini || ExitError "Sourcing 'conf/sources.ini'"
+source ${SCRIPT_DIR}/../conf/blackice.ini  || ExitError "Sourcing 'conf/blackice.ini'"
 
 # Base name for CM7 KANG that we build BlackICE on top of.
 # If this doesn't exist we will try to download it from
@@ -71,16 +45,6 @@ OUT_EXTRAAPPS="${BLACKICE_DIR}/out/${BLACKICE_VERSION}-extraapps-${TIMESTAMP}"
 OUT_EXTRAAPPS_ZIP="${OUT_EXTRAAPPS}.zip"
 OUT_EXTRAAPPS_SIGNED="${OUT_EXTRAAPPS}-signed.zip"
 
-if [ $VERBOSE -le 1 ]; then
-  LOG=${BLACKICE_DIR}/build-${TIMESTAMP}.log
-else
-  LOG=/dev/stdout
-fi
-export LOG
-
-
-# Reset log
-echo "" > $LOG
 
 # User requested clean of all temporary content
 if [ "$CLEAN_ONLY" = "1" ]; then
@@ -97,7 +61,7 @@ fi
 
 
 ### Show version and banner
-echo "$BLACKICE_VERSION"
+ShowMessage "$BLACKICE_VERSION"
 cat ${SCRIPT_DIR}/../artwork/logo.txt
 
 # Remove previous build stuff

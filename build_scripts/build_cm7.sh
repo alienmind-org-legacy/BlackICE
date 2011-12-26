@@ -12,52 +12,20 @@ cd $ANDROID_DIR
 
 if [ "$CM7_MAKE" = "full" ]; then
   banner "make clobber"
-  make clobber
-
-  RESULT="$?"
-  if [ "$RESULT" != "0" ] ; then
-    echo ""
-    echo "  ERROR running 'make clobber' = ${RESULT}"
-    echo ""
-    return 1
-  fi
+  make clobber || ExitError "Running 'make clobber'"
 
   banner "build/envsetup.sh && brunch ${PHONE}"
-  source build/envsetup.sh && brunch ${PHONE}
-
-  RESULT="$?"
-  if [ "$RESULT" != "0" ] ; then
-    echo ""
-    echo "  ERROR running 'build/envsetup.sh && brunch ${PHONE} = ${RESULT}"
-    echo ""
-    return 1
-  fi
+  source build/envsetup.sh && brunch ${PHONE} || ExitError "Running 'build/envsetup.sh && brunch ${PHONE}'"
 
 else
   if [ "$CM7_MAKE" = "bacon" ]; then
     banner "build/envsetup.sh && breakfast ${PHONE}"
-    source build/envsetup.sh && breakfast ${PHONE}
-
-    RESULT="$?"
-    if [ "$RESULT" != "0" ] ; then
-      echo ""
-      echo "  ERROR running 'build/envsetup.sh && breakfast ${PHONE}' = ${RESULT}"
-      echo ""
-      return 1
-    fi
+    source build/envsetup.sh && breakfast ${PHONE} || ExitError "Running 'build/envsetup.sh && breakfast ${PHONE}'"
 
     # Making the bacon is the main build.
     NUM_CPUS=`grep -c processor /proc/cpuinfo`
     banner "make bacon -j ${NUM_CPUS}"
-    make bacon -j ${NUM_CPUS}
-
-    RESULT="$?"
-    if [ "$RESULT" != "0" ] ; then
-      echo ""
-      echo "  ERROR running 'make bacon' = ${RESULT}"
-      echo ""
-      return 1
-    fi
+    make bacon -j ${NUM_CPUS} || ExitError "Running 'make bacon'"
   fi
 fi
 
@@ -81,17 +49,11 @@ mv $CM7_OLD_ROM $CM7_NEW_ROM
 mv $CM7_OLD_ROM.md5sum ${CM7_NEW_ROM}.md5sum
 
 if [ ! -e $CM7_NEW_ROM ] ; then
-  echo ""
-  echo "  ERROR creating ${CM7_NEW_ROM}"
-  echo ""
-  return 1
+  ExitError "Creating ${CM7_NEW_ROM}"
 fi
 
 if [ ! -e ${CM7_NEW_ROM}.md5sum ] ; then
-  echo ""
-  echo "  ERROR creating ${CM7_NEW_ROM}.md5sum"
-  echo ""
-  return 1
+  ExitError "Creating ${CM7_NEW_ROM}.md5sum"
 fi
 
 return 0
