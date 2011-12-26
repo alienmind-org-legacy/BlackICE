@@ -232,9 +232,7 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
       echo "  ERROR: Expected a file name after '-ini', saw '${INI_NAME}'"
       echo ""
     else
-      TEMP_INI_DIR=$(cd "$(dirname "$INI_NAME")"; pwd)
-      TEMP_INI_BASE=`basename ${INI_NAME}`
-      INI_NAME=${TEMP_INI_DIR}/${TEMP_INI_BASE}
+      INI_NAME=`GetAbsolutePath ${INI_NAME}`
       if [ ! -f $INI_NAME ]; then
         echo ""
         echo "  ERROR .ini file '${INI_NAME}' does not exist"
@@ -346,10 +344,8 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
       echo ""
     else
       # Get the full absolute path to this file
-      ##TEMP_PATCH=$(readlink -f "$TEMP_PATCH")
-      TEMP_PATCH_DIR=$(cd "$(dirname "$TEMP_PATCH")"; pwd)
-      TEMP_PATCH_BASE=`basename ${TEMP_PATCH}`
-      PATCH_FILE_LIST=${PATCH_FILE_LIST}" ${TEMP_PATCH_DIR}/${TEMP_PATCH_BASE}"
+      TEMP_PATCH=`GetAbsolutePath ${TEMP_PATCH}`
+      PATCH_FILE_LIST=${PATCH_FILE_LIST}" ${TEMP_PATCH}"
       SHOW_HELP=0
     fi
   fi
@@ -440,27 +436,36 @@ if [ "$SHOW_HELP" = "0" ]; then
 
     if [ "$DO_BLACKICE" =  "1" ]; then
       if [ "$ROM_TYPE" = "bi" ]; then
-        # A leading "-" indicates we got another command line option instead of a phone name.
+        # A leading "-" indicates we got another command line option instead of a name.
         ARG_TEMP=${CM7_BASE_NAME:0:1}
         if [ "$CM7_BASE_NAME" = "" ] || [ "$ARG_TEMP" = "-" ]; then
           echo ""
           echo "  ERROR: Invalid value for CM7_BASE_NAME (in .ini file) or '-cm7base', saw '${CM7_BASE_NAME}'"
           echo ""
           SHOW_HELP=1
+        else
+          CM7_BASE_NAME=`GetAbsolutePath ${CM7_BASE_NAME}`
+          if [ ! -f $CM7_BASE_NAME ]; then
+            echo ""
+            echo "  ERROR: CM7_BASE_NAME does not exist: '${CM7_BASE_NAME}'"
+            echo ""
+            SHOW_HELP=1
+          fi
         fi
       fi
 
-      # A leading "-" indicates we got another command line option instead of a phone name.
+      # A leading "-" indicates we got another command line option instead of a name.
       ARG_TEMP=${BLACKICE_KERNEL_NAME:0:1}
       if [ "$BLACKICE_KERNEL_NAME" = "" ] || [ "$ARG_TEMP" = "-" ]; then
         echo ""
         echo "  ERROR: Invalid value for BLACKICE_KERNEL_NAME (in .ini file) or '-bkernel', saw '${BLACKICE_KERNEL_NAME}'"
         echo ""
         SHOW_HELP=1
+      else
+        BLACKICE_KERNEL_NAME=`GetAbsolutePath ${BLACKICE_KERNEL_NAME}`
       fi
 
-
-      # A leading "-" indicates we got another command line option instead of a phone name.
+      # A leading "-" indicates we got another command line option instead of a name.
       ARG_TEMP=${BLACKICE_GPS_NAME:0:1}
       if [ "$ARG_TEMP" = "-" ]; then
         echo ""
@@ -470,7 +475,7 @@ if [ "$SHOW_HELP" = "0" ]; then
       fi
 
 
-      # A leading "-" indicates we got another command line option instead of a phone name.
+      # A leading "-" indicates we got another command line option instead of a name.
       if [ "$ARG_TEMP" = "-" ]; then
         echo ""
         echo "  ERROR: Invalid value for BLACKICE_RIL_NAME (in .ini file) or '-bril', saw '${BLACKICE_RIL_NAME}'"
@@ -503,6 +508,14 @@ if [ "$SHOW_HELP" = "0" ]; then
       echo "  ERROR: Invalid value for ANDROID_DIR (in .ini file) or '-adir', saw '${ANDROID_DIR}'"
       echo ""
       SHOW_HELP=1
+    else
+      ANDROID_DIR=`GetAbsolutePath ${ANDROID_DIR}`
+      if [ ! -d $ANDROID_DIR ]; then
+        echo ""
+        echo "  ERROR: ANDROID_DIR does not exist: '${ANDROID_DIR}'"
+        echo ""
+        SHOW_HELP=1
+      fi
     fi
   fi
 
@@ -514,6 +527,14 @@ if [ "$SHOW_HELP" = "0" ]; then
       echo "  ERROR: Invalid value for BLACKICE_DIR (in .ini file) or '-bdir', saw '${BLACKICE_DIR}'"
       echo ""
       SHOW_HELP=1
+    else
+      BLACKICE_DIR=`GetAbsolutePath ${BLACKICE_DIR}`
+      if [ ! -d $BLACKICE_DIR ]; then
+        echo ""
+        echo "  ERROR: BLACKICE_DIR does not exist: '${BLACKICE_DIR}'"
+        echo ""
+        SHOW_HELP=1
+      fi
     fi
   fi
 fi
@@ -544,6 +565,10 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "       Full path to root of where Android (CM7) source is located"
   echo "    -bdir <path>"
   echo "       Full path to the BlackICE 'ICEDroid' directory "
+  echo "    -cm7make {bacon, full}"
+  echo "       bacon = 'make bacon', full = 'make clobber' + 'brunch'"
+  echo "    -cm7base <name of CM7 KANG>"
+  echo "       Name of CM7 KANG to use as a base for building BlackICE"
   echo "    -bkernel <kernel_file>"
   echo "       Name of kernel file to build into BlackICE"
   echo "    -bgps <gps_region>"

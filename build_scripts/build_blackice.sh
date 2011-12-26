@@ -161,8 +161,9 @@ KERNEL_DIR=$WORK_DIR/`basename "$KERNELFILE" .zip`
 rm -rf $KERNEL_DIR
 mkdir $KERNEL_DIR
 cd $KERNEL_DIR
-unzip -x $KERNELFILE >> $LOG
-${TOOLS_DIR}/mkbootimg.sh $KANG_DIR/boot.img $KERNEL_DIR/kernel/zImage $KERNEL_DIR/boot.img >> $LOG 2>&1
+unzip -x $KERNELFILE >> $LOG || ExitError "Can't unzip $KERNELFILE"
+
+${TOOLS_DIR}/mkbootimg.sh $KANG_DIR/boot.img $KERNEL_DIR/kernel/zImage $KERNEL_DIR/boot.img >> $LOG 2>&1 || ExitError "Can't run mkbootimg.sh"
 cd - &>/dev/null
 
 # From there we are in work dir

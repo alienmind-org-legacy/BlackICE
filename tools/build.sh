@@ -23,9 +23,38 @@
 # See ICEDroid/build_scripts/init.sh for command line argument information.
 #
 
+# *** TODO: Can this replace FixPath in util_sh?
+
+# Returns the absolute path of the item which can be a file or directory
+function GetAbsolutePath() {
+  local ARG=$1
+  local TEMP_BASE_NAME=`basename ${ARG}`
+#  local TEMP_DIR_NAME=$(cd "$(dirname "$ARG")"; pwd)
+  local TEMP_DIR_NAME="$(cd "$(dirname "${ARG}")" && pwd)"
+
+  if [ "$TEMP_BASE_NAME" != "." ]; then
+    ARG=${TEMP_DIR_NAME}/${TEMP_BASE_NAME}
+  else
+    ARG=${TEMP_DIR_NAME}
+  fi
+
+  echo $ARG
+}
+
+# Returns the absolute directory for the given file
+function GetAbsoluteDirOfFile() {
+  local ARG=$1
+  #ARG=$(cd "$(dirname "$ARG")"; pwd)
+  ARG="$(cd "$(dirname "${ARG}")" && pwd)"
+  echo $ARG
+}
+
+
+
 # Get the full path of the directory that the script is running in.
 # This is expected to be the ICEDroid/tools directory.
-BUILD_DIR=$(cd "$(dirname "$0")"; pwd)
+##BUILD_DIR=$(cd "$(dirname "$0")"; pwd)
+BUILD_DIR=`GetAbsoluteDirOfFile $0`
 
 # The include scripts are expected to be in ICEDroid/build_scripts
 SCRIPT_DIR=${BUILD_DIR}/../build_scripts
@@ -46,10 +75,6 @@ if [ "$CHECK_ONLY" != "0" ]; then
   # Quit without building anything.
   exit 0
 fi
-
-# Delay so we have time to read the build information.
-sleep 4
-
 
 if [ "$CLEAN_TYPE" = "cm7" ] || [ "$CLEAN_TYPE" = "all" ]; then
   cd $ANDROID_DIR
@@ -85,6 +110,9 @@ fi
 if [ "$CLEAN_ONLY" = "1" ]; then
   exit 0
 fi
+
+# Delay so we have time to read the build information.
+sleep 4
 
 
 #

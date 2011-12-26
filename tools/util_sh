@@ -12,7 +12,9 @@ export PATH=$PATH:$ROOT_DIR:$ANDROID_ROOT/platform-tools/:$ANDROID_ROOT/tools/
 
 # Error control
 function ExitError() {
-  ShowMessage "$@"
+  echo ""
+  ShowMessage "ERROR $@"
+  echo ""
   exit 1
 }
 
