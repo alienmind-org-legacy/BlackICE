@@ -1,15 +1,29 @@
-export ROOT_DIR=$PWD
-export PATH=$PATH:$ROOT_DIR/tools:$ANDROID_ROOT/platform-tools/:$ANDROID_ROOT/tools/
+#
+# If this is included from some random script then the ICEDroid/tools directory
+# might not be in our path. This script *is* supposed to be running in that
+# directory. We can use that information to add the tools directory.
+#
+# ROOT_DIR will be the full absolute path to tools
+#
+
+if [ "$ROOT_DIR" = "" ]; then
+  FULL_PATH=$(readlink -f "$0")
+  export ROOT_DIR=$(cd "$(dirname "$FULL_PATH")"; pwd)
+  export PATH=$PATH:$ROOT_DIR:$ANDROID_ROOT/platform-tools/:$ANDROID_ROOT/tools/
+fi
+
 
 # Error control
 function ExitError() {
-  ShowMessage "$@"
+  echo ""
+  ShowMessage "ERROR $@"
+  echo ""
   exit 1
 }
 
 # Logged output
 function ShowMessage() {
-  echo "$@" | tee -a $LOG 
+  echo "$@" | tee -a $LOG  2>&1
 }
 
 # Convert relative path to absolute path
