@@ -46,8 +46,16 @@ rm -f ${CM7_ROM_DIR}/${USER}-cm7*.zip
 rm -f ${CM7_ROM_DIR}/${USER}-cm7*.zip.md5sum
 rm -f ${CM7_ROM_DIR}/cyanogen_${PHONE}-ota-eng*.zip
 
+# Delete the md5sum file that the 'make' just created because it will contain
+# the default Cyanogen name. We will recreate the md5sum next using the new ROM.
+rm -f $CM7_OLD_ROM.md5sum
+
+
 mv $CM7_OLD_ROM $CM7_NEW_ROM
-mv $CM7_OLD_ROM.md5sum ${CM7_NEW_ROM}.md5sum
+
+CM7_MD5SUM=`md5sum -b $CM7_NEW_ROM`
+echo "${CM7_MD5SUM}" > ${CM7_NEW_ROM}.md5sum
+
 
 if [ ! -e $CM7_NEW_ROM ] ; then
   ExitError "Creating ${CM7_NEW_ROM}"
