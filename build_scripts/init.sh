@@ -330,8 +330,9 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
       echo "  ERROR no patch file specified for '-patch'"
       echo ""
     else
-      # Get the full absolute path to this file
-      TEMP_PATCH=`GetAbsolutePath ${TEMP_PATCH}`
+      # We will fix up the path if necessary after all the params are processed
+      # because we need to examine any patch file names that were already on the
+      # list via the .ini file.
       PATCH_FILE_LIST=${PATCH_FILE_LIST}" ${TEMP_PATCH}"
       SHOW_HELP=0
     fi
@@ -449,6 +450,8 @@ if [ "$SHOW_HELP" = "0" ]; then
         echo ""
         SHOW_HELP=1
       else
+        # Save the original unmodified name. We may need it a bit later.
+        ORG_BLACKICE_KERNEL_NAME=${BLACKICE_KERNEL_NAME}
         BLACKICE_KERNEL_NAME=`GetAbsolutePath ${BLACKICE_KERNEL_NAME}`
       fi
 
@@ -471,6 +474,7 @@ if [ "$SHOW_HELP" = "0" ]; then
       fi
     fi
 
+    TEMP_PATCH_LIST=""
     for patch_file in $PATCH_FILE_LIST
     do
       # A valid patch file name must end with ".git" or ".patch"
@@ -479,8 +483,15 @@ if [ "$SHOW_HELP" = "0" ]; then
         echo "  ERROR: Valid patch names must have the extension '.git' or '.patch', saw '${patch_file}'"
         echo ""
         SHOW_HELP=1
+      else
+        # Get the full absolute path to this file
+        patch_file=`GetAbsolutePath ${patch_file}`
+        TEMP_PATCH_LIST=${TEMP_PATCH_LIST}" ${patch_file}"
       fi
     done
+    # Update the list with file names that now use absolute paths.
+    PATCH_FILE_LIST=${TEMP_PATCH_LIST}
+
   fi      # End of items skipped when CLEAN_ONLY is "1"
 
   #
@@ -590,10 +601,18 @@ if [ "$CLEAN_ONLY" = "0" ]; then
   if [ "$DO_BLACKICE" = "1" ]; then
     if [ ! -f $BLACKICE_KERNEL_NAME ]; then
       if [ ! -f ${BLACKICE_DIR}/download/${BLACKICE_KERNEL_NAME} ]; then
-        echo ""
-        echo "  Warning: BlackICE kernel does not exist: '${BLACKICE_KERNEL_NAME}'"
-        echo "           We will try to download it, but that may not be successful!"
-        echo ""
+        TEMP_BLACKICE_KERNEL_NAME=`basename ${BLACKICE_KERNEL_NAME}`
+        if [ "$ORG_BLACKICE_KERNEL_NAME" != "$TEMP_BLACKICE_KERNEL_NAME" ] || [ ! -f ${BLACKICE_DIR}/download/${TEMP_BLACKICE_KERNEL_NAME} ]; then
+          echo ""
+          echo "  Warning: BlackICE kernel does not exist: '${BLACKICE_KERNEL_NAME}'"
+          echo "           We will try to download it, but that may not be successful!"
+          echo ""
+        else
+          # The kernel name was specified as just a file name without any path
+          # and we found it in the ICEDroid/download directory so fix the name
+          # to point there.
+          BLACKICE_KERNEL_NAME=${BLACKICE_DIR}/download/${TEMP_BLACKICE_KERNEL_NAME}
+        fi
       fi
     fi
 
