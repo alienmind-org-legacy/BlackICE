@@ -1,12 +1,8 @@
 #!/bin/bash
-: ${ROOT_DIR:=~/DEVEL/ICEDroid}
+FULL_PATH=$(readlink -f "$0")
+export ROOT_DIR=$(cd "$(dirname "$FULL_PATH")"; pwd)
 
-if [ ! -d "$ROOT_DIR" ]; then
-  echo "Please set ROOT_DIR to ICEDroid root directory"
-  exit 1
-fi
-
-. $ROOT_DIR/tools/util_sh
+source $ROOT_DIR/util_sh
 
 if [ "$#" -lt "2" ]; then
   echo
@@ -21,7 +17,7 @@ APK_BASE=framework-res
 APK=$APK_BASE.apk
 APK_DIR=$1
 PNG_DIR=$2
-OUT_DIR=$ROOT_DIR/work/$APK_BASE
+OUT_DIR=$ROOT_DIR/../work/$APK_BASE
 PNG_ARCHIVE_PATH=res/drawable-hdpi
 
 : ${LOG:=/dev/null}
@@ -36,7 +32,6 @@ if [ "$VERBOSE" != "" ]; then
   ShowMessage "  APK_DIR     = $APK_DIR"
   ShowMessage "  PNG_DIR     = $PNG_DIR"
   ShowMessage "  OUT_DIR     = $OUT_DIR"
-  ShowMessage "  APKTOOL     = $APKTOOL"
   ShowMessage ""
 fi
 
