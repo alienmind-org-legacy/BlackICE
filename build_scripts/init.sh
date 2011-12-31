@@ -326,16 +326,17 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
     shift 1
     TEMP_PATCH=$1
     if [ "$TEMP_PATCH" = "" ]; then
-      echo ""
-      echo "  ERROR no patch file specified for '-patch'"
-      echo ""
+      # A NULL patch list might be specified on the command line to replace
+      # a list that came from the ini file.
+      PATCH_FILE_LIST=
     else
       # We will fix up the path if necessary after all the params are processed
       # because we need to examine any patch file names that were already on the
       # list via the .ini file.
       PATCH_FILE_LIST=${PATCH_FILE_LIST}" ${TEMP_PATCH}"
-      SHOW_HELP=0
     fi
+
+    SHOW_HELP=0
   fi
 
   shift 1
@@ -709,7 +710,7 @@ if [ "$CLEAN_ONLY" = "0" ]; then
           ALL_PATCH_LIST=$ALL_PATCH_LIST" ${ANDROID_DIR}/${PATCH_DIR},${PATCH_FILE}"
         else
           echo ""
-          echo "  Warning: skiping CM7 specific patch: '$PATCH_FILE'"
+          echo "  Warning: skipping CM7 specific patch: '$PATCH_FILE'"
           echo ""
         fi
       else
@@ -802,10 +803,13 @@ if [ "$CLEAN_ONLY" = "0" ]; then
 
   fi
 
-  if [ "$PATCH_FILE_LIST" != "" ]; then
+  if [ "$ALL_PATCH_LIST" != "" ]; then
     ShowMessage ""
-    for patch_file in $PATCH_FILE_LIST
+    for patch_file in $ALL_PATCH_LIST
     do
+      # The items on ALL_PATCH_LIST have the form "patch_dir,patch_file", we
+      # only want to show the patch_file part.
+      patch_file=${patch_file##*,}
       ShowMessage "   Patch         = ${patch_file}"
     done
   fi
