@@ -1,6 +1,5 @@
 package org.projectx.icetool;
 
-import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import android.os.AsyncTask;
@@ -8,9 +7,10 @@ import android.widget.TextView;
 
 
 public class ScriptExecuter extends AsyncTask<String, String, Integer> {
+	static final int    OUTPUT_BUFSIZE = 32;
 	static final String CMD_SU="/system/xbin/su";
 	static final String CMD_C="-c";
-	private TextView       consoleView  = null;
+	private TextView    consoleView  = null;
 			
     protected Integer doInBackground(String...cmds) {
         int count = cmds.length;
@@ -20,37 +20,40 @@ public class ScriptExecuter extends AsyncTask<String, String, Integer> {
         return Integer.valueOf(count);
     }
 
-    protected void onProgressUpdate(String... inputLines) {
-        for (String line : inputLines) {
-           consoleView.append(line+ "\n");
+    protected void onProgressUpdate(String... inputChars) {
+        for (String c : inputChars) {
+           consoleView.append(c);
         }
     }
 
-    protected void onPostExecute(Long result) {
+    protected void onPostExecute(Integer result) {
     	consoleView.append("== Finished, return value is " + result.toString() + " ==\n");
     }	
 
-	private void executeCommand(String cmd) {
+	private Integer executeCommand(String cmd) {
 		String[] str={CMD_SU,CMD_C,cmd};
-		consoleView = ICETool.getInstance().getConsoleView();
+		consoleView = AbsolutionTools.getInstance().getConsoleView();
+		Process   p = null;
+		int       rc = -1;
 		
 		if (consoleView == null)
-			return;
+			return rc;
 		
 		try {
 			publishProgress("==== Starting execution: " + cmd + " ====\n");			
-			Process p = Runtime.getRuntime().exec(str);
-			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			try {
-			  String   inputLine = br.readLine();
-			  while ((inputLine = br.readLine()) != null)				 
-				publishProgress(inputLine + "\n");
-			} catch (Exception e) {
-				return;
+			p = Runtime.getRuntime().exec(str);
+			// We avoid BufferedReader, as we want single characters
+			// such those on wget command
+			InputStreamReader r = new InputStreamReader(p.getInputStream());
+			char[] b = new char[OUTPUT_BUFSIZE];
+			while (r.read(b,0,OUTPUT_BUFSIZE) != -1) {
+				//b[OUTPUT_BUFSIZE] = '\0';
+				publishProgress(new String(b));
 			}
-			
+			rc = p.waitFor();			
 		} catch (Exception e) {			
 			publishProgress(e.toString() + "\n");
 		}
+		return rc;	
 	}    
 }
