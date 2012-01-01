@@ -8,7 +8,8 @@ import android.widget.TextView;
 
 public class ScriptExecuter extends AsyncTask<String, String, Integer> {
 	static final int    OUTPUT_BUFSIZE = 32;
-	static final String CMD_SU="/system/xbin/su";
+	static final String CMD_ICETOOL="icetool";
+	static final String CMD_SU="su";
 	static final String CMD_C="-c";
 	private TextView    consoleView  = null;
 			
@@ -31,8 +32,8 @@ public class ScriptExecuter extends AsyncTask<String, String, Integer> {
     }	
 
 	private Integer executeCommand(String cmd) {
-		String[] str={CMD_SU,CMD_C,cmd};
-		consoleView = AbsolutionTools.getInstance().getConsoleView();
+		String[] str={CMD_SU,CMD_C,CMD_ICETOOL,cmd};
+		consoleView = ICETool.getInstance().getConsoleView();
 		Process   p = null;
 		int       rc = -1;
 		
@@ -50,7 +51,7 @@ public class ScriptExecuter extends AsyncTask<String, String, Integer> {
 				//b[OUTPUT_BUFSIZE] = '\0';
 				publishProgress(new String(b));
 			}
-			rc = p.waitFor();			
+			rc = p.exitValue();			
 		} catch (Exception e) {			
 			publishProgress(e.toString() + "\n");
 		}
