@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public abstract class ScriptedActivity extends ListActivity {
 
-	// These members must be initialited on children onCreate() methods
+	// These members must be set on children onCreate() methods
 	String[]       actions = null;
 	String[]       descriptions = null;
 	TextView       consoleView = null;
@@ -80,10 +80,8 @@ public abstract class ScriptedActivity extends ListActivity {
 				Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
 						Toast.LENGTH_SHORT).show();				
 				try {
-					sce = new ScriptExecuter();					
-					sce.setScript(action);
-					sce.run();
-					//sce.wait();
+					sce = new ScriptExecuter();
+					sce.execute(action);
 				} catch (Exception e) {
 					ICETool.getInstance().getConsoleView().append(e.getStackTrace().toString() + "\n");
 				}								
