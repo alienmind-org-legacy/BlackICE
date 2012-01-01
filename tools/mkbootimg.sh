@@ -1,5 +1,11 @@
 #!/bin/bash
-export PATH=$PATH:tools
+#
+# All the tools we reference should be in the ICEDroid/tools directory,
+# which is the same directory this script is supposed to be running from.
+#
+OUR_ABS_PATH=$(cd "$(dirname "$0")"; pwd)
+export PATH=$PATH:${OUR_ABS_PATH}
+
 if [ "$#" != "3" ]; then
   echo "Usage: $0 <original_boot.img> <kernel_zImage> <output_boot.img>"
   exit 1
