@@ -1,10 +1,20 @@
 package org.projectx.icetool;
 
 import android.os.Bundle;
-import org.projectx.icetool.R;
+import android.provider.Settings;
 
 public class ActionsActivity extends ScriptedActivity {
 	public boolean onItemSelected(String itemAction, String itemDescription) {
+		
+		// Custom commands here
+		if (itemAction.equals("blnon")) {
+		  Settings.System.putInt(getContentResolver(), "USE_BUTTONS_ON_NOTIFICATION", 1);
+		  ICETool.getInstance().getConsoleView().append("BLN enabled" + "\n");
+		} else if (itemAction.equals("blnon")) {
+		  Settings.System.putInt(getContentResolver(), "USE_BUTTONS_ON_NOTIFICATION", 0);
+		  ICETool.getInstance().getConsoleView().append("BLN disabled" + "\n");		  
+		}
+		
 		ICETool.getInstance().getTabHost().setCurrentTab(ICETool.TAB_CONSOLE);
 		return true;
 	}

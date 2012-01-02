@@ -3,6 +3,9 @@
     <string name="app_name">ICETool</string>
     <string name="app_author">alienmind @ ProjectX</string>    
     <string-array name="actions_array">
+        <item>test.sh</item>
+        <item>blnon</item>
+        <item>blnoff</item>
         <item>bootsound</item>
         <item>bootsoundon</item>
         <item>bootsoundoff</item>
@@ -12,6 +15,9 @@
         <item>newlocksounds</item>
     </string-array>
     <string-array name="descriptions_array">
+        <item>Test script</item>
+        <item>Enable Button Light Notification</item>
+        <item>Disable Button Light Notification</item>        
         <item>Play current bootsound</item>
         <item>Turn on bootsound</item>
         <item>Turn off bootsound</item>
