@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 
 public class ScriptExecuter extends AsyncTask<String, String, Integer> {
-	static final int    OUTPUT_BUFSIZE = 32;
+	static final int    OUTPUT_BUFSIZE = 1;
 	static final String CMD_ICETOOL="icetool";
 	static final String CMD_SU="su";
 	static final String CMD_C="-c";
@@ -51,10 +51,10 @@ public class ScriptExecuter extends AsyncTask<String, String, Integer> {
 				//b[OUTPUT_BUFSIZE] = '\0';
 				publishProgress(new String(b));
 			}
-			rc = p.exitValue();			
+			//rc = p.exitValue();			
 		} catch (Exception e) {			
 			publishProgress(e.toString() + "\n");
 		}
-		return rc;	
+		return 0;	// rc
 	}    
 }
