@@ -54,7 +54,7 @@ public class ICETool extends TabActivity {
 	    
 	    Resources res = getResources(); // Resource object to get Drawables
 	    TabHost tabHost = getTabHost();  // The activity TabHost
-	    TabHost.TabSpec spec;  // Resusable TabSpec for each tab
+	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab
 	    Intent intent;  // Reusable Intent for each tab
 	    
 	    ///// TEST
@@ -125,7 +125,7 @@ public class ICETool extends TabActivity {
 	    			res.getDrawable(R.drawable.ic_tab_ril))
 	    			.setContent(intent);
 	    	tabHost.addTab(spec);
-	    }
+	    } 
 	    
 	    // Console tab
 	    intent = new Intent().setClass(this, ConsoleActivity.class);
