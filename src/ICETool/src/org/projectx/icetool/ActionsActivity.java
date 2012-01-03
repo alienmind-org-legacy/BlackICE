@@ -5,6 +5,8 @@ import android.provider.Settings;
 
 public class ActionsActivity extends ScriptedActivity {
 	public boolean onItemSelected(String itemAction, String itemDescription) {
+				
+		ICETool.getInstance().getTabHost().setCurrentTab(ICETool.TAB_CONSOLE);		
 		
 		// Custom commands here
 		if (itemAction.equals("blnon")) {
@@ -14,8 +16,7 @@ public class ActionsActivity extends ScriptedActivity {
 		  Settings.System.putInt(getContentResolver(), "USE_BUTTONS_ON_NOTIFICATION", 0);
 		  ICETool.getInstance().getConsoleView().append("BLN disabled" + "\n");		  
 		}
-		
-		ICETool.getInstance().getTabHost().setCurrentTab(ICETool.TAB_CONSOLE);
+
 		return true;
 	}
 	
