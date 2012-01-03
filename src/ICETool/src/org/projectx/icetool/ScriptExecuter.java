@@ -1,5 +1,6 @@
 package org.projectx.icetool;
 
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 
 import android.os.AsyncTask;
@@ -8,7 +9,7 @@ import android.widget.TextView;
 
 public class ScriptExecuter extends AsyncTask<String, String, Integer> {
 	static final int    OUTPUT_BUFSIZE = 1;
-	static final String CMD_ICETOOL="icetool";
+	static final String CMD_ICETOOL="/system/bin/icetool";
 	static final String CMD_SU="su";
 	static final String CMD_C="-c";
 	private TextView    consoleView  = null;
@@ -22,17 +23,20 @@ public class ScriptExecuter extends AsyncTask<String, String, Integer> {
     }
 
     protected void onProgressUpdate(String... inputChars) {
+    	if (consoleView == null)
+    		return;    	
         for (String c : inputChars) {
            consoleView.append(c);
         }
     }
 
     protected void onPostExecute(Integer result) {
+    	if (consoleView == null)
+    		return;
     	consoleView.append("== Finished, return value is " + result.toString() + " ==\n");
     }	
 
 	private Integer executeCommand(String cmd) {
-		String[] str={CMD_SU,CMD_C,CMD_ICETOOL,cmd};
 		consoleView = ICETool.getInstance().getConsoleView();
 		Process   p = null;
 		int       rc = -1;
@@ -42,7 +46,10 @@ public class ScriptExecuter extends AsyncTask<String, String, Integer> {
 		
 		try {
 			publishProgress("==== Starting execution: " + cmd + " ====\n");			
-			p = Runtime.getRuntime().exec(str);
+			p = Runtime.getRuntime().exec(CMD_SU);
+		    DataOutputStream os=new DataOutputStream(p.getOutputStream());
+		    os.writeBytes(CMD_ICETOOL + " " + cmd + "\n" + "; exit\n"); 
+		    os.flush();
 			// We avoid BufferedReader, as we want single characters
 			// such those on wget command
 			InputStreamReader r = new InputStreamReader(p.getInputStream());
