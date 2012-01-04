@@ -12,7 +12,7 @@ public class ActionsActivity extends ScriptedActivity {
 		if (itemAction.equals("blnon")) {
 		  Settings.System.putInt(getContentResolver(), "USE_BUTTONS_ON_NOTIFICATION", 1);
 		  ICETool.getInstance().getConsoleView().append("BLN enabled" + "\n");
-		} else if (itemAction.equals("blnon")) {
+		} else if (itemAction.equals("blnoff")) {
 		  Settings.System.putInt(getContentResolver(), "USE_BUTTONS_ON_NOTIFICATION", 0);
 		  ICETool.getInstance().getConsoleView().append("BLN disabled" + "\n");		  
 		}
