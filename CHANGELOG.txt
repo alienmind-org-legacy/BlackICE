@@ -1,6 +1,13 @@
 CHANGELOG
 =========
-v1.26b2 - WIP - Base: KANG : cm7-20111223_004213.zip - LordModUEv8.6-CFS.zip
+v1.26   - WIP
+          Apps: Upgraded all
+          Apps: Google Music upgraded to v4.1.511
+          Updated media_profiles.xml with increased h264 & aac bitrate
+v1.26b3 - Base: KANG : chezbel-cm7-20120108_010043.zip - LordModUEv8.7-b2-CFS.zip
+          Included BLN toggle (thx Rdlgrmpf and The Unknown Noob for the artwork)
+          ICETool: Fixed background execution of downloads
+v1.26b2 - Base: KANG : cm7-20111223_004213.zip - LordModUEv8.6-CFS.zip
           Includes the dark dial buttons and custom emergency button images for the lockscreen (thx Chezbel!)
           Fixed bootsound
           Apps: Upgraded Vending 3.4.4 (on extraapps)

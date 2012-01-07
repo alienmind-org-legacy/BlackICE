@@ -13,5 +13,7 @@ rm -f \
       com.leppie.dhd-[0-9]*apk \
       com.adobe.flashplayer-[0-9]*apk \
       com.FREE.android.lvh-[0-9]*apk \
+      GoogleMusic[0-9]*apk \
+      com.google.android.music-[0-9]*apk \
      > /sdcard/blackice/pre.log 2>&1
 cd - > /dev/null 2>&1
