@@ -3,7 +3,6 @@
     <string name="app_name">ICETool</string>
     <string name="app_author">alienmind @ ProjectX</string>
     <string-array name="actions_array">
-        <item>test.sh</item>
         <item>blnon</item>
         <item>blnoff</item>
         <item>bootsound</item>
