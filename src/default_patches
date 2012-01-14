@@ -1,0 +1,73 @@
+#
+# default_patches
+#
+# Default patch file for BlackICE builds. This file is read from build.sh when
+# building BlackICE. It's purpose is to define various patches to the CM7 and/or
+# BlackICE source base.
+#
+# Each patch is given on a separate line containing these fields, fields are
+# separated by whitespace.
+#  field 1 = <patch name>
+#            This should be all upper case and it is used to create a script variable
+#            of the form PATCH_<patch_name>. For example, if the name is TORCH the
+#            variable controlling it will be PATCH_TORCH. The default is that any
+#            patch defined in this file is enabled. If you want a patch to be disabled
+#            set its variable to 0 in the .ini file, e.g. PATCH_TORCH=0.
+#
+#  field 2 = 'android' or 'blackice'
+#            You must specify one of the above words without the quotes. This indicates
+#            which code base you are patching. For example if you specify 'android' then
+#            the path in field 4 is relative to ${ANDROID_DIR}.
+
+#  field 3 = 'git' or 'diff'
+#            You must specify one of the above words without the quotes. This indicates
+#            the patch type. 'git' is for cherry-picking from git and 'diff' is for
+#            a diff patch that is executed using the 'patch' command.
+#
+#  field 4 = path to actual patch file relative to the BlackICE 'ICEDroid/src/' directory.
+#            In other words all patch files are expected to be in ${BLACKICE_DIR}/src.
+#
+#  field 5 = *full* directory to change into when applying the patch. Relative to
+#            the Android 'system/' directory (${ANDROID_DIR}) or the BlackICE ICEDroid
+#            directory $({BLACKICE_DIR}).
+#
+# Using the TORCH patch as an example we have
+#  field 1 = TORCH
+#  field 2 = android = this is a CM7 source patch as opposed to a BlackICE source patch.
+#  field 3 = git = this is a cherry-pick patch instead of a diff patch.
+#  field 4 = android_frameworks_base@FRAMEWORK_TORCH.git
+#  field 5 = frameworks/base
+#
+# If multiple lines use the same patch name then all of those patches will be
+# applied (or not applied) as a group. This is needed by some patches whose
+# changes are in multiple projects.
+#
+# Non-patch lines must either be empty or have a '#' in the first column.
+#
+
+###############################################################################
+# Define patches below
+###############################################################################
+
+#-----
+# Torch patch: Long press HOME key on lock screen toggles the torch function
+#-----
+TORCH  android  git  android_frameworks_base@FRAMEWORK_TORCH.git  frameworks/base
+
+#-----
+# BackLight Notification patch: Backlight turns on when email, etc is received.
+# This patch has 2 parts because the changes apply to 2 different CM7 projects.
+#-----
+BACKLIGHT  android  git  android_frameworks_base@BACKLIGHT.git  frameworks/base
+BACKLIGHT  android  git  android_packages_apps_CMParts@BACKLIGHT.git  packages/apps/CMParts
+
+#-----
+# Webkit Acceleration patch
+#-----
+WEBKIT  android  git  android_device_htc_ace@WEBKIT_ACCELERATION.git  device/htc/ace
+
+#-----
+# ADWLauncher patch to use BlackICE mods
+#-----
+ADWLAUNCHER  android  diff  android_packages_apps_ADWLauncher@ADWLAUNCHER.patch  packages/apps/ADWLauncher
+
