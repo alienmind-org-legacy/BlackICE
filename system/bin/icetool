@@ -14,7 +14,7 @@
 #   and exported via icetool setup
 #
 . /system/etc/icetool.conf
-ICETOOL_VERSION="0.92" # Script version
+ICETOOL_VERSION="1.00" # Script version
 HELP="Usage: $0 <cmd> ..."
 ### Only root allowed
 WHO=`whoami 2>&1`
@@ -396,7 +396,7 @@ ExtraAPK() {
     cp /data/app/$APK .
   fi
   if [ -f "$APK" ]; then
-    MD5SUM=`md5sum $APK | awk '{ print $1 }'`
+    MD5=`md5sum $APK | awk '{ print $1 }'`
     if [ "$MD5" = "$MD5SUM" ]; then
       GOOD=1
     fi
