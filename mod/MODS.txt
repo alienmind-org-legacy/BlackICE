@@ -3,8 +3,9 @@ BlackICE Mods index
 
 CMWallpapers    : Custom backgrounds
 Contacts        : Custom dark icons
-framework-res.1 : Battery, transparency and animations mod
+framework-res.1 : Battery, transparency and animations mod (obsolete, replaced by framework-res.3)
 framework-res.2 : Custom dark icons
+framework-res.3 : Battery, transparency and animations mod (replaces framework-res.1)
 Phone           : Custom dark icons
 SystemUI        : Custom dark icons
 SystemUI_Transparency.patch : (Not ready) Transparent bar
