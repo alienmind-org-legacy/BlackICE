@@ -12,16 +12,12 @@
 #     It's a good idea to specify this so you don't have to enter a LOT of options
 #     on the command line!
 #
-#  -check
-#     Checks all the parameters and displays what would have been built, but does
-#     not build anything. You may combine this with any of the other command line
-#     arguments. This lets you safely check what would happen with various options.
-#
-#  -clean {cm7, bi, all, ""}
-#     cm7 = do a CM7 'make clobber'
-#     bi  = do a BI 'make clean'
-#     all = do both of the above
-#     ""  = do not clean anything (do a normal build)
+#  -clean {cm7, bi, all, none, ""}
+#     cm7  = do a CM7 'make clobber'
+#     bi   = do a BI 'make clean'
+#     all  = do both of the above
+#     ""   = do not clean anything (do a normal build)
+#     none = same as above
 #     If any clean is specified then nothing will be built and most other arguments
 #     will be ignored.
 #     Affects the variable CLEAN_TYPE
@@ -39,18 +35,32 @@
 #     all  = build a CM7 ROM and then a BlackICE ROM from that base.
 #     Affects the variable ROM_TYPE
 #
-#  -sync {cm7, bi, all, ""}
-#     cm7 = sync the CM7 sources, 'repo sync', before building.
-#     bi  = sync the BlackICE clone, 'git pull', before building.
-#     all = sync both CM7 and BlackICE before building.
-#     ""  = do not sync anything before building.
+#  -sync {cm7, bi, all, none, ""}
+#     cm7  = sync the CM7 sources, 'repo sync', before building.
+#     bi   = sync the BlackICE clone, 'git pull', before building.
+#     all  = sync both CM7 and BlackICE before building.
+#     ""   = do not sync anything before building.
+#     none = same as above
 #     Affects the variable SYNC_TYPE
 #
-#  -push {no, yes}
+#  -fpatch {no, yes, 0, 1}
+#     no   = do not force patches to be applied when not syncing (default and suggested)
+#     0    = same as 'no'
+#     yes  = force patches to be applied when not syncing (not recommended)
+#     1    = same as 'yes'
+#     Normally you do not want to enable this becuase patching an already patched
+#     code base will cause an error and the build will abort. This is mainly here
+#     in case you did a manual sync and then decide to build and you want the normal
+#     patches to be applied.
+#     Affects the variable FORCE_PATCHING
+#
+#  -push {no, yes, 0, 1}
 #     no  = do not 'adb push' the resulting KANG (CM7 or BlackICE) to your phone
+#     0    = same as 'no'
 #     yes = 'adb push' the resulting KANG (CM7 or BlackICE) to your phone, requires
 #           your phone to be connected to your PC via USB and requires the 'adb'
 #           tool to be in your path.
+#     1    = same as 'yes'
 #     Affects the variable PUSH_TO_PHONE
 #
 #  -phone <phone name>
@@ -67,6 +77,16 @@
 #     Root directory where your BlackICE sources are installed, for example:
 #       ${HOME}/android/blackice/ICEDroid
 #     Affects the variable BLACKICE_DIR
+#
+#  -dbox <dropbox path>
+#     Directory of your dropbox (or a sub-directory inside of it) to copy the
+#     result files to, for example:
+#       ${HOME}/Dropbox  -- or -- ${HOME}/Dropbox/Public/BlackICE
+#     This gets the upload started as soon as possible. The
+#     files that get copied depend on the type of build, such as CM7 KANG,
+#     BlackICE KANG, BlackICE Extra Apps.
+#     If this is an empty value, "", then nothing is copied to the dropbox.
+#     Affects the variable DROPBOX_DIR
 #
 #  -cm7make {bacon, full}
 #     bacon = 'make bacon'
@@ -109,37 +129,12 @@
 #     its default value.
 #     Affects the variable BLACKICE_RIL_NAME
 #
-#  -patch <patch file name>
-#     Name of a .git or .patch patch file to be applied to the BlackICE sources.
-#     The patches are applied *after* all syncs are done ('repo sync' and 'git pull').
-#     If you specify multiple patches then they will done in the order given.
-#
-#     The format of a patch file name is very important because the build process
-#     uses that name to figure out what CM7 or BlackICE directory to change into in
-#     order to apply the patch! The name of the patch file must match one of these:
-#       android_<patch_dir>@<any_name>.{git|patch}
-#       blackice_<patch_dir>@<any_name>.{git|patch}
-#
-#     - The prefix of 'android_' or 'blackice_' indicates whether to patch CM7 or
-#       BlackICE (currently we haven't tested any BlackICE patching...).
-#     - The 'patch_dir', between the prefix and the '@' character indicates the
-#       directory to apply the patch to. A '_' (underscore) must be used to
-#       separate subdirectories.
-#     - The part after the '@' and before the extension can be any descriptive
-#       name you want.
-#     - The description must be either .git or .patch and which one you use depends
-#       on the type of patch.
-#       - A .git patch file contains a 'git fetch ...' command
-#       - A .patch patch file is a git diff file containing the diffs to apply
-#
-#     Here is an example from the ICEDroid/src directory:
-#       android_frameworks_base@FRAMEWORK_TORCH.git
-#
-#     - "android_" indicates we will patch the CM7 sources at ${ANDROID_DIR}
-#     - "frameworks_base" means we will apply the patch at ${ANDROID_DIR}/frameworks/base
-#     - "FRAMEWORK_TORCH" is just a descriptive name for us humans
-#     - ".git" means we will execute this like a shell script.
-#
+#  -prompt {no, yes, 0, 1}
+#     no  = do not pause and prompt for user input before doing the build.
+#     0    = same as 'no'
+#     yes = pause and promot for user input before starting the build (default).
+#     1    = same as 'yes'
+#     Affects the variable PROMPT
 #
 # Examples:
 #   build.sh -ini custom.ini -check
@@ -175,13 +170,17 @@ fi
 #
 INI_NAME=""
 
-# If the -check command line option is given we only check everything and display
-# what would normally be built, but we quit without building anything.
-CHECK_ONLY=0
-
 # If a 'clean' argument is given we will suppress some argument checking and
 # will not build anything. We will just do the specified clean operation.
 CLEAN_ONLY=0
+
+# Make sure this is always 0 in case the .ini file did not specify it.
+# The command line can change this with -fpatch.
+FORCE_PATCHING=0
+
+# Before doing the build we wait for the user to press a key unless this is changed
+# to 0 on the command line with -nowait.
+PROMPT=1
 
 #
 # Helpers for testing which ROM to build. This is modfied based on the .ini file
@@ -238,12 +237,6 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
     fi
   fi
 
-  if [ "$1" = "-check" ]; then
-    # We aren't going to actually do the build
-    CHECK_ONLY=1
-    SHOW_HELP=0
-  fi
-
   if [ "$1" = "-verbose" ]; then
     shift 1
     VERBOSE=$1
@@ -274,6 +267,12 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
     SHOW_HELP=0
   fi
 
+  if [ "$1" = "-fpatch" ]; then
+    shift 1
+    FORCE_PATCHING=$1
+    SHOW_HELP=0
+  fi
+
   if [ "$1" = "-phone" ]; then
     shift 1
     PHONE=$1
@@ -289,6 +288,12 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
   if [ "$1" = "-bdir" ]; then
     shift 1
     BLACKICE_DIR=$1
+    SHOW_HELP=0
+  fi
+
+  if [ "$1" = "-dbox" ]; then
+    shift 1
+    DROPBOX_DIR=$1
     SHOW_HELP=0
   fi
 
@@ -322,22 +327,12 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
     SHOW_HELP=0
   fi
 
-  if [ "$1" = "-patch" ]; then
+  if [ "$1" = "-prompt" ]; then
     shift 1
-    TEMP_PATCH=$1
-    if [ "$TEMP_PATCH" = "" ]; then
-      # A NULL patch list might be specified on the command line to replace
-      # a list that came from the ini file.
-      PATCH_FILE_LIST=
-    else
-      # We will fix up the path if necessary after all the params are processed
-      # because we need to examine any patch file names that were already on the
-      # list via the .ini file.
-      PATCH_FILE_LIST=${PATCH_FILE_LIST}" ${TEMP_PATCH}"
-    fi
-
+    PROMPT=$1
     SHOW_HELP=0
   fi
+
 
   shift 1
 done
@@ -359,20 +354,20 @@ if [ "$SHOW_HELP" = "0" ]; then
     SHOW_HELP=1
   fi
 
-  if  [ "$CLEAN_TYPE" != "" ] && [ "$CLEAN_TYPE" != "cm7" ] && [ "$CLEAN_TYPE" != "bi" ] && [ "$CLEAN_TYPE" != "all" ]; then
+  if  [ "$CLEAN_TYPE" != "" ] && [ "$CLEAN_TYPE" != "none" ] && [ "$CLEAN_TYPE" != "cm7" ] && [ "$CLEAN_TYPE" != "bi" ] && [ "$CLEAN_TYPE" != "all" ]; then
     echo ""
-    echo "  ERROR: Valid values for CLEAN_TYPE (in .ini file) or '-clean' are {cm7, bi, all, \"\"}, saw '${CLEAN_TYPE}'"
+    echo "  ERROR: Valid values for CLEAN_TYPE (in .ini file) or '-clean' are {cm7, bi, all, none, \"\"}, saw '${CLEAN_TYPE}'"
     echo ""
     SHOW_HELP=1
   fi
-  if  [ "$CLEAN_TYPE" != "" ]; then
+  if  [ "$CLEAN_TYPE" != "" ] && [ "$CLEAN_TYPE" != "none" ]; then
     # When doing a clean there is no need to force the user to provide a lot of
     # correct arguments that won't even be used.
     CLEAN_ONLY=1
   fi
 
   if  [ "$CLEAN_ONLY" = "0" ]; then
-    # We aren't doing a clean, so we need to validate EVERyTHING.
+    # We aren't doing a clean, so we need to validate EVERYTHING.
 
     if  [ "$ROM_TYPE" = "" ] || ([ "$ROM_TYPE" != "cm7" ] && [ "$ROM_TYPE" != "bi" ] && [ "$ROM_TYPE" != "all" ]); then
       echo ""
@@ -390,20 +385,44 @@ if [ "$SHOW_HELP" = "0" ]; then
     fi
 
 
-    if [ "$SYNC_TYPE" != "" ] && [ "$SYNC_TYPE" != "cm7" ] && [ "$SYNC_TYPE" != "bi" ] && [ "$SYNC_TYPE" != "all" ] && [ "$SYNC_TYPE" != "none" ]; then
+    if [ "$SYNC_TYPE" != "" ] && [ "$SYNC_TYPE" != "none" ] && [ "$SYNC_TYPE" != "cm7" ] && [ "$SYNC_TYPE" != "bi" ] && [ "$SYNC_TYPE" != "all" ] && [ "$SYNC_TYPE" != "none" ]; then
       echo ""
-      echo "  ERROR: Valid values for SYNC_TYPE (in .ini file) or '-sync' are {cm7, bi, all, \"\"}, saw '${SYNC_TYPE}'"
-      echo ""
-      SHOW_HELP=1
-    fi
-
-    if [ "$PUSH_TO_PHONE" = "" ] || ([ "$PUSH_TO_PHONE" != "no" ] && [ "$PUSH_TO_PHONE" != "yes" ]); then
-      echo ""
-      echo "  ERROR: Valid values for PUSH_TO_PHONE (in .ini file) or '-phone' are {no, yes}, saw '${PUSH_TO_PHONE}'"
+      echo "  ERROR: Valid values for SYNC_TYPE (in .ini file) or '-sync' are {cm7, bi, all, none, \"\"}, saw '${SYNC_TYPE}'"
       echo ""
       SHOW_HELP=1
+    else
+      if [ "$SYNC_TYPE" == "" ]; then
+        SYNC_TYPE="none"
+      fi
     fi
 
+    if [ "$PUSH_TO_PHONE" = "" ] || ([ "$PUSH_TO_PHONE" != "no" ] && [ "$PUSH_TO_PHONE" != "yes" ] && [ "$PUSH_TO_PHONE" != "0" ] && [ "$PUSH_TO_PHONE" != "1" ]); then
+      echo ""
+      echo "  ERROR: Valid values for PUSH_TO_PHONE (in .ini file) or '-phone' are {no, yes, 0, 1}, saw '${PUSH_TO_PHONE}'"
+      echo ""
+      SHOW_HELP=1
+    else
+      if [ "$PUSH_TO_PHONE" = "0" ]; then
+        PUSH_TO_PHONE="no"
+      fi
+      if [ "$PUSH_TO_PHONE" = "1" ]; then
+        PUSH_TO_PHONE="yes"
+      fi
+    fi
+
+    if [ "$FORCE_PATCHING" = "" ] || ([ "$FORCE_PATCHING" != "no" ] && [ "$FORCE_PATCHING" != "yes" ] && [ "$FORCE_PATCHING" != "0" ] && [ "$FORCE_PATCHING" != "1" ]); then
+      echo ""
+      echo "  ERROR: Valid values for FORCE_PATCHING (in .ini file) or '-fpatch' are {no, yes, 0, 1}, saw '${FORCE_PATCHING}'"
+      echo ""
+      SHOW_HELP=1
+    else
+      if [ "$FORCE_PATCHING" = "0" ]; then
+        FORCE_PATCHING="no"
+      fi
+      if [ "$FORCE_PATCHING" = "1" ]; then
+        FORCE_PATCHING="yes"
+      fi
+    fi
 
     # A leading "-" indicates we got another command line option instead of a phone name.
     ARG_TEMP=${PHONE:0:1}
@@ -420,6 +439,25 @@ if [ "$SHOW_HELP" = "0" ]; then
         echo "  ERROR: Valid values fo CM7_MAKE (in .ini file) or '-cm7make' are {bacon, full}, saw '${CM7_MAKE}'"
         echo ""
         SHOW_HELP=1
+      fi
+    fi
+
+    # A leading "-" indicates we got another command line option instead of a phone name.
+    if [ "$DROPBOX_DIR" != "" ]; then
+      ARG_TEMP=${DROPBOX_DIR:0:1}
+      if [ "$ARG_TEMP" = "-" ]; then
+        echo ""
+        echo "  ERROR: Invalid value for DROPBOX_DIR (in .ini file) or '-dbox', saw '${DROPBOX_DIR}'"
+        echo ""
+        SHOW_HELP=1
+      else
+        DROPBOX_DIR=`GetAbsolutePath ${DROPBOX_DIR}`
+        if [ ! -d $DROPBOX_DIR ]; then
+          echo ""
+          echo "  ERROR: DROPBOX_DIR does not exist: '${DROPBOX_DIR}'"
+          echo ""
+          SHOW_HELP=1
+        fi
       fi
     fi
 
@@ -465,8 +503,8 @@ if [ "$SHOW_HELP" = "0" ]; then
         SHOW_HELP=1
       fi
 
-
       # A leading "-" indicates we got another command line option instead of a name.
+      ARG_TEMP=${BLACKICE_RIL_NAME:0:1}
       if [ "$ARG_TEMP" = "-" ]; then
         echo ""
         echo "  ERROR: Invalid value for BLACKICE_RIL_NAME (in .ini file) or '-bril', saw '${BLACKICE_RIL_NAME}'"
@@ -475,29 +513,25 @@ if [ "$SHOW_HELP" = "0" ]; then
       fi
     fi
 
-    TEMP_PATCH_LIST=""
-    for patch_file in $PATCH_FILE_LIST
-    do
-      # A valid patch file name must end with ".git" or ".patch"
-      if [ "${patch_file:(-4)}" != ".git" ] && [ "${patch_file:(-6)}" != ".patch" ]; then
-        echo ""
-        echo "  ERROR: Valid patch names must have the extension '.git' or '.patch', saw '${patch_file}'"
-        echo ""
-        SHOW_HELP=1
-      else
-        # Get the full absolute path to this file
-        patch_file=`GetAbsolutePath ${patch_file}`
-        TEMP_PATCH_LIST=${TEMP_PATCH_LIST}" ${patch_file}"
-      fi
-    done
-    # Update the list with file names that now use absolute paths.
-    PATCH_FILE_LIST=${TEMP_PATCH_LIST}
-
   fi      # End of items skipped when CLEAN_ONLY is "1"
 
   #
   # These items need to be checked even if just doing a clean
   #
+
+  if [ "$PROMPT" = "" ] || ([ "$PROMPT" != "no" ] && [ "$PROMPT" != "yes" ] && [ "$PROMPT" != "0" ] && [ "$PROMPT" != "1" ]); then
+    echo ""
+    echo "  ERROR: Valid values for PROMPT (in .ini file) or '-prompt' are {no, yes, 0, 1}, saw '${PROMPT}'"
+    echo ""
+    SHOW_HELP=1
+  else
+    if [ "$PROMPT" = "0" ]; then
+      PROMPT="no"
+    fi
+    if [ "$PROMPT" = "1" ]; then
+      PROMPT="yes"
+    fi
+  fi
 
   if [ "$CLEAN_TYPE" != "bi" ] && [ "$DO_CM7" = "1" ]; then
     # A leading "-" indicates we got another command line option instead of a phone name.
@@ -543,27 +577,30 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "  Usage is $0 [params]"
   echo "    -ini <ini_file>"
   echo "       specifies the .ini file to load, which specifies most other options."
-  echo "    -check"
-  echo "       show what would have been built, but do not build anything"
-  echo "    -clean {cm7, bi, all, \"\"}"
+  echo "    -clean {cm7, bi, all, none, \"\"}"
   echo "       Do a CM7 'make clobber', a BlackICE 'make clean', both or none."
-  echo "       If the value is non-NULL then we do not build anything."
+  echo "       If the value is cmy, bi or all then we do not build anything."
   echo "    -verbose {0..9}"
   echo "       0 = extra quite (not implemented), 1 = normal build messages,"
   echo "       2 = extra build messages, 3..9 = even more build messages (not be implemented)"
   echo "    -rom {cm7, bi, all}"
   echo "       Build for CM7, BlackICE or All (both)"
-  echo "    -sync {cm7, bi, all, \"\"}"
+  echo "    -sync {cm7, bi, all, none, \"\"}"
   echo "       Do a 'repo sync' (CM7), 'git pull' (BlackICE), All (both) or No sync"
   echo "       The sync is done before the build"
-  echo "    -push {no, yes}"
-  echo "       no = do not 'adb push' KANG to phone, yes = 'adb push' KANG to phone"
+  echo "    -push {no, yes, 0, 1}"
+  echo "       no or 0 = do not 'adb push' KANG to phone, yes or 1 = 'adb push' KANG to phone"
+  echo "    -fpatch {no, yes, 0, 1}"
+  echo "       no or 0  = do not force patching when not syncing (default, recommended)"
+  echo "       yes or 1 = force patching when NOT syncing (causes errors if already patched)"
   echo "    -phone <phone name>"
   echo "       Name of phone to build for, WARNING only tested with 'ace'"
   echo "    -adir <path>"
   echo "       Full path to root of where Android (CM7) source is located"
   echo "    -bdir <path>"
   echo "       Full path to the BlackICE 'ICEDroid' directory "
+  echo "    -dbox <path>"
+  echo "       Full path to a Dropbox directory to copy results to, can be \"\""
   echo "    -cm7make {bacon, full}"
   echo "       bacon = 'make bacon', full = 'make clobber' + 'brunch'"
   echo "    -cm7base <name of CM7 KANG>"
@@ -574,8 +611,8 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "       Name of GPS region to build into BlackICE, can be \"\""
   echo "    -bril <ril_version>"
   echo "       Name of RIL to build into BlackICE, can be \"\""
-  echo "    -patch <patch_file>"
-  echo "       Name of .git or .patch patch file. May be be given multiple times"
+  echo "    -prompt {no, yes, 0, 1}"
+  echo "       no or 0 = do not prompt before building, yes or 1 = prompt before building (default)"
   echo ""
   echo "  For more details see the comments in the top of '$0'"
   echo ""
@@ -653,103 +690,121 @@ if [ "$CLEAN_ONLY" = "0" ]; then
     fi
   fi
 
-  # Verify that all specified patch files exist and specify a valid directory
-  # to patch into
-  if [ "$PATCH_FILE_LIST" != "" ]; then
-    # As we verify the destination directory we have to do some work to figure
-    # out what that directory is. We might as well save that here rather than
-    # doing it all again when we are actually ready to patch.
-    #
-    # The file will have a format like
-    #   <path>/d@f.git
-    #   <path>/d@f.patch
-    # 'd' part of the file name specifies the directory to apply the patch to
-    # to changing '_' to '/' to create a directory tree.
-    # '@' separats the above directory specifier from the arbitray patch name.
-    #
+  #
+  # Now read all of patches from the default_patches file. We need to do some
+  # verification since someone could have edited this improperly.
+  #
+  ALL_PATCH_LIST=""
+  LINE_NUMBER=0
+  DEFAULT_PATCH_FILE=${BLACKICE_DIR}/src/default_patches
 
-    # We will move all the patch files onto this list, but change each entry
-    # to have the following format:
-    #   patch_dir,patch_file
-    # This will make it simpler for build.sh to apply the patches because we
-    # want have to figure out the directory again.
-    ALL_PATCH_LIST=
+  while read patch_name  source_type  patch_type  patch_file  patch_dir
+  do
+    LINE_NUMBER=`expr ${LINE_NUMBER} + 1`
 
-    ANDROID_PREFIX="android_"
-    BLACKICE_PREFIX="blackice_"
+    # Empty lines and lines with a '#' in the first column are ignored
+    if [ "$patch_name" != "" ] && [ "${patch_name:0:1}" != "#" ]; then
+      PATCH_LINE="${patch_name}  ${source_type}  ${patch_type}  ${patch_file}  ${patch_dir}"
 
-    echo ""
-    for PATCH_FILE in $PATCH_FILE_LIST
-    do
-      if [ ! -f ${PATCH_FILE} ]; then
+      if [ "$source_type" != "android" ] && [ "$source_type" != "blackice" ]; then
         echo ""
-        echo "  ERROR: patch file does not exist: '${PATCH_FILE}'"
+        echo "  ERROR: Invalid patch definition at line ${LINE_NUMBER} of patch file '${DEFAULT_PATCH_FILE}'"
+        echo "         Field 2 must be 'android' or 'blackice', saw: '${PATCH_LINE}'"
         echo ""
         return 1
       fi
 
-      # Remove any path from the patch file name or it will mess up our tests.
-      PATCH_FILE_BASE=`basename $PATCH_FILE`
-      if [ "${PATCH_FILE_BASE:0:8}" = "$ANDROID_PREFIX" ]; then
-        if [ "$ROM_TYPE" != "bi" ]; then
-          # Remove the prefix
-          PATCH_DIR=${PATCH_FILE_BASE#$ANDROID_PREFIX}
-          # Remove the '@' and everything after it
-          PATCH_DIR=${PATCH_DIR%%@*}
-          # Replace *all* underscores with '/'
-          PATCH_DIR=${PATCH_DIR//_/\/}
-          if [ ! -d ${ANDROID_DIR}/${PATCH_DIR} ]; then
-            echo ""
-            echo "  ERROR: patch file directory does not exist: '${ANDROID_DIR}/${PATCH_DIR}'"
-            echo ""
-            return 1
-          fi
+      if [ "$patch_type" != "git" ] && [ "$patch_type" != "diff" ]; then
+        echo ""
+        echo "  ERROR: Invalid patch definition at line ${LINE_NUMBER} of '${DEFAULT_PATCH_FILE}'"
+        echo "         Field 3 must be 'git' or 'diff', saw: '${PATCH_LINE}'"
+        echo ""
+        return 1
+      fi
 
-          # Save the directory for this patch so we can  use it when we actually
-          # do the patch without having to rebuild it again.
-          ALL_PATCH_LIST=$ALL_PATCH_LIST" ${ANDROID_DIR}/${PATCH_DIR},${PATCH_FILE}"
-        else
-          echo ""
-          echo "  Warning: skipping CM7 specific patch: '$PATCH_FILE'"
-          echo ""
-        fi
+      if [ "$patch_file" = "" ]; then
+        echo ""
+        echo "  ERROR: Invalid patch definition at line ${LINE_NUMBER} of '${DEFAULT_PATCH_FILE}'"
+        echo "         Field 4 is NULL, saw: '${PATCH_LINE}'"
+        echo ""
+        return 1
+      fi
+
+      patch_file=${BLACKICE_DIR}/src/$patch_file
+
+      if [ ! -f $patch_file ]; then
+        echo ""
+        echo "  ERROR: Cannot find patch file specified at line ${LINE_NUMBER} of '${DEFAULT_PATCH_FILE}'"
+        echo "         Field 4 is bad, saw: '${PATCH_LINE}'"
+        echo ""
+        return 1
+      fi
+
+      if [ "$patch_dir" = "" ]; then
+        echo ""
+        echo "  ERROR: Invalid patch directory at line ${LINE_NUMBER} of '${DEFAULT_PATCH_FILE}'"
+        echo "         Field 5 is NULL, saw: '${PATCH_LINE}'"
+        echo ""
+        return 1
+      fi
+
+      if [ "$source_type" = "android" ]; then
+        patch_dir=${ANDROID_DIR}/$patch_dir
       else
-        if [ "${PATCH_FILE_BASE:0:9}" = "$BLACKICE_PREFIX" ]; then
-          if [ "$ROM_TYPE" != "cm7" ]; then
-            # Remove the prefix
-            PATCH_DIR=${PATCH_FILE_BASE#$BLACKICE_PREFIX}
-            # Remove the '@' and everything after it
-            PATCH_DIR=${PATCH_DIR%%@*}
-            # Replace *all* underscores with '/'
-            PATCH_DIR=${PATCH_DIR//_/\/}
+        patch_dir=${BLACKICE_DIR}/$patch_dir
+      fi
 
-            if [ ! -d ${BLACKICE_DIR}/${PATCH_DIR} ]; then
-              echo ""
-              echo "  ERROR: patch file directory does not exist: '${BLACKICE_DIR}/${PATCH_DIR}'"
-              echo ""
-              return 1
-            fi
+      if [ ! -d $patch_dir ]; then
+        echo ""
+        echo "  ERROR: Invalid patch directory at line ${LINE_NUMBER} of '${DEFAULT_PATCH_FILE}'"
+        echo "         Field 5 is bad, saw: '${PATCH_LINE}'"
+        echo ""
+        return 1
+      fi
 
-            # Save the directory for this patch so we can  use it when we actually
-            # do the patch without having to rebuild it again.
-            ALL_PATCH_LIST=$ALL_PATCH_LIST" ${BLACKICE_DIR}/${PATCH_DIR},${PATCH_FILE}"
-          else
-            echo ""
-            echo "  Warning: skiping BlackICE specific patch: '$PATCH_FILE'"
-            echo ""
+      # PATCH_VAR is the *name* of the variable that we want to test to see if
+      # the patch is enabled. For example, if patch_name is TORCH then PATCH_VAR
+      # will be PATCH_TORCH. To get the actual value we have to do this
+      # ${!PATCH_VAR}
+      #
+      PATCH_VAR="PATCH_"${patch_name}
+
+      KEEP_PATCH=0
+      if [ "$source_type" = "android" ] && [ "$DO_CM7" = "1" ]; then
+        if [ "$SYNC_TYPE" = "cm7" ] || [ "$SYNC_TYPE" = "all" ] || [ "$FORCE_PATCHING" = "1" ]; then
+          if [ "${!PATCH_VAR}" = "1" ]; then
+            KEEP_PATCH=1
           fi
-        else
-          echo ""
-          echo "  ERROR: patch file must have a prefix of '${ANDROID_PREFIX}' or '${BLACKICE_PREFIX}', saw '${PATCH_FILE}'"
-          echo ""
-          return 1
         fi
       fi
-    done
-  fi
-fi
+      if [ "$source_type" = "blackice" ] && [ "$DO_BLACKICE" = "1" ]; then
+        if [ "$SYNC_TYPE" = "bi" ] || [ "$SYNC_TYPE" = "all" ] || [ "$FORCE_PATCHING" = "1" ]; then
+          if [ "${!PATCH_VAR}" = "1" ]; then
+            KEEP_PATCH=1
+          fi
+        fi
+      fi
 
 
+      if [ "$KEEP_PATCH" = "1" ]; then
+        # Save the patch information in a way that is easy to recreate it later.
+        ALL_PATCH_LIST=$ALL_PATCH_LIST" ${patch_dir},${patch_file}"
+      fi
+
+#      echo "patch_name  = '$patch_name'"
+#      echo "source_type = '$source_type'"
+#      echo "patch_type  = '$patch_type'"
+#      echo "patch_file  = '$patch_file'"
+#      echo "patch_dir   = '$patch_dir'"
+#      echo "variable    = 'ENABLE_PATCH_${patch_name}'"
+#      echo ""
+    fi
+  done <${DEFAULT_PATCH_FILE}
+
+fi  # end of test section in which "$CLEAN_ONLY" is 0
+
+
+ShowMessage ""
 ShowMessage "Build information"
 ShowMessage "   INI file      = $INI_NAME"
 ShowMessage "   User          = $USER"
@@ -824,8 +879,18 @@ if [ "$CLEAN_ONLY" = "0" ]; then
         ShowMessage "   Sync          = CM7 + BlackICE (repo sync + git pull)"
       else
         ShowMessage "   Sync          = none"
+
+        if [ "$FORCE_PATCHING" = "yes" ]; then
+          ShowMessage "   Force Patches = yes (NOT RECOMMENDED)"
+        fi
       fi
     fi
+  fi
+
+  if [ "$DROPBOX_DIR" = "" ]; then
+    ShowMessage "   Dropbox dir   = none"
+  else
+    ShowMessage "   Dropbox dir   = $DROPBOX_DIR"
   fi
 
   ShowMessage "   Push to phone = $PUSH_TO_PHONE"

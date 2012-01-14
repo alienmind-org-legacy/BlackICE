@@ -110,12 +110,6 @@ fi
 # there are any relative paths.
 source ${SCRIPT_DIR}/init.sh || ExitError "Running 'build_scripts/init.sh'"
 
-if [ "$CHECK_ONLY" != "0" ]; then
-  # Quit without building anything.
-  exit 0
-fi
-
-
 if [ "$CLEAN_TYPE" = "cm7" ] || [ "$CLEAN_TYPE" = "all" ]; then
   cd $ANDROID_DIR
 
@@ -135,9 +129,23 @@ if [ "$CLEAN_ONLY" = "1" ]; then
   exit 0
 fi
 
-# Delay so we have time to read the build information.
-sleep 4
+#
+# The default is to wait for user input so they can see the build information and
+# decide whether or not to continute before doing something stupid. This can be
+# overriden by specifying '-prompt 0' on the command line.
+if [ "$PROMPT" = "yes" ]; then
+  echo ""
+  echo " --- The build will start in 10 seconds (press CTRL-C to abort) --- "
 
+  for i in {10..1}
+  do
+    # -n = no newline
+    # -e = interpret escape characters
+    # \r = carriage return, but no newline
+    echo -n -e "\r            $i  "
+    sleep 1
+  done
+fi
 
 #
 # We do all the syncing first so that any error due to syncing is detected before
@@ -161,7 +169,9 @@ if [ "$DO_BLACKICE" = "1" ] && ([ "$SYNC_TYPE" = "bi" ] || [ "$SYNC_TYPE" = "all
 fi
 
 #
-# See if there are any GIT or DIFF patches to apply
+# See if there are any GIT or DIFF patches to apply. We do not have to check
+# FORCE_PATCHING here because that was used to determine whether or not to
+# put patches on the ALL_PATCH_LIST. So if something is on the list we will do it.
 #
 if [ "$ALL_PATCH_LIST" != "" ]; then
   for PATCH_ITEM in $ALL_PATCH_LIST
@@ -208,7 +218,7 @@ fi
 
 if [ "$DO_BLACKICE" = "1" ]; then
   if [ "$DO_CM7" = "1" ]; then
-    # If we just build a CM7 KANG then we will use that for the base on which
+    # If we just built a CM7 KANG then we will use that for the base on which
     # to build BlackICE on top of. Otherwise we use whatever was specified
     # for CM7_BASE_NAME.
     CM7_BASE_NAME=$CM7_NEW_ROM_BASE
@@ -217,6 +227,35 @@ if [ "$DO_BLACKICE" = "1" ]; then
   source ${SCRIPT_DIR}/build_blackice.sh || ExitError "Running 'build_scripts/build_blackice.sh'"
 fi
 
+#
+# Copy results to Dropbox if requested
+#
+if [ "$DROPBOX_DIR" != "" ] ; then
+  banner "Copying files to Dropbox folder"
+
+  if [ "$DO_BLACKICE" = "1" ]; then
+    ShowMessage "cp ${OUT_ZIP} ${DROPBOX_DIR}"
+    cp ${OUT_ZIP} ${DROPBOX_DIR}
+
+    if [ "$EXTRA_APPS" = "1" ] ; then
+      ShowMessage "cp ${OUT_EXTRAAPPS_ZIP} ${DROPBOX_DIR}"
+      cp ${OUT_EXTRAAPPS_ZIP} ${DROPBOX_DIR}
+    fi
+
+    if [ "$DO_CM7" = "1" ]; then
+      ShowMessage "cp ${BLACKICE_DIR}/download/${CM7_NEW_ROM_BASE} ${DROPBOX_DIR}"
+      cp ${BLACKICE_DIR}/download/${CM7_NEW_ROM_BASE} ${DROPBOX_DIR}
+    else
+      ShowMessage "cp ${CM7_BASE_NAME} ${DROPBOX_DIR}"
+      cp ${CM7_BASE_NAME} ${DROPBOX_DIR}
+    fi
+  else
+    if [ "$DO_CM7" = "1" ]; then
+      ShowMessage "cp ${CM7_NEW_ROM} ${DROPBOX_DIR}"
+      cp ${CM7_NEW_ROM} ${DROPBOX_DIR}
+    fi
+  fi
+fi
 
 #
 # Decide whether or not to push the result to the phone
