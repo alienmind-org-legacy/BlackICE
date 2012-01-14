@@ -1,9 +1,8 @@
 CHANGELOG
 =========
-v1.26   - WIP
+v1.26   - Base: KANG : chezbel-cm7-20120113_192339.zip - LordModUEv8.7-b2-CFS.zip
           Apps: Upgraded all
-          Apps: Google Music upgraded to v4.1.511
-          Updated media_profiles.xml with increased h264 & aac bitrate
+          ICETool: v1.00 - fixed download of extra apps
 v1.26b3 - Base: KANG : chezbel-cm7-20120108_010043.zip - LordModUEv8.7-b2-CFS.zip
           Included BLN toggle (thx Rdlgrmpf and The Unknown Noob for the artwork)
           ICETool: Fixed background execution of downloads
