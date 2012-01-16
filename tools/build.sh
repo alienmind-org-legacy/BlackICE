@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #
-# ICEDroid/tools/build.sh
+# BlackICE/tools/build.sh
 #
 
 #
-# *** This script is assumed to be running in ICEDroid/tools and although we try
+# *** This script is assumed to be running in BlackICE/tools and although we try
 # *** to be flexible some things have to make use of this assumption.
 #
 
@@ -25,7 +25,7 @@
 # Although this script *might* work for other phones it has only been tested for
 # ACE builds.
 #
-# See ICEDroid/build_scripts/init.sh for command line argument information.
+# See BlackICE/build_scripts/init.sh for command line argument information.
 #
 
 # *** TODO: Can this replace FixPath in util_sh?
@@ -70,12 +70,12 @@ function banner() {
 TIMESTAMP=`date +%Y%m%d_%H%M%S`
 
 # Get the full path of the directory that the script is running in.
-# This is expected to be the ICEDroid/tools directory.
+# This is expected to be the BlackICE/tools directory.
 BUILD_DIR=`GetAbsoluteDirOfFile $0`
 
 #
 # By putting the log in our parent directory the assumption is that it is
-# going into the the ICEDroid directory.
+# going into the the BlackICE directory.
 # Note that until we successfully load util_sh we need to use 'echo' to write to
 # the log. After util_sh is loaded we can use ShowMessage.
 #
@@ -88,7 +88,7 @@ echo "Date    : $TIMESTAMP" >> $LOG
 echo "Cmd Line: $@" >> $LOG
 
 
-# Most of the included scripts are expected to be in ICEDroid/build_scripts.
+# Most of the included scripts are expected to be in BlackICE/build_scripts.
 # An exception is util_sh, which is in the tools directory (in theory the
 # directory we are running in now).
 SCRIPT_DIR=${BUILD_DIR}/../build_scripts

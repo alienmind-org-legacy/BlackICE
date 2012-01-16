@@ -73,9 +73,9 @@
 #       ${HOME}/android/system
 #     Affects the variable ANDROID_DIR
 #
-#  -bdir <blackICE ICEDroid path>
+#  -bdir <blackICE BlackICE path>
 #     Root directory where your BlackICE sources are installed, for example:
-#       ${HOME}/android/blackice/ICEDroid
+#       ${HOME}/android/blackice/BlackICE
 #     Affects the variable BLACKICE_DIR
 #
 #  -dbox <dropbox path>
@@ -137,16 +137,17 @@
 #     Affects the variable PROMPT
 #
 # Examples:
-#   build.sh -ini custom.ini -check
+#   build.sh -ini custom.ini
 #     - Initialize all the variables from the file 'custom.ini'
-#     - Display what would normal be built without actually building anything.
+#     - Display what is going to be built and wait for 10 seconds before starting the build.
 #
-#   build.sh -ini ../cfg/test.ini -rom cm7 -sync none -push yes
+#   build.sh -ini ../cfg/test.ini -rom cm7 -sync none -push yes -prompt no
 #     - Initialize all the variables from the file '../cfg/test.ini'
 #     - Build a CM7 KANG without doing a repo sync.
 #     - The result is pushed to the phone.
+#     - Start the build without waiting for 10 seconds.
 #
-#   build.sh -ini bi.ini -rom bi -cm7base my-CM7-KANG.zip -bkernel lordmodUEv8.6-CFS -bgps QATAR -bril 2.2.1003G -sync bi
+#   build.sh -ini bi.ini -rom bi -cm7base my-CM7-KANG.zip -bkernel lordmodUEv8.6-CFS -bgps QATAR -bril 2.2.1003G -sync bi -prompt no
 #     - Initialize all the variables from the file 'bi.ini'
 #     - Sync BlackICE before building ('get fetch').
 #     - Build a BlackICE KANG using my-CM7-KANG.zip as a base. my-CM7-KANG.zip must
@@ -156,6 +157,7 @@
 #     - RIL    = HTC-RIL_2.2.1003G
 #     - The command line did not specify whether or not the result is pushed to
 #       the phone. So the setting for this in 'bi.ini' will be used.
+#     - Start the build without waiting for 10 seconds.
 #
 
 if [ "$USER" = "" ] || [ "$HOME" = "" ] ; then
@@ -598,7 +600,7 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "    -adir <path>"
   echo "       Full path to root of where Android (CM7) source is located"
   echo "    -bdir <path>"
-  echo "       Full path to the BlackICE 'ICEDroid' directory "
+  echo "       Full path to the BlackICE 'BlackICE' directory "
   echo "    -dbox <path>"
   echo "       Full path to a Dropbox directory to copy results to, can be \"\""
   echo "    -cm7make {bacon, full}"
@@ -647,7 +649,7 @@ if [ "$CLEAN_ONLY" = "0" ]; then
           echo ""
         else
           # The kernel name was specified as just a file name without any path
-          # and we found it in the ICEDroid/download directory so fix the name
+          # and we found it in the BlackICE/download directory so fix the name
           # to point there.
           BLACKICE_KERNEL_NAME=${BLACKICE_DIR}/download/${TEMP_BLACKICE_KERNEL_NAME}
         fi
@@ -665,7 +667,7 @@ if [ "$CLEAN_ONLY" = "0" ]; then
       fi
     fi
 
-    # BLACKICE_GPS_NAME is allowed to be empty in order to use the default ICEDroid
+    # BLACKICE_GPS_NAME is allowed to be empty in order to use the default BlackICE
     # GPS info in the build
     if [ "$BLACKICE_GPS_NAME" != "" ]; then
       BLACKICE_GPS_FILE=${BLACKICE_DIR}/sdcard/blackice/gpsconf/${BLACKICE_GPS_NAME}/gps.conf
@@ -677,7 +679,7 @@ if [ "$CLEAN_ONLY" = "0" ]; then
       fi
     fi
 
-    # BLACKICE_RIL_NAME is allowed to be empty in order to use the default ICEDroid
+    # BLACKICE_RIL_NAME is allowed to be empty in order to use the default BlackICE
     # RIL in the build
     if [ "$BLACKICE_RIL_NAME" != "" ]; then
       BLACKICE_RIL_FILE=${BLACKICE_DIR}/sdcard/blackice/ril/HTC-RIL_${BLACKICE_RIL_NAME}

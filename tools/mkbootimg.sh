@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# All the tools we reference should be in the ICEDroid/tools directory,
+# All the tools we reference should be in the BlackICE/tools directory,
 # which is the same directory this script is supposed to be running from.
 #
 OUR_ABS_PATH=$(cd "$(dirname "$0")"; pwd)

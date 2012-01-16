@@ -1,5 +1,5 @@
 #!/bin/sh
-# ICEDroid - clean.sh
+# BlackICE - clean.sh
 # Custom kitchen cleanup script
 # Removes all the crap from the original KANG
 # Intended to be called from setup.sh
