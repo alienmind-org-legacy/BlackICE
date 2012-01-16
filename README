@@ -17,20 +17,19 @@ This is under development
 BUILD INSTRUCTIONS (tested on GNU/Linux ... needed bash/gawk/j2sdk/android.SDK)
 
 1) Clone the repo
-   git clone git://github.com/alienmind/ICEDroid.git
+   git clone git://github.com/alienmind-org/BlackICE.git
 
 2) Download CM nightbuild / build your KANG / Kernel Image (lordModUE) under download/
 
-3) Run
-   cd ICEDroid
-   tools/build.sh -ini conf/build_example.ini \
-                  -bdir $PWD                  \
-                  -cm7base download/update-cm7.2.0-RC0-DesireHD-KANG-signed.zip \
-                  -bkernel download/lordmodUEv8.6-CFS.zip
+3) Customize your build.ini from conf/build_example.ini (documented inside)
+
+4) Run
+   cd BlackICE
+   tools/build.sh -ini conf/build_example.ini                  
 
 4) Flash out/BlackICE-vX.X-YYYYMMDD_HHMISS-signed.zip
 
 There are other extended ways to build blackice with custom patches from CM sources.
-See build.sh for more advanced options
+See con/build_example.ini for more advanced options
 
 
