@@ -130,20 +130,27 @@ if [ "$CLEAN_ONLY" = "1" ]; then
 fi
 
 #
-# The default is to wait for user input so they can see the build information and
-# decide whether or not to continute before doing something stupid. This can be
-# overriden by specifying '-prompt 0' on the command line.
-if [ "$PROMPT" = "yes" ]; then
-  echo ""
-  echo " --- The build will start in 10 seconds (press CTRL-C to abort) --- "
+# PROMPT determines how long we wait before doing the build. This allows the user
+# to have a chance to press CTRL-C if they did something stupid.
+if [ $PROMPT -eq 999 ]; then
+  # The special prompt value of 999 does not actually let anything get built.
+  # It's like an infinite delay.
+  exit 0
+fi
 
-  for i in {10..1}
+if [ $PROMPT -gt 0 ]; then
+  echo ""
+  echo " --- The build will start in ${PROMPT} seconds (press CTRL-C to abort) --- "
+
+  DELAY=$PROMPT
+  while [ $DELAY -gt 0 ]
   do
     # -n = no newline
     # -e = interpret escape characters
     # \r = carriage return, but no newline
-    echo -n -e "\r            $i  "
+    echo -n -e "\r            $DELAY  "
     sleep 1
+    (( DELAY-- ))
   done
 fi
 
@@ -202,6 +209,14 @@ fi
 #
 # Now do the build(s)
 #
+
+if [ "$OFFICIAL" = "yes" ]; then
+  # This is a bit of hack, but if building an 'official' build instead of just a
+  # nightly we use the word 'OFFICIAL' in the name(s) of the output files instead
+  # of a timestamp. If we need the original TIMESTAMP later (which we do not
+  # currently need) we will need to modify this.
+  TIMESTAMP="OFFICIAL"
+fi
 
 if [ "$DO_CM7" = "1" ]; then
   source ${SCRIPT_DIR}/build_cm7.sh || ExitError "Running 'build_scripts/build_cm7.sh'"

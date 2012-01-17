@@ -56,11 +56,11 @@
 #
 #  -push {no, yes, 0, 1}
 #     no  = do not 'adb push' the resulting KANG (CM7 or BlackICE) to your phone
-#     0    = same as 'no'
+#     0   = same as 'no'
 #     yes = 'adb push' the resulting KANG (CM7 or BlackICE) to your phone, requires
 #           your phone to be connected to your PC via USB and requires the 'adb'
 #           tool to be in your path.
-#     1    = same as 'yes'
+#     1   = same as 'yes'
 #     Affects the variable PUSH_TO_PHONE
 #
 #  -phone <phone name>
@@ -129,35 +129,51 @@
 #     its default value.
 #     Affects the variable BLACKICE_RIL_NAME
 #
-#  -prompt {no, yes, 0, 1}
-#     no  = do not pause and prompt for user input before doing the build.
-#     0    = same as 'no'
-#     yes = pause and promot for user input before starting the build (default).
-#     1    = same as 'yes'
+#  -prompt {0..30, 999}
+#     0     = do not pause and prompt for user input before doing the build.
+#     1..30 = pause for the given number of seconds and then do the build.
+#     999   = show the build information, but don't actually build anything.
 #     Affects the variable PROMPT
+#
+#  -official {no, yes, 0, 1}
+#     no  = do a 'nightly' build using a timestamp as part of the name.
+#     0   = same as 'no'
+#     yes = create an official release build using 'official' as part of the name.
+#     1   = same as 'yes'
+#     Affects the variable OFFICIAL
+#
+
 #
 # Examples:
 #   build.sh -ini custom.ini
 #     - Initialize all the variables from the file 'custom.ini'
 #     - Display what is going to be built and wait for 10 seconds before starting the build.
 #
-#   build.sh -ini ../cfg/test.ini -rom cm7 -sync none -push yes -prompt no
+#   build.sh -ini ../cfg/test.ini -rom cm7 -sync none -push yes -prompt 0
 #     - Initialize all the variables from the file '../cfg/test.ini'
 #     - Build a CM7 KANG without doing a repo sync.
 #     - The result is pushed to the phone.
-#     - Start the build without waiting for 10 seconds.
+#     - Start the build without a prompt or any delay.
+#     - Other options come from the .ini file.
 #
-#   build.sh -ini bi.ini -rom bi -cm7base my-CM7-KANG.zip -bkernel lordmodUEv8.6-CFS -bgps QATAR -bril 2.2.1003G -sync bi -prompt no
+#   build.sh -ini bi.ini -rom bi -cm7base my-CM7-KANG.zip -bkernel lordmodUEv8.6-CFS.zip -bgps QATAR -bril 2.2.1003G -sync bi -prompt 999
 #     - Initialize all the variables from the file 'bi.ini'
 #     - Sync BlackICE before building ('get fetch').
 #     - Build a BlackICE KANG using my-CM7-KANG.zip as a base. my-CM7-KANG.zip must
 #       exist in the directory ${BLACKICE_DIR}/download.
-#     - Kernel = lordmodUEv8.6-CFS
+#     - Kernel = lordmodUEv8.6-CFS.zip
 #     - GPS    = QATAR
 #     - RIL    = HTC-RIL_2.2.1003G
-#     - The command line did not specify whether or not the result is pushed to
-#       the phone. So the setting for this in 'bi.ini' will be used.
-#     - Start the build without waiting for 10 seconds.
+#     - Prompt = 999 = don't actually build, just show what would have been built.
+#     - Other options come from the .ini file.
+#
+#   build.sh -ini bi.ini -rom all -bkernel lordmodUEv8.7-CFS-b2.zip -sync none -official 1
+#     - Initialize all the variables from the file 'bi.ini'
+#     - Don't sync CM7 or BlackICe before building.
+#     - Build a CM7 KANG and then a BlackICE KANG using that.
+#     - Kernel = lordmodUEv8.7-CFS-b2.zip
+#     - Build an official release instead of a 'nightly (timestamped release).
+#     - Other options come from the .ini file.
 #
 
 if [ "$USER" = "" ] || [ "$HOME" = "" ] ; then
@@ -175,14 +191,6 @@ INI_NAME=""
 # If a 'clean' argument is given we will suppress some argument checking and
 # will not build anything. We will just do the specified clean operation.
 CLEAN_ONLY=0
-
-# Make sure this is always 0 in case the .ini file did not specify it.
-# The command line can change this with -fpatch.
-FORCE_PATCHING=0
-
-# Before doing the build we wait for the user to press a key unless this is changed
-# to 0 on the command line with -nowait.
-PROMPT=1
 
 #
 # Helpers for testing which ROM to build. This is modfied based on the .ini file
@@ -335,6 +343,12 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
     SHOW_HELP=0
   fi
 
+  if [ "$1" = "-official" ]; then
+    shift 1
+    OFFICIAL=$1
+    SHOW_HELP=0
+  fi
+
 
   shift 1
 done
@@ -411,6 +425,21 @@ if [ "$SHOW_HELP" = "0" ]; then
         PUSH_TO_PHONE="yes"
       fi
     fi
+
+    if [ "$OFFICIAL" = "" ] || ([ "$OFFICIAL" != "no" ] && [ "$OFFICIAL" != "yes" ] && [ "$OFFICIAL" != "0" ] && [ "$OFFICIAL" != "1" ]); then
+      echo ""
+      echo "  ERROR: Valid values for OFFICIAL (in .ini file) or '-phone' are {no, yes, 0, 1}, saw '${OFFICIAL}'"
+      echo ""
+      SHOW_HELP=1
+    else
+      if [ "$OFFICIAL" = "0" ]; then
+        OFFICIAL="no"
+      fi
+      if [ "$OFFICIAL" = "1" ]; then
+        OFFICIAL="yes"
+      fi
+    fi
+
 
     if [ "$FORCE_PATCHING" = "" ] || ([ "$FORCE_PATCHING" != "no" ] && [ "$FORCE_PATCHING" != "yes" ] && [ "$FORCE_PATCHING" != "0" ] && [ "$FORCE_PATCHING" != "1" ]); then
       echo ""
@@ -521,18 +550,11 @@ if [ "$SHOW_HELP" = "0" ]; then
   # These items need to be checked even if just doing a clean
   #
 
-  if [ "$PROMPT" = "" ] || ([ "$PROMPT" != "no" ] && [ "$PROMPT" != "yes" ] && [ "$PROMPT" != "0" ] && [ "$PROMPT" != "1" ]); then
+  if [ "$PROMPT" = "" ] || ([ $PROMPT -lt 0 -o $PROMPT -gt 30 ] && [ $PROMPT -ne 999 ]); then
     echo ""
-    echo "  ERROR: Valid values for PROMPT (in .ini file) or '-prompt' are {no, yes, 0, 1}, saw '${PROMPT}'"
+    echo "  ERROR: Valid values for PROMPT (in .ini file) or '-prompt' are {0..30, 999}, saw '${PROMPT}'"
     echo ""
     SHOW_HELP=1
-  else
-    if [ "$PROMPT" = "0" ]; then
-      PROMPT="no"
-    fi
-    if [ "$PROMPT" = "1" ]; then
-      PROMPT="yes"
-    fi
   fi
 
   if [ "$CLEAN_TYPE" != "bi" ] && [ "$DO_CM7" = "1" ]; then
@@ -613,8 +635,9 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "       Name of GPS region to build into BlackICE, can be \"\""
   echo "    -bril <ril_version>"
   echo "       Name of RIL to build into BlackICE, can be \"\""
-  echo "    -prompt {no, yes, 0, 1}"
-  echo "       no or 0 = do not prompt before building, yes or 1 = prompt before building (default)"
+  echo "    -prompt {0..30, 999}"
+  echo "       Delay 0..30 seconds before building."
+  echo "       999 = show the build info without actually building anything."
   echo ""
   echo "  For more details see the comments in the top of '$0'"
   echo ""
@@ -808,54 +831,54 @@ fi  # end of test section in which "$CLEAN_ONLY" is 0
 
 ShowMessage ""
 ShowMessage "Build information"
-ShowMessage "   INI file      = $INI_NAME"
-ShowMessage "   User          = $USER"
-ShowMessage "   Home dir      = $HOME"
+ShowMessage "   INI file       = $INI_NAME"
+ShowMessage "   User           = $USER"
+ShowMessage "   Home dir       = $HOME"
 
 if [ "$CLEAN_ONLY" = "0" ]; then
-  ShowMessage "   Phone         = $PHONE"
+  ShowMessage "   Phone          = $PHONE"
 
   if [ "$ROM_TYPE" = "cm7" ]; then
-    ShowMessage "   ROM           = CM7 only"
+    ShowMessage "   ROM            = CM7 only"
   else
     if [ "$ROM_TYPE" = "bi" ]; then
-      ShowMessage "   ROM           = BlackICE only"
+      ShowMessage "   ROM            = BlackICE only"
     else
-      ShowMessage "   ROM           = CM7 + BlackICE"
+      ShowMessage "   ROM            = CM7 + BlackICE"
     fi
   fi
 
   if [ "$DO_CM7" = "1" ]; then
-    ShowMessage "   Android dir   = $ANDROID_DIR"
+    ShowMessage "   Android dir    = $ANDROID_DIR"
 
     if  [ "$CM7_MAKE" = "bacon" ]; then
-      ShowMessage "   CM7 make      = make bacon"
+      ShowMessage "   CM7 make       = make bacon"
     else
-      ShowMessage "   CM7 make      = make clobber + brunch"
+      ShowMessage "   CM7 make       = make clobber + brunch"
     fi
   fi
 
   if [ "$DO_BLACKICE" = "1" ]; then
-    ShowMessage "   BlackICE dir  = $BLACKICE_DIR"
-    ShowMessage "   Kernel        = $BLACKICE_KERNEL_NAME"
+    ShowMessage "   BlackICE dir   = $BLACKICE_DIR"
+    ShowMessage "   Kernel         = $BLACKICE_KERNEL_NAME"
 
 
     if [ "$BLACKICE_GPS_NAME" = "" ]; then
-     ShowMessage "   GPS region    = << default >>"
+     ShowMessage "   GPS region     = << default >>"
     else
-     ShowMessage "   GPS region    = $BLACKICE_GPS_NAME"
+     ShowMessage "   GPS region     = $BLACKICE_GPS_NAME"
     fi
 
     if [ "$BLACKICE_RIL_NAME" = "" ]; then
-      ShowMessage "   RIL           = << default >>"
+      ShowMessage "   RIL            = << default >>"
     else
-      ShowMessage "   RIL           = $BLACKICE_RIL_NAME"
+      ShowMessage "   RIL            = $BLACKICE_RIL_NAME"
     fi
 
     if [ "$DO_CM7" = "1" ]; then
-      ShowMessage "   CM7 base      = << from CM7 build >>"
+      ShowMessage "   CM7 base       = << from CM7 build >>"
     else
-      ShowMessage "   CM7 base      = $CM7_BASE_NAME"
+      ShowMessage "   CM7 base       = $CM7_BASE_NAME"
     fi
 
   fi
@@ -867,55 +890,61 @@ if [ "$CLEAN_ONLY" = "0" ]; then
       # The items on ALL_PATCH_LIST have the form "patch_dir,patch_file", we
       # only want to show the patch_file part.
       patch_file=${patch_file##*,}
-      ShowMessage "   Patch         = ${patch_file}"
+      ShowMessage "   Patch          = ${patch_file}"
     done
   fi
 
   if [ "$SYNC_TYPE" = "cm7" ]; then
-    ShowMessage "   Sync          = CM7 (repo sync)"
+    ShowMessage "   Sync           = CM7 (repo sync)"
   else
     if [ "$SYNC_TYPE" = "bi" ]; then
-      ShowMessage "   Sync          = BlackICE (git pull)"
+      ShowMessage "   Sync           = BlackICE (git pull)"
     else
       if [ "$SYNC_TYPE" = "all" ]; then
-        ShowMessage "   Sync          = CM7 + BlackICE (repo sync + git pull)"
+        ShowMessage "   Sync           = CM7 + BlackICE (repo sync + git pull)"
       else
-        ShowMessage "   Sync          = none"
+        ShowMessage "   Sync           = none"
 
         if [ "$FORCE_PATCHING" = "yes" ]; then
-          ShowMessage "   Force Patches = yes (NOT RECOMMENDED)"
+          ShowMessage "   Force Patching = yes (NOT RECOMMENDED)"
         fi
       fi
     fi
   fi
 
   if [ "$DROPBOX_DIR" = "" ]; then
-    ShowMessage "   Dropbox dir   = none"
+    ShowMessage "   Dropbox dir    = none"
   else
-    ShowMessage "   Dropbox dir   = $DROPBOX_DIR"
+    ShowMessage "   Dropbox dir    = $DROPBOX_DIR"
   fi
 
-  ShowMessage "   Push to phone = $PUSH_TO_PHONE"
+  ShowMessage "   Push to phone  = $PUSH_TO_PHONE"
+  ShowMessage "   Official build = $OFFICIAL"
+
+  if [ $PROMPT -eq 999 ]; then
+    ShowMessage ""
+    ShowMessage "(Not building anything because PROMPT = ${PROMPT})"
+  fi
 
 else
 
   # CLEAN_ONLY is 1
   if [ "$DO_CM7" = "1" ]; then
-    ShowMessage "   Android dir   = $ANDROID_DIR"
+    ShowMessage "   Android dir    = $ANDROID_DIR"
   fi
 
   if [ "$DO_BLACKICE" = "1" ]; then
-    ShowMessage "   BlackICE dir  = $BLACKICE_DIR"
+    ShowMessage "   BlackICE dir   = $BLACKICE_DIR"
   fi
 
   if [ "$CLEAN_TYPE" = "bi" ]; then
-    ShowMessage "   Clean         = BlackICE"
+    ShowMessage "   Clean          = BlackICE"
   else
     if [ "$CLEAN_TYPE" = "cm7" ]; then
-      ShowMessage "   Clean         = CM7"
+      ShowMessage "   Clean          = CM7"
     else
       if [ "$CLEAN_TYPE" = "all" ]; then
-        ShowMessage "   Clean         = CM7 + BlackICE"
+        ShowMessage "   Clean          = CM7 + BlackICE"
       fi
     fi
   fi
