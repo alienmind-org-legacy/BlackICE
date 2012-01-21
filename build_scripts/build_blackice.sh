@@ -20,6 +20,14 @@ source ${SCRIPT_DIR}/../conf/blackice.ini  || ExitError "Sourcing 'conf/blackice
 # the base url in sources.ini
 #${CM7_BASE_NAME}
 
+#
+# We use another variable here because we don't want to change the global
+# TIMESTAMP variable
+TIMESTAMP_OR_OFFICIAL=${TIMESTAMP}
+if [ "$OFFICIAL" = "yes" ]; then
+  TIMESTAMP_OR_OFFICIAL="OFFICIAL"
+fi
+
 # Kernel to use
 # If this doesn't exist we will try to download it from
 # the base url in sources.ini
@@ -38,10 +46,10 @@ WORK_DIR=${BLACKICE_DIR}/work/
 DOWN_DIR=${BLACKICE_DIR}/download/
 MOD_DIR=${BLACKICE_DIR}/mod
 OUT_DIR_BASE="${BLACKICE_DIR}/out"
-OUT_DIR="$OUT_DIR_BASE/${BLACKICE_VERSION}-${TIMESTAMP}"
+OUT_DIR="$OUT_DIR_BASE/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}"
 OUT_ZIP="${OUT_DIR}.zip"
 OUT_SIGNED="${OUT_DIR}-signed.zip"
-OUT_EXTRAAPPS="${BLACKICE_DIR}/out/${BLACKICE_VERSION}-extraapps-${TIMESTAMP}"
+OUT_EXTRAAPPS="${BLACKICE_DIR}/out/${BLACKICE_VERSION}-extraapps-${TIMESTAMP_OR_OFFICIAL}"
 OUT_EXTRAAPPS_ZIP="${OUT_EXTRAAPPS}.zip"
 OUT_EXTRAAPPS_SIGNED="${OUT_EXTRAAPPS}-signed.zip"
 

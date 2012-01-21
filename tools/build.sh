@@ -52,6 +52,27 @@ function GetAbsoluteDirOfFile() {
   echo $ARG
 }
 
+# Helper for combining md5sums into a single file. The md5sum file format is:
+#   <hex digits><space><space or '*'><file name>
+#
+# FYI, there are 32 hex digits plus 2 other characters for a total of 34 characters
+# before the file name. It's simplest to just break this apart using that knowledge.
+# When processing a file to write into the new file we strip off the path (if any)
+# of the '<file name>' field.
+#
+# $1 = the original md5sum file that we want to process
+# $2 = the new file that we are writing all the md5sum files into
+function combineMD5File() {
+  local FDATA=`cat ${1}`
+  local OUT_FILE=$2
+
+  local THE_SUM=${FDATA:0:34}
+  local THE_FILE=${FDATA:34}
+  THE_FILE=`basename ${THE_FILE}`
+
+  echo "${THE_SUM}${THE_FILE}" >> ${OUT_FILE}
+}
+
 #
 # Helper function for displaying a banner to indicate which step in the build is
 # currently being done. Note that we can not use this until util_sh is loaded,
@@ -210,14 +231,6 @@ fi
 # Now do the build(s)
 #
 
-if [ "$OFFICIAL" = "yes" ]; then
-  # This is a bit of hack, but if building an 'official' build instead of just a
-  # nightly we use the word 'OFFICIAL' in the name(s) of the output files instead
-  # of a timestamp. If we need the original TIMESTAMP later (which we do not
-  # currently need) we will need to modify this.
-  TIMESTAMP="OFFICIAL"
-fi
-
 if [ "$DO_CM7" = "1" ]; then
   source ${SCRIPT_DIR}/build_cm7.sh || ExitError "Running 'build_scripts/build_cm7.sh'"
 
@@ -273,6 +286,63 @@ if [ "$DROPBOX_DIR" != "" ] ; then
 fi
 
 #
+# If we are building for BlackICE we do a few things to make doing a release easier:
+#  - copy all the result files into a release directory
+#  - combine all of the md5sum files into 1 file in the release directory
+#  - create the skeleton change log file in the release directory (probably needs
+#    manual editing, but the tedious stuff is done automatically).
+#
+if [ "$DO_BLACKICE" = "1" ]; then
+  RELEASE_DIR=${OUT_DIR_BASE}/release
+  rm -rf $RELEASE_DIR
+  mkdir -p $RELEASE_DIR
+
+  ALL_MD5_FILE=${RELEASE_DIR}/md5sums.txt
+  CHANGES_FILE=${RELEASE_DIR}/changes.txt
+
+  echo "-----------------------" >> ${CHANGES_FILE}
+  # Get the BlackICE version number with the leading 'BlackICE.'
+  THE_TEMP=${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}
+  THE_TEMP=${THE_TEMP#BlackICE.}
+  echo "${THE_TEMP}" >> ${CHANGES_FILE}
+  echo "-----------------------" >> ${CHANGES_FILE}
+
+  THE_TEMP=`basename ${OUT_ZIP}`
+  echo " - BlackICE KANG    : ${THE_TEMP}" >> ${CHANGES_FILE}
+  THE_TEMP=`basename ${KERNELFILE}`
+  echo " - Kernel           : ${THE_TEMP}" >> ${CHANGES_FILE}
+
+  if [ "$DO_CM7" = "1" ]; then
+    cp ${CM7_NEW_ROM} ${RELEASE_DIR}
+    combineMD5File ${CM7_NEW_ROM}.md5sum ${ALL_MD5_FILE}
+
+    THE_TEMP=`basename ${CM7_NEW_ROM}`
+    echo " - CM7 Base KANG    : ${THE_TEMP}" >> ${CHANGES_FILE}
+    echo " - Newest CM7 merge : " >> ${CHANGES_FILE}
+    echo " - Misc Information : " >> ${CHANGES_FILE}
+    echo "" >> ${CHANGES_FILE}
+  fi
+
+  cp ${OUT_ZIP} ${RELEASE_DIR}
+  combineMD5File ${OUT_ZIP}.md5sum ${ALL_MD5_FILE}
+
+  if [ "$SIGN_ZIP" = "1" ]; then
+    cp ${OUT_SIGNED} ${RELEASE_DIR}
+    combineMD5File ${OUT_SIGNED}.md5sum ${ALL_MD5_FILE}
+  fi
+
+  if [ "$EXTRA_APPS" = "1" ] ; then
+    cp ${OUT_EXTRAAPPS_ZIP} ${RELEASE_DIR}
+    combineMD5File ${OUT_EXTRAAPPS_ZIP}.md5sum ${ALL_MD5_FILE}
+
+    if [ "$SIGN_ZIP" = "1" ]; then
+      cp ${OUT_EXTRAPPS_SIGNED} ${RELEASE_DIR}
+      combineMD5File ${OUT_EXTRAPPS_SIGNED}.md5sum ${ALL_MD5_FILE}
+    fi
+  fi
+fi
+
+#
 # Decide whether or not to push the result to the phone
 #
 if [ "$PUSH_TO_PHONE" = "yes" ] ; then
@@ -319,5 +389,8 @@ if [ "$DO_BLACKICE" = "1" ]; then
       ShowMessage ""
     fi
   fi
+
+  ShowMessage "    (These files have all been copied to ${RELEASE_DIR})"
+  ShowMessage ""
 fi
 
