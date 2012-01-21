@@ -1,5 +1,7 @@
 CHANGELOG
 =========
+v1.27b1 - Base: KANG : chezbel-cm7-20120116_005908.zip - LordModUEv8.7-b2-CFS.zip
+          ICETool: Removed enable/disable Backlight Notifications for now
 v1.26   - Base: KANG : chezbel-cm7-20120113_192339.zip - LordModUEv8.7-b2-CFS.zip
           Apps: Upgraded all
           ICETool: v1.00 - fixed download of extra apps
@@ -12,7 +14,7 @@ v1.26b2 - Base: KANG : cm7-20111223_004213.zip - LordModUEv8.6-CFS.zip
           Apps: Upgraded Vending 3.4.4 (on extraapps)
           Apps: Upgraded Systune 1.5.9
 v1.26b1 - Base: KANG-20111210 - lordModUE-8.5-CFS
-          ICETool: Fixed Vending 2.3.6 => 3.2.0 => 2.3.6 
+          ICETool: Fixed Vending 2.3.6 => 3.2.0 => 2.3.6
           ICETool: Fixed bootsound option
           ICETool: Fixed overlay
           ICETool: Autorenice feature of running processes
@@ -85,19 +87,19 @@ v1.20b2 - Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
           Base: Recovered 48m heap size
           Apps: Removed Google Music ICS leak from main build
           ICETool: More ICS leaks on icetool and in extraapps (if you don't want to download)
-v1.20b1 - Base:  KANG20111023 - lordModUE-8.1-CFS 
+v1.20b1 - Base:  KANG20111023 - lordModUE-8.1-CFS
           ICETool: upped to v0.7 : autoupgrade option
           ICETool: upped to v0.7 : show ril option
           Base: Roboto Font from ICS by default
           SU: Updated v3.0.3 su binary
           Contacts: Modded version from H2O
           Phone: Modded version from H2O
-v1.12   - Base: KANG20111014 - lordModUE-8.1-CFS 
+v1.12   - Base: KANG20111014 - lordModUE-8.1-CFS
           ICETool: Fixed icetool not switching gps.conf
-v1.1    - Base: KANG20111014 - lordModUE-8.1b7-CFS 
+v1.1    - Base: KANG20111014 - lordModUE-8.1b7-CFS
           Apps: Removed AdFree
           Extrapps: Refreshed versions
-v1.01b5 - Base: KANG20111014 - lordModUE-8.1b5-BFS 
+v1.01b5 - Base: KANG20111014 - lordModUE-8.1b5-BFS
           ICETool: New icetool command to refresh hosts
           ICETool: Fixed FC
 v1.01b4 - Base: KANG20111018 - lordModUE-8.1b5-CFS <= Buggy
@@ -130,6 +132,6 @@ v0.7    - Included SystemUI.apk provided by Paradoxxx. RIL Switching from ICEToo
 v0.6    - Hability to use a binary modded apk. Included binary framework-res.apk provided by Paradoxxx
 v0.5    - ICETool v0.2
 v0.4    - WORKING data/app included, new apps, new bootanim and bootsound, based on #NB213, kernel v7.4BFSb5
-v0.3    - data/app included, based on #NB212 
+v0.3    - data/app included, based on #NB212
 v0.2    - New bootanimation, icetool, based on #NB209
 v0.1    - Initial prealpha version
