@@ -41,8 +41,9 @@ progdir=`pwd`
 prog="${progdir}"/`basename "${prog}"`
 cd "${oldwd}"
 
-
-jarfile=apktool.jar
+# AlienMind - 20120123 - We allow suffix for apktool specific version
+# Needed for apktool-ics.jar
+jarfile=apktool${APKTOOLSUFFIX}.jar
 libdir="$progdir"
 if [ ! -r "$libdir/$jarfile" ]
 then
