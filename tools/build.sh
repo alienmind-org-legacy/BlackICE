@@ -309,8 +309,10 @@ if [ "$DO_BLACKICE" = "1" ]; then
 
   THE_TEMP=`basename ${OUT_ZIP}`
   echo " - BlackICE KANG    : ${THE_TEMP}" >> ${CHANGES_FILE}
+  echo "" >> ${CHANGES_FILE}
   THE_TEMP=`basename ${KERNELFILE}`
   echo " - Kernel           : ${THE_TEMP}" >> ${CHANGES_FILE}
+  echo "" >> ${CHANGES_FILE}
 
   if [ "$DO_CM7" = "1" ]; then
     cp ${CM7_NEW_ROM} ${RELEASE_DIR}
@@ -318,7 +320,9 @@ if [ "$DO_BLACKICE" = "1" ]; then
 
     THE_TEMP=`basename ${CM7_NEW_ROM}`
     echo " - CM7 Base KANG    : ${THE_TEMP}" >> ${CHANGES_FILE}
+    echo "" >> ${CHANGES_FILE}
     echo " - Newest CM7 merge : " >> ${CHANGES_FILE}
+    echo "" >> ${CHANGES_FILE}
     echo " - Misc Information : " >> ${CHANGES_FILE}
     echo "" >> ${CHANGES_FILE}
   fi
