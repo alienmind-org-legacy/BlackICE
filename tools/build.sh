@@ -52,27 +52,6 @@ function GetAbsoluteDirOfFile() {
   echo $ARG
 }
 
-# Helper for combining md5sums into a single file. The md5sum file format is:
-#   <hex digits><space><space or '*'><file name>
-#
-# FYI, there are 32 hex digits plus 2 other characters for a total of 34 characters
-# before the file name. It's simplest to just break this apart using that knowledge.
-# When processing a file to write into the new file we strip off the path (if any)
-# of the '<file name>' field.
-#
-# $1 = the original md5sum file that we want to process
-# $2 = the new file that we are writing all the md5sum files into
-function combineMD5File() {
-  local FDATA=`cat ${1}`
-  local OUT_FILE=$2
-
-  local THE_SUM=${FDATA:0:34}
-  local THE_FILE=${FDATA:34}
-  THE_FILE=`basename ${THE_FILE}`
-
-  echo "${THE_SUM}${THE_FILE}" >> ${OUT_FILE}
-}
-
 #
 # Helper function for displaying a banner to indicate which step in the build is
 # currently being done. Note that we can not use this until util_sh is loaded,
@@ -262,12 +241,12 @@ if [ "$DROPBOX_DIR" != "" ] ; then
   banner "Copying files to Dropbox folder"
 
   if [ "$DO_BLACKICE" = "1" ]; then
-    ShowMessage "cp ${OUT_ZIP} ${DROPBOX_DIR}"
-    cp ${OUT_ZIP} ${DROPBOX_DIR}
+    ShowMessage "cp ${RELEASE_ZIP} ${DROPBOX_DIR}"
+    cp ${RELEASE_ZIP} ${DROPBOX_DIR}
 
     if [ "$EXTRA_APPS" = "1" ] ; then
-      ShowMessage "cp ${OUT_EXTRAAPPS_ZIP} ${DROPBOX_DIR}"
-      cp ${OUT_EXTRAAPPS_ZIP} ${DROPBOX_DIR}
+      ShowMessage "cp ${RELEASE_EXTRAAPPS_ZIP} ${DROPBOX_DIR}"
+      cp ${RELEASE_EXTRAAPPS_ZIP} ${DROPBOX_DIR}
     fi
 
     if [ "$DO_CM7" = "1" ]; then
@@ -287,63 +266,69 @@ fi
 
 #
 # If we are building for BlackICE we do a few things to make doing a release easier:
-#  - copy all the result files into a release directory
-#  - combine all of the md5sum files into 1 file in the release directory
+#  - copy the CM7 result or base Kand into the release directory
+#  - perform an md5sum of all the .zip files
+#  - process the md5sum output to remove the path name of each file (we just want
+#    the sum and the base filename).
 #  - create the skeleton change log file in the release directory (probably needs
 #    manual editing, but the tedious stuff is done automatically).
 #
 if [ "$DO_BLACKICE" = "1" ]; then
-  RELEASE_DIR=${OUT_DIR_BASE}/release
-  rm -rf $RELEASE_DIR
-  mkdir -p $RELEASE_DIR
 
-  ALL_MD5_FILE=${RELEASE_DIR}/md5sums.txt
+  # First we copy the CM7 Kang into the release directory. If we built this as
+  # part of this release then it is sitting in the CM7 out directory. If we used
+  # an existing Kang (-cm7base xxx) then we are copying that one. In either case
+  # CM7_BASE_NAME points to the correct file.
+  cp ${CM7_BASE_NAME} ${RELEASE_DIR}
+
+  # Create and write to changes.txt...
   CHANGES_FILE=${RELEASE_DIR}/changes.txt
 
-  echo "-----------------------" >> ${CHANGES_FILE}
-  # Get the BlackICE version number with the leading 'BlackICE.'
+  # Get the BlackICE version number without the leading 'BlackICE.'
   THE_TEMP=${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}
   THE_TEMP=${THE_TEMP#BlackICE.}
+  echo "-----------------------" >> ${CHANGES_FILE}
   echo "${THE_TEMP}" >> ${CHANGES_FILE}
   echo "-----------------------" >> ${CHANGES_FILE}
 
-  THE_TEMP=`basename ${OUT_ZIP}`
+  THE_TEMP=`basename ${RELEASE_ZIP}`
   echo " - BlackICE KANG    : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
+
   THE_TEMP=`basename ${KERNELFILE}`
   echo " - Kernel           : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
 
-  if [ "$DO_CM7" = "1" ]; then
-    cp ${CM7_NEW_ROM} ${RELEASE_DIR}
-    combineMD5File ${CM7_NEW_ROM}.md5sum ${ALL_MD5_FILE}
+  THE_TEMP=`basename ${CM7_BASE_NAME}`
+  echo " - CM7 Base KANG    : ${THE_TEMP}" >> ${CHANGES_FILE}
+  echo "" >> ${CHANGES_FILE}
+  echo " - Newest CM7 merge : " >> ${CHANGES_FILE}
+  echo "" >> ${CHANGES_FILE}
+  echo " - Misc Information : " >> ${CHANGES_FILE}
+  echo "" >> ${CHANGES_FILE}
 
-    THE_TEMP=`basename ${CM7_NEW_ROM}`
-    echo " - CM7 Base KANG    : ${THE_TEMP}" >> ${CHANGES_FILE}
-    echo "" >> ${CHANGES_FILE}
-    echo " - Newest CM7 merge : " >> ${CHANGES_FILE}
-    echo "" >> ${CHANGES_FILE}
-    echo " - Misc Information : " >> ${CHANGES_FILE}
-    echo "" >> ${CHANGES_FILE}
-  fi
+  # Create the md5sums for all the .zip files with one command and send the output
+  # to a temp file. Each line of that file has the following format:
+  #   (32 hex digits) + (1 space) + (1 space or '*') + (file name)
+  #
+  # We process the line to remove any path from the file name, which means taking
+  # the first 34 characters and then then all the characters at the end after the
+  # last '/' (if there is one).
+  #
+  MD5_FILE=${RELEASE_DIR}/md5sums
+  md5sum -b ${RELEASE_DIR}/*.zip > ${MD5_FILE}.tmp
 
-  cp ${OUT_ZIP} ${RELEASE_DIR}
-  combineMD5File ${OUT_ZIP}.md5sum ${ALL_MD5_FILE}
+  echo "" > ${MD5_FILE}.txt
 
-  if [ "$SIGN_ZIP" = "1" ]; then
-    cp ${OUT_SIGNED} ${RELEASE_DIR}
-    combineMD5File ${OUT_SIGNED}.md5sum ${ALL_MD5_FILE}
-  fi
+  while read MD5LINE
+  do
+    MD5LINE_SUM=${MD5LINE:0:34}
+    MD5LINE_FILE=${MD5LINE:34}
+    MD5LINE_FILE=`basename ${MD5LINE_FILE}`
+    echo "${MD5LINE_SUM}${MD5LINE_FILE}" >> ${MD5_FILE}.txt
+  done < ${MD5_FILE}.tmp
 
-  if [ "$EXTRA_APPS" = "1" ] ; then
-    cp ${OUT_EXTRAAPPS_ZIP} ${RELEASE_DIR}
-    combineMD5File ${OUT_EXTRAAPPS_ZIP}.md5sum ${ALL_MD5_FILE}
-
-    if [ "$SIGN_ZIP" = "1" ]; then
-      cp ${OUT_EXTRAPPS_SIGNED} ${RELEASE_DIR}
-      combineMD5File ${OUT_EXTRAPPS_SIGNED}.md5sum ${ALL_MD5_FILE}
-    fi
-  fi
+  rm ${MD5_FILE}.tmp
 fi
 
 #
@@ -354,47 +339,23 @@ if [ "$PUSH_TO_PHONE" = "yes" ] ; then
     banner "adb push ${CM7_NEW_ROM} /sdcard/"
     adb push ${CM7_NEW_ROM} /sdcard/ || ExitError "Pushing ROM to phone (is the phone attached?)"
   else
-    banner "adb push ${OUT_ZIP} /sdcard/"
-    adb push ${OUT_ZIP} /sdcard/ || ExitError "Pushing ROM to phone (is the phone attached?)"
+    banner "adb push ${RELEASE_ZIP} /sdcard/"
+    adb push ${RELEASE_ZIP} /sdcard/ || ExitError "Pushing ROM to phone (is the phone attached?)"
   fi
 fi
 
 banner "Freshly cooked bacon is ready!"
 
-if [ "$DO_CM7" = "1" ]; then
+if [ "$DO_CM7" = "1" ] && [ "$DO_BLACKICE" = "0" ]; then
   ShowMessage "  CM7:"
   ShowMessage "    ROM = ${CM7_NEW_ROM}"
   ShowMessage "    MD5 = ${CM7_NEW_ROM}.md5sum"
   ShowMessage ""
 fi
+
 if [ "$DO_BLACKICE" = "1" ]; then
-  ShowMessage "  BlackICE:"
-  ShowMessage "    ROM = ${OUT_ZIP}"
-  ShowMessage "    MD5 = ${OUT_ZIP}.md5sum"
-  ShowMessage ""
-
-  if [ "$SIGN_ZIP" = "1" ]; then
-    ShowMessage "  BlackICE Signed:"
-    ShowMessage "    ROM = ${OUT_SIGNED}"
-    ShowMessage "    MD5 = ${OUT_SIGNED}.md5sum"
-    ShowMessage ""
-  fi
-
-  if [ "$EXTRA_APPS" = "1" ] ; then
-    ShowMessage "  BlackICE Extra APPs:"
-    ShowMessage "    ROM = ${OUT_EXTRAAPPS_ZIP}"
-    ShowMessage "    MD5 = ${OUT_EXTRAAPPS_ZIP}.md5sum"
-    ShowMessage ""
-
-    if [ "$SIGN_ZIP" = "1" ]; then
-      ShowMessage "  BlackICE Extra APPs Signed:"
-      ShowMessage "    ROM = ${OUT_EXTRAPPS_SIGNED}"
-      ShowMessage "    MD5 = ${OUT_EXTRAPPS_SIGNED}.md5sum"
-      ShowMessage ""
-    fi
-  fi
-
-  ShowMessage "    (These files have all been copied to ${RELEASE_DIR})"
+  ShowMessage "  Final files for this build are in"
+  ShowMessage "    ${RELEASE_DIR}"
   ShowMessage ""
 fi
 

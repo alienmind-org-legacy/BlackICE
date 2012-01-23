@@ -45,13 +45,19 @@ TOOLS_DIR=${BLACKICE_DIR}/tools
 WORK_DIR=${BLACKICE_DIR}/work/
 DOWN_DIR=${BLACKICE_DIR}/download/
 MOD_DIR=${BLACKICE_DIR}/mod
+
+# Unzip stuff into OUT_DIR
 OUT_DIR_BASE="${BLACKICE_DIR}/out"
-OUT_DIR="$OUT_DIR_BASE/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}"
-OUT_ZIP="${OUT_DIR}.zip"
-OUT_SIGNED="${OUT_DIR}-signed.zip"
-OUT_EXTRAAPPS="${BLACKICE_DIR}/out/${BLACKICE_VERSION}-extraapps-${TIMESTAMP_OR_OFFICIAL}"
-OUT_EXTRAAPPS_ZIP="${OUT_EXTRAAPPS}.zip"
-OUT_EXTRAAPPS_SIGNED="${OUT_EXTRAAPPS}-signed.zip"
+OUT_DIR="${OUT_DIR_BASE}/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}"
+OUT_EXTRAAPPS="${OUT_DIR_BASE}/${BLACKICE_VERSION}-extraapps-${TIMESTAMP_OR_OFFICIAL}"
+
+# RELEASE_DIR gets the final files built from the stuff in OUT_DIR
+RELEASE_DIR_BASE=$OUT_DIR_BASE/release
+RELEASE_DIR=${RELEASE_DIR_BASE}/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}
+RELEASE_ZIP="${RELEASE_DIR}/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}.zip"
+RELEASE_SIGNED="${RELEASE_DIR}/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}-signed.zip"
+RELEASE_EXTRAAPPS_ZIP="${RELEASE_DIR}/${BLACKICE_VERSION}-extraapps-${TIMESTAMP_OR_OFFICIAL}.zip"
+RELEASE_EXTRAAPPS_SIGNED="${RELEASE_DIR}/${BLACKICE_VERSION}-extraapps-${TIMESTAMP_OR_OFFICIAL}-signed.zip"
 
 
 # User requested clean of all temporary content
@@ -79,6 +85,9 @@ rm -rf $WORK_DIR
 # Make tmp directories
 if [ ! -d "$OUT_DIR" ]; then
   mkdir -p $OUT_DIR
+fi
+if [ ! -d "$RELEASE_DIR" ]; then
+  mkdir -p $RELEASE_DIR
 fi
 if [ ! -d "$WORK_DIR" ]; then
   mkdir -p $WORK_DIR
@@ -315,20 +324,14 @@ ShowMessage "* Cleaning up..."
 ${TOOLS_DIR}/clean.sh $OUT_DIR $LOG
 
 # zip and sign
-ShowMessage "  [ZIP]       $OUT_ZIP"
+ShowMessage "  [ZIP]       $RELEASE_ZIP"
 cd $OUT_DIR
-zip $ZIPFLAGS $OUT_ZIP \
+zip $ZIPFLAGS $RELEASE_ZIP \
   $ROM_DIR_LIST >> $LOG
-ROM_MD5SUM=`md5sum -b $OUT_ZIP`
-echo "${ROM_MD5SUM}" > ${OUT_ZIP}.md5sum
-ShowMessage "  [MD5SUM]    $ROM_MD5SUM"
 
 if [ "$SIGN_ZIP" = "1" ]; then
-  ShowMessage "  [SIGN]      $OUT_SIGNED"
-  ${TOOLS_DIR}/sign.sh $OUT_ZIP $OUT_SIGNED >> $LOG
-  ROM_SIGNED_MD5SUM=`md5sum -b $OUT_SIGNED`
-  echo "${ROM_SIGNED_MD5SUM}" > ${OUT_SIGNED}.md5sum
-  ShowMessage "  [MD5SUM]    $ROM_SIGNED_MD5SUM"
+  ShowMessage "  [SIGN]      $RELEASE_SIGNED"
+  ${TOOLS_DIR}/sign.sh $RELEASE_ZIP $RELEASE_SIGNED >> $LOG
 fi
 
 cd - &>/dev/null
@@ -338,27 +341,20 @@ if [ "$EXTRA_APPS" = "1" ] ; then
   ShowMessage "  [CP]        $EXTRAAPPS_DIR"
   cp -av $BLACKICE_DIR/$EXTRAAPPS_DIR/* $OUT_EXTRAAPPS/ >> $LOG
   cd $OUT_EXTRAAPPS/META-INF/com/google/android/
-  ( ( cat ${BLACKICE_DIR}/artwork/logo.txt ; echo "$BLACKICE_VERSION-extrapps" ) |
+  ( ( cat ${BLACKICE_DIR}/artwork/logo.txt ; echo "$BLACKICE_VERSION-extraapps" ) |
     awk '{ print "ui_print(\"" $0 "\");" }' ;
     cat updater-script ) \
     > updater-script.new
   mv updater-script.new updater-script
   cd - &>/dev/null
 
-  ShowMessage "  [ZIP]       $OUT_EXTRAAPPS_ZIP"
+  ShowMessage "  [ZIP]       $RELEASE_EXTRAAPPS_ZIP"
   cd $OUT_EXTRAAPPS
-  zip $ZIPFLAGS $OUT_EXTRAAPPS_ZIP . >> $LOG
-
-  EXTRA_MD5SUM=`md5sum -b $OUT_EXTRAAPPS_ZIP`
-  echo "${EXTRA_MD5SUM}" > ${OUT_EXTRAAPPS_ZIP}.md5sum
-  ShowMessage "  [MD5SUM]    $EXTRA_MD5SUM"
+  zip $ZIPFLAGS $RELEASE_EXTRAAPPS_ZIP . >> $LOG
 
   if [ "$SIGN_ZIP" = "1" ]; then
-    ShowMessage "  [SIGN]      $OUT_EXTRAAPPS_SIGNED"
-    ${TOOLS_DIR}/sign.sh $OUT_EXTRAAPPS_ZIP $OUT_EXTRAPPS_SIGNED >> $LOG
-    EXTRA_SIGNED_MD5SUM=`md5sum -b $OUT_EXTRAPPS_SIGNED`
-    echo "${EXTRA_SIGNED_MD5SUM}" > ${OUT_EXTRAPPS_SIGNED}.md5sum
-    ShowMessage "  [MD5SUM]    $EXTRA_SIGNED_MD5SUM"
+    ShowMessage "  [SIGN]      $RELEASE_EXTRAAPPS_SIGNED"
+    ${TOOLS_DIR}/sign.sh $RELEASE_EXTRAAPPS_ZIP $RELEASE_EXTRAAPPS_SIGNED_ >> $LOG
   fi
 fi
 cd - &>/dev/null

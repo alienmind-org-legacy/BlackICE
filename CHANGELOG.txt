@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v1.27b3 - Base: KANG : chezbel-cm7-20120123_125939.zip - LordModUEv8.7-b2-CFS.zip
+        - More CM7 changes, last one was: Backport ICS rotation animations to gingerbread (android_frameworks_base)
+v1.27b2 - Base: KANG : chezbel-cm7-20120122_004835.zip - LordModUEv8.7-b2-CFS.zip
+        - Included a few CM7 changes, the last one was: Fix automatic timezone selection in Hawaii. (android_frameworks_base)
+        - This was mainly built to test the build and upload process after some reorganization.
 v1.27b1 - Base: KANG : chezbel-cm7-20120116_005908.zip - LordModUEv8.7-b2-CFS.zip
           ICETool: Removed enable/disable Backlight Notifications for now
 v1.26   - Base: KANG : chezbel-cm7-20120113_192339.zip - LordModUEv8.7-b2-CFS.zip
