@@ -292,43 +292,31 @@ if [ "$DO_BLACKICE" = "1" ]; then
   echo "-----------------------" >> ${CHANGES_FILE}
 
   THE_TEMP=`basename ${RELEASE_ZIP}`
-  echo " - BlackICE KANG    : ${THE_TEMP}" >> ${CHANGES_FILE}
+  echo " - BlackICE KANG : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
 
   THE_TEMP=`basename ${KERNELFILE}`
-  echo " - Kernel           : ${THE_TEMP}" >> ${CHANGES_FILE}
+  echo " - Kernel        : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
 
   THE_TEMP=`basename ${CM7_BASE_NAME}`
-  echo " - CM7 Base KANG    : ${THE_TEMP}" >> ${CHANGES_FILE}
+  echo " - CM7 Base KANG : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
-  echo " - Newest CM7 merge : " >> ${CHANGES_FILE}
+  echo " - Main changes  : " >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
-  echo " - Misc Information : " >> ${CHANGES_FILE}
+  echo " - CM7 changes   : " >> ${CHANGES_FILE}
+  echo "" >> ${CHANGES_FILE}
+  echo " - Miscellaneous : " >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
 
-  # Create the md5sums for all the .zip files with one command and send the output
-  # to a temp file. Each line of that file has the following format:
-  #   (32 hex digits) + (1 space) + (1 space or '*') + (file name)
+  # Now create the md5sums for all the .zip files with one command and send the
+  # output to md5sums.txt. We change into the directory where the .zip files are
+  # located so that the file names that md5sum emits are just the base name
+  # without any path.
   #
-  # We process the line to remove any path from the file name, which means taking
-  # the first 34 characters and then then all the characters at the end after the
-  # last '/' (if there is one).
-  #
-  MD5_FILE=${RELEASE_DIR}/md5sums
-  md5sum -b ${RELEASE_DIR}/*.zip > ${MD5_FILE}.tmp
-
-  echo "" > ${MD5_FILE}.txt
-
-  while read MD5LINE
-  do
-    MD5LINE_SUM=${MD5LINE:0:34}
-    MD5LINE_FILE=${MD5LINE:34}
-    MD5LINE_FILE=`basename ${MD5LINE_FILE}`
-    echo "${MD5LINE_SUM}${MD5LINE_FILE}" >> ${MD5_FILE}.txt
-  done < ${MD5_FILE}.tmp
-
-  rm ${MD5_FILE}.tmp
+  cd ${RELEASE_DIR}
+  md5sum -b *.zip > md5sums.txt
+  cd - &>/dev/null
 fi
 
 #
