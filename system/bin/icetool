@@ -103,7 +103,7 @@ CheckVersion() {
 }
 
 UpgradeICETool() {
-  CheckVersion 
+  CheckVersion
   RET=$?
   if [ $RET != 0 ]; then
     return $RET
@@ -156,7 +156,7 @@ Reboot() {
 
 InstallMarket() {
   local APK=$1
-  local VER=${APK##Vending-} 
+  local VER=${APK##Vending-}
   RemountSys "rw"
   pm uninstall com.android.vending
   rm -f /data/app/com.android.vending*apk
@@ -182,7 +182,7 @@ Market() {
     LaunchMarket &>/dev/null
     echo "Market $VER version installed"
   else
-    echo "Couldn't find Market version $VER" 
+    echo "Couldn't find Market version $VER"
     exit 1
   fi
 }
@@ -199,7 +199,7 @@ InstallHost() {
     mv hosts /system/etc/hosts
     echo "hosts file updated"
   fi
-  RemountSys "ro" 
+  RemountSys "ro"
 }
 
 FastCharge() {
@@ -248,7 +248,7 @@ DSPInit() {
   CHAR_STOP=$(expr "$MODE" : '\([0-9]*\)')
   test "$MODE" != "$CHAR_STOP" && die "Illegal value : $MODE"
   test $MODE -ge 00 -a $MODE -le 99 || die "Illegal value dspmode:$MODE (00>= MODE >=20)"
- 
+
   snd3254 -dspmode $1 | grep "^DSP profile" # Remove all the options we already know
   echo "DSP profile for $1 applied"
 }
@@ -265,7 +265,7 @@ RIL() {
       cp -r $DIR/* /
       RemountSys "ro"
       echo "RIL switched to $1. Rebooting is highly recommended!"
-    else 
+    else
        echo "Error: $DIR does not exist"
        exit 1
     fi
@@ -273,12 +273,17 @@ RIL() {
 }
 
 Density() {
-  DENSITY=$1
+  # Save the original in case of error so we can display it
+  ORG_DENSITY=$1
+
+  # Density should be a number, but there might be leading or trailing white space
+  # which we want to remove. If there is a trailing comment, '#', remove that too.
+  DENSITY=`echo ${ORG_DENSITY} | sed -r 's/\s*([0-9]+)\s*(#.*)?/\1/'`
 
   # 240 >= DENSITY >= 190
-  CHAR_STOP=$(expr "$DENSITY" : '\([0-9]*\)')
-  test "$DENSITY" != "$CHAR_STOP" && die "Illegal value : $DENSITY"
-  test $DENSITY -ge 190 -a $DENSITY -le 240 || die "Illegal value Density:$DENSITY (240>= DENSITY >=190)"
+  test $DENSITY -ge 190 -a $DENSITY -le 240 || die "Illegal value Density: '$ORG_DENSITY' (240>= DENSITY >=190)"
+
+  echo "Density set to $DENSITY"
 
   RemountSys "rw"
   sed  -i "s/ro.sf.lcd_density=.*/ro.sf.lcd_density=$DENSITY/g" /system/build.prop
@@ -329,7 +334,7 @@ ExtraPKG() {
 
   if [ ! -d $BASE_DIR ]; then
     MK=1
-    mkdir -p $BASE_DIR 
+    mkdir -p $BASE_DIR
   fi
   cd $BASE_DIR
   if [ -f "$PKG" ]; then
@@ -498,7 +503,7 @@ UV() {
   /system/etc/init.d/99voltages
   mount -o remount,ro /system
   echo "UV script $script applied"
-} 
+}
 
 ###
 #
@@ -748,7 +753,7 @@ main() {
     "puvxon")       UV "/system/media/uvscripts/puvx/99voltages"  ;;     # *
     "uuvon")        UV "/system/media/uvscripts/uuv/99voltages"   ;;     # *
     "uvoff")        UV "/system/media/uvscripts/stock/99voltages" ;;     # *
-  
+
     ### Any other command - we are a wrapper
     *)            exec $CMD $@ ;;
     esac
