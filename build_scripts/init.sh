@@ -821,13 +821,13 @@ if [ "$CLEAN_ONLY" = "0" ]; then
 #      echo "patch_type  = '$patch_type'"
 #      echo "patch_file  = '$patch_file'"
 #      echo "patch_dir   = '$patch_dir'"
-#      echo "variable    = 'ENABLE_PATCH_${patch_name}'"
+#      echo "variable    = '${PATCH_VAR}' = ${!PATCH_VAR}"
+#      echo "Patch List  = '${ALL_PATCH_LIST}'"
 #      echo ""
     fi
   done <${DEFAULT_PATCH_FILE}
 
 fi  # end of test section in which "$CLEAN_ONLY" is 0
-
 
 ShowMessage ""
 ShowMessage "Build information"

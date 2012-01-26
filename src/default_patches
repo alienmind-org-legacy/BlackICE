@@ -53,6 +53,7 @@
 # Torch patch: Long press HOME key on lock screen toggles the torch function
 #-----
 TORCH  android  git  android_frameworks_base@FRAMEWORK_TORCH.git  frameworks/base
+TORCH1 android  diff android_frameworks_base@FRAMEWORK_TORCH1.patch  frameworks/base
 
 #-----
 # BackLight Notification patch: Backlight turns on when email, etc is received.
