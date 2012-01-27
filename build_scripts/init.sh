@@ -796,14 +796,14 @@ if [ "$CLEAN_ONLY" = "0" ]; then
 
       KEEP_PATCH=0
       if [ "$source_type" = "android" ] && [ "$DO_CM7" = "1" ]; then
-        if [ "$SYNC_TYPE" = "cm7" ] || [ "$SYNC_TYPE" = "all" ] || [ "$FORCE_PATCHING" = "1" ]; then
+        if [ "$SYNC_TYPE" = "cm7" ] || [ "$SYNC_TYPE" = "all" ] || [ "$FORCE_PATCHING" = "yes" ]; then
           if [ "${!PATCH_VAR}" = "1" ]; then
             KEEP_PATCH=1
           fi
         fi
       fi
       if [ "$source_type" = "blackice" ] && [ "$DO_BLACKICE" = "1" ]; then
-        if [ "$SYNC_TYPE" = "bi" ] || [ "$SYNC_TYPE" = "all" ] || [ "$FORCE_PATCHING" = "1" ]; then
+        if [ "$SYNC_TYPE" = "bi" ] || [ "$SYNC_TYPE" = "all" ] || [ "$FORCE_PATCHING" = "yes" ]; then
           if [ "${!PATCH_VAR}" = "1" ]; then
             KEEP_PATCH=1
           fi

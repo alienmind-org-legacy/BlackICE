@@ -196,6 +196,7 @@ if [ "$ALL_PATCH_LIST" != "" ]; then
 
     if [ "${PATCH_FILE:(-4)}" = ".git" ]; then
       # .git patches are just like a shell script. Execute the patch.
+      ShowMessage `cat $PATCH_FILE`
       $PATCH_FILE || ExitError "Applying patch file '$PATCH_FILE'"
     else
       # .patch patches are diff files

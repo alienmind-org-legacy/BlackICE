@@ -5,6 +5,8 @@
 # building BlackICE. It's purpose is to define various patches to the CM7 and/or
 # BlackICE source base.
 #
+# Non-patch lines in this file must either be empty or have a '#' in the first column.
+#
 # Each patch is given on a separate line containing these fields, fields are
 # separated by whitespace.
 #  field 1 = <patch name>
@@ -42,7 +44,10 @@
 # applied (or not applied) as a group. This is needed by some patches whose
 # changes are in multiple projects.
 #
-# Non-patch lines must either be empty or have a '#' in the first column.
+# Some group patches might use both a git and a diff patch. Typically the git
+# patch is used to throw away a previously patched version of a file before we
+# try to patch again. If we didn't do this we will either get build errors or
+# worse, the build succeeds, but is wrong.
 #
 
 ###############################################################################
@@ -50,10 +55,20 @@
 ###############################################################################
 
 #-----
-# Torch patch: Long press HOME key on lock screen toggles the torch function
+# Torch patch:
+#   Long press HOME key on lock screen toggles the torch function.
+#   Obsolete because CM7 changes break it. Use TORCH1.
 #-----
 TORCH  android  git  android_frameworks_base@FRAMEWORK_TORCH.git  frameworks/base
-TORCH1 android  diff android_frameworks_base@FRAMEWORK_TORCH1.patch  frameworks/base
+
+#-----
+# Torch patch:
+#   Long press HOME key on lock screen toggles the torch function.
+#     - The 1st patch (.git) does a 'git checkout -f ...' to throw away the previous patch.
+#     - The 2nd patch (.diff) applies differences to the file.
+#-----
+TORCH1 android  git  android_frameworks_base@FRAMEWORK_TORCH1.git   frameworks/base
+TORCH1 android  diff android_frameworks_base@FRAMEWORK_TORCH1.patch frameworks/base
 
 #-----
 # BackLight Notification patch: Backlight turns on when email, etc is received.
