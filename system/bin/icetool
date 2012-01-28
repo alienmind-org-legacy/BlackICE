@@ -289,6 +289,9 @@ Density() {
   sed  -i "s/ro.sf.lcd_density=.*/ro.sf.lcd_density=$DENSITY/g" /system/build.prop
   chmod 644 /system/build.prop
   RemountSys "ro"
+
+  echo "Deleting /data/data/com.android.vending (clear Market Cache and Data)"
+  rm -rf /data/data/com.android.vending
   Reboot 5
 }
 
