@@ -1,0 +1,4 @@
+method=replace
+name=SystemUI.apk
+destination=system/app/SystemUI.apk
+
