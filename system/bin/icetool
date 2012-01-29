@@ -14,7 +14,7 @@
 #   and exported via icetool setup
 #
 . /system/etc/icetool.conf
-ICETOOL_VERSION="1.00" # Script version
+ICETOOL_VERSION="1.01" # Script version
 HELP="Usage: $0 <cmd> ..."
 ### Only root allowed
 WHO=`whoami 2>&1`

@@ -1,5 +1,20 @@
 CHANGELOG
 =========
+
+v1.27   - Base: KANG : chezbel-cm7-20120129_181845.zip - LordModUEv8.7-b2-CFS.zip
+        - Only version number changes, ICETool is 1.01 (should have happened last time).
+v1.27b8 - Base: KANG : chezbel-cm7-20120129_024805.zip - LordModUEv8.7-b2-CFS.zip
+        - ICETool now clears the Market data when the LCD density changes.
+v1.27b7 - Base: KANG : chezbel-cm7-20120127_182620.zip - LordModUEv8.7-b2-CFS.zip
+        - Build process changes to handle patches better. Only affects BlackICE builders.
+        - Includes misc CM7 changes.
+v1.27b6 - Base: KANG : chezbel-cm7-20120126_151829.zip - LordModUEv8.7-b2-CFS.zip
+        - New graphics by The Unknown Noob for the progress bar and volume up/down bar.
+        - Includes misc CM7 changes.
+v1.27b5 - Base: KANG : chezbel-cm7-20120125_173411.zip - LordModUEv8.7-b2-CFS.zip
+        - Fixed a bug in the LCD density processing of autorun, which kept autorun from working.
+v1.27b4 - Base: KANG : chezbel-cm7-20120124_201520.zip - LordModUEv8.7-b2-CFS.zip
+        - Includes misc CM7 changes.
 v1.27b3 - Base: KANG : chezbel-cm7-20120123_125939.zip - LordModUEv8.7-b2-CFS.zip
         - More CM7 changes, last one was: Backport ICS rotation animations to gingerbread (android_frameworks_base)
 v1.27b2 - Base: KANG : chezbel-cm7-20120122_004835.zip - LordModUEv8.7-b2-CFS.zip
