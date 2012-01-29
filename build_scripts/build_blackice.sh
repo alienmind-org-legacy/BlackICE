@@ -233,32 +233,17 @@ if [ "$MODAPKS" = "1" ]; then
        . mod/${BASE}.options
        export APKMOD_METHOD=$method
        export APKMOD_PATCH=$patch
-       export APKMOD_NAME=$name
-       export APKMOD_DEST=$destination
      else
        unset APKMOD_METHOD
        unset APKMOD_PATCH
-       unset APKMOD_NAME
-       unset APKMOD_DEST
      fi
 
-     if [ "$APKMOD_METHOD" = "replace" ]; then
-       # 'replace' is a special option meaning just replace the entire .apk
-       # with the new one. This is a bit of a hack and should be used carefully.
-       if [ ! -f "${OUT_DIR}/${APKMOD_DEST}" ]; then
-         ExitError "Cannot find '${OUT_DIR}/${APKMOD_DEST}' in order to replace it. See $LOG for details"
-       fi
-
-       ShowMessage "  [MOD|cp]    ${i}/${APKMOD_NAME}  =>  ${OUT_DIR}/${APKMOD_DEST}"
-       cp ${i}/${APKMOD_NAME} ${OUT_DIR}/${APKMOD_DEST} >> $LOG
-     else
-       # We allow several mods for 1 apk
-       BASE=${BASE%\.*}
-       ORIG=`find $OUT_DIR/system -name "$BASE.apk"`
-       if [ -f "$ORIG" ]; then
-         ShowMessage "  [MOD]       $BASE.apk ($i)"
-         ${TOOLS_DIR}/apkmod.sh $ORIG $i || ExitError "Cannot mod $ORIG. See $LOG for details"
-       fi
+     # We allow several mods for 1 apk
+     BASE=${BASE%\.*}
+     ORIG=`find $OUT_DIR/system -name "$BASE.apk"`
+     if [ -f "$ORIG" ]; then
+       ShowMessage "  [MOD]       $BASE.apk ($i)"
+       ${TOOLS_DIR}/apkmod.sh $ORIG $i || ExitError "Cannot mod $ORIG. See $LOG for details"
      fi
    done
 fi
