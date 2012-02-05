@@ -138,7 +138,7 @@
 #  -official {no, yes, 0, 1}
 #     no  = do a 'nightly' build using a timestamp as part of the name.
 #     0   = same as 'no'
-#     yes = create an official release build using 'official' as part of the name.
+#     yes = create an official release with 'RC' as part of the name before the timestamp.
 #     1   = same as 'yes'
 #     Affects the variable OFFICIAL
 #
@@ -172,7 +172,7 @@
 #     - Don't sync CM7 or BlackICe before building.
 #     - Build a CM7 KANG and then a BlackICE KANG using that.
 #     - Kernel = lordmodUEv8.7-CFS-b2.zip
-#     - Build an official release instead of a 'nightly (timestamped release).
+#     - Build an official release instead of a nightly.
 #     - Other options come from the .ini file.
 #
 

@@ -288,26 +288,26 @@ if [ "$DO_BLACKICE" = "1" ]; then
   # Get the BlackICE version number without the leading 'BlackICE.'
   THE_TEMP=${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}
   THE_TEMP=${THE_TEMP#BlackICE.}
-  echo "-----------------------" >> ${CHANGES_FILE}
+  echo "-------------------------------------------------------------------------------" >> ${CHANGES_FILE}
   echo "${THE_TEMP}" >> ${CHANGES_FILE}
-  echo "-----------------------" >> ${CHANGES_FILE}
+  echo "-------------------------------------------------------------------------------" >> ${CHANGES_FILE}
 
   THE_TEMP=`basename ${RELEASE_ZIP}`
-  echo " - BlackICE KANG : ${THE_TEMP}" >> ${CHANGES_FILE}
+  echo " - BlackICE KANG  : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
 
   THE_TEMP=`basename ${KERNELFILE}`
-  echo " - Kernel        : ${THE_TEMP}" >> ${CHANGES_FILE}
+  echo " - Kernel         : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
 
   THE_TEMP=`basename ${CM7_BASE_NAME}`
-  echo " - CM7 Base KANG : ${THE_TEMP}" >> ${CHANGES_FILE}
+  echo " - CM7 Base KANG  : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
-  echo " - Main changes  : " >> ${CHANGES_FILE}
+  echo " - Main changes   : " >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
-  echo " - CM7 changes   : " >> ${CHANGES_FILE}
+  echo " - CM7 changes    : " >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
-  echo " - Miscellaneous : " >> ${CHANGES_FILE}
+  echo " - Miscellaneous  : " >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
 
   # Now create the md5sums for all the .zip files with one command and send the

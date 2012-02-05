@@ -22,10 +22,11 @@ source ${SCRIPT_DIR}/../conf/blackice.ini  || ExitError "Sourcing 'conf/blackice
 
 #
 # We use another variable here because we don't want to change the global
-# TIMESTAMP variable
+# TIMESTAMP variable. For an official release we just add a prefix of 'RC-'
+# to the timestamp to denote Release Candidate.
 TIMESTAMP_OR_OFFICIAL=${TIMESTAMP}
 if [ "$OFFICIAL" = "yes" ]; then
-  TIMESTAMP_OR_OFFICIAL="OFFICIAL"
+  TIMESTAMP_OR_OFFICIAL="RC-${TIMESTAMP}"
 fi
 
 # Kernel to use
