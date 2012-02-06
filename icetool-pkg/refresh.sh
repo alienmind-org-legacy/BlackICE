@@ -1,3 +1,4 @@
+mkdir -p system/bin system/etc system/app
 cp -p ../system/bin/icetool system/bin/
 cp -p ../system/etc/icetool.conf system/etc/
 cp -p ../src/ICETool/bin/ICETool.apk system/app/
