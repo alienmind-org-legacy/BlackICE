@@ -110,14 +110,21 @@ fi
 # there are any relative paths.
 source ${SCRIPT_DIR}/init.sh || ExitError "Running 'build_scripts/init.sh'"
 
-if [ "$CLEAN_TYPE" = "cm7" ] || [ "$CLEAN_TYPE" = "all" ]; then
-  cd $ANDROID_DIR
+if [ "$CLEAN_TYPE" = "cm7" ] || [ "$CLEAN_TYPE" = "cm7bi" ]; then
+  cd $CM7_DIR
 
   banner "Cleaning CM7 (make clobber)"
   make clobber || ExitError "Doing CM7 clean, 'make clobber'"
 fi
 
-if [ "$CLEAN_TYPE" = "bi" ] || [ "$CLEAN_TYPE" = "all" ]; then
+if [ "$CLEAN_TYPE" = "cm9" ] || [ "$CLEAN_TYPE" = "cm9bi" ]; then
+  cd $CM9_DIR
+
+  banner "Cleaning CM9 (make clobber)"
+  make clobber || ExitError "Doing CM9 clean, 'make clobber'"
+fi
+
+if [ "$CLEAN_TYPE" = "bi" ] || [ "$CLEAN_TYPE" = "cm7bi" ] || [ "$CLEAN_TYPE" = "cm9bi" ]; then
   banner "Cleaning BlackICE"
 
   # We don't provide any parameters, but build_blackice.sh will do a clean because
@@ -127,6 +134,11 @@ fi
 
 if [ "$CLEAN_ONLY" = "1" ]; then
   exit 0
+fi
+
+# Someday, we *might* support this...
+if [ "$ROM_TYPE" = "cm9bi" ]; then
+  ExitError "Building BlackICE on top of CM9 (ICS) is not supported yet!"
 fi
 
 #
@@ -161,14 +173,21 @@ fi
 #
 
 # Do a CM7 'repo sync' if requested
-if [ "$DO_CM7" = "1" ] && ([ "$SYNC_TYPE" = "cm7" ] || [ "$SYNC_TYPE" = "all" ]); then
+if [ "$DO_CM7" = "1" ] && ([ "$SYNC_TYPE" = "cm7" ] || [ "$SYNC_TYPE" = "cm7bi" ]); then
   banner "CM7 repo sync -j16"
-  cd ${ANDROID_DIR}
+  cd ${CM7_DIR}
   repo sync -j16 >> $LOG  || ExitError "Running CM7 'repo sync'"
 fi
 
+# Do a CM9 'repo sync' if requested
+if [ "$DO_CM9" = "1" ] && ([ "$SYNC_TYPE" = "cm9" ] || [ "$SYNC_TYPE" = "cm9bi" ]); then
+  banner "CM9 repo sync -j16"
+  cd ${CM9_DIR}
+  repo sync -j16 >> $LOG  || ExitError "Running CM9 'repo sync'"
+fi
+
 # Do a BlackICE 'git pull' if requested
-if [ "$DO_BLACKICE" = "1" ] && ([ "$SYNC_TYPE" = "bi" ] || [ "$SYNC_TYPE" = "all" ]); then
+if [ "$DO_BLACKICE" = "1" ] && ([ "$SYNC_TYPE" = "bi" ] || [ "$SYNC_TYPE" = "cm7bi" ] || [ "$SYNC_TYPE" = "cm9bi" ]); then
   banner "BlackICE git pull"
   cd ${BLACKICE_DIR}
 
@@ -210,28 +229,26 @@ fi
 #
 # Now do the build(s)
 #
+if [ "$DO_CM7" = "1" ] || [ "$DO_CM9" = "1" ]; then
+  if [ "$DO_CM7" = "1" ]; then
+    source ${SCRIPT_DIR}/build_cm7.sh || ExitError "Running 'build_scripts/build_cm7.sh'"
+  else
+    source ${SCRIPT_DIR}/build_cm9.sh || ExitError "Running 'build_scripts/build_cm9.sh'"
+  fi
 
-if [ "$DO_CM7" = "1" ]; then
-  source ${SCRIPT_DIR}/build_cm7.sh || ExitError "Running 'build_scripts/build_cm7.sh'"
-
-  # If we are also building for BlackICE then we need to copy the CM7 result
+  # If we are also building for BlackICE then we need to copy the CM7/CM9 result
   # over to the BlackICE directory so we can build on top of it.
   if [ "$DO_BLACKICE" = "1" ]; then
-    banner "cp ${CM7_NEW_ROM} ${BLACKICE_DIR}/download/${CM7_NEW_ROM_BASE}"
-    cp ${CM7_NEW_ROM} ${BLACKICE_DIR}/download/${CM7_NEW_ROM_BASE}
+    banner "cp ${CM_NEW_ROM} ${BLACKICE_DIR}/download/${CM_NEW_ROM_BASE}"
+    cp ${CM_NEW_ROM} ${BLACKICE_DIR}/download/${CM_NEW_ROM_BASE}
     ShowMessage ""
+
+    # Use the name of the CM7/CM9 KANG that we just built to build BlackICE on top of.
+    CM79_BASE_NAME=$CM_NEW_ROM_BASE
   fi
 fi
 
-
 if [ "$DO_BLACKICE" = "1" ]; then
-  if [ "$DO_CM7" = "1" ]; then
-    # If we just built a CM7 KANG then we will use that for the base on which
-    # to build BlackICE on top of. Otherwise we use whatever was specified
-    # for CM7_BASE_NAME.
-    CM7_BASE_NAME=$CM7_NEW_ROM_BASE
-  fi
-
   source ${SCRIPT_DIR}/build_blackice.sh || ExitError "Running 'build_scripts/build_blackice.sh'"
 fi
 
@@ -250,17 +267,17 @@ if [ "$DROPBOX_DIR" != "" ] ; then
       cp ${RELEASE_EXTRAAPPS_ZIP} ${DROPBOX_DIR}
     fi
 
-    if [ "$DO_CM7" = "1" ]; then
-      ShowMessage "cp ${BLACKICE_DIR}/download/${CM7_NEW_ROM_BASE} ${DROPBOX_DIR}"
-      cp ${BLACKICE_DIR}/download/${CM7_NEW_ROM_BASE} ${DROPBOX_DIR}
+    if [ "$DO_CM7" = "1" ] || [ "$DO_CM9" = "1" ]; then
+      ShowMessage "cp ${BLACKICE_DIR}/download/${CM_NEW_ROM_BASE} ${DROPBOX_DIR}"
+      cp ${BLACKICE_DIR}/download/${CM_NEW_ROM_BASE} ${DROPBOX_DIR}
     else
-      ShowMessage "cp ${CM7_BASE_NAME} ${DROPBOX_DIR}"
-      cp ${CM7_BASE_NAME} ${DROPBOX_DIR}
+      ShowMessage "cp ${CM79_BASE_NAME} ${DROPBOX_DIR}"
+      cp ${CM79_BASE_NAME} ${DROPBOX_DIR}
     fi
   else
-    if [ "$DO_CM7" = "1" ]; then
-      ShowMessage "cp ${CM7_NEW_ROM} ${DROPBOX_DIR}"
-      cp ${CM7_NEW_ROM} ${DROPBOX_DIR}
+    if [ "$DO_CM7" = "1" ] || [ "$DO_CM9" = "1" ]; then
+      ShowMessage "cp ${CM_NEW_ROM} ${DROPBOX_DIR}"
+      cp ${CM_NEW_ROM} ${DROPBOX_DIR}
     fi
   fi
 fi
@@ -276,11 +293,11 @@ fi
 #
 if [ "$DO_BLACKICE" = "1" ]; then
 
-  # First we copy the CM7 Kang into the release directory. If we built this as
-  # part of this release then it is sitting in the CM7 out directory. If we used
+  # First we copy the CM7/CM9 Kang into the release directory. If we built this as
+  # part of this release then it is sitting in the CM7/CM9 out directory. If we used
   # an existing Kang (-cm7base xxx) then we are copying that one. In either case
-  # CM7_BASE_NAME points to the correct file.
-  cp ${CM7_BASE_NAME} ${RELEASE_DIR}
+  # CM79_BASE_NAME points to the correct file.
+  cp ${CM79_BASE_NAME} ${RELEASE_DIR}
 
   # Create and write to changes.txt...
   CHANGES_FILE=${RELEASE_DIR}/changes.txt
@@ -300,7 +317,7 @@ if [ "$DO_BLACKICE" = "1" ]; then
   echo " - Kernel         : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
 
-  THE_TEMP=`basename ${CM7_BASE_NAME}`
+  THE_TEMP=`basename ${CM79_BASE_NAME}`
   echo " - CM7 Base KANG  : ${THE_TEMP}" >> ${CHANGES_FILE}
   echo "" >> ${CHANGES_FILE}
   echo " - Main changes   : " >> ${CHANGES_FILE}
@@ -325,8 +342,8 @@ fi
 #
 if [ "$PUSH_TO_PHONE" = "yes" ] ; then
   if [ "$DO_BLACKICE" = "0" ] ; then
-    banner "adb push ${CM7_NEW_ROM} /sdcard/"
-    adb push ${CM7_NEW_ROM} /sdcard/ || ExitError "Pushing ROM to phone (is the phone attached?)"
+    banner "adb push ${CM_NEW_ROM} /sdcard/"
+    adb push ${CM_NEW_ROM} /sdcard/ || ExitError "Pushing ROM to phone (is the phone attached?)"
   else
     banner "adb push ${RELEASE_ZIP} /sdcard/"
     adb push ${RELEASE_ZIP} /sdcard/ || ExitError "Pushing ROM to phone (is the phone attached?)"
@@ -335,10 +352,15 @@ fi
 
 banner "Freshly cooked bacon is ready!"
 
-if [ "$DO_CM7" = "1" ] && [ "$DO_BLACKICE" = "0" ]; then
-  ShowMessage "  CM7:"
-  ShowMessage "    ROM = ${CM7_NEW_ROM}"
-  ShowMessage "    MD5 = ${CM7_NEW_ROM}.md5sum"
+if ([ "$DO_CM7" = "1" ] || [ "$DO_CM9" = "1" ]) && [ "$DO_BLACKICE" = "0" ]; then
+  if [ "$DO_CM7" = "1" ]; then
+    ShowMessage "  CM7:"
+  else
+    ShowMessage "  CM9 (ICS):"
+  fi
+
+  ShowMessage "    ROM = ${CM_NEW_ROM}"
+  ShowMessage "    MD5 = ${CM_NEW_ROM}.md5sum"
   ShowMessage ""
 fi
 

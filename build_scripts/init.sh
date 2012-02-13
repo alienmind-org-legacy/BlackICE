@@ -12,10 +12,12 @@
 #     It's a good idea to specify this so you don't have to enter a LOT of options
 #     on the command line!
 #
-#  -clean {cm7, bi, all, none, ""}
-#     cm7  = do a CM7 'make clobber'
-#     bi   = do a BI 'make clean'
-#     all  = do both of the above
+#  -clean {cm7, cm9, bi, cm7bi, cm9bi, none, ""}
+#     cm7    = do a CM7 'make clobber'
+#     cm9    = do a CM9 'make clobber'
+#     bi     = do a BI 'make clean'
+#     cm7bi  = do a CM7 and a BI clean
+#     cm9bi  = do an CM9 and a BI clean
 #     ""   = do not clean anything (do a normal build)
 #     none = same as above
 #     If any clean is specified then nothing will be built and most other arguments
@@ -29,16 +31,20 @@
 #     3..9 = even more build messages (may not be implemented yet)
 #     Affects the variable VERBOSE
 #
-#  -rom {cm7, bi, all}
-#     cm7  = only build a CM7 ROM.
-#     bi   = only build a BlackICE ROM (requires CM7_BASE_NAME to be set).
-#     all  = build a CM7 ROM and then a BlackICE ROM from that base.
+#  -rom {cm7, cm9, bi, cm7bi, cm9bi}
+#     cm7   = only build a CM7 ROM.
+#     cm9   = only build an CM9 ROM.
+#     bi    = only build a BlackICE ROM (requires CM79_BASE_NAME to be set).
+#     cm7bi = build a CM7 ROM and then a BlackICE ROM from that base.
+#     cm9bi = build an CM9 ROM and then a BlackICE ROM from that base.
 #     Affects the variable ROM_TYPE
 #
-#  -sync {cm7, bi, all, none, ""}
-#     cm7  = sync the CM7 sources, 'repo sync', before building.
-#     bi   = sync the BlackICE clone, 'git pull', before building.
-#     all  = sync both CM7 and BlackICE before building.
+#  -sync {cm7, cm9, bi, cm7bi, cm9bi, none, ""}
+#     cm7   = sync the CM7 sources, 'repo sync', before building.
+#     cm9   = sync the CM9 sources, 'repo sync', before building.
+#     bi    = sync the BlackICE clone, 'git pull', before building.
+#     cm7bi = sync both CM7 and BlackICE before building.
+#     cm9bi = sync both CM9 and BlackICE before building.
 #     ""   = do not sync anything before building.
 #     none = same as above
 #     Affects the variable SYNC_TYPE
@@ -55,9 +61,9 @@
 #     Affects the variable FORCE_PATCHING
 #
 #  -push {no, yes, 0, 1}
-#     no  = do not 'adb push' the resulting KANG (CM7 or BlackICE) to your phone
+#     no  = do not 'adb push' the resulting KANG (CM7, CM9 or BlackICE) to your phone
 #     0   = same as 'no'
-#     yes = 'adb push' the resulting KANG (CM7 or BlackICE) to your phone, requires
+#     yes = 'adb push' the resulting KANG (CM7, CM9 or BlackICE) to your phone, requires
 #           your phone to be connected to your PC via USB and requires the 'adb'
 #           tool to be in your path.
 #     1   = same as 'yes'
@@ -68,10 +74,17 @@
 #           but this has not been tested!
 #     Affects the variable PHONE
 #
-#  -adir <android source path>
+#  -cm7dir <cm7 source path>
 #     Root directory where your CM7 sources are installed, for example:
 #       ${HOME}/android/system
-#     Affects the variable ANDROID_DIR
+#     Only used if ROM_TYPE is 'cm7' or 'cm7bi'
+#     Affects the variable CM7_DIR
+#
+#  -cm9dir <cm9 source path>
+#     Root directory where your CM9 sources are installed, for example:
+#       ${HOME}/android/cm9
+#     Only used if ROM_TYPE is 'cm9' or 'cm9bi'
+#     Affects the variable CM9_DIR
 #
 #  -bdir <blackICE BlackICE path>
 #     Root directory where your BlackICE sources are installed, for example:
@@ -84,23 +97,25 @@
 #       ${HOME}/Dropbox  -- or -- ${HOME}/Dropbox/Public/BlackICE
 #     This gets the upload started as soon as possible. The
 #     files that get copied depend on the type of build, such as CM7 KANG,
-#     BlackICE KANG, BlackICE Extra Apps.
+#     CM9 KANG, BlackICE KANG, BlackICE Extra Apps.
 #     If this is an empty value, "", then nothing is copied to the dropbox.
 #     Affects the variable DROPBOX_DIR
 #
-#  -cm7make {bacon, full}
+#  -cmmake {bacon, full}
 #     bacon = 'make bacon'
 #     full  = 'make clobber' and then 'source build/envsetup.sh && brunch $PHONE'
+#     Only used if ROM_TYPE is 'cm7' or 'cm9'
+#     Affects the variable CM79_MAKE
 #
-#  -cm7base <name of CM7 KANG>
-#     The name of a CM7 KANG that (previously built or downloaded) to use as a
+#  -cmbase <name of CM7/CM9 KANG>
+#     The name of a CM7/CM9 KANG that (previously built or downloaded) to use as a
 #     base for building BlackICE on top of, for example:
 #       cm7-20111223_004213.zip
 #     This main be a full path or just the file name as shown in the example.
 #     If the specified kernel does not exist, build_blackice.sh will try to
 #     download it.
-#     Ignored if ROM_TYPE is 'cm7' or 'all'
-#     Affects the variable CM7_BASE_NAME
+#     Only used if ROM_TYPE is 'cm7bi' or 'cm9bi'
+#     Affects the variable CM79_BASE_NAME
 #
 #  -bkernel <kernel name>
 #     The name of the kernel file to use for the BlackICE KANG. For example:
@@ -156,7 +171,7 @@
 #     - Start the build without a prompt or any delay.
 #     - Other options come from the .ini file.
 #
-#   build.sh -ini bi.ini -rom bi -cm7base my-CM7-KANG.zip -bkernel lordmodUEv8.6-CFS.zip -bgps QATAR -bril 2.2.1003G -sync bi -prompt 999
+#   build.sh -ini bi.ini -rom bi -cmbase my-CM7-KANG.zip -bkernel lordmodUEv8.6-CFS.zip -bgps QATAR -bril 2.2.1003G -sync bi -prompt 999
 #     - Initialize all the variables from the file 'bi.ini'
 #     - Sync BlackICE before building ('get fetch').
 #     - Build a BlackICE KANG using my-CM7-KANG.zip as a base. my-CM7-KANG.zip must
@@ -167,7 +182,7 @@
 #     - Prompt = 999 = don't actually build, just show what would have been built.
 #     - Other options come from the .ini file.
 #
-#   build.sh -ini bi.ini -rom all -bkernel lordmodUEv8.7-CFS-b2.zip -sync none -official 1
+#   build.sh -ini bi.ini -rom cm7bi -bkernel lordmodUEv8.7-CFS-b2.zip -sync none -official 1
 #     - Initialize all the variables from the file 'bi.ini'
 #     - Don't sync CM7 or BlackICe before building.
 #     - Build a CM7 KANG and then a BlackICE KANG using that.
@@ -197,6 +212,7 @@ CLEAN_ONLY=0
 # and/or command line arguments.
 #
 DO_CM7=0
+DO_CM9=0
 DO_BLACKICE=0
 
 # SHOW_HELP will let us decide if we need to display the usage information
@@ -289,9 +305,15 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
     SHOW_HELP=0
   fi
 
-  if [ "$1" = "-adir" ]; then
+  if [ "$1" = "-cm7dir" ]; then
     shift 1
-    ANDROID_DIR=$1
+    CM7_DIR=$1
+    SHOW_HELP=0
+  fi
+
+  if [ "$1" = "-cm9dir" ]; then
+    shift 1
+    CM9_DIR=$1
     SHOW_HELP=0
   fi
 
@@ -307,15 +329,15 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
     SHOW_HELP=0
   fi
 
-  if [ "$1" = "-cm7make" ]; then
+  if [ "$1" = "-cmmake" ]; then
     shift 1
-    CM7_MAKE=$1
+    CM79_MAKE=$1
     SHOW_HELP=0
   fi
 
-  if [ "$1" = "-cm7base" ]; then
+  if [ "$1" = "-cmbase" ]; then
     shift 1
-    CM7_BASE_NAME=$1
+    CM79_BASE_NAME=$1
     SHOW_HELP=0
   fi
 
@@ -370,9 +392,11 @@ if [ "$SHOW_HELP" = "0" ]; then
     SHOW_HELP=1
   fi
 
-  if  [ "$CLEAN_TYPE" != "" ] && [ "$CLEAN_TYPE" != "none" ] && [ "$CLEAN_TYPE" != "cm7" ] && [ "$CLEAN_TYPE" != "bi" ] && [ "$CLEAN_TYPE" != "all" ]; then
+  if  [ "$CLEAN_TYPE" != "" ]    && [ "$CLEAN_TYPE" != "none" ] && [ "$CLEAN_TYPE" != "cm7" ] &&   \
+      [ "$CLEAN_TYPE" != "cm9" ] && [ "$CLEAN_TYPE" != "bi" ]   && [ "$CLEAN_TYPE" != "cm7bi" ] && \
+      [ "$CLEAN_TYPE" != "cm9bi" ] ; then
     echo ""
-    echo "  ERROR: Valid values for CLEAN_TYPE (in .ini file) or '-clean' are {cm7, bi, all, none, \"\"}, saw '${CLEAN_TYPE}'"
+    echo "  ERROR: Valid values for CLEAN_TYPE (in .ini file) or '-clean' are {cm7, cm9, bi, cm7bi, cm9bi, none, \"\"}, saw '${CLEAN_TYPE}'"
     echo ""
     SHOW_HELP=1
   fi
@@ -385,25 +409,32 @@ if [ "$SHOW_HELP" = "0" ]; then
   if  [ "$CLEAN_ONLY" = "0" ]; then
     # We aren't doing a clean, so we need to validate EVERYTHING.
 
-    if  [ "$ROM_TYPE" = "" ] || ([ "$ROM_TYPE" != "cm7" ] && [ "$ROM_TYPE" != "bi" ] && [ "$ROM_TYPE" != "all" ]); then
+    if  [ "$ROM_TYPE" = "" ] || \
+          ([ "$ROM_TYPE" != "cm7" ]    && [ "$ROM_TYPE" != "cm9" ] && [ "$ROM_TYPE" != "bi" ] && \
+           [ "$ROM_TYPE" != "cm7bi" ]  && [ "$ROM_TYPE" != "cm9bi" ]); then
       echo ""
-      echo "  ERROR: Valid values for ROM_TYPE (in .ini file) or '-rom' are {cm7, bi, all}, saw '${ROM_TYPE}'"
+      echo "  ERROR: Valid values for ROM_TYPE (in .ini file) or '-rom' are {cm7, cm9, bi, cm7bi, cm9bi}, saw '${ROM_TYPE}'"
       echo ""
       SHOW_HELP=1
     fi
 
     # Set some helpers to make things easier and to prevent typos later
-    if [ "$ROM_TYPE" = "bi" ] || [ "$ROM_TYPE" = "all" ]; then
+    if [ "$ROM_TYPE" = "bi" ] || [ "$ROM_TYPE" = "cm7bi" ] || [ "$ROM_TYPE" = "cm9bi" ]; then
       DO_BLACKICE=1
     fi
-    if [ "$ROM_TYPE" = "cm7" ] || [ "$ROM_TYPE" = "all" ]; then
+    if [ "$ROM_TYPE" = "cm7" ] || [ "$ROM_TYPE" = "cm7bi" ]; then
       DO_CM7=1
+    fi
+    if [ "$ROM_TYPE" = "cm9" ] || [ "$ROM_TYPE" = "cm9bi" ]; then
+      DO_CM9=1
     fi
 
 
-    if [ "$SYNC_TYPE" != "" ] && [ "$SYNC_TYPE" != "none" ] && [ "$SYNC_TYPE" != "cm7" ] && [ "$SYNC_TYPE" != "bi" ] && [ "$SYNC_TYPE" != "all" ] && [ "$SYNC_TYPE" != "none" ]; then
+    if [ "$SYNC_TYPE" != "" ]    && [ "$SYNC_TYPE" != "none" ] && [ "$SYNC_TYPE" != "cm7" ] &&   \
+       [ "$SYNC_TYPE" != "cm9" ] && [ "$SYNC_TYPE" != "bi" ]   && [ "$SYNC_TYPE" != "cm7bi" ] && \
+       [ "$SYNC_TYPE" != "cm9bi" ]; then
       echo ""
-      echo "  ERROR: Valid values for SYNC_TYPE (in .ini file) or '-sync' are {cm7, bi, all, none, \"\"}, saw '${SYNC_TYPE}'"
+      echo "  ERROR: Valid values for SYNC_TYPE (in .ini file) or '-sync' are {cm7, cm9, bi, cm7bi, cm9bi, none, \"\"}, saw '${SYNC_TYPE}'"
       echo ""
       SHOW_HELP=1
     else
@@ -412,7 +443,8 @@ if [ "$SHOW_HELP" = "0" ]; then
       fi
     fi
 
-    if [ "$PUSH_TO_PHONE" = "" ] || ([ "$PUSH_TO_PHONE" != "no" ] && [ "$PUSH_TO_PHONE" != "yes" ] && [ "$PUSH_TO_PHONE" != "0" ] && [ "$PUSH_TO_PHONE" != "1" ]); then
+    if [ "$PUSH_TO_PHONE" = "" ] || \
+         ([ "$PUSH_TO_PHONE" != "no" ] && [ "$PUSH_TO_PHONE" != "yes" ] && [ "$PUSH_TO_PHONE" != "0" ] && [ "$PUSH_TO_PHONE" != "1" ]); then
       echo ""
       echo "  ERROR: Valid values for PUSH_TO_PHONE (in .ini file) or '-phone' are {no, yes, 0, 1}, saw '${PUSH_TO_PHONE}'"
       echo ""
@@ -426,7 +458,8 @@ if [ "$SHOW_HELP" = "0" ]; then
       fi
     fi
 
-    if [ "$OFFICIAL" = "" ] || ([ "$OFFICIAL" != "no" ] && [ "$OFFICIAL" != "yes" ] && [ "$OFFICIAL" != "0" ] && [ "$OFFICIAL" != "1" ]); then
+    if [ "$OFFICIAL" = "" ] || \
+         ([ "$OFFICIAL" != "no" ] && [ "$OFFICIAL" != "yes" ] && [ "$OFFICIAL" != "0" ] && [ "$OFFICIAL" != "1" ]); then
       echo ""
       echo "  ERROR: Valid values for OFFICIAL (in .ini file) or '-phone' are {no, yes, 0, 1}, saw '${OFFICIAL}'"
       echo ""
@@ -441,7 +474,8 @@ if [ "$SHOW_HELP" = "0" ]; then
     fi
 
 
-    if [ "$FORCE_PATCHING" = "" ] || ([ "$FORCE_PATCHING" != "no" ] && [ "$FORCE_PATCHING" != "yes" ] && [ "$FORCE_PATCHING" != "0" ] && [ "$FORCE_PATCHING" != "1" ]); then
+    if [ "$FORCE_PATCHING" = "" ] || \
+         ([ "$FORCE_PATCHING" != "no" ] && [ "$FORCE_PATCHING" != "yes" ] && [ "$FORCE_PATCHING" != "0" ] && [ "$FORCE_PATCHING" != "1" ]); then
       echo ""
       echo "  ERROR: Valid values for FORCE_PATCHING (in .ini file) or '-fpatch' are {no, yes, 0, 1}, saw '${FORCE_PATCHING}'"
       echo ""
@@ -464,10 +498,10 @@ if [ "$SHOW_HELP" = "0" ]; then
       SHOW_HELP=1
     fi
 
-    if [ "$DO_CM7" =  "1" ]; then
-      if [ "$CM7_MAKE" = "" ] || ([ "$CM7_MAKE" != "bacon" ] && [ "$CM7_MAKE" != "full" ]); then
+    if [ "$DO_CM7" =  "1" ] || [ "$DO_CM9" =  "1" ]; then
+      if [ "$CM79_MAKE" = "" ] || ([ "$CM79_MAKE" != "bacon" ] && [ "$CM79_MAKE" != "full" ]); then
         echo ""
-        echo "  ERROR: Valid values fo CM7_MAKE (in .ini file) or '-cm7make' are {bacon, full}, saw '${CM7_MAKE}'"
+        echo "  ERROR: Valid values fo CM79_MAKE (in .ini file) or '-cmmake' are {bacon, full}, saw '${CM79_MAKE}'"
         echo ""
         SHOW_HELP=1
       fi
@@ -495,17 +529,17 @@ if [ "$SHOW_HELP" = "0" ]; then
     if [ "$DO_BLACKICE" =  "1" ]; then
       if [ "$ROM_TYPE" = "bi" ]; then
         # A leading "-" indicates we got another command line option instead of a name.
-        ARG_TEMP=${CM7_BASE_NAME:0:1}
-        if [ "$CM7_BASE_NAME" = "" ] || [ "$ARG_TEMP" = "-" ]; then
+        ARG_TEMP=${CM79_BASE_NAME:0:1}
+        if [ "$CM79_BASE_NAME" = "" ] || [ "$ARG_TEMP" = "-" ]; then
           echo ""
-          echo "  ERROR: Invalid value for CM7_BASE_NAME (in .ini file) or '-cm7base', saw '${CM7_BASE_NAME}'"
+          echo "  ERROR: Invalid value for CM79_BASE_NAME (in .ini file) or '-cmbase', saw '${CM79_BASE_NAME}'"
           echo ""
           SHOW_HELP=1
         else
-          CM7_BASE_NAME=`GetAbsolutePath ${CM7_BASE_NAME}`
-          if [ ! -f $CM7_BASE_NAME ]; then
+          CM79_BASE_NAME=`GetAbsolutePath ${CM79_BASE_NAME}`
+          if [ ! -f $CM79_BASE_NAME ]; then
             echo ""
-            echo "  ERROR: CM7_BASE_NAME does not exist: '${CM7_BASE_NAME}'"
+            echo "  ERROR: CM79_BASE_NAME does not exist: '${CM79_BASE_NAME}'"
             echo ""
             SHOW_HELP=1
           fi
@@ -557,26 +591,47 @@ if [ "$SHOW_HELP" = "0" ]; then
     SHOW_HELP=1
   fi
 
-  if [ "$CLEAN_TYPE" != "bi" ] && [ "$DO_CM7" = "1" ]; then
-    # A leading "-" indicates we got another command line option instead of a phone name.
-    ARG_TEMP=${ANDROID_DIR:0:1}
-    if [ "$ANDROID_DIR" = "" ] || [ "$ARG_TEMP" = "-" ]; then
-      echo ""
-      echo "  ERROR: Invalid value for ANDROID_DIR (in .ini file) or '-adir', saw '${ANDROID_DIR}'"
-      echo ""
-      SHOW_HELP=1
-    else
-      ANDROID_DIR=`GetAbsolutePath ${ANDROID_DIR}`
-      if [ ! -d $ANDROID_DIR ]; then
+  if [ "$CLEAN_TYPE" != "bi" ]; then
+    if [ "$DO_CM7" = "1" ]; then
+      # A leading "-" indicates we got another command line option instead of a phone name.
+      ARG_TEMP=${CM7_DIR:0:1}
+      if [ "$CM7_DIR" = "" ] || [ "$ARG_TEMP" = "-" ]; then
         echo ""
-        echo "  ERROR: ANDROID_DIR does not exist: '${ANDROID_DIR}'"
+        echo "  ERROR: Invalid value for CM7_DIR (in .ini file) or '-cm7dir', saw '${CM7_DIR}'"
         echo ""
         SHOW_HELP=1
+      else
+        CM7_DIR=`GetAbsolutePath ${CM7_DIR}`
+        if [ ! -d $CM7_DIR ]; then
+          echo ""
+          echo "  ERROR: CM7_DIR does not exist: '${CM7_DIR}'"
+          echo ""
+          SHOW_HELP=1
+        fi
+      fi
+    fi
+
+    if [ "$DO_CM9" = "1" ]; then
+      # A leading "-" indicates we got another command line option instead of a phone name.
+      ARG_TEMP=${CM9_DIR:0:1}
+      if [ "$CM9_DIR" = "" ] || [ "$ARG_TEMP" = "-" ]; then
+        echo ""
+        echo "  ERROR: Invalid value for CM9_DIR (in .ini file) or '-cm9dir', saw '${CM9_DIR}'"
+        echo ""
+        SHOW_HELP=1
+      else
+        CM9_DIR=`GetAbsolutePath ${CM9_DIR}`
+        if [ ! -d $CM9_DIR ]; then
+          echo ""
+          echo "  ERROR: CM9_DIR does not exist: '${CM9_DIR}'"
+          echo ""
+          SHOW_HELP=1
+        fi
       fi
     fi
   fi
 
-  if [ "$CLEAN_TYPE" != "cm7" ] && [ "$DO_BLACKICE" = "1" ]; then
+  if [ "$CLEAN_TYPE" != "cm7" ] && [ "$CLEAN_TYPE" != "cm9" ] && [ "$DO_BLACKICE" = "1" ]; then
     # A leading "-" indicates we got another command line option instead of a phone name.
     ARG_TEMP=${BLACKICE_DIR:0:1}
     if [ "$BLACKICE_DIR" = "" ] || [ "$ARG_TEMP" = "-" ]; then
@@ -601,16 +656,18 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "  Usage is $0 [params]"
   echo "    -ini <ini_file>"
   echo "       specifies the .ini file to load, which specifies most other options."
-  echo "    -clean {cm7, bi, all, none, \"\"}"
-  echo "       Do a CM7 'make clobber', a BlackICE 'make clean', both or none."
-  echo "       If the value is cmy, bi or all then we do not build anything."
+  echo "    -clean {cm7, cm9, bi, cm7bi, cm9bi, none, \"\"}"
+  echo "       Do a clean of CM7, CM9, BlackICE, CM7+BlackICE, CM9+BlackICE or nothing."
+  echo "       CM7 and CM9 cleans use 'make clobber', BlackICE uses 'make clean'"
+  echo "       If any clean is specified then we do not build anything."
   echo "    -verbose {0..9}"
   echo "       0 = extra quite (not implemented), 1 = normal build messages,"
   echo "       2 = extra build messages, 3..9 = even more build messages (not be implemented)"
-  echo "    -rom {cm7, bi, all}"
-  echo "       Build for CM7, BlackICE or All (both)"
-  echo "    -sync {cm7, bi, all, none, \"\"}"
-  echo "       Do a 'repo sync' (CM7), 'git pull' (BlackICE), All (both) or No sync"
+  echo "    -rom {{cm7, cm9, bi, cm7bi, cm9bi}"
+  echo "       Build for CM7, CM9, BlackICE, CM7+BlackICE or CM9+BlackICE"
+  echo "    -sync {cm7, cm9, bi, cm7bi, cm9bi, none, \"\"}"
+  echo "       Do a sync of CM7, CM9, BlackICE, CM7+BlackICE, CM9+BlackICE or nothing."
+  echo "       CM7 and CM9 use 'repo sync', BlackICE uses 'git pull'"
   echo "       The sync is done before the build"
   echo "    -push {no, yes, 0, 1}"
   echo "       no or 0 = do not 'adb push' KANG to phone, yes or 1 = 'adb push' KANG to phone"
@@ -619,16 +676,18 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "       yes or 1 = force patching when NOT syncing (causes errors if already patched)"
   echo "    -phone <phone name>"
   echo "       Name of phone to build for, WARNING only tested with 'ace'"
-  echo "    -adir <path>"
-  echo "       Full path to root of where Android (CM7) source is located"
+  echo "    -cm7dir <path>"
+  echo "       Full path to root of where CM7 source is located"
+  echo "    -cm9dir <path>"
+  echo "       Full path to root of where CM9 (ICS) source is located"
   echo "    -bdir <path>"
   echo "       Full path to the BlackICE 'BlackICE' directory "
   echo "    -dbox <path>"
   echo "       Full path to a Dropbox directory to copy results to, can be \"\""
-  echo "    -cm7make {bacon, full}"
+  echo "    -cmmake {bacon, full}"
   echo "       bacon = 'make bacon', full = 'make clobber' + 'brunch'"
-  echo "    -cm7base <name of CM7 KANG>"
-  echo "       Name of CM7 KANG to use as a base for building BlackICE"
+  echo "    -cmbase <name of CM7 KANG>"
+  echo "       Name of CM7/CM9 KANG to use as a base for building BlackICE"
   echo "    -bkernel <kernel_file>"
   echo "       Name of kernel file to build into BlackICE"
   echo "    -bgps <gps_region>"
@@ -645,19 +704,20 @@ if [ "$SHOW_HELP" = "1" ]; then
 fi
 
 if [ "$CLEAN_ONLY" = "0" ]; then
-  #
-  # If some tools can't be found you may need to include on or more of these directories in your path.
-  #
-  # #export PATH=./:${HOME}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${ANDROID_DIR}/out/host/linux-x86/bin
-  #
+  if [ "$DO_CM7" = "1" ]; then
+    # The ROM we build will go here. Don't change this because it is where the
+    # Cyanogen makefile puts the new ROM, it needs to match.
+    CM_ROM_DIR=${CM7_DIR}/out/target/product/${PHONE}
+  fi
+  if [ "$DO_CM9" = "1" ]; then
+    # The ROM we build will go here. Don't change this because it is where the
+    # Cyanogen makefile puts the new ROM, it needs to match.
+    CM_ROM_DIR=${CM9_DIR}/out/target/product/${PHONE}
+  fi
 
-  # The ROM we build will go here. Don't change this because it is where the
-  # Cyanogen makefile puts the new ROM, it needs to match.
-  CM7_ROM_DIR=${ANDROID_DIR}/out/target/product/${PHONE}
-
-  if [ "$CM7_BASE_NAME" != "" ] && [ "$ROM_TYPE" != "bi" ]; then
+  if [ "$CM79_BASE_NAME" != "" ] && [ "$ROM_TYPE" != "bi" ]; then
     echo ""
-    echo "  Warning: '-cm7base' is ignored when '-rom' type is '$ROM_TYPE'"
+    echo "  Warning: '-cmbase' is ignored when '-rom' type is '$ROM_TYPE'"
     echo ""
   fi
 
@@ -680,10 +740,10 @@ if [ "$CLEAN_ONLY" = "0" ]; then
     fi
 
     if [ "$ROM_TYPE" = "bi" ]; then
-      if [ ! -f $CM7_BASE_NAME ]; then
-        if [ ! -f ${BLACKICE_DIR}/download/${CM7_BASE_NAME} ]; then
+      if [ ! -f $CM79_BASE_NAME ]; then
+        if [ ! -f ${BLACKICE_DIR}/download/${CM79_BASE_NAME} ]; then
           echo ""
-          echo "  Warning: CM7 Base KANG does not exist: '${CM7_BASE_NAME}'"
+          echo "  Warning: CM7/CM9 Base KANG does not exist: '${CM79_BASE_NAME}'"
           echo "           We will try to download it, but that may not be successful!"
           echo ""
         fi
@@ -731,10 +791,10 @@ if [ "$CLEAN_ONLY" = "0" ]; then
     if [ "$patch_name" != "" ] && [ "${patch_name:0:1}" != "#" ]; then
       PATCH_LINE="${patch_name}  ${source_type}  ${patch_type}  ${patch_file}  ${patch_dir}"
 
-      if [ "$source_type" != "android" ] && [ "$source_type" != "blackice" ]; then
+      if [ "$source_type" != "cm7" ] && [ "$source_type" != "cm9" ] && [ "$source_type" != "blackice" ]; then
         echo ""
         echo "  ERROR: Invalid patch definition at line ${LINE_NUMBER} of patch file '${DEFAULT_PATCH_FILE}'"
-        echo "         Field 2 must be 'android' or 'blackice', saw: '${PATCH_LINE}'"
+        echo "         Field 2 must be 'cm7', 'cm9' or 'blackice', saw: '${PATCH_LINE}'"
         echo ""
         return 1
       fi
@@ -773,20 +833,6 @@ if [ "$CLEAN_ONLY" = "0" ]; then
         return 1
       fi
 
-      if [ "$source_type" = "android" ]; then
-        patch_dir=${ANDROID_DIR}/$patch_dir
-      else
-        patch_dir=${BLACKICE_DIR}/$patch_dir
-      fi
-
-      if [ ! -d $patch_dir ]; then
-        echo ""
-        echo "  ERROR: Invalid patch directory at line ${LINE_NUMBER} of '${DEFAULT_PATCH_FILE}'"
-        echo "         Field 5 is bad, saw: '${PATCH_LINE}'"
-        echo ""
-        return 1
-      fi
-
       # PATCH_VAR is the *name* of the variable that we want to test to see if
       # the patch is enabled. For example, if patch_name is TORCH then PATCH_VAR
       # will be PATCH_TORCH. To get the actual value we have to do this
@@ -795,23 +841,47 @@ if [ "$CLEAN_ONLY" = "0" ]; then
       PATCH_VAR="PATCH_"${patch_name}
 
       KEEP_PATCH=0
-      if [ "$source_type" = "android" ] && [ "$DO_CM7" = "1" ]; then
-        if [ "$SYNC_TYPE" = "cm7" ] || [ "$SYNC_TYPE" = "all" ] || [ "$FORCE_PATCHING" = "yes" ]; then
+      if [ "$source_type" = "cm7" ] && [ "$DO_CM7" = "1" ]; then
+        if [ "$SYNC_TYPE" = "cm7" ] || [ "$SYNC_TYPE" = "cm7bi" ] || [ "$FORCE_PATCHING" = "yes" ]; then
+          if [ "${!PATCH_VAR}" = "1" ]; then
+            KEEP_PATCH=1
+          fi
+        fi
+      fi
+      if [ "$source_type" = "cm9" ] && [ "$DO_CM9" = "1" ]; then
+        if [ "$SYNC_TYPE" = "cm9" ] || [ "$SYNC_TYPE" = "cm9bi" ] || [ "$FORCE_PATCHING" = "yes" ]; then
           if [ "${!PATCH_VAR}" = "1" ]; then
             KEEP_PATCH=1
           fi
         fi
       fi
       if [ "$source_type" = "blackice" ] && [ "$DO_BLACKICE" = "1" ]; then
-        if [ "$SYNC_TYPE" = "bi" ] || [ "$SYNC_TYPE" = "all" ] || [ "$FORCE_PATCHING" = "yes" ]; then
+        if [ "$SYNC_TYPE" = "bi" ] || [ "$SYNC_TYPE" = "cm7bi" ] || [ "$SYNC_TYPE" = "cm9bi" ] || [ "$FORCE_PATCHING" = "yes" ]; then
           if [ "${!PATCH_VAR}" = "1" ]; then
             KEEP_PATCH=1
           fi
         fi
       fi
 
-
       if [ "$KEEP_PATCH" = "1" ]; then
+        if [ "$source_type" = "cm7" ]; then
+          patch_dir=${CM7_DIR}/$patch_dir
+        else
+          if [ "$source_type" = "cm9" ]; then
+            patch_dir=${CM9_DIR}/$patch_dir
+          else
+            patch_dir=${BLACKICE_DIR}/$patch_dir
+          fi
+        fi
+
+        if [ ! -d $patch_dir ]; then
+          echo ""
+          echo "  ERROR: Invalid patch directory at line ${LINE_NUMBER} of '${DEFAULT_PATCH_FILE}'"
+          echo "         Field 5 is bad, saw: '${PATCH_LINE}'"
+          echo ""
+          return 1
+        fi
+
         # Save the patch information in a way that is easy to recreate it later.
         ALL_PATCH_LIST=$ALL_PATCH_LIST" ${patch_dir},${patch_file}"
       fi
@@ -840,21 +910,36 @@ if [ "$CLEAN_ONLY" = "0" ]; then
 
   if [ "$ROM_TYPE" = "cm7" ]; then
     ShowMessage "   ROM            = CM7 only"
-  else
-    if [ "$ROM_TYPE" = "bi" ]; then
-      ShowMessage "   ROM            = BlackICE only"
-    else
-      ShowMessage "   ROM            = CM7 + BlackICE"
-    fi
+  fi
+  if [ "$ROM_TYPE" = "cm9" ]; then
+    ShowMessage "   ROM            = CM9 (ICS) only"
+  fi
+  if [ "$ROM_TYPE" = "bi" ]; then
+    ShowMessage "   ROM            = BlackICE only"
+  fi
+  if [ "$ROM_TYPE" = "cm7bi" ]; then
+    ShowMessage "   ROM            = CM7 + BlackICE"
+  fi
+  if [ "$ROM_TYPE" = "cm9bi" ]; then
+    ShowMessage "   ROM            = CM9 + BlackICE [*** NOT SUPPORTED YET ***]"
   fi
 
   if [ "$DO_CM7" = "1" ]; then
-    ShowMessage "   Android dir    = $ANDROID_DIR"
+    ShowMessage "   CM7 dir        = $CM7_DIR"
 
-    if  [ "$CM7_MAKE" = "bacon" ]; then
+    if  [ "$CM79_MAKE" = "bacon" ]; then
       ShowMessage "   CM7 make       = make bacon"
     else
       ShowMessage "   CM7 make       = make clobber + brunch"
+    fi
+  fi
+  if [ "$DO_CM9" = "1" ]; then
+    ShowMessage "   CM9 dir        = $CM9_DIR"
+
+    if  [ "$CM79_MAKE" = "bacon" ]; then
+      ShowMessage "   CM9 make       = make bacon"
+    else
+      ShowMessage "   CM9 make       = make clobber + brunch"
     fi
   fi
 
@@ -878,7 +963,11 @@ if [ "$CLEAN_ONLY" = "0" ]; then
     if [ "$DO_CM7" = "1" ]; then
       ShowMessage "   CM7 base       = << from CM7 build >>"
     else
-      ShowMessage "   CM7 base       = $CM7_BASE_NAME"
+      if [ "$DO_CM9" = "1" ]; then
+        ShowMessage "   CM9 base       = << from CM9 build >>"
+      else
+        ShowMessage "   CM base        = $CM79_BASE_NAME"
+      fi
     fi
 
   fi
@@ -896,19 +985,24 @@ if [ "$CLEAN_ONLY" = "0" ]; then
 
   if [ "$SYNC_TYPE" = "cm7" ]; then
     ShowMessage "   Sync           = CM7 (repo sync)"
-  else
-    if [ "$SYNC_TYPE" = "bi" ]; then
-      ShowMessage "   Sync           = BlackICE (git pull)"
-    else
-      if [ "$SYNC_TYPE" = "all" ]; then
-        ShowMessage "   Sync           = CM7 + BlackICE (repo sync + git pull)"
-      else
-        ShowMessage "   Sync           = none"
+  fi
+  if [ "$SYNC_TYPE" = "cm9" ]; then
+    ShowMessage "   Sync           = CM9 (repo sync)"
+  fi
+  if [ "$SYNC_TYPE" = "bi" ]; then
+    ShowMessage "   Sync           = BlackICE (git pull)"
+  fi
+  if [ "$SYNC_TYPE" = "cm7bi" ]; then
+    ShowMessage "   Sync           = CM7 + BlackICE (repo sync + git pull)"
+  fi
+  if [ "$SYNC_TYPE" = "cm9bi" ]; then
+    ShowMessage "   Sync           = CM9 + BlackICE (repo sync + git pull)"
+  fi
+  if [ "$SYNC_TYPE" = "none" ]; then
+    ShowMessage "   Sync           = none"
 
-        if [ "$FORCE_PATCHING" = "yes" ]; then
-          ShowMessage "   Force Patching = yes (NOT RECOMMENDED)"
-        fi
-      fi
+    if [ "$FORCE_PATCHING" = "yes" ]; then
+      ShowMessage "   Force Patching = yes (NOT RECOMMENDED)"
     fi
   fi
 
@@ -930,23 +1024,29 @@ else
 
   # CLEAN_ONLY is 1
   if [ "$DO_CM7" = "1" ]; then
-    ShowMessage "   Android dir    = $ANDROID_DIR"
+    ShowMessage "   CM7 dir        = $CM7_DIR"
   fi
-
+  if [ "$DO_CM9" = "1" ]; then
+    ShowMessage "   CM9 dir        = $CM9_DIR"
+  fi
   if [ "$DO_BLACKICE" = "1" ]; then
     ShowMessage "   BlackICE dir   = $BLACKICE_DIR"
   fi
 
+  if [ "$CLEAN_TYPE" = "cm7" ]; then
+    ShowMessage "   Clean          = CM7"
+  fi
+  if [ "$CLEAN_TYPE" = "cm9" ]; then
+    ShowMessage "   Clean          = CM9"
+  fi
   if [ "$CLEAN_TYPE" = "bi" ]; then
     ShowMessage "   Clean          = BlackICE"
-  else
-    if [ "$CLEAN_TYPE" = "cm7" ]; then
-      ShowMessage "   Clean          = CM7"
-    else
-      if [ "$CLEAN_TYPE" = "all" ]; then
-        ShowMessage "   Clean          = CM7 + BlackICE"
-      fi
-    fi
+  fi
+  if [ "$CLEAN_TYPE" = "cm7bi" ]; then
+    ShowMessage "   Clean          = CM7 + BlackICE"
+  fi
+  if [ "$CLEAN_TYPE" = "cm9bi" ]; then
+    ShowMessage "   Clean          = CM9 + BlackICE"
   fi
 fi
 ShowMessage ""

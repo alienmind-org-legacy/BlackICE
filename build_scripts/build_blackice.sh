@@ -15,10 +15,10 @@
 source ${SCRIPT_DIR}/../conf/sources.ini || ExitError "Sourcing 'conf/sources.ini'"
 source ${SCRIPT_DIR}/../conf/blackice.ini  || ExitError "Sourcing 'conf/blackice.ini'"
 
-# Base name for CM7 KANG that we build BlackICE on top of.
+# Base name for CM7/CM9 KANG that we build BlackICE on top of.
 # If this doesn't exist we will try to download it from
 # the base url in sources.ini
-#${CM7_BASE_NAME}
+#${CM79_BASE_NAME}
 
 #
 # We use another variable here because we don't want to change the global
@@ -99,15 +99,15 @@ fi
 
 # If provided files exist, we use them
 # If not, we download them from the base url in sources.ini
-if [ ! -f $CM7_BASE_NAME ]; then
-  if [ -f ${DOWN_DIR}/${CM7_BASE_NAME} ]; then
-    CM7_BASE_NAME=${DOWN_DIR}/${CM7_BASE_NAME}
+if [ ! -f $CM79_BASE_NAME ]; then
+  if [ -f ${DOWN_DIR}/${CM79_BASE_NAME} ]; then
+    CM79_BASE_NAME=${DOWN_DIR}/${CM79_BASE_NAME}
   else
     cd $DOWN_DIR
-    ROMSRC=${ROMBASE}/`basename ${CM7_BASE_NAME}`
+    ROMSRC=${ROMBASE}/`basename ${CM79_BASE_NAME}`
     ShowMessage "* Downloading $ROMSRC"
     CheckDownloadZip "$ROMSRC" || ExitError "Can't download $ROMSRC"
-    CM7_BASE_NAME=${DOWN_DIR}/${CM7_BASE_NAME}
+    CM79_BASE_NAME=${DOWN_DIR}/${CM79_BASE_NAME}
     cd - &>/dev/null
   fi
 fi
@@ -126,14 +126,14 @@ if [ ! -f $KERNELFILE ]; then
 fi
 
 # Fix relative path
-CM7_BASE_NAME=`FixPath $CM7_BASE_NAME`
+CM79_BASE_NAME=`FixPath $CM79_BASE_NAME`
 
 # Unpack ROM
 ShowMessage "* Unpacking ROM ..."
-KANG_DIR=$WORK_DIR/`basename "$CM7_BASE_NAME" .zip`
+KANG_DIR=$WORK_DIR/`basename "$CM79_BASE_NAME" .zip`
 rm -rf $KANG_DIR
 mkdir $KANG_DIR ; cd $KANG_DIR
-unzip -x $CM7_BASE_NAME >> $LOG
+unzip -x $CM79_BASE_NAME >> $LOG
 cd - &>/dev/null
 
 # Unpack kernel zip and convert zImage to boot.img
