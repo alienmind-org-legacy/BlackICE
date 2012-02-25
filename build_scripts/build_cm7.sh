@@ -14,16 +14,31 @@ if [ "$CROSS_COMPILE" = "" ]; then
   export CROSS_COMPILE=${CM7_DIR}/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
 fi
 if [ "$TARGET_TOOLS_PREFIX" = "" ]; then
-  export CROSS_COMPILE=${CM7_DIR}/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
+  export TARGET_TOOLS_PREFIX=${CM7_DIR}/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
 fi
 if [ "$ARCH" = "" ]; then
   export ARCH=arm
 fi
 
-TEST_CCACHE=`which ccache`
-if [ "$TEST_CCACHE" = "" ] ; then
-  export PATH=$PATH:${CM7_DIR}/prebuilt/linux-x86/ccache
+if [ "$CCACHE_TOOL_DIR" = "" ] ; then
+  CCACHE_TOOL_DIR=${CM7_DIR}/prebuilt/linux-x86/ccache
+  export PATH=$PATH:${CCACHE_TOOL_DIR}
 fi
+
+if [ "$CCACHE_DIR" = "" ] ; then
+  CCACHE_DIR=${HOME}/.ccache
+fi
+
+##echo ""
+##echo "CROSS_COMPILE       = '${CROSS_COMPILE}"
+##echo "TARGET_TOOLS_PREFIX = '${TARGET_TOOLS_PREFIX}'"
+##echo "ARCH                = '${ARCH}'"
+##echo "CCACHE_TOOL         = '${CCACHE_TOOL_DIR}'"
+##echo "CCACHE_DIR          = '${CCACHE_DIR}'"
+##echo "PATH                = '${PATH}'"
+
+${CCACHE_TOOL_DIR}/ccache -M 10G
+
 
 if [ "$CM79_MAKE" = "full" ]; then
   banner "make clobber"
@@ -53,7 +68,8 @@ fi
 #
 # Rename the ROM to a date tagged name and clean up any old files that might be lying around.
 #
-CM_OLD_ROM=${CM_ROM_DIR}/update-cm-7*DesireHD-KANG-signed.zip
+#CM_OLD_ROM=${CM_ROM_DIR}/update-cm-7*DesireHD-KANG-signed.zip
+CM_OLD_ROM=${CM_ROM_DIR}/update-cm-nightly-signed.zip
 
 # New ROM is what we rename it to.
 # We also need the base name, mainly if building for BlackICE

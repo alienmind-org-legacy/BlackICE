@@ -14,16 +14,31 @@ if [ "$CROSS_COMPILE" = "" ]; then
   export CROSS_COMPILE=${CM9_DIR}/prebuilt/linux-x86/toolchain/arm-eabi-4.6.3/bin/arm-linux-androideabi-
 fi
 if [ "$TARGET_TOOLS_PREFIX" = "" ]; then
-  export CROSS_COMPILE=${CM9_DIR}/prebuilt/linux-x86/toolchain/arm-eabi-4.6.3/bin/arm-linux-androideabi-
+  export TARGET_TOOLS_PREFIX=${CM9_DIR}/prebuilt/linux-x86/toolchain/arm-eabi-4.6.3/bin/arm-linux-androideabi-
 fi
 if [ "$ARCH" = "" ]; then
   export ARCH=arm
 fi
 
-TEST_CCACHE=`which ccache`
-if [ "$TEST_CCACHE" = "" ] ; then
-  export PATH=$PATH:${CM9_DIR}/prebuilt/linux-x86/ccache
+if [ "$CCACHE_TOOL_DIR" = "" ] ; then
+  CCACHE_TOOL_DIR=${CM7_DIR}/prebuilt/linux-x86/ccache
+  export PATH=$PATH:${CCACHE_TOOL_DIR}
 fi
+
+if [ "$CCACHE_DIR" = "" ] ; then
+  CCACHE_DIR=${HOME}/.ccache
+fi
+
+##echo ""
+##echo "CROSS_COMPILE       = '${CROSS_COMPILE}"
+##echo "TARGET_TOOLS_PREFIX = '${TARGET_TOOLS_PREFIX}'"
+##echo "ARCH                = '${ARCH}'"
+##echo "CCACHE_TOOL         = '${CCACHE_TOOL_DIR}'"
+##echo "CCACHE_DIR          = '${CCACHE_DIR}'"
+##echo "PATH                = '${PATH}'"
+
+${CCACHE_TOOL_DIR}/ccache -M 10G
+
 
 # This is a bit of a hack, but the ICS build doesn't just use the base phone name.
 # Perhaps this will change as development progresses.

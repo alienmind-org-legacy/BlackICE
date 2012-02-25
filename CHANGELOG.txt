@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+v1.28b11 - BlackICE KANG  : BlackICE.v1.28b11-20120225_124049.zip
+         - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
+         - CM7 Base KANG  : chezbel-cm7-20120225_124049.zip
+         - CM7 changes    : - Notification power widget mobiledata auto 2g/3g (CyanogenMod/android_frameworks_base)
+                            - modinfo: use ifdef block for android without-utsrel modules path (android_external_busybox)
+
 v1.28b10 - BlackICE KANG  : BlackICE.v1.28b10-20120220_232616.zip
          - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
          - CM7 Base KANG  : chezbel-cm7-20120220_232616.zip
