@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+v1.28b12 - BlackICE KANG  : BlackICE.v1.28b12-20120226_152227.zip
+         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
+         - CM7 Base KANG  : chezbel-cm7-20120226_152227.zip
+         - CM7 changes    : - Implement basic framework for fingerprint lockscreen (android_frameworks_base)
+                            - Implement basic framework for fingerprint lockscreen (android_frameworks_base)
+                            - Settings for fingerprint (android_packages_apps_Settings)
+                            - @hide all the changes to frameworks/base... (android_frameworks_base)
+         - Miscellaneous  : - Previous versions *said* that the kernel was lordmodUEv8.9-BFS-b2-gpu.zip
+                              (BFS instead of CFS), but one of those files has a typo because I did a
+                              binary comparison and they are identical.
+                            - Had to fix the framework patching to work with CM7 changes again
+
 v1.28b11 - BlackICE KANG  : BlackICE.v1.28b11-20120225_124049.zip
          - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
          - CM7 Base KANG  : chezbel-cm7-20120225_124049.zip
