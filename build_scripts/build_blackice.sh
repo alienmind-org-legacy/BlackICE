@@ -15,11 +15,6 @@
 source ${SCRIPT_DIR}/../conf/sources.ini || ExitError "Sourcing 'conf/sources.ini'"
 source ${SCRIPT_DIR}/../conf/blackice.ini  || ExitError "Sourcing 'conf/blackice.ini'"
 
-# Base name for CM7/CM9 KANG that we build BlackICE on top of.
-# If this doesn't exist we will try to download it from
-# the base url in sources.ini
-#${CM79_BASE_NAME}
-
 #
 # We use another variable here because we don't want to change the global
 # TIMESTAMP variable. For an official release we just add a prefix of 'RC-'
@@ -28,6 +23,16 @@ TIMESTAMP_OR_OFFICIAL=${TIMESTAMP}
 if [ "$OFFICIAL" = "yes" ]; then
   TIMESTAMP_OR_OFFICIAL="RC-${TIMESTAMP}"
 fi
+
+# Modify the BlackICE Version to contain the timestamp
+BLACKICE_VERSION=${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}
+
+
+# Base name for CM7/CM9 KANG that we build BlackICE on top of.
+# If this doesn't exist we will try to download it from
+# the base url in sources.ini
+#${CM79_BASE_NAME}
+
 
 # Kernel to use
 # If this doesn't exist we will try to download it from
@@ -49,16 +54,16 @@ MOD_DIR=${BLACKICE_DIR}/mod
 
 # Unzip stuff into OUT_DIR
 OUT_DIR_BASE="${BLACKICE_DIR}/out"
-OUT_DIR="${OUT_DIR_BASE}/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}"
-OUT_EXTRAAPPS="${OUT_DIR_BASE}/${BLACKICE_VERSION}-extraapps-${TIMESTAMP_OR_OFFICIAL}"
+OUT_DIR="${OUT_DIR_BASE}/${BLACKICE_VERSION}"
+OUT_EXTRAAPPS="${OUT_DIR_BASE}/${BLACKICE_VERSION}-extraapps"
 
 # RELEASE_DIR gets the final files built from the stuff in OUT_DIR
 RELEASE_DIR_BASE=$OUT_DIR_BASE/release
-RELEASE_DIR=${RELEASE_DIR_BASE}/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}
-RELEASE_ZIP="${RELEASE_DIR}/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}.zip"
-RELEASE_SIGNED="${RELEASE_DIR}/${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}-signed.zip"
-RELEASE_EXTRAAPPS_ZIP="${RELEASE_DIR}/${BLACKICE_VERSION}-extraapps-${TIMESTAMP_OR_OFFICIAL}.zip"
-RELEASE_EXTRAAPPS_SIGNED="${RELEASE_DIR}/${BLACKICE_VERSION}-extraapps-${TIMESTAMP_OR_OFFICIAL}-signed.zip"
+RELEASE_DIR=${RELEASE_DIR_BASE}/${BLACKICE_VERSION}
+RELEASE_ZIP="${RELEASE_DIR}/${BLACKICE_VERSION}.zip"
+RELEASE_SIGNED="${RELEASE_DIR}/${BLACKICE_VERSION}-signed.zip"
+RELEASE_EXTRAAPPS_ZIP="${RELEASE_DIR}/${BLACKICE_VERSION}-extraapps.zip"
+RELEASE_EXTRAAPPS_SIGNED="${RELEASE_DIR}/${BLACKICE_VERSION}-extraapps-signed.zip"
 
 
 # User requested clean of all temporary content
@@ -200,8 +205,7 @@ for i in `find $OUT_DIR/ -name '*.prepend'`; do
    rm -f $i ; mv $BASE.new $BASE
 done
 
-# Special .prop.append files must be appended to original ones
-# removing the older params
+# Special .prop.append files must be appended to original ones removing the older params
 ShowMessage "* Looking for *.prop.append files..."
 for i in `find $OUT_DIR/ -name '*.prop.append'`; do
    BASE=`dirname $i`/`basename "$i" .append`

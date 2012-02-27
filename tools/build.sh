@@ -303,7 +303,7 @@ if [ "$DO_BLACKICE" = "1" ]; then
   CHANGES_FILE=${RELEASE_DIR}/changes.txt
 
   # Get the BlackICE version number without the leading 'BlackICE.'
-  THE_TEMP=${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}
+  THE_TEMP=${BLACKICE_VERSION}
   THE_TEMP=${THE_TEMP#BlackICE.}
   echo "-------------------------------------------------------------------------------" >> ${CHANGES_FILE}
   echo "${THE_TEMP}" >> ${CHANGES_FILE}
