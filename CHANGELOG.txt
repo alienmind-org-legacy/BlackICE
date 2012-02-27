@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+v1.28b13 - BlackICE KANG  : BlackICE.v1.28b13-20120227_115656.zip
+         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
+         - CM7 Base KANG  : chezbel-cm7-20120227_115656.zip
+         - CM7 changes    : - ace: button backlight dim (android_device_htc_ace)
+
 v1.28b12 - BlackICE KANG  : BlackICE.v1.28b12-20120226_152227.zip
          - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
          - CM7 Base KANG  : chezbel-cm7-20120226_152227.zip
