@@ -37,7 +37,7 @@ fi
 ##echo "CCACHE_DIR          = '${CCACHE_DIR}'"
 ##echo "PATH                = '${PATH}'"
 
-${CCACHE_TOOL_DIR}/ccache -M 10G
+${CCACHE_TOOL_DIR}/ccache -M 20G
 
 
 # This is a bit of a hack, but the ICS build doesn't just use the base phone name.

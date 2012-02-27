@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+v1.28b14 - BlackICE KANG  : BlackICE.v1.28b14-20120227_195036.zip
+         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
+         - CM7 Base KANG  : chezbel-cm7-20120227_115656.zip
+         - Main changes   : Changed the phone icon that appears on the launcher (at least
+                            for the ADW Launcher) to be black and white instead of green.
+         - Miscellaneous  : This uses the previous CM7 Kang because there were no new CM7
+                            changes and no reason to rebuild it.
+
 v1.28b13 - BlackICE KANG  : BlackICE.v1.28b13-20120227_115656.zip
          - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
          - CM7 Base KANG  : chezbel-cm7-20120227_115656.zip
