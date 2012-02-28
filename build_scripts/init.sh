@@ -442,7 +442,7 @@ if [ "$SHOW_HELP" = "0" ]; then
         SYNC_TYPE="none"
       fi
 
-      if [ "$SYNC_TYPE" != "cm7bi" ]; then
+      if [ "$SYNC_TYPE" = "cm7bi" ]; then
         if [ "$DO_CM7" !=  "1" ]; then
           SYNC_TYPE="bi"
         fi
@@ -451,7 +451,7 @@ if [ "$SHOW_HELP" = "0" ]; then
         fi
       fi
 
-      if [ "$SYNC_TYPE" != "cm9bi" ]; then
+      if [ "$SYNC_TYPE" = "cm9bi" ]; then
         if [ "$DO_CM9" !=  "1" ]; then
           SYNC_TYPE="bi"
         fi
@@ -460,7 +460,7 @@ if [ "$SHOW_HELP" = "0" ]; then
         fi
       fi
 
-      if ([ "$SYNC_TYPE" != "cm7" ] && [ "$DO_CM7" !=  "1" ]) || ([ "$SYNC_TYPE" != "cm9" ] && [ "$DO_CM9" !=  "1" ]); then
+      if ([ "$SYNC_TYPE" = "cm7" ] && [ "$DO_CM7" !=  "1" ]) || ([ "$SYNC_TYPE" = "cm9" ] && [ "$DO_CM9" !=  "1" ]); then
         SYNC_TYPE="none"
       fi
     fi
