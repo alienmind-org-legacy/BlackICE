@@ -72,14 +72,17 @@ fi
 #
 # Rename the ROM to a date tagged name and clean up any old files that might be lying around.
 #
-CM_OLD_ROM=${CM_ROM_DIR}/IceColdSandwich-*.test-signed.zip
+CM_OLD_ROM=${CM_ROM_DIR}/IceColdSandwich-*-signed.zip
 
 # New ROM is what we rename it to.
 # We also need the base name, mainly if building for BlackICE
 CM_NEW_ROM_BASE=${USER}-cm9-${TIMESTAMP}.zip
 CM_NEW_ROM=${CM_ROM_DIR}/${CM_NEW_ROM_BASE}
 
+rm -f ${CM_ROM_DIR}/${USER}-cm9*.zip
+rm -f ${CM_ROM_DIR}/${USER}-cm9*.zip.md5sum
 rm -f ${CM_ROM_DIR}/htc_ace-ota-eng*.zip
+
 
 # Delete the md5sum file that the 'make' just created because it will contain
 # the default Cyanogen name. We will recreate the md5sum next using the new ROM.
