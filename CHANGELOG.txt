@@ -1,6 +1,36 @@
 CHANGELOG
 =========
 
+v1.28b15 - BlackICE KANG  : BlackICE.v1.28b15-20120304_115103.zip
+         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
+         - CM7 Base KANG  : chezbel-cm7-20120304_115103.zip
+         - CM7 changes    : - Enable user specified port for Exchange server. [CyanogenMod/android_packages_apps_Email]
+                            - Toolbox implementation of chown has a bad print [CyanogenMod/android_system_core]
+                            - Fixed commit ac8521c5f94249a33ad7ba870467904b08904101 Ensure that "*cover*" or " [CyanogenMod/android_packages_providers_MediaProvider]
+                            - Added missing danish translation [CyanogenMod/android_packages_apps_CMParts]
+                            - Allow maintainers to restore pre-I7ab734c behaviour [CyanogenMod/android_packages_apps_Gallery3D]
+                            - Fix STARTTLS handshake error in Email's SmtpSender class (GB) [CyanogenMod/android_packages_apps_Email]
+                            - change device specific icon (hdpi/mdpi), original one is 'blur' (Tanguy Pruvot CyanogenMod/android_packages_apps_Settings]
+                            - Fix battery charging detection in NotificationManagerService [CyanogenMod/android_frameworks_base]
+                            - always use orientation sensor for screen rotation [CyanogenMod/android_packages_apps_Gallery3D]
+                            - Add Motorola Wrigley 3G RIL. [Danny Baumann CyanogenMod/android_frameworks_base]
+                            - Use supplementary service notifications to display additional call info. [CyanogenMod/android_packages_apps_Phone]
+                            - wifi: move AP driver configuration in board flags [CyanogenMod/android_hardware_libhardware_legacy]
+                            - CMParts: tr: Notification power widget mobiledata auto 2g/3g [CyanogenMod/android_packages_apps_CMParts]
+                            - telephony: Display Supplementary Service Notifications. [CyanogenMod/android_frameworks_base]
+                            - CallFeatureSetting: only disable cellular specific options in airplane mode [CyanogenMod/android_packages_apps_Phone]
+                            - T9 Dialer: View contact on long press on T9 results [CyanogenMod/android_packages_apps_Contacts]
+                            - toolbox: prefer busybox dmesg [CyanogenMod/android_system_core]
+                            - Add build date to 'About phone'. [CyanogenMod/android_packages_apps_Settings]
+                            - Add ARMv7 optimized strlen() also update libc/Android.mk to actually use it [CyanogenMod/android_bionic]
+                            - linker: optimize SysV ELF hash function [CyanogenMod/android_bionic]
+                            - memmove: Fix the abuse of memcpy() for overlapping regions [CyanogenMod/android_bionic]
+                            - policy: do not count invalid fingerprint swipes as bad tries [CyanogenMod/android_frameworks_base]
+                            - update OI File Manager 1.1.6 [CyanogenMod/android_packages_apps_FileManager]
+                            - cm: Tag 7.2.0-RC1 [CyanogenMod/android_vendor_cyanogen gb-release-7.2]
+                            - net: wireless: bcm4329: Fix pno_enable if disassociated [CyanogenMod/htc-kernel-msm7x30 android-msm-2.6.35]
+         - Miscellaneous  : The automated CM7 change log tool has switched to CM9 only, so I had to find the above by hand so there could be mistakes.
+
 v1.28b14 - BlackICE KANG  : BlackICE.v1.28b14-20120227_195036.zip
          - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
          - CM7 Base KANG  : chezbel-cm7-20120227_115656.zip

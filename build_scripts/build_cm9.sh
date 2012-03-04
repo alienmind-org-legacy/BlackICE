@@ -42,7 +42,8 @@ ${CCACHE_TOOL_DIR}/ccache -M 20G
 
 # This is a bit of a hack, but the ICS build doesn't just use the base phone name.
 # Perhaps this will change as development progresses.
-CM9_PHONE=htc_${PHONE}-eng
+##CM9_PHONE=htc_${PHONE}-eng
+CM9_PHONE=htc_${PHONE}-userdebug
 
 if [ "$CM79_MAKE" = "full" ]; then
   banner "make clobber"
