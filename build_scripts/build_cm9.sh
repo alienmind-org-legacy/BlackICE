@@ -77,7 +77,7 @@ CM_OLD_ROM=${CM_ROM_DIR}/IceColdSandwich-*-signed.zip
 
 # New ROM is what we rename it to.
 # We also need the base name, mainly if building for BlackICE
-CM_NEW_ROM_BASE=${USER}-cm9-${TIMESTAMP}.zip
+CM_NEW_ROM_BASE=${USER}-cm9-${UTC_DATE_FILE}.zip
 CM_NEW_ROM=${CM_ROM_DIR}/${CM_NEW_ROM_BASE}
 
 rm -f ${CM_ROM_DIR}/${USER}-cm9*.zip

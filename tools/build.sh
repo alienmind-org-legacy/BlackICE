@@ -66,8 +66,11 @@ function banner() {
 }
 
 
-# This time is used for our log and our final ROM(s).
-TIMESTAMP=`date +%Y%m%d_%H%M%S`
+# Get the UTC time in 2 formats
+#  - UTC_DATE_STRING is a human readable string for display purposes
+#  - UTC_DATE_FILE is the *same* date, but suitable for including in file names
+UTC_DATE_STRING=`date -u`
+UTC_DATE_FILE=`date -u --date="${UTC_DATE_STRING}" +%Y.%m.%d_%H.%M.%S_%Z`
 
 # Get the full path of the directory that the script is running in.
 # This is expected to be the BlackICE/tools directory.
@@ -79,12 +82,12 @@ BUILD_DIR=`GetAbsoluteDirOfFile $0`
 # Note that until we successfully load util_sh we need to use 'echo' to write to
 # the log. After util_sh is loaded we can use ShowMessage.
 #
-LOG=${BUILD_DIR}/../build-${TIMESTAMP}.log
+LOG=${BUILD_DIR}/../build-${UTC_DATE_FILE}.log
 export LOG
 
 # Reset log
 echo "" > $LOG
-echo "Date    : $TIMESTAMP" >> $LOG
+echo "Date    : $UTC_DATE_STRING" >> $LOG
 echo "Cmd Line: $@" >> $LOG
 
 

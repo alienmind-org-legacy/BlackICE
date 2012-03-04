@@ -1,4 +1,5 @@
 ro.modversion=BLACKICE_VERSION
+ro.build.date=BLACKICE_BUILD_DATE
 ro.sf.lcd_density=200
 debug.sf.hw=1
 wifi.supplicant_scan_interval=100

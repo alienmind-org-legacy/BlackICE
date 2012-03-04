@@ -15,18 +15,11 @@
 source ${SCRIPT_DIR}/../conf/sources.ini || ExitError "Sourcing 'conf/sources.ini'"
 source ${SCRIPT_DIR}/../conf/blackice.ini  || ExitError "Sourcing 'conf/blackice.ini'"
 
-#
-# We use another variable here because we don't want to change the global
-# TIMESTAMP variable. For an official release we just add a prefix of 'RC-'
-# to the timestamp to denote Release Candidate.
-TIMESTAMP_OR_OFFICIAL=${TIMESTAMP}
-if [ "$OFFICIAL" = "yes" ]; then
-  TIMESTAMP_OR_OFFICIAL="RC-${TIMESTAMP}"
-fi
-
 # Modify the BlackICE Version to contain the timestamp
-BLACKICE_VERSION=${BLACKICE_VERSION}-${TIMESTAMP_OR_OFFICIAL}
-
+BLACKICE_VERSION=${BLACKICE_VERSION}-${UTC_DATE_FILE}
+if [ "$OFFICIAL" = "yes" ]; then
+  BLACKICE_VERSION=${BLACKICE_VERSION}-RC-${UTC_DATE_FILE}
+fi
 
 # Base name for CM7/CM9 KANG that we build BlackICE on top of.
 # If this doesn't exist we will try to download it from
@@ -212,8 +205,7 @@ for i in `find $OUT_DIR/ -name '*.prop.append'`; do
    ShowMessage "  [PROP]     " `basename "$i"`
    ${TOOLS_DIR}/propreplace.awk $i $BASE > $BASE.new
    # Customize versioning from blackice.ini
-   cat $BASE.new | sed "s/BLACKICE_VERSION/$BLACKICE_VERSION/g" \
-        > $BASE ; rm -f $i $BASE.new
+   cat $BASE.new | sed "s/BLACKICE_VERSION/$BLACKICE_VERSION/g" | sed "s/BLACKICE_BUILD_DATE/$UTC_DATE_STRING/g" > $BASE ; rm -f $i $BASE.new
 done
 
 # Remaining .append files are simply appended to original ones

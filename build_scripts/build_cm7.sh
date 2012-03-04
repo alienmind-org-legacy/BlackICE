@@ -50,6 +50,11 @@ if [ "$CM79_MAKE" = "full" ]; then
 else
   if [ "$CM79_MAKE" = "bacon" ]; then
     banner "build/envsetup.sh && breakfast ${PHONE}"
+
+    # Force build.prop to be recreated so that ro.build.date will always be updated
+    # since this is viewable on "Settings-->About Phone" now.
+    rm -f ${CM7_DIR}/out/target/product/${PHONE}/system/build.prop
+
     source build/envsetup.sh >> $LOG || ExitError "Running 'build/envsetup.sh'"
     breakfast ${PHONE} >> $LOG || ExitError "Running 'breakfast ${PHONE}'"
 
@@ -73,7 +78,7 @@ CM_OLD_ROM=${CM_ROM_DIR}/update-cm-*-signed.zip
 
 # New ROM is what we rename it to.
 # We also need the base name, mainly if building for BlackICE
-CM_NEW_ROM_BASE=${USER}-cm7-${TIMESTAMP}.zip
+CM_NEW_ROM_BASE=${USER}-cm7-${UTC_DATE_FILE}.zip
 CM_NEW_ROM=${CM_ROM_DIR}/${CM_NEW_ROM_BASE}
 
 rm -f ${CM_ROM_DIR}/${USER}-cm7*.zip

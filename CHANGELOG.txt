@@ -1,5 +1,13 @@
 CHANGELOG
 =========
+v1.28b15 - BlackICE KANG  : BlackICE.v1.28b15-2012.03.04_11.17.50_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.04_10.59.07_UTC.zip
+         - Main changes   : Build script changes
+                            - The timestamp in the file names is formatted better and uses UTC.
+                            - ro.build.date in the build prop now uses the BlackICE build date.
+                              This shows up when you look at "Settings--> About Phone"
+         - Miscellaneous  : Forgot to bump the build number, oops.
 
 v1.28b15 - BlackICE KANG  : BlackICE.v1.28b15-20120304_115103.zip
          - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
