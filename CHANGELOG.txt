@@ -1,5 +1,12 @@
 CHANGELOG
 =========
+v1.28b16 - BlackICE KANG  : BlackICE.v1.28b16-2012.03.06_01.32.38_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.06_01.32.38_UTC.zip
+         - CM7 changes    : Add support for EXIF datetime on Qualcomm libcameras [CyanogenMod/android_packages_apps_Camera]
+         - Miscellaneous  : - I'm not sure that the CM7 change is actually useful for Desire HD
+                            - The kernel supports 2WCR (2 Way Call Recording)
+
 v1.28b15 - BlackICE KANG  : BlackICE.v1.28b15-2012.03.04_11.17.50_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.04_10.59.07_UTC.zip
