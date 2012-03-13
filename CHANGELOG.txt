@@ -1,5 +1,24 @@
 CHANGELOG
 =========
+v1.28b17 - BlackICE KANG  : BlackICE.v1.28b17-2012.03.13_17.09.55_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.13_17.09.55_UTC.zip
+         - Main changes   : None
+         - CM7 changes    : - Create Kineto-compatible AudioTrack::set and AudioRecord::set methods. [CyanogenMod/android_frameworks_base]
+                            - Create Kineto-compatible AudioTrack::set and AudioRecord::set methods. [CyanogenMod/android_frameworks_base]
+                            - Show PIN entry screen even if lockscreen is disabled. [CyanogenMod/android_frameworks_base]
+                            - Show PIN entry screen even if lockscreen is disabled. [CyanogenMod/android_frameworks_base]
+                            - Improve toast strings. [CyanogenMod/android_packages_apps_Phone]
+                            - Improve toast strings. [CyanogenMod/android_packages_apps_Phone]
+                            - Hide SSN toasts by default. [CyanogenMod/android_packages_apps_Phone]
+                            - Hide SSN toasts by default. [CyanogenMod/android_packages_apps_Phone]
+                            - Fix soft keyboard appearing on dialer under certain conditions. [CyanogenMod/android_packages_apps_Contacts]
+                            - Backport "disappearing SD media" fixes from CM9. [CyanogenMod/android_packages_providers_MediaProvider]
+                            - Revert "ace: Support for Webkit acceleration" [CyanogenMod/android_device_htc_ace]
+                            - Revert "ace: Support for Webkit acceleration" [CyanogenMod/android_device_htc_ace]
+         - Miscellaneous  : - The CM7 base KANG should be the same as update-cm-7-20120313-NIGHTLY-ace-signed.zip except for our normal patches.
+                            - The list of CM7 changes are my best guess as to what changed since the automated tool is not working.
+
 v1.28b16 - BlackICE KANG  : BlackICE.v1.28b16-2012.03.06_01.32.38_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.06_01.32.38_UTC.zip
