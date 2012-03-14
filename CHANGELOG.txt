@@ -1,5 +1,13 @@
 CHANGELOG
 =========
+v1.28b18 - BlackICE KANG  : BlackICE.v1.28b18-2012.03.14_16.31.08_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.14_16.31.08_UTC.zip
+         - Main changes   : None
+         - CM7 changes    : - Error handling for Network Plugin API getContext [CyanogenMod/android_external_webkit]
+                            - Error handling in WebViewCore::contentDraw [CyanogenMod/android_external_webkit]
+                            - Cherry-pick WebKit r100677 to fix a rendering crash [CyanogenMod/android_external_webkit]
+
 v1.28b17 - BlackICE KANG  : BlackICE.v1.28b17-2012.03.13_17.09.55_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.13_17.09.55_UTC.zip
