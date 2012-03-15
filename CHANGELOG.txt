@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v1.28b19 - BlackICE KANG  : BlackICE.v1.28b19-2012.03.15_17.06.54_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.15_02.11.43_UTC.zip
+         - Main changes   : Added Market 3.4.7 (Google Play) to ICETool
+
 v1.28b18 - BlackICE KANG  : BlackICE.v1.28b18-2012.03.14_16.31.08_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.14_16.31.08_UTC.zip

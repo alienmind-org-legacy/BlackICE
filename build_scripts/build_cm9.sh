@@ -54,14 +54,16 @@ if [ "$CM79_MAKE" = "full" ]; then
 
 else
   if [ "$CM79_MAKE" = "bacon" ]; then
-    banner "build/envsetup.sh && breakfast ${CM9_PHONE}"
+    banner "build/envsetup.sh && lunch ${CM9_PHONE}"
     source build/envsetup.sh >> $LOG || ExitError "Running 'build/envsetup.sh'"
-    breakfast ${CM9_PHONE} >> $LOG || ExitError "Running 'breakfast ${CM9_PHONE}'"
+    lunch ${CM9_PHONE} >> $LOG || ExitError "Running 'lunch ${CM9_PHONE}'"
 
     # Making the bacon is the main build.
     NUM_CPUS=`grep -c processor /proc/cpuinfo`
-    banner "make bacon -j ${NUM_CPUS}"
-    make bacon -j ${NUM_CPUS} >> $LOG || ExitError "Running 'make bacon'"
+##    banner "make bacon -j ${NUM_CPUS}"
+##    make bacon -j ${NUM_CPUS} >> $LOG || ExitError "Running 'make bacon'"
+    banner "make lord -j ${NUM_CPUS}"
+    make lord -j ${NUM_CPUS} >> $LOG || ExitError "Running 'make lord'"
   fi
 fi
 

@@ -160,6 +160,8 @@ InstallMarket() {
   RemountSys "rw"
   pm uninstall com.android.vending
   rm -f /data/app/com.android.vending*apk
+  rm -rf /data/data/com.android.vending
+  rm -f /system/app/Vending*.apk
   cp $APK /system/app/Vending.apk
   chmod 644 /system/app/Vending.apk
   if [ "$RECOVERY_MODE" != "1" ]; then
