@@ -143,6 +143,10 @@ mkdir $KERNEL_DIR
 cd $KERNEL_DIR
 unzip -x $KERNELFILE >> $LOG || ExitError "Can't unzip $KERNELFILE"
 
+# Get rid of rmcallr.sh if it exists. That script deletes /data/app/CallRecorder*.apk
+# which we want for 2-way call recording.
+rm -f system/rmcallr.sh
+
 ${TOOLS_DIR}/mkbootimg.sh $KANG_DIR/boot.img $KERNEL_DIR/kernel/zImage $KERNEL_DIR/boot.img >> $LOG 2>&1 || ExitError "Can't run mkbootimg.sh"
 cd - &>/dev/null
 

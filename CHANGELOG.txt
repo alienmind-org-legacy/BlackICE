@@ -1,5 +1,16 @@
 CHANGELOG
 =========
+
+v1.28b20 - BlackICE KANG  : BlackICE.v1.28b20-2012.03.18_10.16.43_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.18_10.16.43_UTC.zip
+         - Main changes   : The build process now deletes /system/rmcallr.sh from the kernel
+                            if it exists. That script deletes /data/app/CallRecorder*.apk, which
+                            is needed for 2-way call recording. FYI, I have not actually tested
+                            this feature.
+         - CM7 changes    : - cm: Tag 7.2.0-RC1 [CyanogenMod/android_vendor_cyanogen]
+                            - zlib: Update to version on adler32/slhash repo as of Mar 07, 2012 [CyanogenMod/android_external_zlib]
+
 v1.28b19 - BlackICE KANG  : BlackICE.v1.28b19-2012.03.15_17.06.54_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.15_02.11.43_UTC.zip
