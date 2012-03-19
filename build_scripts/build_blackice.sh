@@ -18,7 +18,7 @@ source ${SCRIPT_DIR}/../conf/blackice.ini  || ExitError "Sourcing 'conf/blackice
 # Modify the BlackICE Version to contain the timestamp
 BLACKICE_VERSION=${BLACKICE_VERSION}-${UTC_DATE_FILE}
 if [ "$OFFICIAL" = "yes" ]; then
-  BLACKICE_VERSION=${BLACKICE_VERSION}-RC-${UTC_DATE_FILE}
+  BLACKICE_VERSION=${BLACKICE_VERSION}-RC
 fi
 
 # Base name for CM7/CM9 KANG that we build BlackICE on top of.

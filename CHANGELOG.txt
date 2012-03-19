@@ -1,5 +1,13 @@
 CHANGELOG
 =========
+v1.50  - BlackICE KANG  : BlackICE.v1.50-2012.03.19_11.40.36_UTC-RC.zip
+       - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+       - CM7 Base KANG  : chezbel-cm7-2012.03.19_11.40.36_UTC.zip
+       - Main changes   : - v1.50 official release
+                          - Changed default Market to 3.4.7 (Google Play)
+                          - ICETool Market choices now say "Google Market" or "Google Play" depending on the version
+                          - Removed Vending-3.4.4-Modified_for_all_DPIs.apk from GIT. However, it will still show up if you do not delete it from your sdcard
+       - CM7 changes    : -1.1.7: no more ifdef ALLOW_BOOT_NORMAL, test stock.sh presence [CyanogenMod/android_external_bootmenu]
 
 v1.28b20 - BlackICE KANG  : BlackICE.v1.28b20-2012.03.18_10.16.43_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip

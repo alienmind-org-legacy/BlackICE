@@ -1,8 +1,8 @@
 #!/sbin/sh
 
-# Install default market
+# Install default market (3.4.7 is the first version of Google Play)
 if [ ! -f /system/app/Vending.apk ]; then
-  cp -p /sdcard/blackice/market/Vending-2.3.6.apk /system/app/Vending.apk
+  cp -p /sdcard/blackice/market/Vending-3.4.7.apk /system/app/Vending.apk
   chmod 644 /system/app/Vending.apk
 fi
 
