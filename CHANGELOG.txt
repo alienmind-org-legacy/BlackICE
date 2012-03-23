@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v1.50b2  - BlackICE KANG  : BlackICE.v1.50b2-2012.03.23_11.41.35_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.23_11.41.35_UTC.zip
+         - CM7 changes    : - Fix cursor repeatedly moving back to beginning of To field [CyanogenMod/android_packages_apps_Mms]
+                            - Remove heap size translations [CyanogenMod/android_packages_apps_CMParts]
 
 v1.50b1  - BlackICE KANG  : BlackICE.v1.50b1-2012.03.19_16.27.07_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
