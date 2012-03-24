@@ -1,5 +1,22 @@
 CHANGELOG
 =========
+v1.50b3  - BlackICE KANG  : BlackICE.v1.50b3-2012.03.24_17.17.26_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.24_07.44.12_UTC.zip
+         - Main changes   : - ICETool no longer tries to launch the Market after changing to a new version.
+                              This did not always work and for some reason was worse with 3.5.15.
+                            - Added Google Play 3.5.15 to ICETool's choices.
+                            - Renamed Vending-3.4.7-lc-ics.apk to Vending-3.4.7-all-dpi.apk so the name matches the purpose
+                            - Delete Dalvik cache entries for "vending" when ICETool switches to a different Market
+         - CM7 changes    : - Dialer: Fix initial state for t9 sort mode [CyanogenMod/android_packages_apps_Contacts]
+                            - ipsec-tools: racoon: introduce authentication method parameter [CyanogenMod/android_external_ipsec-tools]
+                            - policy: implement Motoblur-like fingerprint tactile feedback [CyanogenMod/android_frameworks_base]
+                            - ADW: add sortable apps list for catalog setup. [CyanogenMod/android_packages_apps_ADWLauncher]
+                            - Added a max SMS length option. [CyanogenMod/android_packages_apps_Mms]
+                            - Add option to enable/disable the ICS rotation animation [CyanogenMod/android_packages_apps_CMParts]
+                            - apns-conf.xml: Fix APN for Mobifone (Vietnam Mobile Telecom Services Company [CyanogenMod/android_vendor_cyanogen]
+                            - french: supplementary service notifications [CyanogenMod/android_packages_apps_Phone]
+
 v1.50b2  - BlackICE KANG  : BlackICE.v1.50b2-2012.03.23_11.41.35_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.23_11.41.35_UTC.zip

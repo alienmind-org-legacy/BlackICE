@@ -156,33 +156,45 @@ Reboot() {
 
 InstallMarket() {
   local APK=$1
-  local VER=${APK##Vending-}
-  RemountSys "rw"
-  pm uninstall com.android.vending
+
   rm -f /data/app/com.android.vending*apk
   rm -rf /data/data/com.android.vending
+  rm -f /cache/dalvik-cache/system@app@Vending*.apk*
+  rm -f /data/dalvik-cache/data@app@com.android.vending*.apk*
+  pm uninstall com.android.vending
+  RemountSys "rw"
   rm -f /system/app/Vending*.apk
-  cp $APK /system/app/Vending.apk
+  cp ${APK} /system/app/Vending.apk
   chmod 644 /system/app/Vending.apk
-  if [ "$RECOVERY_MODE" != "1" ]; then
-    pm install $APK
-  fi
+  mount -o remount,ro /system
   RemountSys "ro"
+
+  if [ "$RECOVERY_MODE" != "1" ]; then
+    pm install ${APK}
+  fi
 }
 
-LaunchMarket() {
-  if [ "$RECOVERY_MODE" != "1" ]; then
-    am start -a android.intent.action.MAIN -n com.android.vending/com.android.vending.AssetBrowserActivity
-  fi
-}
+##LaunchMarket() {
+##  if [ "$RECOVERY_MODE" != "1" ]; then
+##    am start -a android.intent.action.MAIN -n com.android.vending/com.android.vending.AssetBrowserActivity
+##  fi
+##}
 
 Market() {
   VER=$1
   APK=$MARKET_DIR/Vending-${VER}.apk
   if [ -f $APK ]; then
     InstallMarket $APK &>/dev/null
-    LaunchMarket &>/dev/null
+##    LaunchMarket &>/dev/null
     echo "Market $VER version installed"
+    echo ""
+    echo "NOTES"
+    echo " - If you do not reboot, then..."
+    echo "    * The Market may close by itself the first time, so"
+    echo "       may have to try 2 times to run it."
+    echo "    * You may not see the Market icon in your Launcher"
+    echo "       until you restart the Launcher."
+    echo ""
   else
     echo "Couldn't find Market version $VER"
     exit 1
