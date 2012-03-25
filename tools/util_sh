@@ -63,6 +63,6 @@ function CheckDownloadZip() {
   else
     ShowMessage "  [GET] "`basename $1`
     rm -f "$FILE"
-    wget "$1" >> $LOG 2>&1
+    wget -nv "$1" >> $LOG 2>&1
   fi
 }

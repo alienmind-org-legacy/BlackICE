@@ -1,5 +1,20 @@
 CHANGELOG
 =========
+v1.50b4  - BlackICE KANG  : BlackICE.v1.50b4-2012.03.25_07.53.33_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.25_07.53.33_UTC.zip
+         - Main changes   : Using newer versions of the following apps (also update them in
+                            buildpackages (where they are downloaded from if doing your own build)
+                            - com.adobe.flashplayer-1.apk
+                            - com.google.android.apps.maps-1.apk
+                            - com.google.android.apps.translate-1.apk
+                            - com.google.android.apps.unveil-1.apk
+                            - com.google.android.youtube-1.apk
+                            - com.keramidas.TitaniumBackup-1.apk
+                            - dev.sci.systune-1.apk
+         - CM7 changes    : - Added option to lock Action Buttons in main dock [CyanogenMod/android_packages_apps_ADWLauncher]
+                            - PatternUnlockScreen: Battery status can be shown if desired. [CyanogenMod/android_frameworks_base]
+
 v1.50b3  - BlackICE KANG  : BlackICE.v1.50b3-2012.03.24_17.17.26_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.24_07.44.12_UTC.zip
