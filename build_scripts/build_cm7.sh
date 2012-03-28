@@ -58,10 +58,9 @@ else
     source build/envsetup.sh >> $LOG || ExitError "Running 'build/envsetup.sh'"
     breakfast ${PHONE} >> $LOG || ExitError "Running 'breakfast ${PHONE}'"
 
-    # Making the bacon is the main build.
-    NUM_CPUS=`grep -c processor /proc/cpuinfo`
-    banner "make bacon -j ${NUM_CPUS}"
-    make bacon -j ${NUM_CPUS} >> $LOG || ExitError "Running 'make bacon'"
+    # Making the bacon is the main build (MAX_CPUS was calculated in init.sh).
+    banner "make bacon -j ${MAX_CPUS}"
+    make bacon -j ${MAX_CPUS} >> $LOG || ExitError "Running 'make bacon'"
   fi
 fi
 

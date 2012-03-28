@@ -49,6 +49,12 @@
 #     none = same as above
 #     Affects the variable SYNC_TYPE
 #
+#  -synccpus = n
+#     n < 0 = CPUs to use during sync = max - n (result must be > 0)
+#     0     = Use all CPUs during sync
+#     n > 0 = Use n CPUs during sync (n must be <= max)
+#     Affects the variable SYNC_CPUS
+#
 #  -fpatch {no, yes, 0, 1}
 #     no   = do not force patches to be applied when not syncing (default and suggested)
 #     0    = same as 'no'
@@ -287,6 +293,12 @@ while [ $# -gt 0 ] && [ "$SHOW_HELP" = "0" ]; do
     SHOW_HELP=0
   fi
 
+  if [ "$1" = "-synccpus" ]; then
+    shift 1
+    SYNC_CPUS=$1
+    SHOW_HELP=0
+  fi
+
   if [ "$1" = "-push" ]; then
     shift 1
     PUSH_TO_PHONE=$1
@@ -462,6 +474,34 @@ if [ "$SHOW_HELP" = "0" ]; then
 
       if ([ "$SYNC_TYPE" = "cm7" ] && [ "$DO_CM7" !=  "1" ]) || ([ "$SYNC_TYPE" = "cm9" ] && [ "$DO_CM9" !=  "1" ]); then
         SYNC_TYPE="none"
+      fi
+    fi
+
+    MAX_CPUS=`grep -c processor /proc/cpuinfo`
+    MIN_CPUS=$(( 1 - MAX_CPUS ))
+    if [ "$SYNC_CPUS" = "" ] || ! [[ "$SYNC_CPUS" =~ ^-?[0-9]+$ ]]; then
+      echo ""
+      echo "  ERROR: SYNC_CPUS (in .ini file) or '-synccpus' must be a number, saw '${SYNC_CPUS}'"
+      echo ""
+      SHOW_HELP=1
+    else
+      if [ "$SYNC_CPUS" -eq "0" ]; then
+        NUM_CPUS=$MAX_CPUS
+      else
+        if [ "$SYNC_CPUS" -lt "0" ]; then
+          # Use '+' here because SYNC_CPUS is negative!
+          NUM_CPUS=$(( MAX_CPUS + SYNC_CPUS))
+        else
+          NUM_CPUS=$SYNC_CPUS
+        fi
+      fi
+
+      # We don't prevent someone from specifying more CPUs than they have.
+      if [ "$NUM_CPUS" -lt "$MIN_CPUS" ] || [ "$NUM_CPUS" -eq "0" ]; then
+        echo ""
+        echo "  ERROR: SYNC_CPUS (in .ini file) or '-synccpus' value results in an invalid number: '${SYNC_CPUS}' --> '${NUM_CPUS}'"
+        echo ""
+        SHOW_HELP=1
       fi
     fi
 
@@ -691,6 +731,11 @@ if [ "$SHOW_HELP" = "1" ]; then
   echo "       Do a sync of CM7, CM9, BlackICE, CM7+BlackICE, CM9+BlackICE or nothing."
   echo "       CM7 and CM9 use 'repo sync', BlackICE uses 'git pull'"
   echo "       The sync is done before the build"
+  echo "    -synccpus ${MIN_CPUS}..?"
+  echo "       < 0 = subtract from ${MAX_CPUS} (must end up > 0)"
+  echo "         0 = use ${MAX_CPUS} (max on this system)"
+  echo "       > 0 = use that value even if greater than ${MAX_CPUS}"
+  echo "       Number of CPUs to use when doing a sync"
   echo "    -push {no, yes, 0, 1}"
   echo "       no or 0 = do not 'adb push' KANG to phone, yes or 1 = 'adb push' KANG to phone"
   echo "    -fpatch {no, yes, 0, 1}"
@@ -961,7 +1006,7 @@ if [ "$CLEAN_ONLY" = "0" ]; then
     if  [ "$CM79_MAKE" = "bacon" ]; then
       ShowMessage "   CM9 make       = make bacon"
     else
-      ShowMessage "   CM9 make       = make clobber + brunch"
+      ShowMessage "   CM9 make       = make clobber + lunch"
     fi
   fi
 
@@ -1006,19 +1051,19 @@ if [ "$CLEAN_ONLY" = "0" ]; then
   fi
 
   if [ "$SYNC_TYPE" = "cm7" ]; then
-    ShowMessage "   Sync           = CM7 (repo sync)"
+    ShowMessage "   Sync           = CM7 (repo sync) using ${NUM_CPUS} CPUs"
   fi
   if [ "$SYNC_TYPE" = "cm9" ]; then
-    ShowMessage "   Sync           = CM9 (repo sync)"
+    ShowMessage "   Sync           = CM9 (repo sync) using ${NUM_CPUS} CPUs"
   fi
   if [ "$SYNC_TYPE" = "bi" ]; then
-    ShowMessage "   Sync           = BlackICE (git pull)"
+    ShowMessage "   Sync           = BlackICE (git pull) using ${NUM_CPUS} CPUs"
   fi
   if [ "$SYNC_TYPE" = "cm7bi" ]; then
-    ShowMessage "   Sync           = CM7 + BlackICE (repo sync + git pull)"
+    ShowMessage "   Sync           = CM7 + BlackICE (repo sync + git pull) using ${NUM_CPUS} CPUs"
   fi
   if [ "$SYNC_TYPE" = "cm9bi" ]; then
-    ShowMessage "   Sync           = CM9 + BlackICE (repo sync + git pull)"
+    ShowMessage "   Sync           = CM9 + BlackICE (repo sync + git pull) using ${NUM_CPUS} CPUs"
   fi
   if [ "$SYNC_TYPE" = "none" ]; then
     ShowMessage "   Sync           = none"

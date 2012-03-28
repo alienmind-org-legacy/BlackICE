@@ -1,5 +1,12 @@
 CHANGELOG
 =========
+v1.50b5  - BlackICE KANG  : BlackICE.v1.50b5-2012.03.28_16.12.07_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.28_16.12.07_UTC.zip
+         - Main changes   :
+         - CM7 changes    : - Externalize symbol picker options to resources [CyanogenMod/android_frameworks_base]
+                            - Sanity check item for being non-null. [CyanogenMod/android_frameworks_base]
+
 v1.50b4  - BlackICE KANG  : BlackICE.v1.50b4-2012.03.25_07.53.33_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.25_07.53.33_UTC.zip

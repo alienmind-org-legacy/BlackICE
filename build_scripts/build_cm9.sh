@@ -48,24 +48,19 @@ CM9_PHONE=htc_${PHONE}-userdebug
 if [ "$CM79_MAKE" = "full" ]; then
   banner "make clobber"
   make clobber >> $LOG || ExitError "Running 'make clobber'"
-
-  banner "build/envsetup.sh && brunch ${CM9_PHONE}"
-  (source build/envsetup.sh && brunch ${CM9_PHONE}) >> $LOG || ExitError "Running 'build/envsetup.sh && brunch ${CM9_PHONE}'"
-
-else
-  if [ "$CM79_MAKE" = "bacon" ]; then
-    banner "build/envsetup.sh && lunch ${CM9_PHONE}"
-    source build/envsetup.sh >> $LOG || ExitError "Running 'build/envsetup.sh'"
-    lunch ${CM9_PHONE} >> $LOG || ExitError "Running 'lunch ${CM9_PHONE}'"
-
-    # Making the bacon is the main build.
-    NUM_CPUS=`grep -c processor /proc/cpuinfo`
-##    banner "make bacon -j ${NUM_CPUS}"
-##    make bacon -j ${NUM_CPUS} >> $LOG || ExitError "Running 'make bacon'"
-    banner "make lord -j ${NUM_CPUS}"
-    make lord -j ${NUM_CPUS} >> $LOG || ExitError "Running 'make lord'"
-  fi
 fi
+
+banner "build/envsetup.sh && lunch ${CM9_PHONE}"
+source build/envsetup.sh >> $LOG || ExitError "Running 'build/envsetup.sh'"
+lunch ${CM9_PHONE} >> $LOG || ExitError "Running 'lunch ${CM9_PHONE}'"
+
+# Making the bacon is the main build (MAX_CPUS was calculated in init.sh).
+  ## There should probably be an option for whether or not to use LorD ClockaN's
+  ## version or some other version???
+  ##    banner "make bacon -j ${MAX_CPUS}"
+  ##    make bacon -j ${MAX_CPUS} >> $LOG || ExitError "Running 'make bacon'"
+banner "make lord -j ${MAX_CPUS}"
+make lord -j ${MAX_CPUS} >> $LOG || ExitError "Running 'make lord'"
 
 #
 # NOTE: Our variable names use CM_ instead of CM9_. This makes the master build.sh

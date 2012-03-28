@@ -177,16 +177,16 @@ fi
 
 # Do a CM7 'repo sync' if requested
 if [ "$DO_CM7" = "1" ] && ([ "$SYNC_TYPE" = "cm7" ] || [ "$SYNC_TYPE" = "cm7bi" ]); then
-  banner "CM7 repo sync -j16"
+  banner "CM7 repo sync -j ${NUM_CPUS}"
   cd ${CM7_DIR}
-  repo sync -j16 >> $LOG  || ExitError "Running CM7 'repo sync'"
+  repo sync -j ${NUM_CPUS} >> $LOG  || ExitError "Running CM7 'repo sync'"
 fi
 
 # Do a CM9 'repo sync' if requested
 if [ "$DO_CM9" = "1" ] && ([ "$SYNC_TYPE" = "cm9" ] || [ "$SYNC_TYPE" = "cm9bi" ]); then
-  banner "CM9 repo sync -j16"
+  banner "CM9 repo sync -j ${NUM_CPUS}"
   cd ${CM9_DIR}
-  repo sync -j16 >> $LOG  || ExitError "Running CM9 'repo sync'"
+  repo sync -j ${NUM_CPUS} >> $LOG  || ExitError "Running CM9 'repo sync'"
 fi
 
 # Do a BlackICE 'git pull' if requested
