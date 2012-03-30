@@ -1,9 +1,32 @@
 CHANGELOG
 =========
+
+v1.50b6  - BlackICE KANG  : BlackICE.v1.50b6-2012.03.30_16.12.36_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.30_16.12.36_UTC.zip
+         - CM7 changes    : - Fix possible null-pointer exception [CyanogenMod/android_packages_apps_Bluetooth]
+                            - policy: fix "Skip on security" functionality [CyanogenMod/android_frameworks_base]
+                            - Fix wrong 'USB debugging connected' notify color [CyanogenMod/android_frameworks_base]
+                            - Mms: Dutch translation [CyanogenMod/android_packages_apps_Mms]
+                            - Contacts: Add Dutch translations [CyanogenMod/android_packages_apps_Contacts]
+                            - Settings: Dutch translation [CyanogenMod/android_packages_apps_Settings]
+                            - CMParts: missing Dutch lines [CyanogenMod/android_packages_apps_CMParts]
+                            - ADWLauncher: Add and update dutch [CyanogenMod/android_packages_apps_ADWLauncher]
+                            - RU-Update translation-ADWLauncher [CyanogenMod/android_packages_apps_ADWLauncher]
+                            - RU-Update-CMParts [CyanogenMod/android_packages_apps_CMParts]
+                            - RU-Update-CM7-Max SMS length option [CyanogenMod/android_packages_apps_Mms]
+                            - Fix some weird strings in czech translation [CyanogenMod/android_packages_apps_CMParts]
+                            - RU-Update-FileManager [CyanogenMod/android_packages_apps_FileManager]
+                            - RU-Update-Superuser [CyanogenMod/android_packages_apps_Superuser]
+                            - Phone: tr: Use supplementary service notifications to display additional call in [CyanogenMod/android_packages_apps_Phone]
+                            - french: widget mobiledata auto 2g/3g and medias [CyanogenMod/android_packages_apps_CMParts]
+                            - Settings: tr: Updated Turkish Translations [CyanogenMod/android_packages_apps_Settings]
+                            - Added T9 italian strings [CyanogenMod/android_packages_apps_Contacts]
+                            - fastboot: set the language local string [CyanogenMod/android_system_core]
+
 v1.50b5  - BlackICE KANG  : BlackICE.v1.50b5-2012.03.28_16.12.07_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.28_16.12.07_UTC.zip
-         - Main changes   :
          - CM7 changes    : - Externalize symbol picker options to resources [CyanogenMod/android_frameworks_base]
                             - Sanity check item for being non-null. [CyanogenMod/android_frameworks_base]
 
