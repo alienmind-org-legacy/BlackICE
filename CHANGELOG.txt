@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v1.50b7  - BlackICE KANG  : BlackICE.v1.50b7-2012.03.31_02.54.37_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.03.31_02.54.37_UTC.zip
+         - CM7 changes    : - Revert "Fix wrong 'USB debugging connected' notify color" ]CyanogenMod/android_frameworks_base]
+                            - cyanogen: also need to Kill this meme here [CyanogenMod/android_vendor_cyanogen]
 
 v1.50b6  - BlackICE KANG  : BlackICE.v1.50b6-2012.03.30_16.12.36_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
