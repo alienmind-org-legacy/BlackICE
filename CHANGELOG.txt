@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.50b9  - BlackICE KANG  : BlackICE.v1.50b9-2012.04.02_01.19.45_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.04.02_01.19.45_UTC.zip
+         - Main changes   :
+         - CM7 changes    : Quick unlock : Fix bug [CyanogenMod/android_frameworks_base]
+
 v1.50b8  - BlackICE KANG  : BlackICE.v1.50b8-2012.03.31_17.17.21_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.03.31_17.17.21_UTC.zip
