@@ -1,0 +1,1 @@
+git checkout -f  packages/SystemUI/src/com/android/systemui/statusbar/CarrierLabel.java

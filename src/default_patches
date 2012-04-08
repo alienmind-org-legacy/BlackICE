@@ -73,8 +73,17 @@ TORCH1 cm7  diff android_frameworks_base@FRAMEWORK_TORCH1.patch frameworks/base
 # BackLight Notification patch: Backlight turns on when email, etc is received.
 # This patch has 2 parts because the changes apply to 2 different CM7 projects.
 #-----
-BACKLIGHT  cm7  git  android_frameworks_base@BACKLIGHT.git  frameworks/base
-BACKLIGHT  cm7  git  android_packages_apps_CMParts@BACKLIGHT.git  packages/apps/CMParts
+BACKLIGHT  cm7  git  android_frameworks_base@BACKLIGHT.git       frameworks/base
+BACKLIGHT  cm7  git  android_packages_apps_CMParts@BACKLIGHT.git packages/apps/CMParts
+
+#-----
+# Carrier Custom Text: Allows suport for $n (newline), $d (default text),
+# $p (plmn text) and $s (spn text) within the custom carrier text..
+# This patch has 2 parts because the changes apply to 2 different CM7 projects.
+#-----
+CARRIER  cm7  diff  android_frameworks_base@CARRIER.git         frameworks/base
+CARRIER  cm7  diff  android_frameworks_base@CARRIER.patch       frameworks/base
+CARRIER  cm7  diff  android_packages_apps_CMParts@CARRIER.patch packages/apps/CMParts
 
 #-----
 # Webkit Acceleration patch

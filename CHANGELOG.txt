@@ -1,5 +1,25 @@
 CHANGELOG
 =========
+v1.50b10 - BlackICE KANG  : BlackICE.v1.50b10-2012.04.08_10.49.06_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.04.08_10.49.06_UTC.zip
+
+         - Main changes   : Add my changes that will get submitted to CM7 soon that enhance
+                            the custom carrier text option at
+                              Settings-->CyanogenMod settings-->Interface-->Statub bar tweaks-->Custom carrier label
+                            The following character sequences have special meanings:
+                              -$n = replace this with a newline if on the status bar or
+                                    with a space if on the lockscreen
+                              -$d = replace this with the default carrier text
+                              -$p = replace this with the plmn carrier text
+                              -$s = replace this with the spn carrier text
+
+         - CM7 changes    :  - Obvious mix of = and == [CyanogenMod/android_dalvik]
+                             - Never save ap_scan setting to config file. [CyanogenMod/android_external_wpa_supplicant_6]
+                             - Settings: Update Dutch translations [CyanogenMod/android_packages_apps_Settings]
+                             - Lockscreen : Update quick unlock summary [CyanogenMod/android_packages_apps_CMParts]
+                             - 1.1.8: fix 2nd-system hidden option, add ADB toggle [CyanogenMod/android_external_bootmenu]
+
 v1.50b9  - BlackICE KANG  : BlackICE.v1.50b9-2012.04.02_01.19.45_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.04.02_01.19.45_UTC.zip
