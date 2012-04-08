@@ -6,7 +6,7 @@ v1.50b10 - BlackICE KANG  : BlackICE.v1.50b10-2012.04.08_10.49.06_UTC.zip
 
          - Main changes   : Add my changes that will get submitted to CM7 soon that enhance
                             the custom carrier text option at
-                              Settings-->CyanogenMod settings-->Interface-->Statub bar tweaks-->Custom carrier label
+                              Settings-->CyanogenMod settings-->Interface-->Status bar tweaks-->Custom carrier label
                             The following character sequences have special meanings:
                               -$n = replace this with a newline if on the status bar or
                                     with a space if on the lockscreen
