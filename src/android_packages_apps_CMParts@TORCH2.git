@@ -1,1 +1,1 @@
-git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_packages_apps_CMParts refs/changes/30/11130/15 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_packages_apps_CMParts refs/changes/30/11130/16 && git cherry-pick FETCH_HEAD

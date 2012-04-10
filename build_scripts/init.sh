@@ -1011,6 +1011,20 @@ if [ "$CLEAN_ONLY" = "0" ]; then
   fi
 
   if [ "$DO_BLACKICE" = "1" ]; then
+    # Since we are doing some type of BlackICE build load the BlackICE specific
+    # variables now so that we have access to them. We used to do this in
+    # build_blackice.sh, but that it too late if we want to display any of that
+    # info here.
+    source ${SCRIPT_DIR}/../conf/sources.ini || ExitError "Sourcing 'conf/sources.ini'"
+    source ${SCRIPT_DIR}/../conf/blackice.ini  || ExitError "Sourcing 'conf/blackice.ini'"
+
+    # Modify the BlackICE Version to contain the timestamp
+    BLACKICE_VERSION=${BLACKICE_VERSION}-${UTC_DATE_FILE}
+    if [ "$OFFICIAL" = "yes" ]; then
+      BLACKICE_VERSION=${BLACKICE_VERSION}-RC
+    fi
+
+    ShowMessage "   BlackICE ver   = $BLACKICE_VERSION"
     ShowMessage "   BlackICE dir   = $BLACKICE_DIR"
     ShowMessage "   Kernel         = $BLACKICE_KERNEL_NAME"
 
@@ -1036,7 +1050,6 @@ if [ "$CLEAN_ONLY" = "0" ]; then
         ShowMessage "   CM base        = $CM79_BASE_NAME"
       fi
     fi
-
   fi
 
   if [ "$ALL_PATCH_LIST" != "" ]; then

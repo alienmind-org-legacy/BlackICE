@@ -9,17 +9,10 @@
 # script variables to already be initialized. It is not intended to be invoked
 # as a standalone script.
 #
-
-# Read config
-
-source ${SCRIPT_DIR}/../conf/sources.ini || ExitError "Sourcing 'conf/sources.ini'"
-source ${SCRIPT_DIR}/../conf/blackice.ini  || ExitError "Sourcing 'conf/blackice.ini'"
-
-# Modify the BlackICE Version to contain the timestamp
-BLACKICE_VERSION=${BLACKICE_VERSION}-${UTC_DATE_FILE}
-if [ "$OFFICIAL" = "yes" ]; then
-  BLACKICE_VERSION=${BLACKICE_VERSION}-RC
-fi
+# the init.sh script has already loaded sources.ini and blackice.ini. The original
+# reason for doing that in init.sh is so we have the full date-tagged BlackICE
+# version available in init.sh.
+#
 
 # Base name for CM7/CM9 KANG that we build BlackICE on top of.
 # If this doesn't exist we will try to download it from
