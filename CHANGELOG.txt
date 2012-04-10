@@ -1,5 +1,16 @@
 CHANGELOG
 =========
+v1.50b11 - BlackICE KANG  : BlackICE.v1.50b11-2012.04.10_01.14.16_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.04.10_01.14.16_UTC.zip
+         - Main changes   : Changed cherry-picks for Torch (long press HOME)
+                              - git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_packages_apps_CMParts refs/changes/30/11130/15 && git cherry-pick FETCH_HEAD
+                              - git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_frameworks_base refs/changes/29/11129/8 && git cherry-pick FETCH_HEAD
+                            New cherry-picks for Custom Carrier Text
+                              - git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_frameworks_base refs/changes/37/14637/1 && git cherry-pick FETCH_HEAD
+                              - git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_packages_apps_CMParts refs/changes/38/14638/1 && git cherry-pick FETCH_HEAD
+         - CM7 changes    : telephony: added support for samsungs realcall parameter needed for incall audio [CyanogenMod/android_frameworks_base]
+
 v1.50b10 - BlackICE KANG  : BlackICE.v1.50b10-2012.04.08_10.49.06_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.04.08_10.49.06_UTC.zip

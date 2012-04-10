@@ -37,6 +37,8 @@ fi
 ##echo "CCACHE_DIR          = '${CCACHE_DIR}'"
 ##echo "PATH                = '${PATH}'"
 
+# Output a newline since setting the cache size causes some output
+echo ""
 ${CCACHE_TOOL_DIR}/ccache -M 10G
 
 

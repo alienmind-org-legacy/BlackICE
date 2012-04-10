@@ -1,1 +1,1 @@
-git checkout -f  packages/SystemUI/src/com/android/systemui/statusbar/CarrierLabel.java
+git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_frameworks_base refs/changes/37/14637/1 && git cherry-pick FETCH_HEAD
