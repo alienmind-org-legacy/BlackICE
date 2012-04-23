@@ -69,8 +69,13 @@ function banner() {
 # Get the UTC time in 2 formats
 #  - UTC_DATE_STRING is a human readable string for display purposes
 #  - UTC_DATE_FILE is the *same* date, but suitable for including in file names
-UTC_DATE_STRING=`date -u`
-UTC_DATE_FILE=`date -u --date="${UTC_DATE_STRING}" +%Y.%m.%d_%H.%M.%S_%Z`
+# UTC_BASE_DATE is used to get the date to work with when creating the other 2
+# dates. This was done so that there are no names for the day or month since if
+# that is in a non-English language it might fail.
+UTC_BASE_DATE=`date -u "+%F %T %Z"`
+UTC_DATE_STRING=`date -u --date="${UTC_BASE_DATE}"`
+UTC_DATE_FILE=`date -u --date="${UTC_BASE_DATE}" +%Y.%m.%d_%H.%M.%S_%Z`
+
 
 # Get the full path of the directory that the script is running in.
 # This is expected to be the BlackICE/tools directory.

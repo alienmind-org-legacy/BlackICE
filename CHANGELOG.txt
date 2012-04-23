@@ -1,5 +1,15 @@
 CHANGELOG
 =========
+v1.50b13 - BlackICE KANG  : BlackICE.v1.50b13-2012.04.23_17.00.44_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.04.23_17.00.44_UTC.zip
+         - CM7 changes    : - Bluetooth: Fixup problems with the SDP records [CyanogenMod/android_external_bluetooth_bluez]
+         - Miscellaneous  : The following apps have been updated to the latest version
+                             - com.adobe.reader-1.apk
+                             - com.google.android.apps.maps-1.apk
+                             - com.google.android.apps.unveil-1.apk
+                             - com.keramidas.TitaniumBackup-1.apk
+
 v1.50b12 - BlackICE KANG  : BlackICE.v1.50b12-2012.04.10_15.57.15_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.04.10_15.57.15_UTC.zip
