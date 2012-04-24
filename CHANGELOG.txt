@@ -1,5 +1,15 @@
 CHANGELOG
 =========
+v1.50b14 - BlackICE KANG  : BlackICE.v1.50b14-2012.04.24_16.30.14_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.04.24_16.30.14_UTC.zip
+         - CM7 changes    : - Fix call forwarding indication. [CyanogenMod/android_packages_apps_Phone]
+                            - Don't cache toasts. [CyanogenMod/android_packages_apps_Usb]
+                            - Fix for a Phone app crash related to multiradio operation. [CyanogenMod/android_packages_apps_Phone]
+         - Miscellaneous  : Updated these apps
+                            - com.keramidas.TitaniumBackup-1.apk
+                            - ext.recovery.control-1.apk
+
 v1.50b13 - BlackICE KANG  : BlackICE.v1.50b13-2012.04.23_17.00.44_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.04.23_17.00.44_UTC.zip
