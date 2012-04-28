@@ -1,5 +1,12 @@
 CHANGELOG
 =========
+v1.50b16 - BlackICE KANG  : BlackICE.v1.50b16-2012.04.28_17.58.05_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.04.28_17.58.05_UTC.zip
+         - CM7 changes    :  It's likely that these don't do anything for Desire HD...
+                            - This will expand the build time GCC check to include 4.7.x [CyanogenMod/android_external_webkit]
+                            - Implement a new use case where the phone has a one-stage camera button only [CyanogenMod/android_packages_apps_Camera]
+
 v1.50b15 - BlackICE KANG  : BlackICE.v1.50b15-2012.04.27_07.25.48_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.04.27_07.25.48_UTC.zip
