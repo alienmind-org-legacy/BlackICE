@@ -1,5 +1,13 @@
 CHANGELOG
 =========
+v1.50b17 - BlackICE KANG  : BlackICE.v1.50b17-2012.05.03_11.23.35_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.03_11.23.35_UTC.zip
+         - CM7 changes    : - init.rc: update the permission of /data/local. [CyanogenMod/android_system_core]
+                            - Restrict zygote to system user. {CyanogenMod/android_system_core]
+                            - Applying theming to more framework items. [CyanogenMod/android_frameworks_base]
+                            - Implementing Sunfire-related fixes [CyanogenMod/android_frameworks_base]
+
 v1.50b16 - BlackICE KANG  : BlackICE.v1.50b16-2012.04.28_17.58.05_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.04.28_17.58.05_UTC.zip
