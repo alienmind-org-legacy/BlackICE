@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v1.50b18 - BlackICE KANG  : BlackICE.v1.50b18-2012.05.06_03.23.53_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.06_03.23.53_UTC.zip
+         - CM7 changes    : - Busybox 1.20.0 squashed commit for gingerbread [CyanogenMod/android_external_busybox]
+
 v1.50b17 - BlackICE KANG  : BlackICE.v1.50b17-2012.05.03_11.23.35_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.03_11.23.35_UTC.zip
