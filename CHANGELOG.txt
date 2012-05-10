@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.50b19 - BlackICE KANG  : BlackICE.v1.50b19-2012.05.10_12.04.07_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.10_12.04.07_UTC.zip
+         - CM7 changes    : - unzip: fix a second bug in warning fixes [CyanogenMod/android_external_busybox]
+                            - fix most sign and variable initialization warnings [CyanogenMod/android_external_busybox]
+
 v1.50b18 - BlackICE KANG  : BlackICE.v1.50b18-2012.05.07_11.57.28_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.07_11.57.28_UTC.zip
