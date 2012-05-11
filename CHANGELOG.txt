@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v1.50b20 - BlackICE KANG  : BlackICE.v1.50b20-2012.05.11_11.51.11_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.11_11.51.11_UTC.zip
+         - CM7 changes    : - Don't enable data connectivity on unplug if it was disabled before. [CyanogenMod/android_packages_apps_Usb]
+
 v1.50b19 - BlackICE KANG  : BlackICE.v1.50b19-2012.05.10_12.04.07_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.10_12.04.07_UTC.zip
