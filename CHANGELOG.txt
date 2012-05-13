@@ -1,5 +1,15 @@
 CHANGELOG
 =========
+v1.50b21 - BlackICE KANG  : BlackICE.v1.50b21-2012.05.13_11.37.01_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.13_11.37.01_UTC.zip
+         - Main changes   : Added Play Store 3.5.19
+         - Miscellaneous  : Update the following apps to their latest versions
+                             - com.google.android.apps.maps-1.apk
+                             - com.google.android.street-1.apk
+                             - com.keramidas.TitaniumBackup-1.apk
+                             - ext.recovery.control-1.apk
+
 v1.50b20 - BlackICE KANG  : BlackICE.v1.50b20-2012.05.11_11.51.11_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.11_11.51.11_UTC.zip
