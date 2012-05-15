@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.50b22 - BlackICE KANG  : BlackICE.v1.50b22-2012.05.15_11.40.57_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.15_11.40.57_UTC.zip
+         - CM7 changes    : - Make absolutely sure the theme change receivers are only unregistered if they were registered before
+                            - Optimize T9Search performance / memory consumption
+
 v1.50b21 - BlackICE KANG  : BlackICE.v1.50b21-2012.05.13_11.37.01_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.13_11.37.01_UTC.zip
