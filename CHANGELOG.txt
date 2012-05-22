@@ -1,5 +1,17 @@
 CHANGELOG
 =========
+v1.50b26 - BlackICE KANG  : BlackICE.v1.50b26-2012.05.22_14.25.19_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.22_14.25.19_UTC.zip
+         - CM7 changes    : - Manage buttons inside of PowerWidget instead of a static map. [CyanogenMod/android_frameworks_base]
+                            - Fix for disappearing status bar power widgets after changing theme [CyanogenMod/android_frameworks_base]
+                            - Fix ClassCastException when long pressing a widget and choosing 'Choose catalog' [CyanogenMod/android_packages_apps_ADWLauncher]
+                            - Revert "Fix for disappearing status bar power widgets after changing T-Mo themes [CyanogenMod/android_frameworks_base]
+
+         - Miscellaneous  : - This build does *not* have the BLN (Backlight Notification) option because
+                              cherrypicking that change is no longer compatible with the current CM7 code base.
+                              There are plans to fix this, but no ETA at the moment.
+
 v1.50b25 - BlackICE KANG  : BlackICE.v1.50b25-2012.05.20_09.56.12_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.20_09.56.12_UTC.zip
