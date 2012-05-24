@@ -1,5 +1,14 @@
 CHANGELOG
 =========
+v1.50b27 - BlackICE KANG  : BlackICE.v1.50b27-2012.05.24_11.39.11_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.24_11.39.11_UTC.zip
+         - CM7 changes    : - Added support for Filter parameter for PBAP function PullPhoneBook [CyanogenMod/android_packages_apps_Bluetooth]
+                            - Restore audio effect connections after binder death. [CyanogenMod/android_frameworks_base]
+                            - Always use UTC time zone for event date conversions. [CyanogenMod/android_packages_apps_Contacts]
+                            - Added Straight Talk (US) APN settings; resort OPT KNC APNs [CyanogenMod/android_vendor_cyanogen]
+         - Miscellaneous  : FYI, the BLN feature is not in this version.
+
 v1.50b26 - BlackICE KANG  : BlackICE.v1.50b26-2012.05.22_14.25.19_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.22_14.25.19_UTC.zip
