@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.50b28 - BlackICE KANG  : BlackICE.v1.50b28-2012.05.25_10.58.00_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.25_10.58.00_UTC.zip
+         - CM7 changes    : - libaudio-msm7x30: fix voice volume on first call [CyanogenMod/android_hardware_msm7k]
+         - Miscellaneous  : FYI, no BLN yet...
+
 v1.50b27 - BlackICE KANG  : BlackICE.v1.50b27-2012.05.24_11.39.11_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.24_11.39.11_UTC.zip
