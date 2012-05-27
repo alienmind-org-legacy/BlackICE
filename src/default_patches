@@ -55,27 +55,11 @@
 
 #-----
 # Torch patch:
-#   Long press HOME key on lock screen toggles the torch function.
-#   ***Obsolete because CM7 changes break it. Use TORCH1.
+# Long press HOME key on lock screen or security screen toggles the torch function.
+# This patch has 2 parts because the changes apply to 2 different CM7 projects.
 #-----
-TORCH  cm7  git  android_frameworks_base@FRAMEWORK_TORCH.git  frameworks/base
-
-#-----
-# Torch patch:
-#   Long press HOME key on lock screen toggles the torch function.
-#     - The 1st patch (.git) does a 'git checkout -f ...' to throw away the previous patch.
-#     - The 2nd patch (.diff) applies differences to the file.
-#   ***Obsolete because TORCH2 has a better implementation.
-#-----
-TORCH1 cm7  git  android_frameworks_base@FRAMEWORK_TORCH1.git   frameworks/base
-TORCH1 cm7  diff android_frameworks_base@FRAMEWORK_TORCH1.patch frameworks/base
-
-#-----
-# Torch patch:
-#   Long press HOME key on lock screen or security screen toggles the torch function.
-#-----
-TORCH2  cm7  git  android_frameworks_base@TORCH2.git       frameworks/base
-TORCH2  cm7  git  android_packages_apps_CMParts@TORCH2.git packages/apps/CMParts
+TORCH  cm7  git  android_frameworks_base@TORCH.git       frameworks/base
+TORCH  cm7  git  android_packages_apps_CMParts@TORCH.git packages/apps/CMParts
 
 #-----
 # BackLight Notification patch: Backlight turns on when email, etc is received.
@@ -91,14 +75,4 @@ BACKLIGHT  cm7  git  android_packages_apps_CMParts@BACKLIGHT.git packages/apps/C
 #-----
 CARRIER  cm7  git  android_frameworks_base@CARRIER.git       frameworks/base
 CARRIER  cm7  git  android_packages_apps_CMParts@CARRIER.git packages/apps/CMParts
-
-#-----
-# Webkit Acceleration patch
-#-----
-WEBKIT  cm7  git  android_device_htc_ace@WEBKIT_ACCELERATION.git  device/htc/ace
-
-#-----
-# ADWLauncher patch to use BlackICE mods
-#-----
-ADWLAUNCHER  cm7  diff  android_packages_apps_ADWLauncher@ADWLAUNCHER.patch  packages/apps/ADWLauncher
 

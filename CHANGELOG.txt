@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.50b29 - BlackICE KANG  : BlackICE.v1.50b29-2012.05.27_16.04.50_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.27_16.04.50_UTC.zip
+         - Main changes   : Thanks to @Rdlgrmpf we have the BLN feature again!
+         - CM7 changes    : - libaudio-msm7x30: restore call check before reset current sound device [CyanogenMod/android_hardware_msm7k]
+
 v1.50b28 - BlackICE KANG  : BlackICE.v1.50b28-2012.05.25_10.58.00_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.25_10.58.00_UTC.zip
