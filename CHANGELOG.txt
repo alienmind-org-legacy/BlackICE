@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.50b30 - BlackICE KANG  : BlackICE.v1.50b30-2012.05.29_10.05.47_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.29_10.05.47_UTC.zip
+         - CM7 changes    : - update prebuilt android config files for 1.20.1-cm7 [CyanogenMod/android_external_busybox]
+                            - Apply post-1.20.0 patches, bump version to 1.20.1 [CyanogenMod/android_external_busybox]
+
 v1.50b29 - BlackICE KANG  : BlackICE.v1.50b29-2012.05.27_16.04.50_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.27_16.04.50_UTC.zip
