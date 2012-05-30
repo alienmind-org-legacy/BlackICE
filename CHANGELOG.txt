@@ -1,5 +1,16 @@
 CHANGELOG
 =========
+v1.50b31 - BlackICE KANG  : BlackICE.v1.50b31-2012.05.30_11.33.03_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.05.30_11.33.03_UTC.zip
+         - CM7 changes    : - Fix list settings initialization. [CyanogenMod/android_packages_apps_CMParts]
+                            - Recreate gesture store on load. [CyanogenMod/android_packages_apps_CMParts]
+                            - Add missing software audio codecs for OMAP devices. [CyanogenMod/android_frameworks_base]
+                            - boosted governor and io scheduler option, link the 4-vsel cflag [CyanogenMod/android_external_bootmenu]
+                            - 1.2.0: fix explicit 'bootmenu postbootmenu' call [CyanogenMod/android_external_bootmenu]
+                            - Temporary hack for dual core cpus [CyanogenMod/android_external_bootmenu]
+                            - reboot: applet for bootmenu standalone version (gb variant) [CyanogenMod/android_external_bootmenu]
+
 v1.50b30 - BlackICE KANG  : BlackICE.v1.50b30-2012.05.29_10.05.47_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.29_10.05.47_UTC.zip
