@@ -1,5 +1,17 @@
 CHANGELOG
 =========
+v1.50b32 - BlackICE KANG  : BlackICE.v1.50b32-2012.06.03_14.21.46_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.06.03_14.21.46_UTC.zip
+         - Main changes   :
+         - CM7 changes    : - awk: fix the evaluate bug related to warning fix [CyanogenMod/android_external_busybox]
+         - Miscellaneous  : Updated the following apps:
+                            - com.adobe.flashplayer-1.apk
+                            - com.adobe.reader-1.apk
+                            - com.google.android.apps.maps-1.apk
+                            - com.google.android.apps.translate-1.apk
+                            - com.keramidas.TitaniumBackup-1.apk
+
 v1.50b31 - BlackICE KANG  : BlackICE.v1.50b31-2012.05.30_11.33.03_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.05.30_11.33.03_UTC.zip
