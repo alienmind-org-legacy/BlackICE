@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.60    - BlackICE KANG  : BlackICE.v1.60-2012.06.08_16.06.18_UTC-RC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.06.08_16.06.18_UTC.zip
+         - Main changes   : v1.60 official release
+                            Note: this should be identical to nightly v1.50b34 except for the version number
+
 v1.50b34 - BlackICE KANG  : BlackICE.v1.50b34-2012.06.08_11.51.27_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.06.08_11.51.27_UTC.zip
