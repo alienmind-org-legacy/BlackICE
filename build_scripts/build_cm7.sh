@@ -74,8 +74,10 @@ fi
 #
 # Rename the ROM to a date tagged name and clean up any old files that might be lying around.
 #
-#CM_OLD_ROM=${CM_ROM_DIR}/update-cm-7*DesireHD-KANG-signed.zip
-CM_OLD_ROM=${CM_ROM_DIR}/update-cm-*-signed.zip
+# The CM7 makefile keeps changing its output name so we need to keep this in sync.
+#   - CM_OLD_ROM=${CM_ROM_DIR}/update-cm-7*DesireHD-KANG-signed.zip
+#   - CM_OLD_ROM=${CM_ROM_DIR}/update-cm-*-signed.zip
+CM_OLD_ROM=${CM_ROM_DIR}/cm-7-????????-UNOFFICIAL-${PHONE}.zip
 
 # New ROM is what we rename it to.
 # We also need the base name, mainly if building for BlackICE

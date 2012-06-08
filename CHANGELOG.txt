@@ -1,5 +1,20 @@
 CHANGELOG
 =========
+v1.50b34 - BlackICE KANG  : BlackICE.v1.50b34-2012.06.08_11.51.27_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.06.08_11.51.27_UTC.zip
+         - CM7 changes    :  - Handle unfinished mobile data changes properly. [CyanogenMod/android_packages_apps_Settings]
+                             - Correctly restore the 'Use ringer volume for notifications' setting on cancel. [CyanogenMod/android_packages_apps_Settings]
+                             - Fix lockscreen button behaviour. [CyanogenMod/android_frameworks_base]
+                             - Send out a MOBILE_DATA_CHANGED intent. [CyanogenMod/android_frameworks_base]
+                             - fixed external BT gps date/time issue reported by Jason Lynch [CyanogenMod/android_frameworks_base]
+                             - Send RTSP control connection keep-alive requests [CyanogenMod/android_frameworks_base]
+                             - Use full weekday for PT lock screen date. [CyanogenMod/android_frameworks_base]
+                             - Restore ringer mode properly after cancelling dialog. [CyanogenMod/android_frameworks_base]
+                             - don't set the reserved bits0 and 1 for UCS2 encoded messages [CyanogenMod/android_frameworks_base]
+                             - Fix race condition in DNS resolving. [CyanogenMod/android_frameworks_base]
+         - Miscellaneous  : CM7 changes broke BLN again, but Rdlgrmpf was able to fix it again!
+
 v1.50b33 - BlackICE KANG  : BlackICE.v1.50b33-2012.06.04_15.47.26_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.06.04_15.47.26_UTC.zip
