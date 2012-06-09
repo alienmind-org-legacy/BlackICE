@@ -1,5 +1,18 @@
 CHANGELOG
 =========
+v1.60b1  - BlackICE KANG  : BlackICE.v1.60b1-2012.06.09_11.01.27_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.06.09_11.01.27_UTC.zip
+         - CM7 changes    : - Allow editing event status from GUI and mark new events as confirmed. [CyanogenMod/android_packages_apps_Calendar]
+                            - Close notification view when swiping away the last notification. [CyanogenMod/android_frameworks_base]
+                            - Reset tags for UNOFFICIAL builds [CyanogenMod/android_vendor_cyanogen]
+                            - Simplify ROM filename, s/SNAPSHOT/EXPERIMENTAL/, other cleanups [CyanogenMod/android_vendor_cyanogen]
+                            - eat: Adapt to new file naming scheme [CyanogenMod/android_build]
+         - Miscellaneous  : Updated APPs
+                             - com.google.android.apps.translate-1.apk
+                             - com.keramidas.TitaniumBackup-1.apk
+                             - dev.sci.systune-1.apk
+
 v1.60    - BlackICE KANG  : BlackICE.v1.60-2012.06.08_16.06.18_UTC-RC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.06.08_16.06.18_UTC.zip
