@@ -1,743 +1,97 @@
-CHANGELOG
-=========
-v1.60b2  - BlackICE KANG  : BlackICE.v1.60b2-2012.06.11_11.33.15_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.06.11_11.33.15_UTC.zip
-         - CM7 changes    : - Previous fix was incorrect. Timestamp doesn't contain date info [CyanogenMod/android_frameworks_base]
-                            - Fix occasional completely mute incoming call [CyanogenMod/android_packages_apps_Phone]
-         - Miscellaneous  : To free up space on the BlackICE server the following have been deleted
-                             - nightly builds older than v1.50b30-xxx
-                             - stable release older than v1.50
+                               BlackICE Changelog
+                               ==================
+Official Releases
+-----------------
+  v1.60
+    - BlackICE KANG  : BlackICE.v1.60-2012.06.08_16.06.18_UTC-RC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.06.08_16.06.18_UTC.zip
+    - Main changes   : v1.60 official release
+                       Note: this should be identical to nightly v1.50b34 except for the version number
+
+  v1.50
+    - BlackICE KANG  : BlackICE.v1.50-2012.03.19_11.40.36_UTC-RC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.03.19_11.40.36_UTC.zip
+    - Main changes   : - v1.50 official release
+                      - Changed default Market to 3.4.7 (Google Play)
+                      - ICETool Market choices now say "Google Market" or "Google Play" depending on the version
+                      - Removed Vending-3.4.4-Modified_for_all_DPIs.apk from GIT. However, it will still show up if you do not delete it from your sdcard
+    - CM7 changes    : -1.1.7: no more ifdef ALLOW_BOOT_NORMAL, test stock.sh presence [CyanogenMod/android_external_bootmenu]
+
+
+Nightly Builds
+--------------
+  v1.60b2
+    - BlackICE KANG  : BlackICE.v1.60b2-2012.06.11_11.33.15_UTC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.06.11_11.33.15_UTC.zip
+    - CM7 changes    : - Previous fix was incorrect. Timestamp doesn't contain date info [CyanogenMod/android_frameworks_base]
+                      - Fix occasional completely mute incoming call [CyanogenMod/android_packages_apps_Phone]
+    - Miscellaneous  : To free up space on the BlackICE server the following have been deleted
+                       - nightly builds older than v1.50b30-xxx
+                       - stable release older than v1.50
+
+  v1.60b1
+    - BlackICE KANG  : BlackICE.v1.60b1-2012.06.09_11.01.27_UTC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.06.09_11.01.27_UTC.zip
+    - CM7 changes    : - Allow editing event status from GUI and mark new events as confirmed. [CyanogenMod/android_packages_apps_Calendar]
+                      - Close notification view when swiping away the last notification. [CyanogenMod/android_frameworks_base]
+                      - Reset tags for UNOFFICIAL builds [CyanogenMod/android_vendor_cyanogen]
+                      - Simplify ROM filename, s/SNAPSHOT/EXPERIMENTAL/, other cleanups [CyanogenMod/android_vendor_cyanogen]
+                      - eat: Adapt to new file naming scheme [CyanogenMod/android_build]
+    - Miscellaneous  : Updated APPs
+                       - com.google.android.apps.translate-1.apk
+                       - com.keramidas.TitaniumBackup-1.apk
+                       - dev.sci.systune-1.apk
+
+  v1.50b34
+    - BlackICE KANG  : BlackICE.v1.50b34-2012.06.08_11.51.27_UTC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.06.08_11.51.27_UTC.zip
+    - CM7 changes    :  - Handle unfinished mobile data changes properly. [CyanogenMod/android_packages_apps_Settings]
+                       - Correctly restore the 'Use ringer volume for notifications' setting on cancel. [CyanogenMod/android_packages_apps_Settings]
+                       - Fix lockscreen button behaviour. [CyanogenMod/android_frameworks_base]
+                       - Send out a MOBILE_DATA_CHANGED intent. [CyanogenMod/android_frameworks_base]
+                       - fixed external BT gps date/time issue reported by Jason Lynch [CyanogenMod/android_frameworks_base]
+                       - Send RTSP control connection keep-alive requests [CyanogenMod/android_frameworks_base]
+                       - Use full weekday for PT lock screen date. [CyanogenMod/android_frameworks_base]
+                       - Restore ringer mode properly after cancelling dialog. [CyanogenMod/android_frameworks_base]
+                       - don't set the reserved bits0 and 1 for UCS2 encoded messages [CyanogenMod/android_frameworks_base]
+                       - Fix race condition in DNS resolving. [CyanogenMod/android_frameworks_base]
+    - Miscellaneous  : CM7 changes broke BLN again, but Rdlgrmpf was able to fix it again!
+
+  v1.50b33
+    - BlackICE KANG  : BlackICE.v1.50b33-2012.06.04_15.47.26_UTC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.06.04_15.47.26_UTC.zip
+    - Main changes   :
+    - CM7 changes    : - LatinIME: Add ability to use volume rockers as cursor [CyanogenMod/android_packages_inputmethods_LatinIME]
+
+  v1.50b32
+    - BlackICE KANG  : BlackICE.v1.50b32-2012.06.03_14.21.46_UTC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.06.03_14.21.46_UTC.zip
+    - Main changes   :
+    - CM7 changes    : - awk: fix the evaluate bug related to warning fix [CyanogenMod/android_external_busybox]
+    - Miscellaneous  : Updated the following apps:
+                      - com.adobe.flashplayer-1.apk
+                      - com.adobe.reader-1.apk
+                      - com.google.android.apps.maps-1.apk
+                      - com.google.android.apps.translate-1.apk
+                      - com.keramidas.TitaniumBackup-1.apk
+
+  v1.50b31
+    - BlackICE KANG  : BlackICE.v1.50b31-2012.05.30_11.33.03_UTC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.05.30_11.33.03_UTC.zip
+    - CM7 changes    : - Fix list settings initialization. [CyanogenMod/android_packages_apps_CMParts]
+                      - Recreate gesture store on load. [CyanogenMod/android_packages_apps_CMParts]
+                      - Add missing software audio codecs for OMAP devices. [CyanogenMod/android_frameworks_base]
+                      - boosted governor and io scheduler option, link the 4-vsel cflag [CyanogenMod/android_external_bootmenu]
+                      - 1.2.0: fix explicit 'bootmenu postbootmenu' call [CyanogenMod/android_external_bootmenu]
+                      - Temporary hack for dual core cpus [CyanogenMod/android_external_bootmenu]
+                      - reboot: applet for bootmenu standalone version (gb variant) [CyanogenMod/android_external_bootmenu]
 
-v1.60b1  - BlackICE KANG  : BlackICE.v1.60b1-2012.06.09_11.01.27_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.06.09_11.01.27_UTC.zip
-         - CM7 changes    : - Allow editing event status from GUI and mark new events as confirmed. [CyanogenMod/android_packages_apps_Calendar]
-                            - Close notification view when swiping away the last notification. [CyanogenMod/android_frameworks_base]
-                            - Reset tags for UNOFFICIAL builds [CyanogenMod/android_vendor_cyanogen]
-                            - Simplify ROM filename, s/SNAPSHOT/EXPERIMENTAL/, other cleanups [CyanogenMod/android_vendor_cyanogen]
-                            - eat: Adapt to new file naming scheme [CyanogenMod/android_build]
-         - Miscellaneous  : Updated APPs
-                             - com.google.android.apps.translate-1.apk
-                             - com.keramidas.TitaniumBackup-1.apk
-                             - dev.sci.systune-1.apk
 
-v1.60    - BlackICE KANG  : BlackICE.v1.60-2012.06.08_16.06.18_UTC-RC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.06.08_16.06.18_UTC.zip
-         - Main changes   : v1.60 official release
-                            Note: this should be identical to nightly v1.50b34 except for the version number
-
-v1.50b34 - BlackICE KANG  : BlackICE.v1.50b34-2012.06.08_11.51.27_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.06.08_11.51.27_UTC.zip
-         - CM7 changes    :  - Handle unfinished mobile data changes properly. [CyanogenMod/android_packages_apps_Settings]
-                             - Correctly restore the 'Use ringer volume for notifications' setting on cancel. [CyanogenMod/android_packages_apps_Settings]
-                             - Fix lockscreen button behaviour. [CyanogenMod/android_frameworks_base]
-                             - Send out a MOBILE_DATA_CHANGED intent. [CyanogenMod/android_frameworks_base]
-                             - fixed external BT gps date/time issue reported by Jason Lynch [CyanogenMod/android_frameworks_base]
-                             - Send RTSP control connection keep-alive requests [CyanogenMod/android_frameworks_base]
-                             - Use full weekday for PT lock screen date. [CyanogenMod/android_frameworks_base]
-                             - Restore ringer mode properly after cancelling dialog. [CyanogenMod/android_frameworks_base]
-                             - don't set the reserved bits0 and 1 for UCS2 encoded messages [CyanogenMod/android_frameworks_base]
-                             - Fix race condition in DNS resolving. [CyanogenMod/android_frameworks_base]
-         - Miscellaneous  : CM7 changes broke BLN again, but Rdlgrmpf was able to fix it again!
-
-v1.50b33 - BlackICE KANG  : BlackICE.v1.50b33-2012.06.04_15.47.26_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.06.04_15.47.26_UTC.zip
-         - Main changes   :
-         - CM7 changes    : - LatinIME: Add ability to use volume rockers as cursor [CyanogenMod/android_packages_inputmethods_LatinIME]
-
-v1.50b32 - BlackICE KANG  : BlackICE.v1.50b32-2012.06.03_14.21.46_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.06.03_14.21.46_UTC.zip
-         - Main changes   :
-         - CM7 changes    : - awk: fix the evaluate bug related to warning fix [CyanogenMod/android_external_busybox]
-         - Miscellaneous  : Updated the following apps:
-                            - com.adobe.flashplayer-1.apk
-                            - com.adobe.reader-1.apk
-                            - com.google.android.apps.maps-1.apk
-                            - com.google.android.apps.translate-1.apk
-                            - com.keramidas.TitaniumBackup-1.apk
-
-v1.50b31 - BlackICE KANG  : BlackICE.v1.50b31-2012.05.30_11.33.03_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.30_11.33.03_UTC.zip
-         - CM7 changes    : - Fix list settings initialization. [CyanogenMod/android_packages_apps_CMParts]
-                            - Recreate gesture store on load. [CyanogenMod/android_packages_apps_CMParts]
-                            - Add missing software audio codecs for OMAP devices. [CyanogenMod/android_frameworks_base]
-                            - boosted governor and io scheduler option, link the 4-vsel cflag [CyanogenMod/android_external_bootmenu]
-                            - 1.2.0: fix explicit 'bootmenu postbootmenu' call [CyanogenMod/android_external_bootmenu]
-                            - Temporary hack for dual core cpus [CyanogenMod/android_external_bootmenu]
-                            - reboot: applet for bootmenu standalone version (gb variant) [CyanogenMod/android_external_bootmenu]
-
-v1.50b30 - BlackICE KANG  : BlackICE.v1.50b30-2012.05.29_10.05.47_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.29_10.05.47_UTC.zip
-         - CM7 changes    : - update prebuilt android config files for 1.20.1-cm7 [CyanogenMod/android_external_busybox]
-                            - Apply post-1.20.0 patches, bump version to 1.20.1 [CyanogenMod/android_external_busybox]
-
-v1.50b29 - BlackICE KANG  : BlackICE.v1.50b29-2012.05.27_16.04.50_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.27_16.04.50_UTC.zip
-         - Main changes   : Thanks to @Rdlgrmpf we have the BLN feature again!
-         - CM7 changes    : - libaudio-msm7x30: restore call check before reset current sound device [CyanogenMod/android_hardware_msm7k]
-
-v1.50b28 - BlackICE KANG  : BlackICE.v1.50b28-2012.05.25_10.58.00_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.25_10.58.00_UTC.zip
-         - CM7 changes    : - libaudio-msm7x30: fix voice volume on first call [CyanogenMod/android_hardware_msm7k]
-         - Miscellaneous  : FYI, no BLN yet...
-
-v1.50b27 - BlackICE KANG  : BlackICE.v1.50b27-2012.05.24_11.39.11_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.24_11.39.11_UTC.zip
-         - CM7 changes    : - Added support for Filter parameter for PBAP function PullPhoneBook [CyanogenMod/android_packages_apps_Bluetooth]
-                            - Restore audio effect connections after binder death. [CyanogenMod/android_frameworks_base]
-                            - Always use UTC time zone for event date conversions. [CyanogenMod/android_packages_apps_Contacts]
-                            - Added Straight Talk (US) APN settings; resort OPT KNC APNs [CyanogenMod/android_vendor_cyanogen]
-         - Miscellaneous  : FYI, the BLN feature is not in this version.
-
-v1.50b26 - BlackICE KANG  : BlackICE.v1.50b26-2012.05.22_14.25.19_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.22_14.25.19_UTC.zip
-         - CM7 changes    : - Manage buttons inside of PowerWidget instead of a static map. [CyanogenMod/android_frameworks_base]
-                            - Fix for disappearing status bar power widgets after changing theme [CyanogenMod/android_frameworks_base]
-                            - Fix ClassCastException when long pressing a widget and choosing 'Choose catalog' [CyanogenMod/android_packages_apps_ADWLauncher]
-                            - Revert "Fix for disappearing status bar power widgets after changing T-Mo themes [CyanogenMod/android_frameworks_base]
-
-         - Miscellaneous  : - This build does *not* have the BLN (Backlight Notification) option because
-                              cherrypicking that change is no longer compatible with the current CM7 code base.
-                              There are plans to fix this, but no ETA at the moment.
-
-v1.50b25 - BlackICE KANG  : BlackICE.v1.50b25-2012.05.20_09.56.12_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.20_09.56.12_UTC.zip
-         - CM7 changes    : - Fix NPE in flashlight button of energy widget [CyanogenMod/android_packages_apps_Settings]
-                            - Handle wraparound correctly. [CyanogenMod/android_system_core]
-
-v1.50b24 - BlackICE KANG  : BlackICE.v1.50b24-2012.05.18_17.28.53_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.18_17.28.53_UTC.zip
-         - CM7 changes    : - sed: fix handling of s/// which has empty matches [CyanogenMod/android_external_busybox]
-                            - Fix nickname/organization query. [CyanogenMod/android_packages_apps_Phone]
-                            - Fix percentage bar not appearing on first try to enable it. [CyanogenMod/android_frameworks_base]
-
-v1.50b23 - BlackICE KANG  : BlackICE.v1.50b23-2012.05.16_11.22.44_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.16_11.22.44_UTC.zip
-         - CM7 changes    : - Remove misleading "default" indication [CyanogenMod/android_packages_apps_CMParts]
-                            - Make compcache script fail-safe [CyanogenMod/android_vendor_cyanogen]
-
-v1.50b22 - BlackICE KANG  : BlackICE.v1.50b22-2012.05.15_11.40.57_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.15_11.40.57_UTC.zip
-         - CM7 changes    : - Make absolutely sure the theme change receivers are only unregistered if they were registered before
-                            - Optimize T9Search performance / memory consumption
-
-v1.50b21 - BlackICE KANG  : BlackICE.v1.50b21-2012.05.13_11.37.01_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.13_11.37.01_UTC.zip
-         - Main changes   : Added Play Store 3.5.19
-         - Miscellaneous  : Update the following apps to their latest versions
-                             - com.google.android.apps.maps-1.apk
-                             - com.google.android.street-1.apk
-                             - com.keramidas.TitaniumBackup-1.apk
-                             - ext.recovery.control-1.apk
-
-v1.50b20 - BlackICE KANG  : BlackICE.v1.50b20-2012.05.11_11.51.11_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.11_11.51.11_UTC.zip
-         - CM7 changes    : - Don't enable data connectivity on unplug if it was disabled before. [CyanogenMod/android_packages_apps_Usb]
-
-v1.50b19 - BlackICE KANG  : BlackICE.v1.50b19-2012.05.10_12.04.07_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.10_12.04.07_UTC.zip
-         - CM7 changes    : - unzip: fix a second bug in warning fixes [CyanogenMod/android_external_busybox]
-                            - fix most sign and variable initialization warnings [CyanogenMod/android_external_busybox]
-
-v1.50b18 - BlackICE KANG  : BlackICE.v1.50b18-2012.05.07_11.57.28_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.07_11.57.28_UTC.zip
-         - CM7 changes    : - Safeguard against dumping large amounts of memory if SP is bogus [CyanogenMod/android_system_core]
-                            - toolbox: remove TARGET_RECOVERY_PRE_COMMAND, defined in libreboot [CyanogenMod/android_system_core]
-                            - Update Pepephone Internet APN [CyanogenMod/android_vendor_cyanogen]
-                            - Update Telenor Online apn settings [CyanogenMod/android_vendor_cyanogen]
-         - Miscellaneous  : Forgot to bump version number :(
-
-v1.50b18 - BlackICE KANG  : BlackICE.v1.50b18-2012.05.06_03.23.53_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.06_03.23.53_UTC.zip
-         - CM7 changes    : - Busybox 1.20.0 squashed commit for gingerbread [CyanogenMod/android_external_busybox]
-
-v1.50b17 - BlackICE KANG  : BlackICE.v1.50b17-2012.05.03_11.23.35_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.05.03_11.23.35_UTC.zip
-         - CM7 changes    : - init.rc: update the permission of /data/local. [CyanogenMod/android_system_core]
-                            - Restrict zygote to system user. {CyanogenMod/android_system_core]
-                            - Applying theming to more framework items. [CyanogenMod/android_frameworks_base]
-                            - Implementing Sunfire-related fixes [CyanogenMod/android_frameworks_base]
-
-v1.50b16 - BlackICE KANG  : BlackICE.v1.50b16-2012.04.28_17.58.05_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.04.28_17.58.05_UTC.zip
-         - CM7 changes    :  It's likely that these don't do anything for Desire HD...
-                            - This will expand the build time GCC check to include 4.7.x [CyanogenMod/android_external_webkit]
-                            - Implement a new use case where the phone has a one-stage camera button only [CyanogenMod/android_packages_apps_Camera]
-
-v1.50b15 - BlackICE KANG  : BlackICE.v1.50b15-2012.04.27_07.25.48_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.04.27_07.25.48_UTC.zip
-         - CM7 changes    : - Kill off USB notification sound. [CyanogenMod/android_packages_apps_Usb]
-                            - Make absolutely sure the keyboard is never shown over the dialer. [CyanogenMod/android_packages_apps_Contacts]
-                            - Bluetooth: Fixup problems with the SDP records[CyanogenMod/android_external_bluetooth_bluez]
-
-v1.50b14 - BlackICE KANG  : BlackICE.v1.50b14-2012.04.24_16.30.14_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.04.24_16.30.14_UTC.zip
-         - CM7 changes    : - Fix call forwarding indication. [CyanogenMod/android_packages_apps_Phone]
-                            - Don't cache toasts. [CyanogenMod/android_packages_apps_Usb]
-                            - Fix for a Phone app crash related to multiradio operation. [CyanogenMod/android_packages_apps_Phone]
-         - Miscellaneous  : Updated these apps
-                            - com.keramidas.TitaniumBackup-1.apk
-                            - ext.recovery.control-1.apk
-
-v1.50b13 - BlackICE KANG  : BlackICE.v1.50b13-2012.04.23_17.00.44_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.04.23_17.00.44_UTC.zip
-         - CM7 changes    : - Bluetooth: Fixup problems with the SDP records [CyanogenMod/android_external_bluetooth_bluez]
-         - Miscellaneous  : The following apps have been updated to the latest version
-                             - com.adobe.reader-1.apk
-                             - com.google.android.apps.maps-1.apk
-                             - com.google.android.apps.unveil-1.apk
-                             - com.keramidas.TitaniumBackup-1.apk
-
-v1.50b12 - BlackICE KANG  : BlackICE.v1.50b12-2012.04.10_15.57.15_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.04.10_15.57.15_UTC.zip
-         - Main changes   : Updated the patch files to cherry-pick the latest CM7 patch submissions for Torch and Carrier Text.
-         - CM7 changes    : - Make PhoneToggler accept the same values as are configurable in the settings. [CyanogenMod/android_packages_apps_Phone]
-                            - Make PhoneToggler accept the same values as are configurable in the settings. [CyanogenMod/android_packages_apps_Phone]
-                            - Phone: tr: Use supplementary service notifications to display additional call in [CyanogenMod/android_packages_apps_Phone]
-                            - Settings: tr: Updated Turkish Translations [CyanogenMod/android_packages_apps_Settings]
-         - Miscellaneous  : Minor build process changes.
-
-v1.50b11 - BlackICE KANG  : BlackICE.v1.50b11-2012.04.10_01.14.16_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.04.10_01.14.16_UTC.zip
-         - Main changes   : Changed cherry-picks for Torch (long press HOME)
-                              - git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_packages_apps_CMParts refs/changes/30/11130/15 && git cherry-pick FETCH_HEAD
-                              - git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_frameworks_base refs/changes/29/11129/8 && git cherry-pick FETCH_HEAD
-                            New cherry-picks for Custom Carrier Text
-                              - git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_frameworks_base refs/changes/37/14637/1 && git cherry-pick FETCH_HEAD
-                              - git fetch http://review.cyanogenmod.com/p/CyanogenMod/android_packages_apps_CMParts refs/changes/38/14638/1 && git cherry-pick FETCH_HEAD
-         - CM7 changes    : telephony: added support for samsungs realcall parameter needed for incall audio [CyanogenMod/android_frameworks_base]
-
-v1.50b10 - BlackICE KANG  : BlackICE.v1.50b10-2012.04.08_10.49.06_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.04.08_10.49.06_UTC.zip
-
-         - Main changes   : Add my changes that will get submitted to CM7 soon that enhance
-                            the custom carrier text option at
-                              Settings-->CyanogenMod settings-->Interface-->Status bar tweaks-->Custom carrier label
-                            The following character sequences have special meanings:
-                              -$n = replace this with a newline if on the status bar or
-                                    with a space if on the lockscreen
-                              -$d = replace this with the default carrier text
-                              -$p = replace this with the plmn carrier text
-                              -$s = replace this with the spn carrier text
-
-         - CM7 changes    :  - Obvious mix of = and == [CyanogenMod/android_dalvik]
-                             - Never save ap_scan setting to config file. [CyanogenMod/android_external_wpa_supplicant_6]
-                             - Settings: Update Dutch translations [CyanogenMod/android_packages_apps_Settings]
-                             - Lockscreen : Update quick unlock summary [CyanogenMod/android_packages_apps_CMParts]
-                             - 1.1.8: fix 2nd-system hidden option, add ADB toggle [CyanogenMod/android_external_bootmenu]
-
-v1.50b9  - BlackICE KANG  : BlackICE.v1.50b9-2012.04.02_01.19.45_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.04.02_01.19.45_UTC.zip
-         - Main changes   :
-         - CM7 changes    : Quick unlock : Fix bug [CyanogenMod/android_frameworks_base]
-
-v1.50b8  - BlackICE KANG  : BlackICE.v1.50b8-2012.03.31_17.17.21_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.31_17.17.21_UTC.zip
-         - Main changes   :
-         - CM7 changes    : - Allow theming of framework UI elements. [CyanogenMod/android_frameworks_base]
-
-v1.50b7  - BlackICE KANG  : BlackICE.v1.50b7-2012.03.31_02.54.37_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.31_02.54.37_UTC.zip
-         - CM7 changes    : - Revert "Fix wrong 'USB debugging connected' notify color" ]CyanogenMod/android_frameworks_base]
-                            - cyanogen: also need to Kill this meme here [CyanogenMod/android_vendor_cyanogen]
-
-v1.50b6  - BlackICE KANG  : BlackICE.v1.50b6-2012.03.30_16.12.36_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.30_16.12.36_UTC.zip
-         - CM7 changes    : - Fix possible null-pointer exception [CyanogenMod/android_packages_apps_Bluetooth]
-                            - policy: fix "Skip on security" functionality [CyanogenMod/android_frameworks_base]
-                            - Fix wrong 'USB debugging connected' notify color [CyanogenMod/android_frameworks_base]
-                            - Mms: Dutch translation [CyanogenMod/android_packages_apps_Mms]
-                            - Contacts: Add Dutch translations [CyanogenMod/android_packages_apps_Contacts]
-                            - Settings: Dutch translation [CyanogenMod/android_packages_apps_Settings]
-                            - CMParts: missing Dutch lines [CyanogenMod/android_packages_apps_CMParts]
-                            - ADWLauncher: Add and update dutch [CyanogenMod/android_packages_apps_ADWLauncher]
-                            - RU-Update translation-ADWLauncher [CyanogenMod/android_packages_apps_ADWLauncher]
-                            - RU-Update-CMParts [CyanogenMod/android_packages_apps_CMParts]
-                            - RU-Update-CM7-Max SMS length option [CyanogenMod/android_packages_apps_Mms]
-                            - Fix some weird strings in czech translation [CyanogenMod/android_packages_apps_CMParts]
-                            - RU-Update-FileManager [CyanogenMod/android_packages_apps_FileManager]
-                            - RU-Update-Superuser [CyanogenMod/android_packages_apps_Superuser]
-                            - Phone: tr: Use supplementary service notifications to display additional call in [CyanogenMod/android_packages_apps_Phone]
-                            - french: widget mobiledata auto 2g/3g and medias [CyanogenMod/android_packages_apps_CMParts]
-                            - Settings: tr: Updated Turkish Translations [CyanogenMod/android_packages_apps_Settings]
-                            - Added T9 italian strings [CyanogenMod/android_packages_apps_Contacts]
-                            - fastboot: set the language local string [CyanogenMod/android_system_core]
-
-v1.50b5  - BlackICE KANG  : BlackICE.v1.50b5-2012.03.28_16.12.07_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.28_16.12.07_UTC.zip
-         - CM7 changes    : - Externalize symbol picker options to resources [CyanogenMod/android_frameworks_base]
-                            - Sanity check item for being non-null. [CyanogenMod/android_frameworks_base]
-
-v1.50b4  - BlackICE KANG  : BlackICE.v1.50b4-2012.03.25_07.53.33_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.25_07.53.33_UTC.zip
-         - Main changes   : Using newer versions of the following apps (also update them in
-                            buildpackages (where they are downloaded from if doing your own build)
-                            - com.adobe.flashplayer-1.apk
-                            - com.google.android.apps.maps-1.apk
-                            - com.google.android.apps.translate-1.apk
-                            - com.google.android.apps.unveil-1.apk
-                            - com.google.android.youtube-1.apk
-                            - com.keramidas.TitaniumBackup-1.apk
-                            - dev.sci.systune-1.apk
-         - CM7 changes    : - Added option to lock Action Buttons in main dock [CyanogenMod/android_packages_apps_ADWLauncher]
-                            - PatternUnlockScreen: Battery status can be shown if desired. [CyanogenMod/android_frameworks_base]
-
-v1.50b3  - BlackICE KANG  : BlackICE.v1.50b3-2012.03.24_17.17.26_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.24_07.44.12_UTC.zip
-         - Main changes   : - ICETool no longer tries to launch the Market after changing to a new version.
-                              This did not always work and for some reason was worse with 3.5.15.
-                            - Added Google Play 3.5.15 to ICETool's choices.
-                            - Renamed Vending-3.4.7-lc-ics.apk to Vending-3.4.7-all-dpi.apk so the name matches the purpose
-                            - Delete Dalvik cache entries for "vending" when ICETool switches to a different Market
-         - CM7 changes    : - Dialer: Fix initial state for t9 sort mode [CyanogenMod/android_packages_apps_Contacts]
-                            - ipsec-tools: racoon: introduce authentication method parameter [CyanogenMod/android_external_ipsec-tools]
-                            - policy: implement Motoblur-like fingerprint tactile feedback [CyanogenMod/android_frameworks_base]
-                            - ADW: add sortable apps list for catalog setup. [CyanogenMod/android_packages_apps_ADWLauncher]
-                            - Added a max SMS length option. [CyanogenMod/android_packages_apps_Mms]
-                            - Add option to enable/disable the ICS rotation animation [CyanogenMod/android_packages_apps_CMParts]
-                            - apns-conf.xml: Fix APN for Mobifone (Vietnam Mobile Telecom Services Company [CyanogenMod/android_vendor_cyanogen]
-                            - french: supplementary service notifications [CyanogenMod/android_packages_apps_Phone]
-
-v1.50b2  - BlackICE KANG  : BlackICE.v1.50b2-2012.03.23_11.41.35_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.23_11.41.35_UTC.zip
-         - CM7 changes    : - Fix cursor repeatedly moving back to beginning of To field [CyanogenMod/android_packages_apps_Mms]
-                            - Remove heap size translations [CyanogenMod/android_packages_apps_CMParts]
-
-v1.50b1  - BlackICE KANG  : BlackICE.v1.50b1-2012.03.19_16.27.07_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.19_16.27.07_UTC.zip
-         - Main changes   : - Added Vending-3.4.7-lc-ics.apk to /sdcard/blackice/market. This
-                              is the modified Google Play from LorD ClockaN's ICS that should
-                              work at any DPI.
-                            - Fixed up ICETool display of Market/Play data to include any
-                              optional "-xxx" info between the version number and ".apk"
-                              For example Vending-3.4.7-lc-ics.apk shows up as "v3.4.7-lc-ics".
-
-v1.50    - BlackICE KANG  : BlackICE.v1.50-2012.03.19_11.40.36_UTC-RC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.19_11.40.36_UTC.zip
-         - Main changes   : - v1.50 official release
-                            - Changed default Market to 3.4.7 (Google Play)
-                            - ICETool Market choices now say "Google Market" or "Google Play" depending on the version
-                            - Removed Vending-3.4.4-Modified_for_all_DPIs.apk from GIT. However, it will still show up if you do not delete it from your sdcard
-         - CM7 changes    : -1.1.7: no more ifdef ALLOW_BOOT_NORMAL, test stock.sh presence [CyanogenMod/android_external_bootmenu]
-
-v1.28b20 - BlackICE KANG  : BlackICE.v1.28b20-2012.03.18_10.16.43_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.18_10.16.43_UTC.zip
-         - Main changes   : The build process now deletes /system/rmcallr.sh from the kernel
-                            if it exists. That script deletes /data/app/CallRecorder*.apk, which
-                            is needed for 2-way call recording. FYI, I have not actually tested
-                            this feature.
-         - CM7 changes    : - cm: Tag 7.2.0-RC1 [CyanogenMod/android_vendor_cyanogen]
-                            - zlib: Update to version on adler32/slhash repo as of Mar 07, 2012 [CyanogenMod/android_external_zlib]
-
-v1.28b19 - BlackICE KANG  : BlackICE.v1.28b19-2012.03.15_17.06.54_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.15_02.11.43_UTC.zip
-         - Main changes   : Added Market 3.4.7 (Google Play) to ICETool
-
-v1.28b18 - BlackICE KANG  : BlackICE.v1.28b18-2012.03.14_16.31.08_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.14_16.31.08_UTC.zip
-         - Main changes   : None
-         - CM7 changes    : - Error handling for Network Plugin API getContext [CyanogenMod/android_external_webkit]
-                            - Error handling in WebViewCore::contentDraw [CyanogenMod/android_external_webkit]
-                            - Cherry-pick WebKit r100677 to fix a rendering crash [CyanogenMod/android_external_webkit]
-
-v1.28b17 - BlackICE KANG  : BlackICE.v1.28b17-2012.03.13_17.09.55_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.13_17.09.55_UTC.zip
-         - Main changes   : None
-         - CM7 changes    : - Create Kineto-compatible AudioTrack::set and AudioRecord::set methods. [CyanogenMod/android_frameworks_base]
-                            - Create Kineto-compatible AudioTrack::set and AudioRecord::set methods. [CyanogenMod/android_frameworks_base]
-                            - Show PIN entry screen even if lockscreen is disabled. [CyanogenMod/android_frameworks_base]
-                            - Show PIN entry screen even if lockscreen is disabled. [CyanogenMod/android_frameworks_base]
-                            - Improve toast strings. [CyanogenMod/android_packages_apps_Phone]
-                            - Improve toast strings. [CyanogenMod/android_packages_apps_Phone]
-                            - Hide SSN toasts by default. [CyanogenMod/android_packages_apps_Phone]
-                            - Hide SSN toasts by default. [CyanogenMod/android_packages_apps_Phone]
-                            - Fix soft keyboard appearing on dialer under certain conditions. [CyanogenMod/android_packages_apps_Contacts]
-                            - Backport "disappearing SD media" fixes from CM9. [CyanogenMod/android_packages_providers_MediaProvider]
-                            - Revert "ace: Support for Webkit acceleration" [CyanogenMod/android_device_htc_ace]
-                            - Revert "ace: Support for Webkit acceleration" [CyanogenMod/android_device_htc_ace]
-         - Miscellaneous  : - The CM7 base KANG should be the same as update-cm-7-20120313-NIGHTLY-ace-signed.zip except for our normal patches.
-                            - The list of CM7 changes are my best guess as to what changed since the automated tool is not working.
-
-v1.28b16 - BlackICE KANG  : BlackICE.v1.28b16-2012.03.06_01.32.38_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.06_01.32.38_UTC.zip
-         - CM7 changes    : Add support for EXIF datetime on Qualcomm libcameras [CyanogenMod/android_packages_apps_Camera]
-         - Miscellaneous  : - I'm not sure that the CM7 change is actually useful for Desire HD
-                            - The kernel supports 2WCR (2 Way Call Recording)
-
-v1.28b15 - BlackICE KANG  : BlackICE.v1.28b15-2012.03.04_11.17.50_UTC.zip
-         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-2012.03.04_10.59.07_UTC.zip
-         - Main changes   : Build script changes
-                            - The timestamp in the file names is formatted better and uses UTC.
-                            - ro.build.date in the build prop now uses the BlackICE build date.
-                              This shows up when you look at "Settings--> About Phone"
-         - Miscellaneous  : Forgot to bump the build number, oops.
-
-v1.28b15 - BlackICE KANG  : BlackICE.v1.28b15-20120304_115103.zip
-         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120304_115103.zip
-         - CM7 changes    : - Enable user specified port for Exchange server. [CyanogenMod/android_packages_apps_Email]
-                            - Toolbox implementation of chown has a bad print [CyanogenMod/android_system_core]
-                            - Fixed commit ac8521c5f94249a33ad7ba870467904b08904101 Ensure that "*cover*" or " [CyanogenMod/android_packages_providers_MediaProvider]
-                            - Added missing danish translation [CyanogenMod/android_packages_apps_CMParts]
-                            - Allow maintainers to restore pre-I7ab734c behaviour [CyanogenMod/android_packages_apps_Gallery3D]
-                            - Fix STARTTLS handshake error in Email's SmtpSender class (GB) [CyanogenMod/android_packages_apps_Email]
-                            - change device specific icon (hdpi/mdpi), original one is 'blur' (Tanguy Pruvot CyanogenMod/android_packages_apps_Settings]
-                            - Fix battery charging detection in NotificationManagerService [CyanogenMod/android_frameworks_base]
-                            - always use orientation sensor for screen rotation [CyanogenMod/android_packages_apps_Gallery3D]
-                            - Add Motorola Wrigley 3G RIL. [Danny Baumann CyanogenMod/android_frameworks_base]
-                            - Use supplementary service notifications to display additional call info. [CyanogenMod/android_packages_apps_Phone]
-                            - wifi: move AP driver configuration in board flags [CyanogenMod/android_hardware_libhardware_legacy]
-                            - CMParts: tr: Notification power widget mobiledata auto 2g/3g [CyanogenMod/android_packages_apps_CMParts]
-                            - telephony: Display Supplementary Service Notifications. [CyanogenMod/android_frameworks_base]
-                            - CallFeatureSetting: only disable cellular specific options in airplane mode [CyanogenMod/android_packages_apps_Phone]
-                            - T9 Dialer: View contact on long press on T9 results [CyanogenMod/android_packages_apps_Contacts]
-                            - toolbox: prefer busybox dmesg [CyanogenMod/android_system_core]
-                            - Add build date to 'About phone'. [CyanogenMod/android_packages_apps_Settings]
-                            - Add ARMv7 optimized strlen() also update libc/Android.mk to actually use it [CyanogenMod/android_bionic]
-                            - linker: optimize SysV ELF hash function [CyanogenMod/android_bionic]
-                            - memmove: Fix the abuse of memcpy() for overlapping regions [CyanogenMod/android_bionic]
-                            - policy: do not count invalid fingerprint swipes as bad tries [CyanogenMod/android_frameworks_base]
-                            - update OI File Manager 1.1.6 [CyanogenMod/android_packages_apps_FileManager]
-                            - cm: Tag 7.2.0-RC1 [CyanogenMod/android_vendor_cyanogen gb-release-7.2]
-                            - net: wireless: bcm4329: Fix pno_enable if disassociated [CyanogenMod/htc-kernel-msm7x30 android-msm-2.6.35]
-         - Miscellaneous  : The automated CM7 change log tool has switched to CM9 only, so I had to find the above by hand so there could be mistakes.
-
-v1.28b14 - BlackICE KANG  : BlackICE.v1.28b14-20120227_195036.zip
-         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120227_115656.zip
-         - Main changes   : Changed the phone icon that appears on the launcher (at least
-                            for the ADW Launcher) to be black and white instead of green.
-         - Miscellaneous  : This uses the previous CM7 Kang because there were no new CM7
-                            changes and no reason to rebuild it.
-
-v1.28b13 - BlackICE KANG  : BlackICE.v1.28b13-20120227_115656.zip
-         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120227_115656.zip
-         - CM7 changes    : - ace: button backlight dim (android_device_htc_ace)
-
-v1.28b12 - BlackICE KANG  : BlackICE.v1.28b12-20120226_152227.zip
-         - Kernel         : lordmodUEv8.9-CFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120226_152227.zip
-         - CM7 changes    : - Implement basic framework for fingerprint lockscreen (android_frameworks_base)
-                            - Implement basic framework for fingerprint lockscreen (android_frameworks_base)
-                            - Settings for fingerprint (android_packages_apps_Settings)
-                            - @hide all the changes to frameworks/base... (android_frameworks_base)
-         - Miscellaneous  : - Previous versions *said* that the kernel was lordmodUEv8.9-BFS-b2-gpu.zip
-                              (BFS instead of CFS), but one of those files has a typo because I did a
-                              binary comparison and they are identical.
-                            - Had to fix the framework patching to work with CM7 changes again
-
-v1.28b11 - BlackICE KANG  : BlackICE.v1.28b11-20120225_124049.zip
-         - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120225_124049.zip
-         - CM7 changes    : - Notification power widget mobiledata auto 2g/3g (CyanogenMod/android_frameworks_base)
-                            - modinfo: use ifdef block for android without-utsrel modules path (android_external_busybox)
-
-v1.28b10 - BlackICE KANG  : BlackICE.v1.28b10-20120220_232616.zip
-         - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120220_232616.zip
-         - CM7 changes    : - Fix screen hang after dismissing a landscape alarm. (android_frameworks_base)
-                            - landscape layouts for incall screen (android_packages_apps_Phone)
-                            - LGEStarRIL: fix DST handling exception (android_frameworks_base)
-         - Miscellaneous  : The CM7 build was a full build (make clobber first). *Maybe* that will fix
-                            the issue that some people reported with odd screen displays on v1.28b7, b8
-                            and b9.
-
-v1.28b9  - BlackICE KANG  : BlackICE.v1.28b9-20120215_201604.zip
-         - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120215_201604.zip
-         - Main changes   : - Fix display freeze happening when changing device orientation while screen is off. (android_frameworks_base)
-                            - cm: Add E739 (T-Mobile LG myTouch) (android_vendor_cyanogen)
-                            - libaudio-msm7x30: initial E739 audio support (android_hardware_msm7k)
-
-v1.28b8  - BlackICE KANG  : BlackICE.v1.28b8-20120214_085701.zip
-         - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120214_085701.zip
-         - CM7 changes    : - french: corrected mispelling (android_packages_apps_Phone)
-                            - Add notification type constants. (android_frameworks_base)
-                            - Fix entries of Digitel, Movistar, Movilnet (Venezuela) (android_vendor_cyanogen)
-                            - additional landscape layout for sim pin unlock (android_frameworks_base)
-
-v1.28b7  - BlackICE KANG  : BlackICE.v1.28b7-20120213_200731.zip
-         - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120213_200731.zip
-         - CM7 changes    : - Furtherly fix up notification swipe handling. (android_frameworks_base)
-                            - Notification power widget mobiledata auto 2g/3g (android_packages_apps_CMParts)
-                            - Add safety net for notification swipe handling. (android_frameworks_base)
-                            - Fix mDeskModeKeepsScreenOn logic (android_frameworks_base)
-                            - Notification power widget mobiledata auto 2g/3g (android_frameworks_base)
-                            - Revert "Removed Vibrant from list of CyanogenMod devices" (android_vendor_cyanogen)
-
-v1.28b6  - BlackICE KANG  : BlackICE.v1.28b6-20120209_090420.zip
-         - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120209_090420.zip
-         - CM7 changes    : - Fix music widget transparency in landscape layout: CyanogenMod/android_packages_apps_Music
-                            - msm7x30-common: set c/c++ flags: CyanogenMod/android_device_htc_msm7x30-common
-                            - Improve scrolling cache (ported from ICS): CyanogenMod/android_frameworks_base
-                            - AbsListView: add option to disable scrolling cache (1/2): CyanogenMod/android_frameworks_base
-         - Miscellaneous  : The CM7 changes had to be figured out manually since the
-                            automated tool still isn't online.
-
-v1.28b5  - BlackICE KANG  : BlackICE.v1.28b5-20120207_200251.zip
-         - Kernel         : lordmodUEv8.9-BFS-b2-gpu.zip
-         - CM7 Base KANG  : chezbel-cm7-20120207_200251.zip
-         - CM7 changes    : - Fix images being scaled incorrectly: CyanogenMod/android_packages_apps_Gallery3D
-                            - Fix banding for 32 bpp images:	CyanogenMod/android_packages_apps_Gallery3D
-                            - cm: Make CyanBread the default theme: CyanogenMod/android_vendor_cyanogen
-                            - Torch: hold wakelock when using the camera interface: CyanogenMod/android_packages_apps_Torch
-                            - Torch: Remove device-specific spaghetti code: CyanogenMod/android_packages_apps_Torch
-                            -	libaudio-msm7x30: htc: remove mutex from get_snd_dev(): CyanogenMod/android_hardware_msm7k
-                            -	Don't animate rotations when screen is off: CyanogenMod/android_frameworks_base
-                            - Change proximity behaviour for devices w/ fixed keyboard: CyanogenMod/android_packages_apps_Phone
-                            - Apply post-1.19.3 patches, bump version to 1.19.4: CyanogenMod/android_external_busybox
-                            - dmesg: implement official '-r' for pretty format and colored output: CyanogenMod/android_external_busybox
-                            - Revert "Fix low battery warnings on lockscreen on some languages": CyanogenMod/android_frameworks_base
-                            - AndroidTerm: Merge remote branch 'upstream/master' into update: CyanogenMod/android_packages_apps_AndroidTerm
-                            - FM: seek: respect upper and lower freq limits: CyanogenMod/android_packages_apps_FM
-         - Miscellaneous  : The automated tool for displaying which CM7 changes apply to
-                            ACE was offline so the above change list may not be accurate
-                            because it was created manually.
-
-v1.28b4  - BlackICE KANG  : BlackICE.v1.28b4-20120206_120728.zip
-         - Kernel         : lordmodUEv8.7-CFS-b2.zip
-         - CM7 Base KANG  : chezbel-cm7-20120204_195745.zip
-         - Main changes   : Fixed the BlackICE server download path to point to the right directory.
-
-v1.28b3  - BlackICE KANG : BlackICE.v1.28b3-20120202_013651.zip
-         - Kernel        : lordmodUEv8.7-CFS-b2.zip
-         - CM7 Base KANG : chezbel-cm7-20120202_013651.zip
-         - Main changes  : None
-         - CM7 changes   : - Add 'Blade' lockscreen style (2/3) (android_packages_apps_CMParts)
-                           - Add 'Blade' lockscreen style (3/3) (android_packages_apps_Phone)
-                           - Add 'Blade' lockscreen style (1/3) (android_frameworks_base)
-                           - AbsListView: add option to disable scrolling cache (2/2) (android_packages_apps_CMParts)
-                           - AbsListView: add option to disable scrolling cache (1/2) (android_frameworks_base)
-                           - Broadcom FM: add support for BCM20xx chipsets, improve seek algorithm (android_frameworks_base)
-                           - Remove jordan overlay, completely kept in device repo now. (android_vendor_cyanogen)
-                           - add wtogami to epicmtd maintainer (android_vendor_cyanogen)
-                           - Fix low battery warnings on lockscreen on some languages (android_frameworks_base)
-                           - Add ability to debug over Network (Settings half) (android_packages_apps_Settings)
-                           - Ability to debug over Network (framework part) (android_frameworks_base)
-                           - Do not rotate keyboard D-Pad events for USB keyboards (android_frameworks_base)
-                           - Let maintainers disable the new rotation animation (android_frameworks_base)
-         - Miscellaneous : mod/framework-res.4.patch had to be updated because of CM7 changes
-
-v1.28b2  - BlackICE KANG : BlackICE.v1.28b2-20120131_195523.zip
-         - Kernel        : lordmodUEv8.7-CFS-b2.zip
-         - CM7 Base KANG : chezbel-cm7-20120131_195523.zip
-         - Main changes  : Uses the original UI again
-         - CM7 changes   : - Fix banding for 32 bpp images: (android_packages_apps_Gallery3D)
-                           - Czech: added missing strings (android_packages_apps_Camera)
-                           - Fix mouse clicks which reset mouse cursor to the left of screen (android_frameworks_base)
-                           - Fixes FC on boot when lockscreen disabled (android_frameworks_base)
-                           - Czech: added missing strings about snoozing (android_packages_apps_Calendar)
-                           - Czech: added missing strings (android_packages_apps_Music)
-                           - Czech: added missing strings (android_packages_apps_Mms)
-                           - Czech: fixed some strings and added missing one (android_packages_apps_DSPManager)
-                           - Czech: added missing strings for T9 and fixed some strings (android_packages_apps_Contacts)
-                           - Recovery : Show menu if in non user initiated mode and error occurred (android_bootable_recovery)
-
-v1.28b1  - BlackICE KANG : BlackICE.v1.28b1-20120129_235930.zip
-         - Kernel        : lordmodUEv8.7-CFS-b2.zip
-         - CM7 Base KANG : chezbel-cm7-20120129_200829.zip
-         - Main changes  : A lot of new graphic changes from The Unknown Noob, including
-                           a centered clock on the status bar.
-
-v1.27   - Base: KANG : chezbel-cm7-20120129_181845.zip - LordModUEv8.7-b2-CFS.zip
-        - Only version number changes, ICETool is 1.01 (should have happened last time).
-v1.27b8 - Base: KANG : chezbel-cm7-20120129_024805.zip - LordModUEv8.7-b2-CFS.zip
-        - ICETool now clears the Market data when the LCD density changes.
-v1.27b7 - Base: KANG : chezbel-cm7-20120127_182620.zip - LordModUEv8.7-b2-CFS.zip
-        - Build process changes to handle patches better. Only affects BlackICE builders.
-        - Includes misc CM7 changes.
-v1.27b6 - Base: KANG : chezbel-cm7-20120126_151829.zip - LordModUEv8.7-b2-CFS.zip
-        - New graphics by The Unknown Noob for the progress bar and volume up/down bar.
-        - Includes misc CM7 changes.
-v1.27b5 - Base: KANG : chezbel-cm7-20120125_173411.zip - LordModUEv8.7-b2-CFS.zip
-        - Fixed a bug in the LCD density processing of autorun, which kept autorun from working.
-v1.27b4 - Base: KANG : chezbel-cm7-20120124_201520.zip - LordModUEv8.7-b2-CFS.zip
-        - Includes misc CM7 changes.
-v1.27b3 - Base: KANG : chezbel-cm7-20120123_125939.zip - LordModUEv8.7-b2-CFS.zip
-        - More CM7 changes, last one was: Backport ICS rotation animations to gingerbread (android_frameworks_base)
-v1.27b2 - Base: KANG : chezbel-cm7-20120122_004835.zip - LordModUEv8.7-b2-CFS.zip
-        - Included a few CM7 changes, the last one was: Fix automatic timezone selection in Hawaii. (android_frameworks_base)
-        - This was mainly built to test the build and upload process after some reorganization.
-v1.27b1 - Base: KANG : chezbel-cm7-20120116_005908.zip - LordModUEv8.7-b2-CFS.zip
-          ICETool: Removed enable/disable Backlight Notifications for now
-v1.26   - Base: KANG : chezbel-cm7-20120113_192339.zip - LordModUEv8.7-b2-CFS.zip
-          Apps: Upgraded all
-          ICETool: v1.00 - fixed download of extra apps
-v1.26b3 - Base: KANG : chezbel-cm7-20120108_010043.zip - LordModUEv8.7-b2-CFS.zip
-          Included BLN toggle (thx Rdlgrmpf and The Unknown Noob for the artwork)
-          ICETool: Fixed background execution of downloads
-v1.26b2 - Base: KANG : cm7-20111223_004213.zip - LordModUEv8.6-CFS.zip
-          Includes the dark dial buttons and custom emergency button images for the lockscreen (thx Chezbel!)
-          Fixed bootsound
-          Apps: Upgraded Vending 3.4.4 (on extraapps)
-          Apps: Upgraded Systune 1.5.9
-v1.26b1 - Base: KANG-20111210 - lordModUE-8.5-CFS
-          ICETool: Fixed Vending 2.3.6 => 3.2.0 => 2.3.6
-          ICETool: Fixed bootsound option
-          ICETool: Fixed overlay
-          ICETool: Autorenice feature of running processes
-          Apps: Upgraded Systune 1.5.0
-          Apps: All upgraded to latest
-v1.25   - Base: KANG-20111125 - lordModUE-8.5-CFS
-          Base: Zeam Launcher by default, removed UDLauncher
-          ICETool: Included v0.90, all additional scripts merged into one
-          ICETool: Fixed the goddam missing tabs bug
-          Apps: Google Maps 6.0.0 All Roads
-          Apps: Upgraded apps and extraapps
-v1.24   - Base: KANG-20111125 - lordModUE-8.5-CFS
-          Apps: Upgraded SysTune, Titanium Backup
-          Apps: Removed Volume+, added AudioFXWidget
-          Apps: Added DHD Proximity Recalibrator
-          Apps: Included Flash Player 11, ChainFire3D on main ROM
-v1.24b2 - Base: KANG-20111119 - lordModUE-8.5-CFS
-          Apps: Google Street View upgraded
-          Apps: Google Maps v5.12 all roads
-          Apps: Upgraded Youtube
-          ICETool: autorun.txt overlay command to customize /system or /data
-          ICETool: Bravia Engine on / off (disabled by default)
-          Framework: New battery icons, prevented 5% jumping
-          Apps: Prevent sound jumping by replacing DSPManager with Volume+
-          Kitchen: Workaround to faulty apktool - new framework-res tweaks coming soon
-v1.24b1 - Base: KANG-20111102.zip - lordModUE-8.3-CFS-b2
-          Framework: New battery icons with percentage (by "The Unknown Noob")
-          Apps: Chainfire3D preconfigured, with plugins and shaders on /sdcard
-          Extraapps: Flash Player downgraded to 10.2.156.12
-v1.23   - Base: KANG-20111102.zip - lordModUE-8.2-CFS
-          Tweaks: retweaked ondemand
-          Tweaks: low memory killer
-          Removed Protips.apk
-v1.23b2 - Base: KANG-20111102.zip - lordModUE-8.2-CFS-b6
-          Base: NO_NORMALIZER_SLEEPERS and NO_NEW_FAIR_SLEEPERS scheduler tweaks
-          Browser: Removed broken Browser.apk dependant on older framework
-          Setup: Working "bootsoundoff" action on autorun.txt
-          Setup: Fixed wrong removal of apk's on pre.sh script
-          Revert: Fixed framework-res 9patch files
-          Revert: ICS alike notification panel
-          Revert: SU 3.0.3
-v1.23b1 - Base: KANG-20111102.zip - lordModUE-8.2-b5.2-kernelizer-CFS
-          Fixed framework-res 9patch files
-          ICS alike notification panel
-          New bootanimation.zip by jameslsmith
-          Updated apps
-v1.22   - Base: KANG-20111102.zip - lordModUE-8.2-b5.2-kernelizer-CFS
-          Lockscreen: Press home to torch (by alienmind)
-          CMparts: Updated spanish translations (by alienmind)
-v1.21b2 - Base: cm_ace_full-240.zip - lordModUE-8.2-b2-BFS
-          Removed Google+ ICS leak, causes FC in contacts
-v1.21b1 - Base: cm_ace_full-240.zip - lordModUE-8.2-b2-BFS
-          Kernel: set BFS rr_interval=2
-          icetool: autorun mode (early beta) for tuning options from updater-script
-          icetool: merge switchkeyboard into icetool extrapkg
-          Included bootanimation v1 final by jameslsmith
-v1.20   - Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
-          CMWallpapers : More wallpapers from H2O, fixed default wallpaper
-          ICETool: Market versions entries beautified
-          ICETool: New entries for user provides bootanimations
-          ICETool: New option to test current bootanimation
-          Contacts: Removed wrong resources
-          Base: provided synaptics-rmi-touchscreen.kcm.bin to avoid repetitive messages
-v1.20b3 - Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
-          SystemUI: Fixed missing resources of default theme
-          ICETool: ICEMarket merged into ICETool
-          SysTune: Upgraded to v1.3.7
-v1.20b2 - Base: cm_ace_full-235.zip - lordModUE-8.1-CFS
-          SystemUI: Fixed missing resources
-          Base: Recovered 48m heap size
-          Apps: Removed Google Music ICS leak from main build
-          ICETool: More ICS leaks on icetool and in extraapps (if you don't want to download)
-v1.20b1 - Base:  KANG20111023 - lordModUE-8.1-CFS
-          ICETool: upped to v0.7 : autoupgrade option
-          ICETool: upped to v0.7 : show ril option
-          Base: Roboto Font from ICS by default
-          SU: Updated v3.0.3 su binary
-          Contacts: Modded version from H2O
-          Phone: Modded version from H2O
-v1.12   - Base: KANG20111014 - lordModUE-8.1-CFS
-          ICETool: Fixed icetool not switching gps.conf
-v1.1    - Base: KANG20111014 - lordModUE-8.1b7-CFS
-          Apps: Removed AdFree
-          Extrapps: Refreshed versions
-v1.01b5 - Base: KANG20111014 - lordModUE-8.1b5-BFS
-          ICETool: New icetool command to refresh hosts
-          ICETool: Fixed FC
-v1.01b4 - Base: KANG20111018 - lordModUE-8.1b5-CFS <= Buggy
-v1.01b3 - Base: KANG20111015 - lordModUE-8.0-BFS
-v1.01b2 - Tweaks: Fixed snd3254 init script, Dolby for speakers SRS for headphones.
-          Tweaks: New ondemand code by default (with powersave_bias=150)
-          Tweaks: Tunable sched_compat_yield=0.
-          ICETool: New version v0.6 with dynamic options
-v1.01b1 - Base: KANG 20111015.
-          Webkitaccel <= NOT WORKING AT ALL
-v1.00   - Tweaks: Fix 98governor script not being executed.
-          Tweaks: Removed 16bpp optimization.
-          ICETool: Add portability setup to icetool for other ROMS (wip)
-v1.00b4 - Tweaks: SuplRootCert for agps.
-          Apps: ADWLauncher, Swype, HTC_IME will be moved to sdcard instead of system, so ICETool finds it.
-          IceMarket: fixed swype install
-v1.00b3 - Apps: Swype included on extraapps.
-          Install: Dalvik Cache and Cache formated from updater-script.
-v1.00b2 - First public release
-
-### ALPHA AND BETA RELEASES (Ancient History)
-v0.93   - HTC_IME and Swype both installable via update or extraapps. New entries: DPI / HTC_IME on ICEMarket
-v0.92   - Moved animated wallpapers, themes to extrapackages. Removed RomManager.
-v0.91   - Modded CMWallpapers and framework-res with default background. Launcher switching
-v0.90   - ICEMarket and ICETool (splitted in two).
-v0.80   - New bootanim
-v0.72   - New market switching actions, fixed G Rils tab
-v0.71   - Fixed updater-script that didn't copied the new ril folder
-v0.7    - Included SystemUI.apk provided by Paradoxxx. RIL Switching from ICETool
-v0.6    - Hability to use a binary modded apk. Included binary framework-res.apk provided by Paradoxxx
-v0.5    - ICETool v0.2
-v0.4    - WORKING data/app included, new apps, new bootanim and bootsound, based on #NB213, kernel v7.4BFSb5
-v0.3    - data/app included, based on #NB212
-v0.2    - New bootanimation, icetool, based on #NB209
-v0.1    - Initial prealpha version
