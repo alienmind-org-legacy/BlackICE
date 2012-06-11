@@ -1,5 +1,14 @@
 CHANGELOG
 =========
+v1.60b2  - BlackICE KANG  : BlackICE.v1.60b2-2012.06.11_11.33.15_UTC.zip
+         - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+         - CM7 Base KANG  : chezbel-cm7-2012.06.11_11.33.15_UTC.zip
+         - CM7 changes    : - Previous fix was incorrect. Timestamp doesn't contain date info [CyanogenMod/android_frameworks_base]
+                            - Fix occasional completely mute incoming call [CyanogenMod/android_packages_apps_Phone]
+         - Miscellaneous  : To free up space on the BlackICE server the following have been deleted
+                             - nightly builds older than v1.50b30-xxx
+                             - stable release older than v1.50
+
 v1.60b1  - BlackICE KANG  : BlackICE.v1.60b1-2012.06.09_11.01.27_UTC.zip
          - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
          - CM7 Base KANG  : chezbel-cm7-2012.06.09_11.01.27_UTC.zip
