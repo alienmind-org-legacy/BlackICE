@@ -22,6 +22,12 @@ Official Releases
 
 Nightly Builds
 --------------
+  v1.60b4
+    - BlackICE KANG  : BlackICE.v1.60b4-2012.06.15_16.54.36_UTC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.06.15_16.54.36_UTC.zip
+    - CM7 changes    : - The Torch app had to much "old" and deprecated code. [CyanogenMod/android_packages_apps_Torch]
+
   v1.60b3
     - BlackICE KANG  : BlackICE.v1.60b3-2012.06.13_14.29.40_UTC.zip
     - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
