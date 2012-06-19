@@ -22,6 +22,18 @@ Official Releases
 
 Nightly Builds
 --------------
+  v1.60b5
+    - BlackICE KANG  : BlackICE.v1.60b5-2012.06.19_14.51.46_UTC.zip
+    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+    - CM7 Base KANG  : chezbel-cm7-2012.06.19_14.51.46_UTC.zip
+    - Main changes   :
+    - CM7 changes    : - Apply haptic feedback to all buttons, not just the sound button. [CyanogenMod/android_frameworks_base]
+                       - Prevent Sym key from showing the IME picker [CyanogenMod/android_frameworks_base]
+
+    - Miscellaneous  : Updated the following APPs
+                       - com.keramidas.TitaniumBackup-1.apk
+                      Had to update the apktool.jar to version 1.4.3 in order to build now.
+
   v1.60b4
     - BlackICE KANG  : BlackICE.v1.60b4-2012.06.15_16.54.36_UTC.zip
     - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
