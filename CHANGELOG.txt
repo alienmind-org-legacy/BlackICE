@@ -1,7 +1,8 @@
                                BlackICE Changelog
                                ==================
+=================
 Official Releases
------------------
+=================
   v1.60
     - BlackICE KANG  : BlackICE.v1.60-2012.06.08_16.06.18_UTC-RC.zip
     - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
@@ -19,9 +20,20 @@ Official Releases
                       - Removed Vending-3.4.4-Modified_for_all_DPIs.apk from GIT. However, it will still show up if you do not delete it from your sdcard
     - CM7 changes    : -1.1.7: no more ifdef ALLOW_BOOT_NORMAL, test stock.sh presence [CyanogenMod/android_external_bootmenu]
 
-
+==============
 Nightly Builds
---------------
+==============
+  v1.60b6
+   - BlackICE KANG  : BlackICE.v1.60b6-2012.06.23_16.39.59_UTC.zip
+   - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+   - CM7 Base KANG  : chezbel-cm7-2012.06.23_16.39.59_UTC.zip
+   - CM7 changes    : - cm: Change display.id type from build description to id [CyanogenMod/android_vendor_cyanogen]
+                      - This also shouldn't be override here [CyanogenMod/android_vendor_cyanogen]
+                      - Don't let apps disable the SIM PIN entry screen. [CyanogenMod/android_frameworks_base]
+                      - Don't consider input restricted if keyguard is still disabled. [CyanogenMod/android_frameworks_base]
+                      - Ringlock: hide album art when Minimal style is active [CyanogenMod/android_frameworks_base]
+                      - Plus a number of language translations that aren't listed here
+
   v1.60b5
     - BlackICE KANG  : BlackICE.v1.60b5-2012.06.19_14.51.46_UTC.zip
     - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
