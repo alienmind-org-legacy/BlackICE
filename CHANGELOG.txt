@@ -23,6 +23,14 @@ Official Releases
 ==============
 Nightly Builds
 ==============
+  v1.60b7
+   - BlackICE KANG  : BlackICE.v1.60b7-2012.07.01_16.38.46_UTC.zip
+   - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+   - CM7 Base KANG  : chezbel-cm7-2012.07.01_16.38.46_UTC.zip
+   - Main changes   :
+   - CM7 changes    : - Fix event dates shifted by a day for time zones left of GMT. CyanogenMod/android_packages_apps_Contacts
+                      - Plus misc translation updates.
+
   v1.60b6
    - BlackICE KANG  : BlackICE.v1.60b6-2012.06.23_16.39.59_UTC.zip
    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
