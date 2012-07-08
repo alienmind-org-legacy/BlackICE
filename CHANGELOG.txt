@@ -23,11 +23,31 @@ Official Releases
 ==============
 Nightly Builds
 ==============
+  v1.60b8
+   - BlackICE KANG  : BlackICE.v1.60b8-2012.07.08_03.35.35_UTC.zip
+   - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+   - CM7 Base KANG  : chezbel-cm7-2012.07.08_03.35.35_UTC.zip
+   - CM7 changes    : - libcameraservice: allow skipping of autofocus callbacks [CyanogenMod/android_frameworks_base]
+                      - apns-conf.xml: add APN/MMS for o.tel.o [CyanogenMod/android_vendor_cyanogen]
+                      - pattern unlock screen: Add an option to hide pattern error [CyanogenMod/android_packages_apps_Settings]
+                      - Settings: Use new Google apps [CyanogenMod/android_packages_apps_Settings]
+                      - update File Manager 1.2 for Cyanogenmod 7.2 [CyanogenMod/android_packages_apps_FileManager]
+                      - Make sure internal state is initialized when toggling network mode. [CyanogenMod/android_packages_apps_Settings]
+                      - A lot of Dutch translations not listed here.
+   - Miscellaneous  : Google Market/Play updates
+                        - Added Google Play 3.7.13
+                        - Removed versions 3.2.0, 3.4.7-all-dpi, 3.5.15, 3.5.16 to reduce ROM size
+                      APP updates
+                        - com.adobe.flashplayer-1.apk
+                        - com.google.android.apps.maps-1.apk
+                        - com.google.android.apps.translate-1.apk
+                        - com.google.android.street-1.apk
+                        - dev.sci.systune-1.apk
+
   v1.60b7
    - BlackICE KANG  : BlackICE.v1.60b7-2012.07.01_16.38.46_UTC.zip
    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
    - CM7 Base KANG  : chezbel-cm7-2012.07.01_16.38.46_UTC.zip
-   - Main changes   :
    - CM7 changes    : - Fix event dates shifted by a day for time zones left of GMT. CyanogenMod/android_packages_apps_Contacts
                       - Plus misc translation updates.
 
@@ -46,13 +66,11 @@ Nightly Builds
     - BlackICE KANG  : BlackICE.v1.60b5-2012.06.19_14.51.46_UTC.zip
     - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
     - CM7 Base KANG  : chezbel-cm7-2012.06.19_14.51.46_UTC.zip
-    - Main changes   :
     - CM7 changes    : - Apply haptic feedback to all buttons, not just the sound button. [CyanogenMod/android_frameworks_base]
                        - Prevent Sym key from showing the IME picker [CyanogenMod/android_frameworks_base]
-
     - Miscellaneous  : Updated the following APPs
                        - com.keramidas.TitaniumBackup-1.apk
-                      Had to update the apktool.jar to version 1.4.3 in order to build now.
+                       Had to update the apktool.jar to version 1.4.3 in order to build now.
 
   v1.60b4
     - BlackICE KANG  : BlackICE.v1.60b4-2012.06.15_16.54.36_UTC.zip
