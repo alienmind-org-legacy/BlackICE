@@ -23,6 +23,16 @@ Official Releases
 ==============
 Nightly Builds
 ==============
+  v1.60b9
+   - BlackICE KANG  : BlackICE.v1.60b9-2012.07.11_16.29.22_UTC.zip
+   - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+   - CM7 Base KANG  : chezbel-cm7-2012.07.11_16.29.22_UTC.zip
+   - CM7 changes    : - Allow editing of events without year. [CyanogenMod/android_packages_apps_Contacts]
+                      - Increasing ringtone volume option (3/3) [CyanogenMod/android_packages_apps_Phone]
+                      - Increasing ringtone volume option (2/3) [CyanogenMod/android_packages_apps_Settings]
+                      - Increasing ringtone volume option (1/3) [CyanogenMod/android_frameworks_base]
+   - Miscellaneous  : ExtraApps are no longer included in the build. The last nightly to include them is v1.60b8-2012.07.08_04.18.13_UTC
+
   v1.60b8
    - BlackICE KANG  : BlackICE.v1.60b8-2012.07.08_03.35.35_UTC.zip
    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
