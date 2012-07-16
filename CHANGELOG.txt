@@ -23,6 +23,13 @@ Official Releases
 ==============
 Nightly Builds
 ==============
+  v1.60b10
+   - BlackICE KANG  : BlackICE.v1.60b10-2012.07.16_12.18.55_UTC.zip
+   - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+   - CM7 Base KANG  : chezbel-cm7-2012.07.16_12.18.55_UTC.zip
+   - CM7 changes    : umount: instead of non-standard -D, use -d with opposite meaning [CyanogenMod/android_external_busybox]
+   - Miscellaneous  : Updated com.keramidas.TitaniumBackup-1.apk
+
   v1.60b9
    - BlackICE KANG  : BlackICE.v1.60b9-2012.07.11_16.29.22_UTC.zip
    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
