@@ -23,6 +23,21 @@ Official Releases
 ==============
 Nightly Builds
 ==============
+  v1.60b11
+   - BlackICE KANG  : BlackICE.v1.60b11-2012.08.11_03.27.50_UTC.zip
+   - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+   - CM7 Base KANG  : chezbel-cm7-2012.08.11_03.27.50_UTC.zip
+   - CM7 changes    : - UEventObserver runs its own thread, so make sure to trigger the volume change UI [CyanogenMod/android_frameworks_base]
+                      - Fixing gingerbread compiling and mms for non VM carriers [CyanogenMod/android_frameworks_base]
+                      - added mms support for virgin mobile usa [CyanogenMod/android_frameworks_base]
+   - Miscellaneous  : - Added the latest gapps 3.7.15
+                      - Updated the following Apps
+                          - com.adobe.reader-1.apk
+                          - com.google.android.apps.translate-1.apk
+                          - com.google.android.youtube-1.apk
+                          - com.keramidas.TitaniumBackup-1.apk
+                          - ext.recovery.control-1.apk
+
   v1.60b10
    - BlackICE KANG  : BlackICE.v1.60b10-2012.07.16_12.18.55_UTC.zip
    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
