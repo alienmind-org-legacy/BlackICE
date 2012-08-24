@@ -23,6 +23,18 @@ Official Releases
 ==============
 Nightly Builds
 ==============
+  v1.60b12
+   - BlackICE KANG  : BlackICE.v1.60b12-2012.08.24_03.17.41_UTC.zip
+   - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
+   - CM7 Base KANG  : chezbel-cm7-2012.08.24_03.17.41_UTC.zip
+   - CM7 changes    : - Fix translatables & OK [CyanogenMod/android_packages_apps_Bluetooth]
+                      - frameworks/base: Add/fix translatables [CyanogenMod/android_frameworks_base]	gingerbread	Aug 23
+                      - Fixed alerts so that alerts for all-day events now fire relative to local time [CyanogenMod/android_packages_providers_CalendarProvider]
+                      - Fix crash on open with some keyboards (e.g. Swiftkey 3). [CyanogenMod/android_packages_apps_AndroidTerm]
+   - Miscellaneous  : Updated Apps
+                      - com.google.android.apps.unveil-1.apk
+                      - com.keramidas.TitaniumBackup-1.apk
+
   v1.60b11
    - BlackICE KANG  : BlackICE.v1.60b11-2012.08.11_03.27.50_UTC.zip
    - Kernel         : lordmodUEv8.9-CFS-b7-2WCR-TUN.zip
